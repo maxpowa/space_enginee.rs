@@ -163,7 +163,7 @@ jobs:
           Write-Output "changed=true" >> $env:GITHUB_OUTPUT
 
       - name: Tag version
-        if: (steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download) && steps.commit.outputs.changed == 'true'
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
@@ -181,7 +181,7 @@ jobs:
           Write-Output "Pushed tag: $tag"
 
       - name: Create GitHub release
-        if: (steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download) && steps.commit.outputs.changed == 'true'
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
