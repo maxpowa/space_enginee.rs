@@ -142,6 +142,18 @@ jobs:
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Stamp crate versions
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          $semver = "${{ steps.extractor.outputs.se_version_semver }}"
+
+          # Stamp SE version into all Cargo.toml files (semver — no leading zeros)
+          foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
+            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$semver`"" |
+              Set-Content $toml -NoNewline
+          }
+
       - name: Verify generated code compiles
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
@@ -153,16 +165,9 @@ jobs:
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
-          $semver = "${{ steps.extractor.outputs.se_version_semver }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Stamp SE version into all Cargo.toml files (semver — no leading zeros)
-          foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
-            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$semver`"" |
-              Set-Content $toml -NoNewline
-          }
 
           git add crate-sys/src/types.rs crate-compat/Cargo.toml crate-sys/Cargo.toml crate/Cargo.toml
 
