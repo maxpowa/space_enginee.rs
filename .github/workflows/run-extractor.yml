@@ -49,20 +49,34 @@ jobs:
           winget install --id Microsoft.VCRedist.2013.x64 --silent --accept-package-agreements --accept-source-agreements
           Write-Output "Visual C++ 2013 Redistributable installed"
 
-      - name: Create MDK ini for SE path
+      - name: Create MDK ini and Directory.Build.props for SE path
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
           $bin64 = "${{ steps.space-engineers.outputs.bin64_path }}"
+
+          # MDK2 ini so the NuGet package can find SE
           $ini = "[mdk]`nbinarypath=$bin64"
           $ini | Out-File -FilePath "${{ github.workspace }}/codegen/mdk.local.ini" -Encoding utf8
           Write-Output "Created mdk.local.ini with binarypath=$bin64"
+
+          # Directory.Build.props so the direct <Reference> HintPaths resolve
+          $props = @"
+          <Project>
+            <PropertyGroup>
+              <BinaryPath>$bin64</BinaryPath>
+              <LangVersion>12.0</LangVersion>
+            </PropertyGroup>
+          </Project>
+          "@
+          $props | Out-File -FilePath "${{ github.workspace }}/codegen/Directory.Build.props" -Encoding utf8
+          Write-Output "Wrote Directory.Build.props with BinaryPath=$bin64"
 
       - name: Build Codegen
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
-          dotnet build codegen/StandaloneExtractor.csproj -c Release "-p:BinaryPath=${{ steps.space-engineers.outputs.bin64_path }}"
+          dotnet build codegen/StandaloneExtractor.csproj -c Release
 
       - name: Run Extractor
         id: extractor
@@ -153,6 +167,19 @@ jobs:
           git tag $tag -m "Space Engineers v$seVersion"
           git push origin $tag
           Write-Output "Pushed tag: $tag"
+
+      - name: Save version marker to cache
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          "${{ steps.space-engineers.outputs.build_id }}" | Out-File -FilePath ".version-marker"
+
+      - name: Cache version marker
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        uses: actions/cache/save@v4
+        with:
+          path: .version-marker
+          key: ${{ steps.space-engineers.outputs.cache_key }}
 
       - name: Output summary
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download

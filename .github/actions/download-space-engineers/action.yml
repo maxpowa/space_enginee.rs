@@ -125,20 +125,6 @@ runs:
       run: |
         ${{ github.action_path }}/steamcmd.ps1
 
-    - name: Save version marker to cache
-      if: steps.should-download.outputs.skip != 'true'
-      shell: pwsh
-      run: |
-        # Create a marker file to indicate this version has been processed
-        "${{ steps.steam-info.outputs.build_id }}" | Out-File -FilePath ".version-marker"
-        
-    - name: Cache version marker
-      if: steps.should-download.outputs.skip != 'true'
-      uses: actions/cache/save@v4
-      with:
-        path: .version-marker
-        key: ${{ steps.steam-info.outputs.cache_key }}
-
     - name: Output summary
       shell: pwsh
       run: |
