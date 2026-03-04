@@ -180,6 +180,28 @@ jobs:
           git push origin $tag
           Write-Output "Pushed tag: $tag"
 
+      - name: Create GitHub release
+        if: (steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download) && steps.commit.outputs.changed == 'true'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          $buildId = "${{ steps.space-engineers.outputs.build_id }}"
+          $tag = "v$seVersion"
+
+          # Skip if release already exists
+          $existing = gh release view $tag 2>&1
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "Release $tag already exists, skipping."
+            exit 0
+          }
+
+          gh release create $tag `
+            --title "Space Engineers v$seVersion" `
+            --notes "Auto-generated types for Space Engineers v$seVersion (Steam build $buildId)." `
+            --latest
+
       - name: Save version marker to cache
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
