@@ -124,8 +124,11 @@ jobs:
             # The raw int drops leading zero, so pad to 8 digits
             $padded = $rawVersion.PadLeft(8, '0')
             $seVersion = "$([int]$padded.Substring(0,2)).$($padded.Substring(2,3)).$($padded.Substring(5,3))"
-            Write-Output "Detected SE version: $seVersion"
+            # Cargo/semver forbids leading zeros — strip them for crate versions
+            $semver = "$([int]$padded.Substring(0,2)).$([int]$padded.Substring(2,3)).$([int]$padded.Substring(5,3))"
+            Write-Output "Detected SE version: $seVersion (semver: $semver)"
             Write-Output "se_version=$seVersion" >> $env:GITHUB_OUTPUT
+            Write-Output "se_version_semver=$semver" >> $env:GITHUB_OUTPUT
 
             # Diagnostics JSON files live under Bin64/SEProtoExtractor/<rawVersion>/
             $diagnosticsPath = Join-Path $bin64 "SEProtoExtractor" $rawVersion
@@ -150,13 +153,14 @@ jobs:
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          $semver = "${{ steps.extractor.outputs.se_version_semver }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stamp SE version into all Cargo.toml files
+          # Stamp SE version into all Cargo.toml files (semver — no leading zeros)
           foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
-            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$seVersion`"" |
+            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$semver`"" |
               Set-Content $toml -NoNewline
           }
 
