@@ -72,6 +72,18 @@ jobs:
           $props | Out-File -FilePath "${{ github.workspace }}/codegen/Directory.Build.props" -Encoding utf8
           Write-Output "Wrote Directory.Build.props with BinaryPath=$bin64"
 
+      - name: Verify SE binaries exist
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          $bin64 = "${{ steps.space-engineers.outputs.bin64_path }}"
+          if (!(Test-Path "$bin64/SpaceEngineers.exe")) {
+            Write-Error "SpaceEngineers.exe not found at: $bin64"
+            Get-ChildItem "${{ steps.space-engineers.outputs.game_path }}" -ErrorAction SilentlyContinue | Select-Object -First 20
+            exit 1
+          }
+          Write-Output "Verified SE binaries at: $bin64"
+
       - name: Build Codegen
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh

@@ -47,11 +47,9 @@ runs:
       id: paths
       shell: pwsh
       run: |
-        # SteamCMD installs to: <force_install_dir>/steamapps/common/SpaceEngineers
-        $steamInstallPath = "${{ github.workspace }}/steam"
-        $gamePath = "$steamInstallPath/steamapps/common/SpaceEngineers"
+        # force_install_dir installs the game directly to the specified path
+        $gamePath = "${{ github.workspace }}/steam"
         $bin64Path = "$gamePath/Bin64"
-        Write-Output "steam_install_path=$steamInstallPath" >> $env:GITHUB_OUTPUT
         Write-Output "game_path=$gamePath" >> $env:GITHUB_OUTPUT
         Write-Output "bin64_path=$bin64Path" >> $env:GITHUB_OUTPUT
 
@@ -121,7 +119,7 @@ runs:
         STEAM_TOTP: ${{ inputs.steam_totp }}
         STEAM_VDF: ${{ inputs.steam_vdf }}
         STEAM_APP_ID: '244850'
-        STEAM_GAME_PATH: ${{ steps.paths.outputs.steam_install_path }}
+        STEAM_GAME_PATH: ${{ steps.paths.outputs.game_path }}
       run: |
         ${{ github.action_path }}/steamcmd.ps1
 
