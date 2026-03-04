@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Sandbox.Engine.Multiplayer;
 using VRage.Network;
 
-namespace StandaloneExtractor;
+namespace StandaloneExtractor.Plugin;
 
 public class ReplicationEvents
 {

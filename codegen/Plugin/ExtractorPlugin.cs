@@ -2,7 +2,7 @@
 using VRage.Game;
 using VRage.Plugins;
 
-namespace StandaloneExtractor;
+namespace StandaloneExtractor.Plugin;
 
 public class ExtractorPlugin : IPlugin
 {

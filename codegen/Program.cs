@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-using Sandbox.ModAPI;
 using StandaloneExtractor.Launcher;
+using StandaloneExtractor.Plugin;
 using Game = StandaloneExtractor.Launcher.Game;
 
 namespace StandaloneExtractor;

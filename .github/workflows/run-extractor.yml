@@ -49,6 +49,15 @@ jobs:
           winget install --id Microsoft.VCRedist.2013.x64 --silent --accept-package-agreements --accept-source-agreements
           Write-Output "Visual C++ 2013 Redistributable installed"
 
+      - name: Create MDK ini for SE path
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          $bin64 = "${{ steps.space-engineers.outputs.bin64_path }}"
+          $ini = "[mdk]`nbinarypath=$bin64"
+          $ini | Out-File -FilePath "${{ github.workspace }}/codegen/mdk.local.ini" -Encoding utf8
+          Write-Output "Created mdk.local.ini with binarypath=$bin64"
+
       - name: Build Codegen
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh

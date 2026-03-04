@@ -8,7 +8,7 @@ using VRage.Collections;
 using VRage.Serialization;
 using VRageMath;
 
-namespace StandaloneExtractor;
+namespace StandaloneExtractor.Plugin;
 
 // serde + proto_rs + enumflags2 + quick-xml
 public class RustStructGenerator
