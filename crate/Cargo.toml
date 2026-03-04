@@ -1,6 +1,6 @@
 [package]
 name = "space_engineers"
-version = "1.208.015"
+version = "1.208.15"
 edition.workspace = true
 rust-version.workspace = true
 description = "Rust data structures and serialization for Space Engineers"
@@ -10,5 +10,5 @@ license = "MIT"
 workspace = true
 
 [dependencies]
-space_engineers_compat = { path = "../crate-compat", version = "1.208.015" }
-space_engineers_sys = { path = "../crate-sys", version = "1.208.015" }
+space_engineers_compat = { path = "../crate-compat", version = "1.208.15" }
+space_engineers_sys = { path = "../crate-sys", version = "1.208.15" }
