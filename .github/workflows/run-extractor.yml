@@ -126,6 +126,10 @@ jobs:
             $seVersion = "$([int]$padded.Substring(0,2)).$($padded.Substring(2,3)).$($padded.Substring(5,3))"
             Write-Output "Detected SE version: $seVersion"
             Write-Output "se_version=$seVersion" >> $env:GITHUB_OUTPUT
+
+            # Diagnostics JSON files live under Bin64/SEProtoExtractor/<rawVersion>/
+            $diagnosticsPath = Join-Path $bin64 "SEProtoExtractor" $rawVersion
+            Write-Output "diagnostics_path=$diagnosticsPath" >> $env:GITHUB_OUTPUT
           } else {
             Write-Error "Could not parse SE version from extractor output"
             exit 1
@@ -204,10 +208,14 @@ jobs:
             exit 0
           }
 
+          $diagnostics = "${{ steps.extractor.outputs.diagnostics_path }}"
+
           gh release create $tag `
             --title "Space Engineers v$seVersion" `
             --notes "Auto-generated types for Space Engineers v$seVersion (Steam build $buildId)." `
-            --latest
+            --latest `
+            "$diagnostics/id_to_type.json" `
+            "$diagnostics/static_events.json"
 
       - name: Publish to crates.io
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
