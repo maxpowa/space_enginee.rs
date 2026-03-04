@@ -145,19 +145,26 @@ jobs:
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
+          $seVersion = "${{ steps.extractor.outputs.se_version }}"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add crate-sys/src/types.rs
+          # Stamp SE version into all Cargo.toml files
+          foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
+            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$seVersion`"" |
+              Set-Content $toml -NoNewline
+          }
+
+          git add crate-sys/src/types.rs crate-compat/Cargo.toml crate-sys/Cargo.toml crate/Cargo.toml
 
           $diff = git diff --cached --stat
           if (!$diff) {
-            Write-Output "No changes to generated types."
+            Write-Output "No changes."
             Write-Output "changed=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
 
-          $seVersion = "${{ steps.extractor.outputs.se_version }}"
           git commit -m "chore: update generated types for SE v$seVersion"
           git push
           Write-Output "changed=true" >> $env:GITHUB_OUTPUT
@@ -201,6 +208,28 @@ jobs:
             --title "Space Engineers v$seVersion" `
             --notes "Auto-generated types for Space Engineers v$seVersion (Steam build $buildId)." `
             --latest
+
+      - name: Publish to crates.io
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          # Publish in dependency order
+          $crates = @("crate-compat", "crate-sys", "crate")
+          foreach ($crate in $crates) {
+            Write-Output "Publishing $crate..."
+            cargo publish --manifest-path "$crate/Cargo.toml" --allow-dirty
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to publish $crate"
+              exit $LASTEXITCODE
+            }
+            # Wait for crates.io index to update before publishing dependents
+            if ($crate -ne $crates[-1]) {
+              Write-Output "Waiting for crates.io index..."
+              Start-Sleep -Seconds 30
+            }
+          }
 
       - name: Save version marker to cache
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
