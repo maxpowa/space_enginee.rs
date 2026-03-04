@@ -1,0 +1,161 @@
+name: 'Download Space Engineers'
+description: 'Downloads Space Engineers binaries via SteamCMD, with caching support'
+
+inputs:
+  force_download:
+    description: 'Force download even if cached'
+    required: false
+    default: 'false'
+  steam_username:
+    description: 'Steam username'
+    required: false
+    default: ''
+  steam_password:
+    description: 'Steam password'
+    required: false
+    default: ''
+  steam_totp:
+    description: 'Steam Guard TOTP code'
+    required: false
+    default: ''
+  steam_vdf:
+    description: 'Base64-encoded Steam config.vdf'
+    required: false
+    default: ''
+
+outputs:
+  build_id:
+    description: 'The Steam build ID'
+    value: ${{ steps.steam-info.outputs.build_id }}
+  cache_key:
+    description: 'The cache key used'
+    value: ${{ steps.steam-info.outputs.cache_key }}
+  cache_hit:
+    description: 'Whether the cache was hit'
+    value: ${{ steps.cache-check.outputs.cache-hit }}
+  game_path:
+    description: 'Path to the Space Engineers game folder'
+    value: ${{ steps.paths.outputs.game_path }}
+  bin64_path:
+    description: 'Path to the Bin64 folder'
+    value: ${{ steps.paths.outputs.bin64_path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set paths
+      id: paths
+      shell: pwsh
+      run: |
+        # SteamCMD installs to: <force_install_dir>/steamapps/common/SpaceEngineers
+        $steamInstallPath = "${{ github.workspace }}/steam"
+        $gamePath = "$steamInstallPath/steamapps/common/SpaceEngineers"
+        $bin64Path = "$gamePath/Bin64"
+        Write-Output "steam_install_path=$steamInstallPath" >> $env:GITHUB_OUTPUT
+        Write-Output "game_path=$gamePath" >> $env:GITHUB_OUTPUT
+        Write-Output "bin64_path=$bin64Path" >> $env:GITHUB_OUTPUT
+
+    - name: Get current Steam build ID
+      id: steam-info
+      shell: bash
+      run: |
+        STEAM_APP_ID="244850"
+        CACHE_PREFIX="space-engineers-binaries"
+        
+        # Query Steam API for app info (public branch)
+        STEAM_API_URL="https://api.steamcmd.net/v1/info/$STEAM_APP_ID"
+        
+        echo "Fetching build info from Steam API..."
+        RESPONSE=$(curl -s "$STEAM_API_URL")
+        
+        # Extract the public branch build ID
+        BUILD_ID=$(echo "$RESPONSE" | jq -r ".data[\"$STEAM_APP_ID\"].depots.branches.public.buildid // empty")
+        
+        if [ -z "$BUILD_ID" ]; then
+          echo "::error::Failed to get build ID from Steam API"
+          echo "API Response: $RESPONSE"
+          exit 1
+        fi
+        
+        CACHE_KEY="$CACHE_PREFIX-$BUILD_ID"
+        
+        echo "Current Steam build ID: $BUILD_ID"
+        echo "Cache key: $CACHE_KEY"
+        
+        echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+        echo "cache_key=$CACHE_KEY" >> $GITHUB_OUTPUT
+
+    - name: Check if version already processed
+      id: cache-check
+      uses: actions/cache/restore@v4
+      with:
+        path: .version-marker
+        key: ${{ steps.steam-info.outputs.cache_key }}
+        lookup-only: true
+
+    - name: Determine if download needed
+      id: should-download
+      shell: pwsh
+      run: |
+        $cacheHit = "${{ steps.cache-check.outputs.cache-hit }}"
+        $forceDownload = "${{ inputs.force_download }}"
+        
+        if ($cacheHit -eq "true" -and $forceDownload -ne "true") {
+          Write-Output "Version ${{ steps.steam-info.outputs.build_id }} already processed. Skipping."
+          Write-Output "skip=true" >> $env:GITHUB_OUTPUT
+        } else {
+          if ($forceDownload -eq "true") {
+            Write-Output "Force download requested."
+          } else {
+            Write-Output "New build ${{ steps.steam-info.outputs.build_id }} detected."
+          }
+          Write-Output "skip=false" >> $env:GITHUB_OUTPUT
+        }
+
+    - name: Download game via SteamCMD
+      if: steps.should-download.outputs.skip != 'true'
+      shell: pwsh
+      env:
+        STEAM_USERNAME: ${{ inputs.steam_username }}
+        STEAM_PASSWORD: ${{ inputs.steam_password }}
+        STEAM_TOTP: ${{ inputs.steam_totp }}
+        STEAM_VDF: ${{ inputs.steam_vdf }}
+        STEAM_APP_ID: '244850'
+        STEAM_GAME_PATH: ${{ steps.paths.outputs.steam_install_path }}
+      run: |
+        ${{ github.action_path }}/steamcmd.ps1
+
+    - name: Save version marker to cache
+      if: steps.should-download.outputs.skip != 'true'
+      shell: pwsh
+      run: |
+        # Create a marker file to indicate this version has been processed
+        "${{ steps.steam-info.outputs.build_id }}" | Out-File -FilePath ".version-marker"
+        
+    - name: Cache version marker
+      if: steps.should-download.outputs.skip != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: .version-marker
+        key: ${{ steps.steam-info.outputs.cache_key }}
+
+    - name: Output summary
+      shell: pwsh
+      run: |
+        $buildId = "${{ steps.steam-info.outputs.build_id }}"
+        $cacheKey = "${{ steps.steam-info.outputs.cache_key }}"
+        $skipped = "${{ steps.should-download.outputs.skip }}"
+        
+        Write-Output "## Space Engineers Download Summary" >> $env:GITHUB_STEP_SUMMARY
+        Write-Output "" >> $env:GITHUB_STEP_SUMMARY
+        Write-Output "| Property | Value |" >> $env:GITHUB_STEP_SUMMARY
+        Write-Output "|----------|-------|" >> $env:GITHUB_STEP_SUMMARY
+        Write-Output "| Build ID | $buildId |" >> $env:GITHUB_STEP_SUMMARY
+        Write-Output "| Cache Key | ``$cacheKey`` |" >> $env:GITHUB_STEP_SUMMARY
+        
+        if ($skipped -eq "true") {
+          Write-Output "| Status | ⏭️ Skipped (already processed) |" >> $env:GITHUB_STEP_SUMMARY
+        } else {
+          Write-Output "| Status | ✅ Downloaded and processed |" >> $env:GITHUB_STEP_SUMMARY
+        }
+

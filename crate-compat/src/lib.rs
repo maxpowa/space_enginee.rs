@@ -1,0 +1,1132 @@
+﻿use chrono::{DateTime as ChronoDateTime, Utc};
+use serde::ser::SerializeStruct;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::convert::{TryFrom, TryInto};
+use std::fmt::Debug;
+use std::hash::Hash;
+use std::io::{Read, Seek, Write};
+use std::time::Duration;
+use deku::{DekuError, DekuReader, DekuWriter};
+use deku::bitvec::{BitField as _, BitVec, Msb0};
+use deku::ctx::Order;
+use deku::prelude::{Reader, Writer};
+use enumflags2::{BitFlag, BitFlags};
+use proto_rs::DecodeError;
+use proto_rs::bytes::Buf;
+use proto_rs::encoding::{DecodeContext, WireType};
+use proto_rs::{
+    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode,
+    ProtoExt, ProtoKind, ProtoShadowDecode, ProtoShadowEncode, RevWriter,
+};
+use uuid::Uuid;
+
+pub mod direction;
+pub mod math;
+// Support for C# bcl.proto types: DateTime, TimeSpan, Guid, Decimal
+// Also includes support for SerializableDictionary<K, V> (from Space Engineers itself)
+
+const TICKS_PER_SECOND: i64 = 10_000_000;
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+#[proto_rs::proto_message]
+pub enum TimeSpanScale {
+    Days = 0,
+    Hours = 1,
+    Minutes = 2,
+    Seconds = 3,
+    Milliseconds = 4,
+    Ticks = 5,
+    MinMax = 15,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[proto_rs::proto_message]
+pub enum DateTimeKind {
+    Unspecified = 0,
+    Utc = 1,
+    Local = 2,
+}
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+#[proto_rs::proto_message]
+pub struct DateTime(
+    #[proto(tag = "1")]
+    i64, // value
+    #[proto(tag = "2")]
+    TimeSpanScale, // scale
+    #[proto(tag = "3")]
+    DateTimeKind, // kind
+);
+
+impl DateTime {
+    pub fn from_chrono(datetime: ChronoDateTime<Utc>) -> Self {
+        // Convert with some smarts, preferring as little loss as possible
+        let timestamp = datetime.timestamp();
+        if timestamp % 86400 == 0 {
+            DateTime(timestamp / 86400, TimeSpanScale::Days, DateTimeKind::Utc)
+        } else if timestamp % 3600 == 0 {
+            DateTime(timestamp / 3600, TimeSpanScale::Hours, DateTimeKind::Utc)
+        } else if timestamp % 60 == 0 {
+            DateTime(timestamp / 60, TimeSpanScale::Minutes, DateTimeKind::Utc)
+        } else {
+            DateTime(timestamp, TimeSpanScale::Seconds, DateTimeKind::Utc)
+        }
+    }
+    pub fn to_chrono(&self) -> ChronoDateTime<Utc> {
+        // The offset here is from 1970-01-01T00:00:00Z
+        let seconds = match self.1 {
+            TimeSpanScale::Days => self.0 * 86400,
+            TimeSpanScale::Hours => self.0 * 3600,
+            TimeSpanScale::Minutes => self.0 * 60,
+            TimeSpanScale::Seconds => self.0,
+            TimeSpanScale::Milliseconds => self.0 / 1000,
+            TimeSpanScale::Ticks => self.0 / TICKS_PER_SECOND,
+            TimeSpanScale::MinMax => 0, // Not a valid DateTime representation
+        };
+        ChronoDateTime::<Utc>::from_timestamp(seconds, 0).unwrap_or_default()
+    }
+}
+
+impl From<ChronoDateTime<Utc>> for DateTime {
+    fn from(datetime: ChronoDateTime<Utc>) -> Self {
+        DateTime::from_chrono(datetime)
+    }
+}
+
+impl From<DateTime> for ChronoDateTime<Utc> {
+    fn from(datetime: DateTime) -> Self {
+        datetime.to_chrono()
+    }
+}
+
+impl ::serde::Serialize for DateTime {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let chrono_dt = self.to_chrono();
+        serializer.serialize_str(&chrono_dt.to_rfc3339())
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for DateTime {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let chrono_dt = ChronoDateTime::parse_from_rfc3339(&s)
+            .map_err(serde::de::Error::custom)?
+            .with_timezone(&Utc);
+        Ok(DateTime::from_chrono(chrono_dt))
+    }
+}
+
+impl Default for DateTime {
+    fn default() -> Self {
+        DateTime(0, TimeSpanScale::Days, DateTimeKind::Utc)
+    }
+}
+
+#[derive(Clone, PartialEq, Eq, Hash, Debug)]
+#[proto_rs::proto_message]
+pub struct TimeSpan(
+    #[proto(tag = "1")]
+    i64,
+    #[proto(tag = "2")]
+    TimeSpanScale,
+);
+
+impl TimeSpan {
+    pub fn from_duration(duration: Duration) -> Self {
+        // Convert with some smarts, preferring as little loss as possible
+        match duration {
+            d if d == Duration::MAX => {
+                TimeSpan(i64::MAX, TimeSpanScale::MinMax)
+            }
+            d if d == Duration::ZERO => {
+                TimeSpan(0, TimeSpanScale::MinMax)
+            }
+            d if d.as_secs() % 86400 == 0 => {
+                TimeSpan((d.as_secs() / 86400) as i64, TimeSpanScale::Days)
+            }
+            d if d.as_secs() % 3600 == 0 => {
+                TimeSpan((d.as_secs() / 3600) as i64, TimeSpanScale::Hours)
+            }
+            d if d.as_secs() % 60 == 0 => {
+                TimeSpan((d.as_secs() / 60) as i64, TimeSpanScale::Minutes)
+            }
+            d if d.subsec_millis() == 0 => {
+                TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds)
+            }
+            d if d.subsec_nanos() == 0 => {
+                TimeSpan(d.as_millis() as i64, TimeSpanScale::Milliseconds)
+            }
+            d if d.subsec_nanos() > 0 => {
+                TimeSpan((d.as_nanos() / 100) as i64, TimeSpanScale::Ticks)
+            }
+            d => {
+                TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds)
+            }
+        }
+    }
+    pub fn to_duration(&self) -> Duration {
+        match self.1 {
+            TimeSpanScale::Days => Duration::from_secs(self.0 as u64 * 86400), // Days
+            TimeSpanScale::Hours => Duration::from_secs(self.0 as u64 * 3600), // Hours
+            TimeSpanScale::Minutes => Duration::from_secs(self.0 as u64 * 60), // Minutes
+            TimeSpanScale::Seconds => Duration::from_secs(self.0 as u64),           // Seconds
+            TimeSpanScale::Milliseconds => Duration::from_millis(self.0 as u64),    // Milliseconds
+            TimeSpanScale::Ticks => Duration::from_nanos(self.0 as u64 * 100),// Ticks
+            TimeSpanScale::MinMax => {
+                if self.0 == i64::MAX {
+                    Duration::MAX
+                } else {
+                    Duration::ZERO
+                }
+            },
+        }
+    }
+}
+
+impl From<Duration> for TimeSpan {
+    fn from(duration: Duration) -> Self {
+        TimeSpan::from_duration(duration)
+    }
+}
+
+impl From<TimeSpan> for Duration {
+    fn from(timespan: TimeSpan) -> Self {
+        timespan.to_duration()
+    }
+}
+
+impl ::serde::Serialize for TimeSpan {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let duration = self.to_duration();
+        serializer.serialize_u64(duration.as_secs())
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for TimeSpan {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let secs = u64::deserialize(deserializer)?;
+        let duration = Duration::from_secs(secs);
+        Ok(TimeSpan::from_duration(duration))
+    }
+}
+
+impl Default for TimeSpan {
+    fn default() -> Self {
+        TimeSpan(0, TimeSpanScale::Seconds)
+    }
+}
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+#[proto_rs::proto_message]
+pub struct Guid(
+    #[proto(tag = "1")]
+    u64,
+    #[proto(tag = "2")]
+    u64,
+);
+
+impl Guid {
+    pub fn from_uuid(uuid: &Uuid) -> Self {
+        let bytes = uuid.as_bytes();
+        let lo = u64::from_le_bytes(bytes[0..8].try_into().unwrap());
+        let hi = u64::from_le_bytes(bytes[8..16].try_into().unwrap());
+        Guid(lo, hi)
+    }
+    pub fn to_uuid(&self) -> Uuid {
+        let mut bytes = [0u8; 16];
+        bytes[0..8].copy_from_slice(&self.0.to_le_bytes());
+        bytes[8..16].copy_from_slice(&self.1.to_le_bytes());
+        Uuid::from_bytes(bytes)
+    }
+}
+
+impl From<Guid> for Uuid {
+    fn from(guid: Guid) -> Self {
+        guid.to_uuid()
+    }
+}
+
+impl From<Uuid> for Guid {
+    fn from(uuid: Uuid) -> Self {
+        Guid::from_uuid(&uuid)
+    }
+}
+
+impl Serialize for Guid {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let uuid: Uuid = self.to_uuid();
+        serializer.serialize_str(&uuid.to_string())
+    }
+}
+
+impl<'de> Deserialize<'de> for Guid {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let uuid = Uuid::parse_str(&s).map_err(serde::de::Error::custom)?;
+        Ok(Guid::from_uuid(&uuid))
+    }
+}
+
+impl Default for Guid {
+    fn default() -> Self {
+        Uuid::nil().into()
+    }
+}
+
+
+/// protobuf-net bcl.proto Decimal representation.
+/// See: <https://github.com/protobuf-net/protobuf-net/blob/main/src/Tools/bcl.proto>
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
+#[proto_rs::proto_message]
+pub struct Decimal {
+    #[proto(tag = 1)]
+    pub lo: u64,
+    #[proto(tag = 2)]
+    pub hi: u32,
+    #[proto(tag = 3)]
+    pub sign_scale: u32,
+}
+
+impl Decimal {
+    /// Reconstruct a 96-bit integer + sign/scale from the protobuf fields.
+    pub fn to_f64(&self) -> f64 {
+        let sign = if self.sign_scale & 0x0001 != 0 { -1.0 } else { 1.0 };
+        let scale = ((self.sign_scale >> 1) & 0xFF) as i32;
+        let raw = (self.hi as u128) << 64 | self.lo as u128;
+        sign * (raw as f64) / 10f64.powi(scale)
+    }
+}
+
+impl Serialize for Decimal {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_f64(self.to_f64())
+    }
+}
+
+impl<'de> Deserialize<'de> for Decimal {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        // Simple round-trip via f64 (lossy for very large decimals)
+        let val = f64::deserialize(deserializer)?;
+        let sign = if val < 0.0 { 1u32 } else { 0u32 };
+        let abs = val.abs();
+        // Use scale=4 as a reasonable default
+        let scale = 4u32;
+        let raw = (abs * 10f64.powi(scale as i32)).round() as u128;
+        Ok(Decimal {
+            lo: raw as u64,
+            hi: (raw >> 64) as u32,
+            sign_scale: (scale << 1) | sign,
+        })
+    }
+}
+
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct BitField<T: BitFlag>(BitFlags<T>);
+
+impl<T:BitFlag> Default for BitField<T> {
+    fn default() -> Self {
+        BitField(T::from_bits_truncate(T::DEFAULT))
+    }
+}
+
+impl<T: BitFlag> From<BitFlags<T>> for BitField<T> {
+    fn from(flags: BitFlags<T>) -> Self {
+        BitField(flags)
+    }
+}
+
+impl<T: BitFlag> ::serde::Serialize for BitField<T>
+where
+    T::Numeric: Serialize,
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        T::Numeric::serialize(&self.0.bits(), serializer)
+    }
+}
+
+impl<'de, T: BitFlag> ::serde::Deserialize<'de> for BitField<T>
+where
+    T::Numeric: Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let bits = T::Numeric::deserialize(deserializer)?;
+        let flags = BitFlags::from_bits_truncate(bits);
+        Ok(BitField(flags))
+    }
+}
+
+// ---- proto_rs 0.11 trait impls for BitField<T> ----
+// BitField<T> acts as an i32 on the wire (varint-encoded bitflags).
+
+// Encoding shadow type: borrows BitField and presents it as an i32 for archiving.
+#[doc(hidden)]
+pub struct BitFieldShadow(i32);
+
+impl ProtoExt for BitFieldShadow {
+    const KIND: ProtoKind = <i32 as ProtoExt>::KIND;
+}
+
+impl ProtoArchive for BitFieldShadow {
+    #[inline]
+    fn is_default(&self) -> bool {
+        self.0 == 0
+    }
+    #[inline]
+    fn archive<const TAG: u32>(&self, w: &mut impl RevWriter) {
+        // Delegate to i32's archive (varint encoding)
+        self.0.archive::<TAG>(w);
+    }
+}
+
+impl<'a, T: BitFlag> ProtoShadowEncode<'a, BitField<T>> for BitFieldShadow
+where
+    T::Numeric: Into<u32>,
+{
+    #[inline]
+    fn from_sun(value: &'a BitField<T>) -> Self {
+        let u32_val: u32 = value.0.bits().into();
+        BitFieldShadow(u32_val as i32)
+    }
+}
+
+impl<T: BitFlag> ProtoExt for BitField<T> {
+    const KIND: ProtoKind = <i32 as ProtoExt>::KIND;
+}
+
+impl<T: BitFlag> ProtoEncode for BitField<T>
+where
+    T::Numeric: Into<u32>,
+{
+    type Shadow<'a> = BitFieldShadow;
+}
+
+impl<T: BitFlag> ProtoDefault for BitField<T> {
+    #[inline]
+    fn proto_default() -> Self {
+        BitField(BitFlags::empty())
+    }
+}
+
+impl<T: BitFlag> ProtoShadowDecode<BitField<T>> for BitField<T> {
+    #[inline]
+    fn to_sun(self) -> Result<BitField<T>, DecodeError> {
+        Ok(self)
+    }
+}
+
+impl<T: BitFlag> ProtoDecoder for BitField<T>
+where
+    T::Numeric: Into<u32>,
+    u32: TryInto<T::Numeric>,
+    <u32 as TryInto<T::Numeric>>::Error: Debug,
+{
+    #[inline]
+    fn merge_field(
+        value: &mut Self,
+        tag: u32,
+        wire_type: WireType,
+        buf: &mut impl Buf,
+        ctx: DecodeContext,
+    ) -> Result<(), DecodeError> {
+        if tag == 1 {
+            let mut i32_val = 0i32;
+            proto_rs::encoding::int32::merge(wire_type, &mut i32_val, buf, ctx)?;
+            let u32_val = i32_val as u32;
+            let numeric: T::Numeric = u32_val.try_into().map_err(|err| {
+                DecodeError::new(format!("Failed to convert u32 to flag numeric type: {:?}", err))
+            })?;
+            value.0 = BitFlags::from_bits_truncate(numeric);
+            Ok(())
+        } else {
+            proto_rs::encoding::skip_field(wire_type, tag, buf, ctx)
+        }
+    }
+
+    #[inline]
+    fn merge(
+        &mut self,
+        wire_type: WireType,
+        buf: &mut impl Buf,
+        ctx: DecodeContext,
+    ) -> Result<(), DecodeError> {
+        let mut i32_val = 0i32;
+        proto_rs::encoding::int32::merge(wire_type, &mut i32_val, buf, ctx)?;
+        let u32_val = i32_val as u32;
+        let numeric: T::Numeric = u32_val.try_into().map_err(|err| {
+            DecodeError::new(format!("Failed to convert u32 to flag numeric type: {:?}", err))
+        })?;
+        self.0 = BitFlags::from_bits_truncate(numeric);
+        Ok(())
+    }
+}
+
+
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct Nullable<T: Default + PartialEq>(pub T);
+
+impl<T: Default + PartialEq> From<T> for Nullable<T> {
+    fn from(value: T) -> Self {
+        Nullable(value)
+    }
+}
+
+impl<T: Default + PartialEq> Nullable<T> {
+    fn has_value(&self) -> bool {
+        T::default() != self.0
+    }
+    pub fn value(&self) -> &T {
+        &self.0
+    }
+}
+
+impl<T: Default + PartialEq + Serialize> Serialize for Nullable<T> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.0.serialize(serializer)
+    }
+}
+
+impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullable<T> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        T::deserialize(deserializer).map(Nullable)
+    }
+}
+
+impl<T> DekuReader<'_, ()> for Nullable<T>
+where
+    T: Default + for<'a> DekuReader<'a> + DekuWriter + PartialEq,
+{
+    fn from_reader_with_ctx<R: Read + Seek>(reader: &mut Reader<R>, ctx: ()) -> Result<Self, DekuError>
+    where
+        Self: Sized
+    {
+        let has_value = reader.read_bits(1, Order::Lsb0)?.unwrap().load::<u8>() == 1u8;
+        if has_value {
+            return Ok(Nullable(T::from_reader_with_ctx(reader, ctx)?));
+        }
+        Ok(Nullable(T::default()))
+    }
+}
+
+impl<T> DekuWriter<()> for Nullable<T>
+where
+    T: Default + for<'a> DekuReader<'a> + DekuWriter + PartialEq,
+{
+    fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, ctx: ()) -> Result<(), DekuError> {
+        let mut entry = BitVec::<u8, Msb0>::with_capacity(1);
+        entry.push(self.has_value());
+        writer.write_bits_order(&*entry, Order::Lsb0)?;
+        if self.has_value() {
+            self.0.to_writer(writer, ctx)?;
+        }
+
+        Ok(())
+    }
+}
+
+// ---- proto_rs 0.11 trait impls for Nullable<T> ----
+// Nullable<T> is a transparent wrapper, so it delegates all proto ops to T.
+
+#[doc(hidden)]
+pub struct NullableShadow<S>(S);
+
+impl<S: ProtoExt> ProtoExt for NullableShadow<S> {
+    const KIND: ProtoKind = S::KIND;
+}
+
+impl<S: ProtoArchive> ProtoArchive for NullableShadow<S> {
+    #[inline]
+    fn is_default(&self) -> bool {
+        self.0.is_default()
+    }
+    #[inline]
+    fn archive<const TAG: u32>(&self, w: &mut impl RevWriter) {
+        self.0.archive::<TAG>(w);
+    }
+}
+
+impl<'a, T> ProtoShadowEncode<'a, Nullable<T>> for NullableShadow<<T as ProtoEncode>::Shadow<'a>>
+where
+    T: ProtoEncode + Default + PartialEq,
+{
+    #[inline]
+    fn from_sun(value: &'a Nullable<T>) -> Self {
+        NullableShadow(<T as ProtoEncode>::Shadow::from_sun(&value.0))
+    }
+}
+
+impl<T> ProtoExt for Nullable<T>
+where
+    T: ProtoExt + Default + PartialEq,
+{
+    const KIND: ProtoKind = T::KIND;
+}
+
+impl<T> ProtoEncode for Nullable<T>
+where
+    T: ProtoEncode + Default + PartialEq,
+    for<'a> <T as ProtoEncode>::Shadow<'a>: ProtoArchive + ProtoExt,
+{
+    type Shadow<'a> = NullableShadow<<T as ProtoEncode>::Shadow<'a>>;
+}
+
+impl<T> ProtoDefault for Nullable<T>
+where
+    T: ProtoDefault + Default + PartialEq,
+{
+    #[inline]
+    fn proto_default() -> Self {
+        Nullable(T::proto_default())
+    }
+}
+
+impl<T> ProtoShadowDecode<Nullable<T>> for Nullable<T>
+where
+    T: Default + PartialEq,
+{
+    #[inline]
+    fn to_sun(self) -> Result<Nullable<T>, DecodeError> {
+        Ok(self)
+    }
+}
+
+impl<T> ProtoDecoder for Nullable<T>
+where
+    T: ProtoDecoder + Default + PartialEq,
+{
+    #[inline]
+    fn merge_field(
+        value: &mut Self,
+        tag: u32,
+        wire_type: WireType,
+        buf: &mut impl Buf,
+        ctx: DecodeContext,
+    ) -> Result<(), DecodeError> {
+        T::merge_field(&mut value.0, tag, wire_type, buf, ctx)
+    }
+
+    #[inline]
+    fn merge(
+        &mut self,
+        wire_type: WireType,
+        buf: &mut impl Buf,
+        ctx: DecodeContext,
+    ) -> Result<(), DecodeError> {
+        T::merge(&mut self.0, wire_type, buf, ctx)
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq)]
+#[proto_rs::proto_message]
+pub struct SerializableDictionary<K: Hash + Eq, V>(
+    #[proto(tag = 1)]
+    pub HashMap<K,V>,
+);
+
+impl<K: Hash + Eq + ::serde::Serialize, V: ::serde::Serialize> ::serde::Serialize for SerializableDictionary<K,V> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[derive(::serde::Serialize)]
+        #[serde(rename = "item")]
+        struct SerializableDictionaryEntryRef<'a, T, U> {
+            #[serde(rename = "Key")]
+            k: &'a T,
+            #[serde(rename = "Value")]
+            v: &'a U,
+        }
+
+        let mut state = serializer.serialize_struct("SerializableDictionary", 1)?;
+        let entries_iter = self.0.iter().map(|(k, v)| SerializableDictionaryEntryRef {
+            k,
+            v,
+        });
+        let entries: Vec<_> = entries_iter.collect();
+        SerializeStruct::serialize_field(&mut state, "dictionary", &entries)?;
+        SerializeStruct::end(state)
+    }
+}
+
+impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>> ::serde::Deserialize<'de> for SerializableDictionary<K,V> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        // Owned version for deserialization
+        #[derive(::serde::Deserialize)]
+        #[serde(rename = "item")]
+        struct SerializableDictionaryEntry<T, U> {
+            #[serde(rename = "Key")]
+            k: T,
+            #[serde(rename = "Value")]
+            v: U,
+        }
+        #[derive(::serde::Deserialize)]
+        #[serde(rename = "Dictionary")]
+        struct Helper<T, U> {
+            #[serde(rename = "dictionary")]
+            items: Vec<SerializableDictionaryEntry<T, U>>,
+        }
+        let helper = Helper::deserialize(deserializer)?;
+        let map = helper
+            .items
+            .into_iter()
+            .map(|entry| (entry.k, entry.v))
+            .collect();
+        Ok(SerializableDictionary(map))
+    }
+}
+
+impl<K: Hash + Eq, V> Default for SerializableDictionary<K, V> {
+    fn default() -> Self {
+        SerializableDictionary(HashMap::new())
+    }
+}
+
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[proto_rs::proto_message]
+#[serde(rename = "MyTuple")]
+pub struct Tuple<K,V> {
+    #[proto(tag = 1)]
+    #[serde(rename = "Item1")]
+    pub item1: K,
+    #[proto(tag = 2)]
+    #[serde(rename = "Item2")]
+    pub item2: V,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::time::Duration;
+    use chrono::{DateTime as ChronoDateTime, Utc};
+    use uuid::Uuid;
+
+    // DateTime tests
+    #[test]
+    fn test_datetime_from_chrono_days() {
+        let chrono_dt = ChronoDateTime::from_timestamp(86400 * 5, 0).unwrap();
+        let dt = DateTime::from_chrono(chrono_dt);
+        assert_eq!(dt.0, 5);
+        assert_eq!(dt.1, TimeSpanScale::Days);
+        assert_eq!(dt.2, DateTimeKind::Utc);
+    }
+
+    #[test]
+    fn test_datetime_from_chrono_hours() {
+        let chrono_dt = ChronoDateTime::from_timestamp(3600 * 10, 0).unwrap();
+        let dt = DateTime::from_chrono(chrono_dt);
+        assert_eq!(dt.0, 10);
+        assert_eq!(dt.1, TimeSpanScale::Hours);
+        assert_eq!(dt.2, DateTimeKind::Utc);
+    }
+
+    #[test]
+    fn test_datetime_from_chrono_minutes() {
+        let chrono_dt = ChronoDateTime::from_timestamp(60 * 30, 0).unwrap();
+        let dt = DateTime::from_chrono(chrono_dt);
+        assert_eq!(dt.0, 30);
+        assert_eq!(dt.1, TimeSpanScale::Minutes);
+        assert_eq!(dt.2, DateTimeKind::Utc);
+    }
+
+    #[test]
+    fn test_datetime_from_chrono_seconds() {
+        let chrono_dt = ChronoDateTime::from_timestamp(1234567, 0).unwrap();
+        let dt = DateTime::from_chrono(chrono_dt);
+        assert_eq!(dt.0, 1234567);
+        assert_eq!(dt.1, TimeSpanScale::Seconds);
+        assert_eq!(dt.2, DateTimeKind::Utc);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_days() {
+        let dt = DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 86400 * 5);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_hours() {
+        let dt = DateTime(10, TimeSpanScale::Hours, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 3600 * 10);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_minutes() {
+        let dt = DateTime(30, TimeSpanScale::Minutes, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 60 * 30);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_seconds() {
+        let dt = DateTime(1234567, TimeSpanScale::Seconds, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 1234567);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_milliseconds() {
+        let dt = DateTime(5000, TimeSpanScale::Milliseconds, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 5);
+    }
+
+    #[test]
+    fn test_datetime_to_chrono_ticks() {
+        let dt = DateTime(TICKS_PER_SECOND * 10, TimeSpanScale::Ticks, DateTimeKind::Utc);
+        let chrono_dt = dt.to_chrono();
+        assert_eq!(chrono_dt.timestamp(), 10);
+    }
+
+    #[test]
+    fn test_datetime_roundtrip() {
+        let original = ChronoDateTime::from_timestamp(86400 * 7, 0).unwrap();
+        let dt = DateTime::from_chrono(original);
+        let result = dt.to_chrono();
+        assert_eq!(original.timestamp(), result.timestamp());
+    }
+
+    #[test]
+    fn test_datetime_default() {
+        let dt = DateTime::default();
+        assert_eq!(dt.0, 0);
+        assert_eq!(dt.1, TimeSpanScale::Days);
+        assert_eq!(dt.2, DateTimeKind::Utc);
+    }
+
+    #[test]
+    fn test_datetime_from_trait() {
+        let chrono_dt = ChronoDateTime::from_timestamp(86400, 0).unwrap();
+        let dt: DateTime = chrono_dt.into();
+        assert_eq!(dt.0, 1);
+        assert_eq!(dt.1, TimeSpanScale::Days);
+    }
+
+    #[test]
+    fn test_datetime_into_trait() {
+        let dt = DateTime(1, TimeSpanScale::Days, DateTimeKind::Utc);
+        let chrono_dt: ChronoDateTime<Utc> = dt.into();
+        assert_eq!(chrono_dt.timestamp(), 86400);
+    }
+
+    #[test]
+    fn test_datetime_serde_roundtrip() {
+        let dt = DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc);
+        let json = serde_json::to_string(&dt).unwrap();
+        let deserialized: DateTime = serde_json::from_str(&json).unwrap();
+        assert_eq!(dt, deserialized);
+    }
+
+    // TimeSpan tests
+    #[test]
+    fn test_timespan_from_duration_days() {
+        let duration = Duration::from_secs(86400 * 3);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 3);
+        assert_eq!(ts.1, TimeSpanScale::Days);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_hours() {
+        let duration = Duration::from_secs(3600 * 5);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 5);
+        assert_eq!(ts.1, TimeSpanScale::Hours);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_minutes() {
+        let duration = Duration::from_secs(60 * 15);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 15);
+        assert_eq!(ts.1, TimeSpanScale::Minutes);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_seconds() {
+        let duration = Duration::from_secs(123);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 123);
+        assert_eq!(ts.1, TimeSpanScale::Seconds);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_milliseconds() {
+        let duration = Duration::from_millis(1500);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 1500);
+        assert_eq!(ts.1, TimeSpanScale::Milliseconds);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_ticks() {
+        let duration = Duration::from_nanos(1050);
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 10); // 1050 / 100 = 10 ticks
+        assert_eq!(ts.1, TimeSpanScale::Ticks);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_zero() {
+        let duration = Duration::ZERO;
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, 0);
+        assert_eq!(ts.1, TimeSpanScale::MinMax);
+    }
+
+    #[test]
+    fn test_timespan_from_duration_max() {
+        let duration = Duration::MAX;
+        let ts = TimeSpan::from_duration(duration);
+        assert_eq!(ts.0, i64::MAX);
+        assert_eq!(ts.1, TimeSpanScale::MinMax);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_days() {
+        let ts = TimeSpan(3, TimeSpanScale::Days);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_secs(), 86400 * 3);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_hours() {
+        let ts = TimeSpan(5, TimeSpanScale::Hours);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_secs(), 3600 * 5);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_minutes() {
+        let ts = TimeSpan(15, TimeSpanScale::Minutes);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_secs(), 60 * 15);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_seconds() {
+        let ts = TimeSpan(123, TimeSpanScale::Seconds);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_secs(), 123);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_milliseconds() {
+        let ts = TimeSpan(1500, TimeSpanScale::Milliseconds);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_millis(), 1500);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_ticks() {
+        let ts = TimeSpan(10, TimeSpanScale::Ticks);
+        let duration = ts.to_duration();
+        assert_eq!(duration.as_nanos(), 1000);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_minmax_zero() {
+        let ts = TimeSpan(0, TimeSpanScale::MinMax);
+        let duration = ts.to_duration();
+        assert_eq!(duration, Duration::ZERO);
+    }
+
+    #[test]
+    fn test_timespan_to_duration_minmax_max() {
+        let ts = TimeSpan(i64::MAX, TimeSpanScale::MinMax);
+        let duration = ts.to_duration();
+        assert_eq!(duration, Duration::MAX);
+    }
+
+    #[test]
+    fn test_timespan_roundtrip() {
+        let original = Duration::from_secs(86400 * 7);
+        let ts = TimeSpan::from_duration(original);
+        let result = ts.to_duration();
+        assert_eq!(original, result);
+    }
+
+    #[test]
+    fn test_timespan_default() {
+        let ts = TimeSpan::default();
+        assert_eq!(ts.0, 0);
+        assert_eq!(ts.1, TimeSpanScale::Seconds);
+    }
+
+    #[test]
+    fn test_timespan_from_trait() {
+        let duration = Duration::from_secs(3600);
+        let ts: TimeSpan = duration.into();
+        assert_eq!(ts.0, 1);
+        assert_eq!(ts.1, TimeSpanScale::Hours);
+    }
+
+    #[test]
+    fn test_timespan_into_trait() {
+        let ts = TimeSpan(5, TimeSpanScale::Hours);
+        let duration: Duration = ts.into();
+        assert_eq!(duration.as_secs(), 3600 * 5);
+    }
+
+    #[test]
+    fn test_timespan_serde_roundtrip() {
+        let ts = TimeSpan(3600, TimeSpanScale::Seconds);
+        let json = serde_json::to_string(&ts).unwrap();
+        let deserialized: TimeSpan = serde_json::from_str(&json).unwrap();
+        // Note: serde serializes as seconds, so scale info is lost
+        assert_eq!(ts.to_duration(), deserialized.to_duration());
+    }
+
+    // Guid tests
+    #[test]
+    fn test_guid_from_uuid() {
+        let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
+        let guid = Guid::from_uuid(&uuid);
+        assert_eq!(guid.to_uuid(), uuid);
+    }
+
+    #[test]
+    fn test_guid_to_uuid() {
+        let uuid = Uuid::parse_str("6ba7b810-9dad-11d1-80b4-00c04fd430c8").unwrap();
+        let guid = Guid::from_uuid(&uuid);
+        let result_uuid = guid.to_uuid();
+        assert_eq!(result_uuid, uuid);
+    }
+
+    #[test]
+    fn test_guid_roundtrip() {
+        let original = Uuid::parse_str("12345678-1234-5678-1234-567812345678").unwrap();
+        let guid = Guid::from_uuid(&original);
+        let result = guid.to_uuid();
+        assert_eq!(original, result);
+    }
+
+    #[test]
+    fn test_guid_nil() {
+        let uuid = Uuid::nil();
+        let guid = Guid::from_uuid(&uuid);
+        assert_eq!(guid.0, 0);
+        assert_eq!(guid.1, 0);
+    }
+
+    #[test]
+    fn test_guid_default() {
+        let guid = Guid::default();
+        assert_eq!(guid.to_uuid(), Uuid::nil());
+    }
+
+    #[test]
+    fn test_guid_from_trait() {
+        let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
+        let guid: Guid = uuid.into();
+        assert_eq!(guid.to_uuid(), uuid);
+    }
+
+    #[test]
+    fn test_guid_into_trait() {
+        let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
+        let guid = Guid::from_uuid(&uuid);
+        let result_uuid: Uuid = guid.into();
+        assert_eq!(result_uuid, uuid);
+    }
+
+    #[test]
+    fn test_guid_serde_roundtrip() {
+        let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
+        let guid = Guid::from_uuid(&uuid);
+        let json = serde_json::to_string(&guid).unwrap();
+        let deserialized: Guid = serde_json::from_str(&json).unwrap();
+        assert_eq!(guid, deserialized);
+    }
+
+    #[test]
+    fn test_guid_clone_eq() {
+        let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
+        let guid1 = Guid::from_uuid(&uuid);
+        let guid2 = guid1.clone();
+        assert_eq!(guid1, guid2);
+    }
+
+    // BitField tests
+    #[::enumflags2::bitflags]
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    #[repr(u8)]
+    enum TestFlags {
+        FlagA = 1 << 0,
+        FlagB = 1 << 1,
+        FlagC = 1 << 2,
+        FlagD = 1 << 3,
+    }
+
+    #[test]
+    fn test_bitfield_default() {
+        let bf = BitField::<TestFlags>::default();
+        assert_eq!(bf.0.bits(), 0);
+    }
+
+    #[test]
+    fn test_bitfield_from_bitflags() {
+        let flags: BitFlags<TestFlags> = TestFlags::FlagA | TestFlags::FlagB;
+        let bf = BitField::from(flags);
+        assert_eq!(bf.0.bits(), 0b11);
+    }
+
+    #[test]
+    fn test_bitfield_clone_eq() {
+        let flags: BitFlags<TestFlags> = TestFlags::FlagA | TestFlags::FlagC;
+        let bf1 = BitField::from(flags);
+        let bf2 = bf1.clone();
+        assert_eq!(bf1, bf2);
+    }
+
+    #[test]
+    fn test_bitfield_serde_roundtrip() {
+        let flags: BitFlags<TestFlags> = TestFlags::FlagA | TestFlags::FlagB | TestFlags::FlagC;
+        let bf = BitField::from(flags);
+        let json = serde_json::to_string(&bf).unwrap();
+        let deserialized: BitField<TestFlags> = serde_json::from_str(&json).unwrap();
+        assert_eq!(bf, deserialized);
+    }
+}

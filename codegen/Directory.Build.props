@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <!-- Folder containing SpaceEngineers.exe -->
+    <BinaryPath>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 244850@InstallLocation)\Bin64</BinaryPath>
+    <LangVersion>12.0</LangVersion>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,21 @@
+[package]
+name = "space_engineers_compat"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+description = "Compatibility types for Space Engineers data structures (DateTime, Guid, math, bitfields, etc.)"
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+proto_rs = { workspace = true }
+enumflags2 = { workspace = true, features = ["serde"] }
+chrono = { workspace = true, features = ["serde", "clock"] }
+uuid = { workspace = true, features = ["serde", "v4"] }
+deku = { workspace = true }
+glam = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

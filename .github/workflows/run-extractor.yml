@@ -1,0 +1,170 @@
+name: 'Generate Rust Types'
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_download:
+        description: 'Force re-generation even if no update'
+        type: boolean
+        default: false
+  schedule:
+    # Run every hour to check for updates
+    - cron: '0 * * * *'
+
+jobs:
+  generate:
+    name: Generate Rust Types
+    runs-on: windows-latest
+
+    # Allow the job to push commits
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Space Engineers
+        id: space-engineers
+        uses: ./.github/actions/download-space-engineers
+        with:
+          force_download: ${{ inputs.force_download || false }}
+          steam_username: ${{ secrets.STEAM_USERNAME }}
+          steam_password: ${{ secrets.STEAM_PASSWORD }}
+          steam_totp: ${{ secrets.STEAM_TOTP }}
+          steam_vdf: ${{ secrets.STEAM_VDF }}
+
+      # All remaining steps are skipped when the version was already processed
+      - name: Setup .NET
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install Visual C++ 2013 Redistributable
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          Write-Output "Installing Microsoft Visual C++ 2013 Redistributable..."
+          winget install --id Microsoft.VCRedist.2013.x64 --silent --accept-package-agreements --accept-source-agreements
+          Write-Output "Visual C++ 2013 Redistributable installed"
+
+      - name: Build Codegen
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          dotnet build codegen/StandaloneExtractor.csproj -c Release "-p:BinaryPath=${{ steps.space-engineers.outputs.bin64_path }}"
+
+      - name: Run Extractor
+        id: extractor
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          $bin64 = "${{ steps.space-engineers.outputs.bin64_path }}"
+          $output = "${{ github.workspace }}/crate-sys/src"
+
+          Write-Output "Space Engineers Bin64: $bin64"
+          Write-Output "Build ID: ${{ steps.space-engineers.outputs.build_id }}"
+
+          $exe = "${{ github.workspace }}/codegen/bin/Release/netframework48/StandaloneExtractor.exe"
+
+          if (!(Test-Path $exe)) {
+            Write-Error "StandaloneExtractor.exe not found at: $exe"
+            exit 1
+          }
+
+          Write-Output "Running extractor..."
+          $extractorOutput = & $exe --bin64 $bin64 --output $output 2>&1 | Tee-Object -Variable lines
+          
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Extractor failed with exit code $LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+
+          # Parse SE version from "Extractor v<number>" line
+          $versionLine = $lines | Select-String "^Extractor v(\d+)" | Select-Object -First 1
+          if ($versionLine -and $versionLine.Matches[0].Groups[1].Value) {
+            $rawVersion = $versionLine.Matches[0].Groups[1].Value
+            # Format as dotted version: 01208015 -> 1.208.015
+            # The raw int drops leading zero, so pad to 8 digits
+            $padded = $rawVersion.PadLeft(8, '0')
+            $seVersion = "$([int]$padded.Substring(0,2)).$($padded.Substring(2,3)).$($padded.Substring(5,3))"
+            Write-Output "Detected SE version: $seVersion"
+            Write-Output "se_version=$seVersion" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Error "Could not parse SE version from extractor output"
+            exit 1
+          }
+
+      - name: Install Rust toolchain
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Verify generated code compiles
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: cargo check --workspace
+
+      - name: Commit and push changes
+        id: commit
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add crate-sys/src/types.rs
+
+          $diff = git diff --cached --stat
+          if (!$diff) {
+            Write-Output "No changes to generated types."
+            Write-Output "changed=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          git commit -m "chore: update generated types for SE v$seVersion"
+          git push
+          Write-Output "changed=true" >> $env:GITHUB_OUTPUT
+
+      - name: Tag version
+        if: (steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download) && steps.commit.outputs.changed == 'true'
+        shell: pwsh
+        run: |
+          $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          $tag = "v$seVersion"
+
+          # Check if tag already exists
+          $existing = git tag -l $tag
+          if ($existing) {
+            Write-Output "Tag $tag already exists, skipping."
+            exit 0
+          }
+
+          git tag $tag -m "Space Engineers v$seVersion"
+          git push origin $tag
+          Write-Output "Pushed tag: $tag"
+
+      - name: Output summary
+        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        shell: pwsh
+        run: |
+          $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          $buildId = "${{ steps.space-engineers.outputs.build_id }}"
+          $cacheKey = "${{ steps.space-engineers.outputs.cache_key }}"
+          $changed = "${{ steps.commit.outputs.changed }}"
+
+          Write-Output "## Generated Types Summary" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "| Property | Value |" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "|----------|-------|" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "| SE Version | ``v$seVersion`` |" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "| Build ID | $buildId |" >> $env:GITHUB_STEP_SUMMARY
+          Write-Output "| Cache Key | ``$cacheKey`` |" >> $env:GITHUB_STEP_SUMMARY
+
+          if ($changed -eq "true") {
+            Write-Output "| Status | ✅ Committed and tagged ``v$seVersion`` |" >> $env:GITHUB_STEP_SUMMARY
+          } else {
+            Write-Output "| Status | ⏭️ No changes (types already up to date) |" >> $env:GITHUB_STEP_SUMMARY
+          }
+

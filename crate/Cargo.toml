@@ -1,0 +1,12 @@
+﻿[package]
+name = "space_engineers"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+space_engineers_compat = { path = "../crate-compat" }
+space_engineers_sys = { path = "../crate-sys" }
