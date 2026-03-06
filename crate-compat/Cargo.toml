@@ -19,4 +19,4 @@ deku = { workspace = true }
 glam = { workspace = true }
 
 [dev-dependencies]
-serde_json = { workspace = true }
+quick-xml = { workspace = true }

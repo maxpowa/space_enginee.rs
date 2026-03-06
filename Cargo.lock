@@ -712,6 +712,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "quick-xml"
+version = "0.37.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "331e97a1af0bf59823e6eadffe373d7b27f485be8748f71471c662c1f269b7fb"
+dependencies = [
+ "memchr",
+ "serde",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.45"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -817,7 +827,7 @@ dependencies = [
 
 [[package]]
 name = "space_engineers"
-version = "0.1.0"
+version = "1.208.15"
 dependencies = [
  "space_engineers_compat",
  "space_engineers_sys",
@@ -825,21 +835,21 @@ dependencies = [
 
 [[package]]
 name = "space_engineers_compat"
-version = "0.1.0"
+version = "1.208.15"
 dependencies = [
  "chrono",
  "deku",
  "enumflags2",
  "glam",
  "proto_rs",
+ "quick-xml",
  "serde",
- "serde_json",
  "uuid",
 ]
 
 [[package]]
 name = "space_engineers_sys"
-version = "0.1.0"
+version = "1.208.15"
 dependencies = [
  "deku",
  "enumflags2",

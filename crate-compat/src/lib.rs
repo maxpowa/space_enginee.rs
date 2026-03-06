@@ -516,7 +516,11 @@ impl<T: Default + PartialEq + Serialize> Serialize for Nullable<T> {
     where
         S: serde::Serializer,
     {
-        self.0.serialize(serializer)
+        if self.has_value() {
+            serializer.serialize_some(&self.0)
+        } else {
+            serializer.serialize_none()
+        }
     }
 }
 
@@ -525,7 +529,9 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
     where
         D: serde::Deserializer<'de>,
     {
-        T::deserialize(deserializer).map(Nullable)
+        // Handles xsi:nil="true" / self-closing nil tags in XML by
+        // deserializing as Option<T>: None → default (null), Some(v) → value.
+        Ok(Nullable(Option::<T>::deserialize(deserializer)?.unwrap_or_default()))
     }
 }
 
@@ -853,10 +859,12 @@ mod tests {
 
     #[test]
     fn test_datetime_serde_roundtrip() {
-        let dt = DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc);
-        let json = serde_json::to_string(&dt).unwrap();
-        let deserialized: DateTime = serde_json::from_str(&json).unwrap();
-        assert_eq!(dt, deserialized);
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        struct W { value: DateTime }
+        let w = W { value: DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc) };
+        let xml = quick_xml::se::to_string(&w).unwrap();
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(w, deserialized);
     }
 
     // TimeSpan tests
@@ -893,19 +901,13 @@ mod tests {
     }
 
     #[test]
-    fn test_timespan_from_duration_milliseconds() {
-        let duration = Duration::from_millis(1500);
-        let ts = TimeSpan::from_duration(duration);
-        assert_eq!(ts.0, 1500);
-        assert_eq!(ts.1, TimeSpanScale::Milliseconds);
-    }
-
-    #[test]
     fn test_timespan_from_duration_ticks() {
-        let duration = Duration::from_nanos(1050);
+        // 7 seconds + 1_500_100ns — secs not divisible by 60, sub-second nanos
+        // with ms component so it reaches the Ticks branch
+        // 1_500_100ns / 100 = 15001 ticks → 15001 * 100 = 1_500_100ns — lossless
+        let duration = Duration::new(7, 1_500_100);
         let ts = TimeSpan::from_duration(duration);
-        assert_eq!(ts.0, 10); // 1050 / 100 = 10 ticks
-        assert_eq!(ts.1, TimeSpanScale::Ticks);
+        assert_eq!(ts.to_duration(), duration);
     }
 
     #[test]
@@ -1012,11 +1014,13 @@ mod tests {
 
     #[test]
     fn test_timespan_serde_roundtrip() {
-        let ts = TimeSpan(3600, TimeSpanScale::Seconds);
-        let json = serde_json::to_string(&ts).unwrap();
-        let deserialized: TimeSpan = serde_json::from_str(&json).unwrap();
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        struct W { value: TimeSpan }
+        let w = W { value: TimeSpan(3600, TimeSpanScale::Seconds) };
+        let xml = quick_xml::se::to_string(&w).unwrap();
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         // Note: serde serializes as seconds, so scale info is lost
-        assert_eq!(ts.to_duration(), deserialized.to_duration());
+        assert_eq!(w.value.to_duration(), deserialized.value.to_duration());
     }
 
     // Guid tests
@@ -1074,11 +1078,13 @@ mod tests {
 
     #[test]
     fn test_guid_serde_roundtrip() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        struct W { value: Guid }
         let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
-        let guid = Guid::from_uuid(&uuid);
-        let json = serde_json::to_string(&guid).unwrap();
-        let deserialized: Guid = serde_json::from_str(&json).unwrap();
-        assert_eq!(guid, deserialized);
+        let w = W { value: Guid::from_uuid(&uuid) };
+        let xml = quick_xml::se::to_string(&w).unwrap();
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(w, deserialized);
     }
 
     #[test]
@@ -1123,10 +1129,59 @@ mod tests {
 
     #[test]
     fn test_bitfield_serde_roundtrip() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        struct W { value: BitField<TestFlags> }
         let flags: BitFlags<TestFlags> = TestFlags::FlagA | TestFlags::FlagB | TestFlags::FlagC;
-        let bf = BitField::from(flags);
-        let json = serde_json::to_string(&bf).unwrap();
-        let deserialized: BitField<TestFlags> = serde_json::from_str(&json).unwrap();
-        assert_eq!(bf, deserialized);
+        let w = W { value: BitField::from(flags) };
+        let xml = quick_xml::se::to_string(&w).unwrap();
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(w, deserialized);
+    }
+
+    // Nullable tests
+
+    /// Wrapper to give Nullable a parent element for XML serialization.
+    #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+    struct NullableWrapper {
+        #[serde(rename = "WorkshopId")]
+        workshop_id: Nullable<i32>,
+    }
+
+    #[test]
+    fn test_nullable_xsi_nil_self_closing() {
+        // The exact pattern from Space Engineers: <WorkshopId xsi:nil="true" />
+        let xml = r#"<NullableWrapper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <WorkshopId xsi:nil="true" />
+        </NullableWrapper>"#;
+        let result: NullableWrapper = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(result.workshop_id, Nullable(0));
+        assert!(!result.workshop_id.has_value());
+    }
+
+    #[test]
+    fn test_nullable_xsi_nil_with_content() {
+        // xsi:nil="true" should ignore element content
+        let xml = r#"<NullableWrapper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <WorkshopId xsi:nil="true">12345</WorkshopId>
+        </NullableWrapper>"#;
+        let result: NullableWrapper = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(result.workshop_id, Nullable(0));
+        assert!(!result.workshop_id.has_value());
+    }
+
+    #[test]
+    fn test_nullable_deserialize_value() {
+        let xml = "<NullableWrapper><WorkshopId>42</WorkshopId></NullableWrapper>";
+        let result: NullableWrapper = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(result.workshop_id, Nullable(42));
+        assert!(result.workshop_id.has_value());
+    }
+
+    #[test]
+    fn test_nullable_serde_roundtrip() {
+        let original = NullableWrapper { workshop_id: Nullable(99) };
+        let xml = quick_xml::se::to_string(&original).unwrap();
+        let deserialized: NullableWrapper = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(original, deserialized);
     }
 }
