@@ -1,4 +1,4 @@
-﻿use chrono::{DateTime as ChronoDateTime, Utc};
+﻿﻿use chrono::{DateTime as ChronoDateTime, Utc};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -709,7 +709,7 @@ impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>
         #[derive(::serde::Deserialize)]
         #[serde(rename = "Dictionary")]
         struct Helper<T, U> {
-            #[serde(rename = "dictionary")]
+            #[serde(rename = "dictionary", default = "Vec::new")]
             items: Vec<SerializableDictionaryEntry<T, U>>,
         }
         let helper = Helper::deserialize(deserializer)?;

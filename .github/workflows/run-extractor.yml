@@ -124,11 +124,14 @@ jobs:
             # The raw int drops leading zero, so pad to 8 digits
             $padded = $rawVersion.PadLeft(8, '0')
             $seVersion = "$([int]$padded.Substring(0,2)).$($padded.Substring(2,3)).$($padded.Substring(5,3))"
-            # Cargo/semver forbids leading zeros — strip them for crate versions
-            $semver = "$([int]$padded.Substring(0,2)).$([int]$padded.Substring(2,3)).$([int]$padded.Substring(5,3))"
-            Write-Output "Detected SE version: $seVersion (semver: $semver)"
+            # Collapsed minor for crate versioning: major.(MMM)(PPP).patch
+            # e.g. SE 1.208.015 -> crate 1.208015.N
+            $seMajor = [int]$padded.Substring(0,2)
+            $seCollapsed = "$($padded.Substring(2,3))$($padded.Substring(5,3))"
+            Write-Output "Detected SE version: $seVersion (crate base: $seMajor.$seCollapsed)"
             Write-Output "se_version=$seVersion" >> $env:GITHUB_OUTPUT
-            Write-Output "se_version_semver=$semver" >> $env:GITHUB_OUTPUT
+            Write-Output "se_major=$seMajor" >> $env:GITHUB_OUTPUT
+            Write-Output "se_collapsed=$seCollapsed" >> $env:GITHUB_OUTPUT
 
             # Diagnostics JSON files live under Bin64/SEProtoExtractor/<rawVersion>/
             $diagnosticsPath = Join-Path $bin64 "SEProtoExtractor" $rawVersion
@@ -142,92 +145,111 @@ jobs:
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Stamp crate versions
+      - name: Check for type changes
+        id: changes
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
-          $semver = "${{ steps.extractor.outputs.se_version_semver }}"
+          $diff = git diff -- crate-sys/src/types.rs
+          if ($diff) {
+            Write-Output "Generated types have changed"
+            Write-Output "has_changes=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Output "No type changes detected"
+            Write-Output "has_changes=false" >> $env:GITHUB_OUTPUT
+          }
 
-          # Stamp SE version into all Cargo.toml files (semver — no leading zeros)
+      - name: Compute crate version
+        id: crate-version
+        if: steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $major = "${{ steps.extractor.outputs.se_major }}"
+          $collapsed = "${{ steps.extractor.outputs.se_collapsed }}"
+          $prefix = "v${major}.${collapsed}."
+
+          # Find the highest existing patch for this SE version
+          git fetch --tags --force 2>$null
+          $patch = 0
+          $tags = git tag -l "${prefix}*"
+          if ($tags) {
+            $maxPatch = $tags | ForEach-Object {
+              if ($_ -match "\.([0-9]+)$") { [int]$Matches[1] }
+            } | Sort-Object -Descending | Select-Object -First 1
+            if ($null -ne $maxPatch) {
+              $patch = $maxPatch + 1
+            }
+          }
+
+          $crateVersion = "$major.$collapsed.$patch"
+          Write-Output "Crate version: $crateVersion"
+          Write-Output "crate_version=$crateVersion" >> $env:GITHUB_OUTPUT
+
+      - name: Stamp crate versions
+        if: steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $version = "${{ steps.crate-version.outputs.crate_version }}"
+
           foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
-            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$semver`"" |
+            (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$version`"" |
               Set-Content $toml -NoNewline
           }
 
       - name: Verify generated code compiles
-        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         run: cargo check --workspace
 
       - name: Commit and push changes
-        id: commit
-        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
+          $crateVersion = "${{ steps.crate-version.outputs.crate_version }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add crate-sys/src/types.rs crate-compat/Cargo.toml crate-sys/Cargo.toml crate/Cargo.toml
-
-          $diff = git diff --cached --stat
-          if (!$diff) {
-            Write-Output "No changes."
-            Write-Output "changed=false" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
-
-          git commit -m "chore: update generated types for SE v$seVersion"
+          git commit -m "chore: update generated types for SE v$seVersion (crate v$crateVersion)"
           git push
-          Write-Output "changed=true" >> $env:GITHUB_OUTPUT
 
       - name: Tag version
-        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        id: tag
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
-          $tag = "v$seVersion"
-
-          # Check if tag already exists
-          $existing = git tag -l $tag
-          if ($existing) {
-            Write-Output "Tag $tag already exists, skipping."
-            exit 0
-          }
+          $crateVersion = "${{ steps.crate-version.outputs.crate_version }}"
+          $tag = "v$crateVersion"
 
           git tag $tag -m "Space Engineers v$seVersion"
           git push origin $tag
+          Write-Output "tag=$tag" >> $env:GITHUB_OUTPUT
           Write-Output "Pushed tag: $tag"
 
       - name: Create GitHub release
-        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        if: steps.tag.outputs.tag
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
           $buildId = "${{ steps.space-engineers.outputs.build_id }}"
-          $tag = "v$seVersion"
-
-          # Skip if release already exists
-          $existing = gh release view $tag 2>&1
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "Release $tag already exists, skipping."
-            exit 0
-          }
+          $tag = "${{ steps.tag.outputs.tag }}"
 
           $diagnostics = "${{ steps.extractor.outputs.diagnostics_path }}"
 
           gh release create $tag `
-            --title "Space Engineers v$seVersion" `
+            --title "Space Engineers $tag" `
             --notes "Auto-generated types for Space Engineers v$seVersion (Steam build $buildId)." `
             --latest `
             "$diagnostics/id_to_type.json" `
             "$diagnostics/static_events.json"
 
       - name: Publish to crates.io
-        if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -268,7 +290,6 @@ jobs:
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
           $buildId = "${{ steps.space-engineers.outputs.build_id }}"
           $cacheKey = "${{ steps.space-engineers.outputs.cache_key }}"
-          $changed = "${{ steps.commit.outputs.changed }}"
 
           Write-Output "## Generated Types Summary" >> $env:GITHUB_STEP_SUMMARY
           Write-Output "" >> $env:GITHUB_STEP_SUMMARY
@@ -278,8 +299,11 @@ jobs:
           Write-Output "| Build ID | $buildId |" >> $env:GITHUB_STEP_SUMMARY
           Write-Output "| Cache Key | ``$cacheKey`` |" >> $env:GITHUB_STEP_SUMMARY
 
-          if ($changed -eq "true") {
-            Write-Output "| Status | ✅ Committed and tagged ``v$seVersion`` |" >> $env:GITHUB_STEP_SUMMARY
+          $tag = "${{ steps.tag.outputs.tag }}"
+          $crateVersion = "${{ steps.crate-version.outputs.crate_version }}"
+          if ($tag) {
+            Write-Output "| Crate Version | ``$crateVersion`` |" >> $env:GITHUB_STEP_SUMMARY
+            Write-Output "| Status | ✅ Committed and tagged ``$tag`` |" >> $env:GITHUB_STEP_SUMMARY
           } else {
             Write-Output "| Status | ⏭️ No changes (types already up to date) |" >> $env:GITHUB_STEP_SUMMARY
           }
