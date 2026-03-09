@@ -145,17 +145,39 @@ jobs:
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Check for type changes
+      - name: Check for source changes
         id: changes
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
         shell: pwsh
         run: |
-          $diff = git diff -- crate-sys/src/types.rs
-          if ($diff) {
-            Write-Output "Generated types have changed"
-            Write-Output "has_changes=true" >> $env:GITHUB_OUTPUT
+          $major = "${{ steps.extractor.outputs.se_major }}"
+          $collapsed = "${{ steps.extractor.outputs.se_collapsed }}"
+          $prefix = "v${major}.${collapsed}."
+
+          # Find the latest tag for this SE version
+          git fetch --tags --force 2>$null
+          $latestTag = $null
+          $tags = git tag -l "${prefix}*"
+          if ($tags) {
+            $latestTag = $tags | ForEach-Object {
+              if ($_ -match "\.([0-9]+)$") { [PSCustomObject]@{ Tag = $_; Patch = [int]$Matches[1] } }
+            } | Sort-Object -Property Patch -Descending | Select-Object -First 1 -ExpandProperty Tag
+          }
+
+          if ($latestTag) {
+            Write-Output "Comparing against last tag: $latestTag"
+            $diff = git diff "$latestTag" -- crate-sys/ crate-compat/src/ crate/src/
           } else {
-            Write-Output "No type changes detected"
+            Write-Output "No previous tag for this SE version, treating as new"
+            $diff = "new"
+          }
+
+          if ($diff) {
+            Write-Output "Source changes detected"
+            Write-Output "has_changes=true" >> $env:GITHUB_OUTPUT
+            Write-Output "latest_tag=$latestTag" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Output "No source changes since $latestTag"
             Write-Output "has_changes=false" >> $env:GITHUB_OUTPUT
           }
 
@@ -166,19 +188,11 @@ jobs:
         run: |
           $major = "${{ steps.extractor.outputs.se_major }}"
           $collapsed = "${{ steps.extractor.outputs.se_collapsed }}"
-          $prefix = "v${major}.${collapsed}."
+          $latestTag = "${{ steps.changes.outputs.latest_tag }}"
 
-          # Find the highest existing patch for this SE version
-          git fetch --tags --force 2>$null
           $patch = 0
-          $tags = git tag -l "${prefix}*"
-          if ($tags) {
-            $maxPatch = $tags | ForEach-Object {
-              if ($_ -match "\.([0-9]+)$") { [int]$Matches[1] }
-            } | Sort-Object -Descending | Select-Object -First 1
-            if ($null -ne $maxPatch) {
-              $patch = $maxPatch + 1
-            }
+          if ($latestTag -match "\.([0-9]+)$") {
+            $patch = [int]$Matches[1] + 1
           }
 
           $crateVersion = "$major.$collapsed.$patch"
