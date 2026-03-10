@@ -229,9 +229,33 @@ jobs:
           git commit -m "chore: update generated types for SE v$seVersion (crate v$crateVersion)"
           git push
 
+      - name: Publish to crates.io
+        id: publish
+        if: steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          # Publish in dependency order
+          $crates = @("crate-compat", "crate-sys", "crate")
+          foreach ($crate in $crates) {
+            Write-Output "Publishing $crate..."
+            cargo publish --manifest-path "$crate/Cargo.toml" --allow-dirty
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to publish $crate"
+              exit $LASTEXITCODE
+            }
+            # Wait for crates.io index to update before publishing dependents
+            if ($crate -ne $crates[-1]) {
+              Write-Output "Waiting for crates.io index..."
+              Start-Sleep -Seconds 30
+            }
+          }
+          Write-Output "published=true" >> $env:GITHUB_OUTPUT
+
       - name: Tag version
         id: tag
-        if: steps.changes.outputs.has_changes == 'true'
+        if: steps.publish.outputs.published == 'true'
         shell: pwsh
         run: |
           $seVersion = "${{ steps.extractor.outputs.se_version }}"
@@ -262,27 +286,6 @@ jobs:
             "$diagnostics/id_to_type.json" `
             "$diagnostics/static_events.json"
 
-      - name: Publish to crates.io
-        if: steps.changes.outputs.has_changes == 'true'
-        shell: pwsh
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: |
-          # Publish in dependency order
-          $crates = @("crate-compat", "crate-sys", "crate")
-          foreach ($crate in $crates) {
-            Write-Output "Publishing $crate..."
-            cargo publish --manifest-path "$crate/Cargo.toml" --allow-dirty
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to publish $crate"
-              exit $LASTEXITCODE
-            }
-            # Wait for crates.io index to update before publishing dependents
-            if ($crate -ne $crates[-1]) {
-              Write-Output "Waiting for crates.io index..."
-              Start-Sleep -Seconds 30
-            }
-          }
 
       - name: Save version marker to cache
         if: steps.space-engineers.outputs.cache_hit != 'true' || inputs.force_download
