@@ -683,13 +683,13 @@ pub struct MyCachedServerItem_MyServerData {
     #[serde(rename = "ExperimentalMode", default)]
     pub experimental_mode: bool,
     #[proto(tag = 7)]
-    #[serde(rename = "Mods", default)]
+    #[serde(rename = "Mods", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub mods: Vec<WorkshopId>,
     #[proto(tag = 10)]
     #[serde(rename = "Description")]
     pub description: String,
     #[proto(tag = 14)]
-    #[serde(rename = "UsedServices", default)]
+    #[serde(rename = "UsedServices", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub used_services: Vec<String>,
 }
 // Note: Type mapping applied from VRage.SerializableVector3I to crate::math::SerializableVector3I
@@ -783,13 +783,13 @@ pub struct MyObjectBuilder_Toolbar {
     #[serde(rename = "SelectedSlot")]
     pub selected_slot: crate::compat::Nullable<i32>,
     #[proto(tag = 16)]
-    #[serde(rename = "Slots", default)]
+    #[serde(rename = "Slots", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub slots: Vec<MyObjectBuilder_Toolbar_Slot>,
     #[proto(tag = 17)]
-    #[serde(rename = "SlotsGamepad", default)]
+    #[serde(rename = "SlotsGamepad", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub slots_gamepad: Vec<MyObjectBuilder_Toolbar_Slot>,
     #[proto(skip)]
-    #[serde(rename = "ColorMaskHSVList", default)]
+    #[serde(rename = "ColorMaskHSVList", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub color_mask_hsv_list: Vec<crate::math::Vector3F>,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::SerializableDictionary<i64,MyObjectBuilder_Checkpoint_PlayerId>
@@ -998,7 +998,7 @@ pub struct MyObjectBuilder_Station {
     #[serde(rename = "SafeZoneEntityId")]
     pub safe_zone_entity_id: i64,
     #[proto(tag = 21)]
-    #[serde(rename = "StoreItems", default)]
+    #[serde(rename = "StoreItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub store_items: Vec<MyObjectBuilder_StoreItem>,
     #[proto(tag = 23)]
     #[serde(rename = "IsOnPlanetWithAtmosphere", default)]
@@ -1027,10 +1027,10 @@ pub struct MyObjectBuilder_Faction {
     #[serde(rename = "PrivateInfo")]
     pub private_info: String,
     #[proto(tag = 25)]
-    #[serde(rename = "Members", default)]
+    #[serde(rename = "Members", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub members: Vec<MyObjectBuilder_FactionMember>,
     #[proto(tag = 28)]
-    #[serde(rename = "JoinRequests", default)]
+    #[serde(rename = "JoinRequests", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub join_requests: Vec<MyObjectBuilder_FactionMember>,
     #[proto(tag = 31)]
     #[serde(rename = "AutoAcceptMember", default)]
@@ -1051,7 +1051,7 @@ pub struct MyObjectBuilder_Faction {
     #[serde(rename = "FactionTypeString")]
     pub faction_type_string: String,
     #[proto(tag = 46)]
-    #[serde(rename = "Stations", default)]
+    #[serde(rename = "Stations", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub stations: Vec<MyObjectBuilder_Station>,
     #[proto(tag = 49)]
     #[serde(rename = "CustomColor")]
@@ -1139,7 +1139,7 @@ pub struct MyObjectBuilder_FactionRequests {
     #[serde(rename = "FactionId")]
     pub faction_id: i64,
     #[proto(tag = 13)]
-    #[serde(rename = "FactionRequests", default)]
+    #[serde(rename = "FactionRequests", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub faction_requests: Vec<i64>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_FactionsVisEntry, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_FactionsVisEntry>
@@ -1158,7 +1158,7 @@ pub struct MyObjectBuilder_FactionsVisEntry {
     #[serde(rename = "IdentityId")]
     pub identity_id: i64,
     #[proto(tag = 5)]
-    #[serde(rename = "DiscoveredFactions", default)]
+    #[serde(rename = "DiscoveredFactions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub discovered_factions: Vec<i64>,
 }
 // Original type: VRage.Game.MyObjectBuilder_FactionCollection
@@ -1167,22 +1167,22 @@ pub struct MyObjectBuilder_FactionsVisEntry {
 #[serde(rename = "MyObjectBuilder_FactionCollection")]
 pub struct MyObjectBuilder_FactionCollection {
     #[proto(tag = 16)]
-    #[serde(rename = "Factions", default)]
+    #[serde(rename = "Factions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub factions: Vec<MyObjectBuilder_Faction>,
     #[proto(tag = 19)]
     #[serde(rename = "Players", default)]
     pub players: crate::compat::SerializableDictionary<i64,i64>,
     #[proto(tag = 22)]
-    #[serde(rename = "Relations", default)]
+    #[serde(rename = "Relations", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub relations: Vec<MyObjectBuilder_FactionRelation>,
     #[proto(tag = 25)]
-    #[serde(rename = "RelationsWithPlayers", default)]
+    #[serde(rename = "RelationsWithPlayers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub relations_with_players: Vec<MyObjectBuilder_PlayerFactionRelation>,
     #[proto(tag = 28)]
-    #[serde(rename = "Requests", default)]
+    #[serde(rename = "Requests", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub requests: Vec<MyObjectBuilder_FactionRequests>,
     #[proto(tag = 31)]
-    #[serde(rename = "PlayerToFactionsVis", default)]
+    #[serde(rename = "PlayerToFactionsVis", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub player_to_factions_vis: Vec<MyObjectBuilder_FactionsVisEntry>,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,i64>
@@ -1277,19 +1277,19 @@ pub struct MyObjectBuilder_Identity {
     #[serde(rename = "LastLoginTime")]
     pub last_login_time: crate::compat::DateTime,
     #[proto(tag = 22)]
-    #[serde(rename = "SavedCharacters", default)]
+    #[serde(rename = "SavedCharacters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub saved_characters: Vec<i64>,
     #[proto(tag = 25)]
     #[serde(rename = "LastLogoutTime")]
     pub last_logout_time: crate::compat::DateTime,
     #[proto(tag = 28)]
-    #[serde(rename = "RespawnShips", default)]
+    #[serde(rename = "RespawnShips", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub respawn_ships: Vec<i64>,
     #[proto(skip)]
     #[serde(rename = "LastDeathPosition")]
     pub last_death_position: crate::compat::Nullable<crate::math::Vector3D>,
     #[proto(tag = 33)]
-    #[serde(rename = "ActiveContracts", default)]
+    #[serde(rename = "ActiveContracts", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub active_contracts: Vec<i64>,
     #[proto(tag = 35)]
     #[serde(rename = "TransferedPCUDelta")]
@@ -1364,10 +1364,10 @@ pub struct MyObjectBuilder_Player {
     #[serde(rename = "Toolbar")]
     pub toolbar: MyObjectBuilder_Toolbar,
     #[proto(tag = 25)]
-    #[serde(rename = "EntityCameraData", default)]
+    #[serde(rename = "EntityCameraData", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entity_camera_data: Vec<CameraControllerSettings>,
     #[proto(tag = 28)]
-    #[serde(rename = "BuildColorSlots", default)]
+    #[serde(rename = "BuildColorSlots", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub build_color_slots: Vec<crate::math::Vector3F>,
     #[proto(tag = 30)]
     #[serde(rename = "CreativeToolsEnabled", default)]
@@ -1487,7 +1487,7 @@ pub struct MyObjectBuilder_ChatHistory {
     #[serde(rename = "IdentityId")]
     pub identity_id: i64,
     #[proto(tag = 4)]
-    #[serde(rename = "PlayerChatHistory", default)]
+    #[serde(rename = "PlayerChatHistory", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub player_chat_history: Vec<MyObjectBuilder_PlayerChatHistory>,
     #[proto(tag = 7)]
     #[serde(rename = "GlobalChatHistory")]
@@ -1511,10 +1511,10 @@ pub struct MyObjectBuilder_FactionChatItem {
     #[serde(rename = "TimestampMs")]
     pub timestamp_ms: i64,
     #[proto(tag = 46)]
-    #[serde(rename = "PlayersToSendToUniqueNumber", default)]
+    #[serde(rename = "PlayersToSendToUniqueNumber", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub players_to_send_to_unique_number: Vec<i64>,
     #[proto(tag = 49)]
-    #[serde(rename = "IsAlreadySentTo", default)]
+    #[serde(rename = "IsAlreadySentTo", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub is_already_sent_to: Vec<bool>,
 }
 // Original type: VRage.Game.MyObjectBuilder_FactionChatHistory
@@ -1614,7 +1614,7 @@ pub struct MyObjectBuilder_Gps_Entry {
 #[serde(rename = "MyObjectBuilder_Gps")]
 pub struct MyObjectBuilder_Gps {
     #[proto(tag = 35)]
-    #[serde(rename = "Entries", default)]
+    #[serde(rename = "Entries", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entries: Vec<MyObjectBuilder_Gps_Entry>,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.List`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,Vec<i64>>
@@ -1734,25 +1734,25 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "PlayersDeadInCryopods", default)]
     pub players_dead_in_cryopods: crate::compat::SerializableDictionary<u64,i64>,
     #[proto(tag = 82)]
-    #[serde(rename = "Mods", default)]
+    #[serde(rename = "Mods", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub mods: Vec<MyObjectBuilder_Checkpoint_ModItem>,
     #[proto(tag = 85)]
     #[serde(rename = "PromotedUsers", default)]
     pub promoted_users: crate::compat::SerializableDictionary<u64,MyPromoteLevel>,
     #[proto(skip)]
-    #[serde(rename = "CreativeTools", default)]
+    #[serde(rename = "CreativeTools", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub creative_tools: Vec<u64>,
     #[proto(tag = 88)]
     #[serde(rename = "Scenario")]
     pub scenario: SerializableDefinitionId,
     #[proto(tag = 103)]
-    #[serde(rename = "RespawnCooldowns", default)]
+    #[serde(rename = "RespawnCooldowns", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub respawn_cooldowns: Vec<MyObjectBuilder_Checkpoint_RespawnCooldownItem>,
     #[proto(tag = 106)]
-    #[serde(rename = "Identities", default)]
+    #[serde(rename = "Identities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub identities: Vec<MyObjectBuilder_Identity>,
     #[proto(tag = 109)]
-    #[serde(rename = "Clients", default)]
+    #[serde(rename = "Clients", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub clients: Vec<MyObjectBuilder_Client>,
     #[proto(tag = 112)]
     #[serde(rename = "PreviousEnvironmentHostility")]
@@ -1767,13 +1767,13 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "AllPlayersColors", default)]
     pub all_players_colors: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,Vec<crate::math::Vector3F>>,
     #[proto(tag = 121)]
-    #[serde(rename = "ChatHistory", default)]
+    #[serde(rename = "ChatHistory", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub chat_history: Vec<MyObjectBuilder_ChatHistory>,
     #[proto(tag = 124)]
-    #[serde(rename = "FactionChatHistory", default)]
+    #[serde(rename = "FactionChatHistory", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub faction_chat_history: Vec<MyObjectBuilder_FactionChatHistory>,
     #[proto(tag = 127)]
-    #[serde(rename = "NonPlayerIdentities", default)]
+    #[serde(rename = "NonPlayerIdentities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub non_player_identities: Vec<i64>,
     #[proto(tag = 130)]
     #[serde(rename = "Gps", default)]
@@ -1785,16 +1785,16 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "WorldBoundaries")]
     pub world_boundaries: crate::compat::Nullable<crate::math::SerializableBoundingBoxD>,
     #[proto(tag = 136)]
-    #[serde(rename = "SessionComponents", default)]
+    #[serde(rename = "SessionComponents", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub session_components: Vec<MyObjectBuilder_SessionComponent>,
     #[proto(tag = 139)]
     #[serde(rename = "GameDefinition")]
     pub game_definition: SerializableDefinitionId,
     #[proto(tag = 142)]
-    #[serde(rename = "SessionComponentEnabled", default)]
+    #[serde(rename = "SessionComponentEnabled", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub session_component_enabled: Vec<String>,
     #[proto(tag = 145)]
-    #[serde(rename = "SessionComponentDisabled", default)]
+    #[serde(rename = "SessionComponentDisabled", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub session_component_disabled: Vec<String>,
     #[proto(tag = 148)]
     #[serde(rename = "InGameTime")]
@@ -1812,13 +1812,13 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "RequiresDX")]
     pub requires_d_x: i32,
     #[proto(tag = 166)]
-    #[serde(rename = "VicinityModelsCache", default)]
+    #[serde(rename = "VicinityModelsCache", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub vicinity_models_cache: Vec<String>,
     #[proto(tag = 169)]
-    #[serde(rename = "VicinityArmorModelsCache", default)]
+    #[serde(rename = "VicinityArmorModelsCache", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub vicinity_armor_models_cache: Vec<String>,
     #[proto(tag = 172)]
-    #[serde(rename = "VicinityVoxelCache", default)]
+    #[serde(rename = "VicinityVoxelCache", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub vicinity_voxel_cache: Vec<String>,
     #[proto(tag = 179)]
     #[serde(rename = "WorldId")]
@@ -1830,7 +1830,7 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "DisconnectedPlayers", default)]
     pub disconnected_players: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,i64>,
     #[proto(skip)]
-    #[serde(rename = "AllPlayers", default)]
+    #[serde(rename = "AllPlayers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub all_players: Vec<MyObjectBuilder_Checkpoint_PlayerItem>,
     #[proto(tag = 181)]
     #[serde(rename = "RemoteAdminSettings", default)]
@@ -1926,7 +1926,7 @@ pub struct MyObjectBuilder_GlobalEventBase {
 #[serde(rename = "MyObjectBuilder_GlobalEvents")]
 pub struct MyObjectBuilder_GlobalEvents {
     #[proto(tag = 1)]
-    #[serde(rename = "Events", default)]
+    #[serde(rename = "Events", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub events: Vec<MyObjectBuilder_GlobalEventBase>,
 }
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[VRage.Game.MyEncounterId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEncounterId>
@@ -1952,7 +1952,7 @@ pub struct MyEncounterId {
 #[serde(rename = "MyObjectBuilder_Encounters")]
 pub struct MyObjectBuilder_Encounters {
     #[proto(tag = 10)]
-    #[serde(rename = "SavedEncounters", default)]
+    #[serde(rename = "SavedEncounters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub saved_encounters: Vec<MyEncounterId>,
 }
 // Original type: VRage.Game.MyObjectBuilder_EnvironmentSettings
@@ -2026,7 +2026,7 @@ pub struct MyObjectBuilder_ComponentContainer_ComponentData {
 #[serde(rename = "MyObjectBuilder_ComponentContainer")]
 pub struct MyObjectBuilder_ComponentContainer {
     #[proto(tag = 7)]
-    #[serde(rename = "Components", default)]
+    #[serde(rename = "Components", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub components: Vec<MyObjectBuilder_ComponentContainer_ComponentData>,
 }
 // Original type: VRage.ObjectBuilders.MyObjectBuilder_EntityBase
@@ -2080,7 +2080,7 @@ pub struct MyObjectBuilder_Sector {
     #[serde(rename = "VoxelHandVolumeChanged")]
     pub voxel_hand_volume_changed: u64,
     #[proto(tag = 4)]
-    #[serde(rename = "SectorObjects", default)]
+    #[serde(rename = "SectorObjects", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub sector_objects: Vec<MyObjectBuilder_EntityBase>,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<String,Vec<i32>>
@@ -2130,7 +2130,7 @@ pub struct MyObjectBuilder_Planet_SavedSector {
     #[serde(rename = "IdDir")]
     pub id_dir: Vector3B,
     #[proto(tag = 7)]
-    #[serde(rename = "RemovedItems", default)]
+    #[serde(rename = "RemovedItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub removed_items: Vec<i32>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRageRender.Messages.MyAtmosphereSettings, VRage.Render, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyAtmosphereSettings>
@@ -2263,10 +2263,10 @@ pub struct MyObjectBuilder_World {
     #[serde(rename = "VoxelMaps", default)]
     pub voxel_maps: crate::compat::SerializableDictionary<String,Vec<i32>>,
     #[proto(skip)]
-    #[serde(rename = "Clusters", default)]
+    #[serde(rename = "Clusters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub clusters: Vec<crate::math::BoundingBoxD>,
     #[proto(skip)]
-    #[serde(rename = "Planets", default)]
+    #[serde(rename = "Planets", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub planets: Vec<MyObjectBuilder_Planet>,
 }
 // Original type: VRage.MyFixedPoint
@@ -2340,10 +2340,10 @@ pub struct MyObjectBuilder_AutopilotWaypoint {
     #[serde(rename = "Name")]
     pub name: String,
     #[proto(tag = 7)]
-    #[serde(rename = "Actions", default)]
+    #[serde(rename = "Actions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub actions: Vec<MyObjectBuilder_ToolbarItem>,
     #[proto(tag = 10)]
-    #[serde(rename = "Indexes", default)]
+    #[serde(rename = "Indexes", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub indexes: Vec<i32>,
     #[proto(tag = 14)]
     #[serde(rename = "Draw", default)]
@@ -2397,10 +2397,10 @@ pub struct MyObjectBuilder_AutopilotClipboard {
     #[serde(rename = "FlightMode")]
     pub flight_mode: i32,
     #[proto(tag = 7)]
-    #[serde(rename = "indexes", default)]
+    #[serde(rename = "indexes", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub indexes: Vec<i32>,
     #[proto(tag = 10)]
-    #[serde(rename = "Waypoints", default)]
+    #[serde(rename = "Waypoints", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub waypoints: Vec<MyObjectBuilder_AutopilotWaypoint>,
     #[proto(tag = 13)]
     #[serde(rename = "Direction")]
@@ -2463,7 +2463,7 @@ pub struct ToolbarItem {
     #[serde(rename = "Action")]
     pub action: String,
     #[proto(tag = 10)]
-    #[serde(rename = "Parameters", default)]
+    #[serde(rename = "Parameters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub parameters: Vec<MyObjectBuilder_ToolbarItemActionParameter>,
     #[proto(tag = 13)]
     #[serde(rename = "CustomIconTitle")]
@@ -2532,7 +2532,7 @@ pub struct MySerializableSprite {
 #[serde(rename = "MySerializableSpriteCollection")]
 pub struct MySerializableSpriteCollection {
     #[proto(tag = 1)]
-    #[serde(rename = "Sprites", default)]
+    #[serde(rename = "Sprites", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub sprites: Vec<MySerializableSprite>,
     #[proto(tag = 4)]
     #[serde(rename = "Length")]
@@ -2959,7 +2959,7 @@ pub enum MyInventoryFlags {
 #[serde(rename = "MyObjectBuilder_Inventory")]
 pub struct MyObjectBuilder_Inventory {
     #[proto(tag = 1)]
-    #[serde(rename = "Items", default)]
+    #[serde(rename = "Items", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub items: Vec<MyObjectBuilder_InventoryItem>,
     #[proto(tag = 4)]
     #[serde(rename = "nextItemId")]
@@ -3001,7 +3001,7 @@ pub struct MyObjectBuilder_StockpileItem {
 #[serde(rename = "MyObjectBuilder_ConstructionStockpile")]
 pub struct MyObjectBuilder_ConstructionStockpile {
     #[proto(tag = 1)]
-    #[serde(rename = "Items", default)]
+    #[serde(rename = "Items", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub items: Vec<MyObjectBuilder_StockpileItem>,
 }
 // Original enum: VRage.Game.MyOwnershipShareModeEnum
@@ -3315,10 +3315,10 @@ pub struct MyObjectBuilder_ConveyorLine {
     #[serde(rename = "EndDirection")]
     pub end_direction: crate::compat::direction::Direction,
     #[proto(tag = 13)]
-    #[serde(rename = "PacketsForward", default)]
+    #[serde(rename = "PacketsForward", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub packets_forward: Vec<MyObjectBuilder_ConveyorPacket>,
     #[proto(tag = 16)]
-    #[serde(rename = "PacketsBackward", default)]
+    #[serde(rename = "PacketsBackward", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub packets_backward: Vec<MyObjectBuilder_ConveyorPacket>,
     #[proto(tag = 19)]
     #[serde(rename = "Sections", default)]
@@ -3342,7 +3342,7 @@ pub struct MyObjectBuilder_BlockGroup {
     #[serde(rename = "Name")]
     pub name: String,
     #[proto(tag = 4)]
-    #[serde(rename = "Blocks", default)]
+    #[serde(rename = "Blocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub blocks: Vec<crate::math::Vector3I>,
 }
 // Original type: VRage.Game.OxygenRoom
@@ -3385,7 +3385,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "GridSizeEnum")]
     pub grid_size_enum: MyCubeSize,
     #[proto(tag = 4)]
-    #[serde(rename = "CubeBlocks", default)]
+    #[serde(rename = "CubeBlocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub cube_blocks: Vec<MyObjectBuilder_CubeBlock>,
     #[proto(tag = 7)]
     #[serde(rename = "IsStatic", default)]
@@ -3394,7 +3394,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "IsUnsupportedStation", default)]
     pub is_unsupported_station: bool,
     #[proto(tag = 13)]
-    #[serde(rename = "Skeleton", default)]
+    #[serde(rename = "Skeleton", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub skeleton: Vec<BoneInfo>,
     #[proto(tag = 16)]
     #[serde(rename = "LinearVelocity")]
@@ -3436,10 +3436,10 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "SpawnRangeMax")]
     pub spawn_range_max: f32,
     #[proto(tag = 55)]
-    #[serde(rename = "ConveyorLines", default)]
+    #[serde(rename = "ConveyorLines", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub conveyor_lines: Vec<MyObjectBuilder_ConveyorLine>,
     #[proto(tag = 58)]
-    #[serde(rename = "BlockGroups", default)]
+    #[serde(rename = "BlockGroups", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub block_groups: Vec<MyObjectBuilder_BlockGroup>,
     #[proto(tag = 61)]
     #[serde(rename = "Handbrake", default)]
@@ -3448,7 +3448,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "DisplayName")]
     pub display_name: String,
     #[proto(tag = 67)]
-    #[serde(rename = "OxygenAmount", default)]
+    #[serde(rename = "OxygenAmount", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub oxygen_amount: Vec<f32>,
     #[proto(tag = 70)]
     #[serde(rename = "DestructibleBlocks", default)]
@@ -3478,7 +3478,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "Editable", default)]
     pub editable: bool,
     #[proto(tag = 100)]
-    #[serde(rename = "TargetingTargets", default)]
+    #[serde(rename = "TargetingTargets", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub targeting_targets: Vec<i64>,
     #[proto(tag = 103)]
     #[serde(rename = "TargetingWhitelist", default)]
@@ -3487,7 +3487,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "IsPowered", default)]
     pub is_powered: bool,
     #[proto(tag = 109)]
-    #[serde(rename = "OxygenRooms", default)]
+    #[serde(rename = "OxygenRooms", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub oxygen_rooms: Vec<OxygenRoom>,
     #[proto(tag = 120)]
     #[serde(rename = "Immune", default)]
@@ -3620,7 +3620,7 @@ pub struct MyObjectBuilder_HudEntityParams {
     #[serde(rename = "BlinkingTime")]
     pub blinking_time: f32,
     #[proto(tag = 9)]
-    #[serde(rename = "Waypoints", default)]
+    #[serde(rename = "Waypoints", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub waypoints: Vec<MyPositionAndOrientation>,
     #[proto(tag = 11)]
     #[serde(rename = "ForceShow", default)]
@@ -3737,7 +3737,7 @@ pub struct MyShipMiningSystem_NetworkCutoutData {
     pub storage_offset: crate::math::Vector3I,
     #[serde(rename = "AffectedRange")]
     pub affected_range: BoundingBoxI,
-    #[serde(rename = "CutOuts", default)]
+    #[serde(rename = "CutOuts", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub cut_outs: Vec<NetworkCutoutData_CutOut>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.MyObjectBuilder_Character+LadderInfo, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyObjectBuilder_Character_LadderInfo>
@@ -3781,7 +3781,7 @@ pub struct MyObjectBuilder_Character_BuildPlanItem {
     #[serde(rename = "IsInProgress", default)]
     pub is_in_progress: bool,
     #[proto(tag = 190)]
-    #[serde(rename = "Components", default)]
+    #[serde(rename = "Components", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub components: Vec<MyObjectBuilder_Character_ComponentItem>,
 }
 // Original type: VRage.Audio.MyCueId
@@ -4436,13 +4436,13 @@ pub struct MyPlayerCollection_AllPlayerData {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "AllMembersDataMsg")]
 pub struct AllMembersDataMsg {
-    #[serde(rename = "Identities", default)]
+    #[serde(rename = "Identities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub identities: Vec<MyObjectBuilder_Identity>,
-    #[serde(rename = "Players", default)]
+    #[serde(rename = "Players", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub players: Vec<MyPlayerCollection_AllPlayerData>,
-    #[serde(rename = "Factions", default)]
+    #[serde(rename = "Factions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub factions: Vec<MyObjectBuilder_Faction>,
-    #[serde(rename = "Clients", default)]
+    #[serde(rename = "Clients", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub clients: Vec<MyObjectBuilder_Client>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.GameServices.ChatMessageCustomData, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<ChatMessageCustomData>
@@ -4479,7 +4479,7 @@ pub struct ChatMsg {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "BlockList")]
 pub struct BlockList {
-    #[serde(rename = "BlockedUsers", default)]
+    #[serde(rename = "BlockedUsers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub blocked_users: Vec<u64>,
 }
 // Original type: Sandbox.Engine.Multiplayer.ScriptedChatMsg
@@ -4758,7 +4758,7 @@ pub struct MyObjectBuilder_WeatherPlanetData {
     #[serde(rename = "NextWeather")]
     pub next_weather: i32,
     #[proto(tag = 30)]
-    #[serde(rename = "Weathers", default)]
+    #[serde(rename = "Weathers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub weathers: Vec<MyObjectBuilder_WeatherEffect>,
 }
 // Original type: VRageMath.Vector4
@@ -5222,7 +5222,7 @@ pub struct Layer_Entity {
 pub struct MyGuiScreenDebugNetwork_Layer {
     #[serde(rename = "Bounds")]
     pub bounds: BoundingBox,
-    #[serde(rename = "Entities", default)]
+    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entities: Vec<Layer_Entity>,
     #[serde(rename = "PCU")]
     pub PCU: i32,
@@ -5397,7 +5397,7 @@ pub struct MyTerminalInfoController_GridBuiltByIdInfo {
     pub pcu_built: i32,
     #[serde(rename = "BlockCount")]
     pub block_count: i32,
-    #[serde(rename = "UnsafeBlocks", default)]
+    #[serde(rename = "UnsafeBlocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub unsafe_blocks: Vec<String>,
 }
 // Original enum: Sandbox.Game.GameSystems.Trading.MyTradeResponseReason
@@ -5420,7 +5420,7 @@ pub enum MyTradeResponseReason {
 #[serde(rename = "MyObjectBuilder_SubmitOffer")]
 pub struct MyObjectBuilder_SubmitOffer {
     #[proto(skip)]
-    #[serde(rename = "InventoryItems", default)]
+    #[serde(rename = "InventoryItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub inventory_items: Vec<MyObjectBuilder_InventoryItem>,
     #[proto(skip)]
     #[serde(rename = "CurrencyAmount")]
@@ -5599,9 +5599,9 @@ pub struct MyCubeGrid_RelativeOffset {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "MyPasteGridParameters")]
 pub struct MyCubeGrid_MyPasteGridParameters {
-    #[serde(rename = "Entities", default)]
+    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entities: Vec<MyObjectBuilder_CubeGrid>,
-    #[serde(rename = "ClientsideDLCs", default)]
+    #[serde(rename = "ClientsideDLCs", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub clientside_dl_cs: Vec<u64>,
     #[serde(rename = "DetectDisconnects", default)]
     pub detect_disconnects: bool,
@@ -5724,13 +5724,13 @@ pub struct MyObjectBuilder_SafeZone {
     #[serde(rename = "AllowedActions")]
     pub allowed_actions: crate::compat::BitField<MySafeZoneAction>,
     #[proto(tag = 22)]
-    #[serde(rename = "Factions", default)]
+    #[serde(rename = "Factions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub factions: Vec<i64>,
     #[proto(tag = 25)]
-    #[serde(rename = "Players", default)]
+    #[serde(rename = "Players", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub players: Vec<i64>,
     #[proto(tag = 28)]
-    #[serde(rename = "Entities", default)]
+    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entities: Vec<i64>,
     #[proto(tag = 31)]
     #[serde(rename = "Size")]
@@ -5742,10 +5742,10 @@ pub struct MyObjectBuilder_SafeZone {
     #[serde(rename = "DisplayName")]
     pub display_name: String,
     #[proto(tag = 40)]
-    #[serde(rename = "ContainedEntities", default)]
+    #[serde(rename = "ContainedEntities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub contained_entities: Vec<i64>,
     #[proto(tag = 41)]
-    #[serde(rename = "ContainedGrids", default)]
+    #[serde(rename = "ContainedGrids", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub contained_grids: Vec<i64>,
     #[proto(tag = 43)]
     #[serde(rename = "IsVisible", default)]

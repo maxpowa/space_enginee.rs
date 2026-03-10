@@ -865,6 +865,79 @@ macro_rules! define_xml_array_item {
     };
 }
 
+/// Deserializes a `Vec<T>` from XML, gracefully handling self-closing elements
+/// like `<Members />`.
+///
+/// Space Engineers serializes empty collections as self-closing XML elements.
+/// `quick_xml` treats these as an element with empty text content and tries to
+/// deserialize one `T` from it, which fails when `T` has required fields.
+///
+/// This function uses `deserialize_any` so that it can handle both:
+/// - A proper sequence of child elements → normal `Vec<T>`
+/// - An empty/self-closing element → empty `Vec`
+pub mod xml_vec {
+    use serde::de::{self, SeqAccess, Visitor};
+    use std::fmt;
+    use std::marker::PhantomData;
+
+    pub fn deserialize<'de, T, D>(deserializer: D) -> Result<Vec<T>, D::Error>
+    where
+        T: serde::Deserialize<'de>,
+        D: serde::Deserializer<'de>,
+    {
+        struct VecVisitor<U>(PhantomData<U>);
+
+        impl<'de2, U: serde::Deserialize<'de2>> Visitor<'de2> for VecVisitor<U> {
+            type Value = Vec<U>;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("a sequence of elements or an empty/self-closing element")
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: SeqAccess<'de2>,
+            {
+                let mut items = Vec::new();
+                while let Some(item) = seq.next_element()? {
+                    items.push(item);
+                }
+                Ok(items)
+            }
+
+            // Self-closing elements like `<Members />` are presented as empty text
+            fn visit_str<E: de::Error>(self, _: &str) -> Result<Self::Value, E> {
+                Ok(Vec::new())
+            }
+
+            fn visit_string<E: de::Error>(self, _: String) -> Result<Self::Value, E> {
+                Ok(Vec::new())
+            }
+
+            fn visit_unit<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(Vec::new())
+            }
+
+            fn visit_none<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(Vec::new())
+            }
+
+            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::MapAccess<'de2>,
+            {
+                let mut items = Vec::new();
+                while let Some(_key) = map.next_key::<String>()? {
+                    items.push(map.next_value()?);
+                }
+                Ok(items)
+            }
+        }
+
+        deserializer.deserialize_any(VecVisitor(PhantomData))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

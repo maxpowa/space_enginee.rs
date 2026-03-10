@@ -827,15 +827,16 @@ dependencies = [
 
 [[package]]
 name = "space_engineers"
-version = "1.208015.0"
+version = "1.208015.3"
 dependencies = [
+ "quick-xml",
  "space_engineers_compat",
  "space_engineers_sys",
 ]
 
 [[package]]
 name = "space_engineers_compat"
-version = "1.208015.0"
+version = "1.208015.3"
 dependencies = [
  "chrono",
  "deku",
@@ -849,7 +850,7 @@ dependencies = [
 
 [[package]]
 name = "space_engineers_sys"
-version = "1.208015.0"
+version = "1.208015.3"
 dependencies = [
  "deku",
  "enumflags2",

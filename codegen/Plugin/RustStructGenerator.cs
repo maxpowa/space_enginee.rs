@@ -753,6 +753,16 @@ public class RustStructGenerator
                 if (memberInfo.HasSerdeDefault)
                     serdeParts.Add("default");
 
+                // Vec fields need a custom deserializer to handle self-closing XML
+                // elements like `<Members />`.  The XmlArrayItem path below already
+                // supplies its own deserialize_with, so we only add the generic one
+                // when no XmlArrayItem override is present.
+                var xmlArrayItemName2 = memberInfo.XmlArrayItemName;
+                var hasXmlArrayItemOverride = xmlArrayItemName2 != null && extraTypeInfo.IsArray &&
+                                             xmlArrayItemName2 != new ExtraTypeInfo { Type = extraTypeInfo.Type.GetElementType() ?? extraTypeInfo.Type.GenericTypeArguments[0] }.Name;
+                if (extraTypeInfo.IsArray && !hasXmlArrayItemOverride)
+                    serdeParts.Add("deserialize_with = \"crate::compat::xml_vec::deserialize\"");
+
                 writer.WriteLine($"    #[serde({string.Join(", ", serdeParts)})]");
             }
             else
