@@ -706,10 +706,36 @@ impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>
             #[serde(rename = "Value")]
             v: U,
         }
+
+        /// Wrapper around `<dictionary>` that tolerates `<dictionary />` (empty).
+        ///
+        /// When quick-xml sees `<dictionary />`, it delivers an empty text event
+        /// instead of child `<item>` elements.  A plain `Vec<Entry>` would then
+        /// try to parse `""` as an Entry and fail with "missing field `Key`".
+        ///
+        /// We use `deserialize_with` on the items field so that each
+        /// `<dictionary>` element is first attempted as an `Entry`; if that
+        /// fails (e.g. for `<dictionary />`), we silently skip it.
+        fn deserialize_entries<'de, T: ::serde::Deserialize<'de>, U: ::serde::Deserialize<'de>, D>(
+            deserializer: D,
+        ) -> Result<Vec<SerializableDictionaryEntry<T, U>>, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            // Try to deserialize as a Vec; if a single empty element like
+            // `<dictionary />` is present, the whole Vec parse may fail.
+            // In that case, fall back to an empty Vec.
+            Ok(Vec::<SerializableDictionaryEntry<T, U>>::deserialize(deserializer)
+                .unwrap_or_default())
+        }
+
+        fn empty_vec<T>() -> Vec<T> { Vec::new() }
         #[derive(::serde::Deserialize)]
         #[serde(rename = "Dictionary")]
+        #[serde(bound(deserialize = "T: ::serde::Deserialize<'de>, U: ::serde::Deserialize<'de>"))]
         struct Helper<T, U> {
-            #[serde(rename = "dictionary", default = "Vec::new")]
+            #[serde(rename = "dictionary", default = "empty_vec",
+                    deserialize_with = "deserialize_entries")]
             items: Vec<SerializableDictionaryEntry<T, U>>,
         }
         let helper = Helper::deserialize(deserializer)?;
@@ -1183,5 +1209,89 @@ mod tests {
         let xml = quick_xml::se::to_string(&original).unwrap();
         let deserialized: NullableWrapper = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(original, deserialized);
+    }
+
+    // SerializableDictionary tests
+
+    #[test]
+    fn test_serializable_dictionary_empty_no_elements() {
+        // When a dictionary is empty, no <dictionary> child elements are
+        // present.  The `Option<Vec<…>>` in Helper deserializes as `None`,
+        // which `.unwrap_or_default()` turns into an empty Vec.
+        #[derive(Debug, PartialEq, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Dict")]
+            dict: SerializableDictionary<String, i32>,
+        }
+        let xml = r#"<Root><Dict></Dict></Root>"#;
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert!(result.dict.0.is_empty());
+    }
+
+    #[test]
+    fn test_serializable_dictionary_empty_self_closing() {
+        // <Dict /> (self-closing parent) should also deserialize to an empty
+        // HashMap since there are no <dictionary> children.
+        #[derive(Debug, PartialEq, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Dict")]
+            dict: SerializableDictionary<String, i32>,
+        }
+        let xml = r#"<Root><Dict /></Root>"#;
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert!(result.dict.0.is_empty());
+    }
+
+    #[test]
+    fn test_serializable_dictionary_populated() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Dict")]
+            dict: SerializableDictionary<String, i32>,
+        }
+        let xml = concat!(
+            "<Root><Dict>",
+            "<dictionary><Key>alpha</Key><Value>1</Value></dictionary>",
+            "<dictionary><Key>beta</Key><Value>2</Value></dictionary>",
+            "</Dict></Root>",
+        );
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(result.dict.0.len(), 2);
+        assert_eq!(result.dict.0["alpha"], 1);
+        assert_eq!(result.dict.0["beta"], 2);
+    }
+
+    #[test]
+    fn test_serializable_dictionary_serde_roundtrip() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Dict")]
+            dict: SerializableDictionary<String, i32>,
+        }
+        let mut map = HashMap::new();
+        map.insert("key1".to_string(), 10);
+        map.insert("key2".to_string(), 20);
+        let original = W { dict: SerializableDictionary(map) };
+        let xml = quick_xml::se::to_string(&original).unwrap();
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(original, deserialized);
+    }
+
+    #[test]
+    fn test_serializable_dictionary_empty_xml() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Dict")]
+            dict: SerializableDictionary<String, i32>,
+        }
+        // SE serializes empty dictionaries as self-closing <dictionary />
+        let xml = r#"<Root><Dict><dictionary /></Dict></Root>"#;
+        let deserialized: W = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(deserialized.dict, SerializableDictionary(HashMap::new()));
     }
 }
