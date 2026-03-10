@@ -194,14 +194,15 @@ public class RustStructGenerator
         };
 
         /// <summary>
-        /// True when the field is a collection type that typically has a default
-        /// initializer in C# (e.g. `= new List&lt;string&gt;()`).
-        /// We emit #[serde(default)] for these so missing XML elements produce
-        /// an empty collection instead of a deserialization error.
+        /// True when the field has a natural default value in Rust and C#, so a
+        /// missing XML element should produce that default instead of a
+        /// deserialization error.  Covers collections (Vec, HashMap,
+        /// SerializableDictionary) and booleans (default <c>false</c>).
         /// </summary>
-        public bool HasCollectionDefault =>
+        public bool HasSerdeDefault =>
             IsTypeArray(MemberType) || IsTypeHashMap(MemberType) ||
-            (MemberType.IsGenericType && MemberType.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>));
+            (MemberType.IsGenericType && MemberType.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>)) ||
+            MemberType == typeof(bool);
     }
 
     private class ExtraTypeInfo
@@ -748,8 +749,8 @@ public class RustStructGenerator
                     ? $"rename = \"@{memberName}\""
                     : $"rename = \"{memberName}\"");
 
-                // Default for collection types (Vec, HashMap, SerializableDictionary)
-                if (memberInfo.HasCollectionDefault)
+                // Default for types with natural zero/empty defaults (collections, booleans)
+                if (memberInfo.HasSerdeDefault)
                     serdeParts.Add("default");
 
                 writer.WriteLine($"    #[serde({string.Join(", ", serdeParts)})]");

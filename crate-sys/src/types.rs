@@ -154,40 +154,40 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "BlockLimitsEnabled")]
     pub block_limits_enabled: MyBlockLimitsEnabledEnum,
     #[proto(tag = 33)]
-    #[serde(rename = "EnableRemoteBlockRemoval")]
+    #[serde(rename = "EnableRemoteBlockRemoval", default)]
     pub enable_remote_block_removal: bool,
     #[proto(tag = 35)]
     #[serde(rename = "EnvironmentHostility")]
     pub environment_hostility: MyEnvironmentHostilityEnum,
     #[proto(tag = 37)]
-    #[serde(rename = "AutoHealing")]
+    #[serde(rename = "AutoHealing", default)]
     pub auto_healing: bool,
     #[proto(tag = 39)]
-    #[serde(rename = "EnableCopyPaste")]
+    #[serde(rename = "EnableCopyPaste", default)]
     pub enable_copy_paste: bool,
     #[proto(tag = 41)]
-    #[serde(rename = "WeaponsEnabled")]
+    #[serde(rename = "WeaponsEnabled", default)]
     pub weapons_enabled: bool,
     #[proto(tag = 43)]
-    #[serde(rename = "ShowPlayerNamesOnHud")]
+    #[serde(rename = "ShowPlayerNamesOnHud", default)]
     pub show_player_names_on_hud: bool,
     #[proto(tag = 45)]
-    #[serde(rename = "ThrusterDamage")]
+    #[serde(rename = "ThrusterDamage", default)]
     pub thruster_damage: bool,
     #[proto(tag = 47)]
-    #[serde(rename = "CargoShipsEnabled")]
+    #[serde(rename = "CargoShipsEnabled", default)]
     pub cargo_ships_enabled: bool,
     #[proto(tag = 49)]
-    #[serde(rename = "EnableSpectator")]
+    #[serde(rename = "EnableSpectator", default)]
     pub enable_spectator: bool,
     #[proto(tag = 51)]
     #[serde(rename = "WorldSizeKm")]
     pub world_size_km: i32,
     #[proto(tag = 53)]
-    #[serde(rename = "RespawnShipDelete")]
+    #[serde(rename = "RespawnShipDelete", default)]
     pub respawn_ship_delete: bool,
     #[proto(tag = 55)]
-    #[serde(rename = "ResetOwnership")]
+    #[serde(rename = "ResetOwnership", default)]
     pub reset_ownership: bool,
     #[proto(tag = 57)]
     #[serde(rename = "WelderSpeedMultiplier")]
@@ -196,7 +196,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "GrinderSpeedMultiplier")]
     pub grinder_speed_multiplier: f32,
     #[proto(tag = 61)]
-    #[serde(rename = "RealisticSound")]
+    #[serde(rename = "RealisticSound", default)]
     pub realistic_sound: bool,
     #[proto(tag = 63)]
     #[serde(rename = "HackSpeedMultiplier")]
@@ -208,13 +208,13 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "AutoSaveInMinutes")]
     pub auto_save_in_minutes: u32,
     #[proto(tag = 69)]
-    #[serde(rename = "EnableSaving")]
+    #[serde(rename = "EnableSaving", default)]
     pub enable_saving: bool,
     #[proto(tag = 71)]
-    #[serde(rename = "InfiniteAmmo")]
+    #[serde(rename = "InfiniteAmmo", default)]
     pub infinite_ammo: bool,
     #[proto(tag = 73)]
-    #[serde(rename = "EnableContainerDrops")]
+    #[serde(rename = "EnableContainerDrops", default)]
     pub enable_container_drops: bool,
     #[proto(tag = 75)]
     #[serde(rename = "SpawnShipTimeMultiplier")]
@@ -226,55 +226,55 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "ProceduralSeed")]
     pub procedural_seed: i32,
     #[proto(tag = 81)]
-    #[serde(rename = "DestructibleBlocks")]
+    #[serde(rename = "DestructibleBlocks", default)]
     pub destructible_blocks: bool,
     #[proto(tag = 83)]
-    #[serde(rename = "EnableIngameScripts")]
+    #[serde(rename = "EnableIngameScripts", default)]
     pub enable_ingame_scripts: bool,
     #[proto(tag = 85)]
     #[serde(rename = "ViewDistance")]
     pub view_distance: i32,
     #[proto(tag = 87)]
-    #[serde(rename = "EnableToolShake")]
+    #[serde(rename = "EnableToolShake", default)]
     pub enable_tool_shake: bool,
     #[proto(tag = 89)]
     #[serde(rename = "VoxelGeneratorVersion")]
     pub voxel_generator_version: i32,
     #[proto(tag = 91)]
-    #[serde(rename = "EnableOxygen")]
+    #[serde(rename = "EnableOxygen", default)]
     pub enable_oxygen: bool,
     #[proto(tag = 93)]
-    #[serde(rename = "EnableOxygenPressurization")]
+    #[serde(rename = "EnableOxygenPressurization", default)]
     pub enable_oxygen_pressurization: bool,
     #[proto(tag = 95)]
-    #[serde(rename = "Enable3rdPersonView")]
+    #[serde(rename = "Enable3rdPersonView", default)]
     pub enable3rd_person_view: bool,
     #[proto(tag = 97)]
-    #[serde(rename = "EnableEncounters")]
+    #[serde(rename = "EnableEncounters", default)]
     pub enable_encounters: bool,
     #[proto(tag = 99)]
-    #[serde(rename = "EnableConvertToStation")]
+    #[serde(rename = "EnableConvertToStation", default)]
     pub enable_convert_to_station: bool,
     #[proto(tag = 101)]
-    #[serde(rename = "StationVoxelSupport")]
+    #[serde(rename = "StationVoxelSupport", default)]
     pub station_voxel_support: bool,
     #[proto(tag = 103)]
-    #[serde(rename = "EnableSunRotation")]
+    #[serde(rename = "EnableSunRotation", default)]
     pub enable_sun_rotation: bool,
     #[proto(tag = 105)]
-    #[serde(rename = "EnableRespawnShips")]
+    #[serde(rename = "EnableRespawnShips", default)]
     pub enable_respawn_ships: bool,
     #[proto(tag = 107)]
-    #[serde(rename = "ScenarioEditMode")]
+    #[serde(rename = "ScenarioEditMode", default)]
     pub scenario_edit_mode: bool,
     #[proto(tag = 109)]
-    #[serde(rename = "Scenario")]
+    #[serde(rename = "Scenario", default)]
     pub scenario: bool,
     #[proto(tag = 110)]
-    #[serde(rename = "UpdateRespawnDictionary")]
+    #[serde(rename = "UpdateRespawnDictionary", default)]
     pub update_respawn_dictionary: bool,
     #[proto(tag = 111)]
-    #[serde(rename = "CanJoinRunning")]
+    #[serde(rename = "CanJoinRunning", default)]
     pub can_join_running: bool,
     #[proto(tag = 113)]
     #[serde(rename = "PhysicsIterations")]
@@ -283,34 +283,34 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "SunRotationIntervalMinutes")]
     pub sun_rotation_interval_minutes: f32,
     #[proto(tag = 117)]
-    #[serde(rename = "EnableJetpack")]
+    #[serde(rename = "EnableJetpack", default)]
     pub enable_jetpack: bool,
     #[proto(tag = 119)]
-    #[serde(rename = "SpawnWithTools")]
+    #[serde(rename = "SpawnWithTools", default)]
     pub spawn_with_tools: bool,
     #[proto(tag = 120)]
     #[serde(rename = "BlueprintShareTimeout")]
     pub blueprint_share_timeout: i32,
     #[proto(tag = 124)]
-    #[serde(rename = "BlueprintShare")]
+    #[serde(rename = "BlueprintShare", default)]
     pub blueprint_share: bool,
     #[proto(tag = 121)]
-    #[serde(rename = "StartInRespawnScreen")]
+    #[serde(rename = "StartInRespawnScreen", default)]
     pub start_in_respawn_screen: bool,
     #[proto(tag = 123)]
-    #[serde(rename = "EnableVoxelDestruction")]
+    #[serde(rename = "EnableVoxelDestruction", default)]
     pub enable_voxel_destruction: bool,
     #[proto(tag = 125)]
     #[serde(rename = "MaxDrones")]
     pub max_drones: i32,
     #[proto(tag = 127)]
-    #[serde(rename = "EnableDrones")]
+    #[serde(rename = "EnableDrones", default)]
     pub enable_drones: bool,
     #[proto(tag = 129)]
-    #[serde(rename = "EnableWolfs")]
+    #[serde(rename = "EnableWolfs", default)]
     pub enable_wolfs: bool,
     #[proto(tag = 131)]
-    #[serde(rename = "EnableSpiders")]
+    #[serde(rename = "EnableSpiders", default)]
     pub enable_spiders: bool,
     #[proto(tag = 133)]
     #[serde(rename = "FloraDensityMultiplier")]
@@ -319,7 +319,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "BlockTypeLimits", default)]
     pub block_type_limits: crate::compat::SerializableDictionary<String,i32>,
     #[proto(tag = 141)]
-    #[serde(rename = "EnableScripterRole")]
+    #[serde(rename = "EnableScripterRole", default)]
     pub enable_scripter_role: bool,
     #[proto(tag = 143)]
     #[serde(rename = "MinDropContainerRespawnTime")]
@@ -328,28 +328,28 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "MaxDropContainerRespawnTime")]
     pub max_drop_container_respawn_time: i32,
     #[proto(tag = 147)]
-    #[serde(rename = "EnableTurretsFriendlyFire")]
+    #[serde(rename = "EnableTurretsFriendlyFire", default)]
     pub enable_turrets_friendly_fire: bool,
     #[proto(tag = 149)]
-    #[serde(rename = "EnableSubgridDamage")]
+    #[serde(rename = "EnableSubgridDamage", default)]
     pub enable_subgrid_damage: bool,
     #[proto(tag = 151)]
     #[serde(rename = "SyncDistance")]
     pub sync_distance: i32,
     #[proto(tag = 153)]
-    #[serde(rename = "ExperimentalMode")]
+    #[serde(rename = "ExperimentalMode", default)]
     pub experimental_mode: bool,
     #[proto(tag = 155)]
-    #[serde(rename = "AdaptiveSimulationQuality")]
+    #[serde(rename = "AdaptiveSimulationQuality", default)]
     pub adaptive_simulation_quality: bool,
     #[proto(tag = 157)]
-    #[serde(rename = "EnableVoxelHand")]
+    #[serde(rename = "EnableVoxelHand", default)]
     pub enable_voxel_hand: bool,
     #[proto(tag = 158)]
     #[serde(rename = "RemoveOldIdentitiesH")]
     pub remove_old_identities_h: i32,
     #[proto(tag = 159)]
-    #[serde(rename = "TrashRemovalEnabled")]
+    #[serde(rename = "TrashRemovalEnabled", default)]
     pub trash_removal_enabled: bool,
     #[proto(tag = 160)]
     #[serde(rename = "StopGridsPeriodMin")]
@@ -376,7 +376,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "PlayerCharacterRemovalThreshold")]
     pub player_character_removal_threshold: i32,
     #[proto(tag = 173)]
-    #[serde(rename = "VoxelTrashRemovalEnabled")]
+    #[serde(rename = "VoxelTrashRemovalEnabled", default)]
     pub voxel_trash_removal_enabled: bool,
     #[proto(tag = 175)]
     #[serde(rename = "VoxelPlayerDistanceThreshold")]
@@ -388,25 +388,25 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "VoxelAgeThreshold")]
     pub voxel_age_threshold: i32,
     #[proto(tag = 181)]
-    #[serde(rename = "EnableResearch")]
+    #[serde(rename = "EnableResearch", default)]
     pub enable_research: bool,
     #[proto(tag = 183)]
-    #[serde(rename = "EnableGoodBotHints")]
+    #[serde(rename = "EnableGoodBotHints", default)]
     pub enable_good_bot_hints: bool,
     #[proto(tag = 185)]
     #[serde(rename = "OptimalSpawnDistance")]
     pub optimal_spawn_distance: f32,
     #[proto(tag = 187)]
-    #[serde(rename = "EnableAutorespawn")]
+    #[serde(rename = "EnableAutorespawn", default)]
     pub enable_autorespawn: bool,
     #[proto(tag = 188)]
-    #[serde(rename = "EnableBountyContracts")]
+    #[serde(rename = "EnableBountyContracts", default)]
     pub enable_bounty_contracts: bool,
     #[proto(tag = 189)]
-    #[serde(rename = "EnableSupergridding")]
+    #[serde(rename = "EnableSupergridding", default)]
     pub enable_supergridding: bool,
     #[proto(tag = 191)]
-    #[serde(rename = "EnableEconomy")]
+    #[serde(rename = "EnableEconomy", default)]
     pub enable_economy: bool,
     #[proto(tag = 194)]
     #[serde(rename = "DepositsCountCoefficient")]
@@ -415,10 +415,10 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "DepositSizeDenominator")]
     pub deposit_size_denominator: f32,
     #[proto(tag = 198)]
-    #[serde(rename = "WeatherSystem")]
+    #[serde(rename = "WeatherSystem", default)]
     pub weather_system: bool,
     #[proto(tag = 199)]
-    #[serde(rename = "WeatherLightingDamage")]
+    #[serde(rename = "WeatherLightingDamage", default)]
     pub weather_lighting_damage: bool,
     #[proto(tag = 200)]
     #[serde(rename = "HarvestRatioMultiplier")]
@@ -442,7 +442,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "NPCGridClaimTimeLimit")]
     pub npc_grid_claim_time_limit: i32,
     #[proto(tag = 217)]
-    #[serde(rename = "SimplifiedSimulation")]
+    #[serde(rename = "SimplifiedSimulation", default)]
     pub simplified_simulation: bool,
     #[proto(tag = 219)]
     #[serde(rename = "SuppressedWarnings", default)]
@@ -450,31 +450,31 @@ pub struct MyObjectBuilder_SessionSettings {
             deserialize_with = "xml_array_item::Warning::deserialize")]
     pub suppressed_warnings: Vec<String>,
     #[proto(tag = 222)]
-    #[serde(rename = "EnablePcuTrading")]
+    #[serde(rename = "EnablePcuTrading", default)]
     pub enable_pcu_trading: bool,
     #[proto(tag = 220)]
-    #[serde(rename = "FamilySharing")]
+    #[serde(rename = "FamilySharing", default)]
     pub family_sharing: bool,
     #[proto(tag = 224)]
-    #[serde(rename = "EnableSelectivePhysicsUpdates")]
+    #[serde(rename = "EnableSelectivePhysicsUpdates", default)]
     pub enable_selective_physics_updates: bool,
     #[proto(tag = 228)]
-    #[serde(rename = "PredefinedAsteroids")]
+    #[serde(rename = "PredefinedAsteroids", default)]
     pub predefined_asteroids: bool,
     #[proto(tag = 232)]
-    #[serde(rename = "UseConsolePCU")]
+    #[serde(rename = "UseConsolePCU", default)]
     pub use_console_pc_u: bool,
     #[proto(tag = 236)]
     #[serde(rename = "MaxPlanets")]
     pub max_planets: i32,
     #[proto(tag = 240)]
-    #[serde(rename = "OffensiveWordsFiltering")]
+    #[serde(rename = "OffensiveWordsFiltering", default)]
     pub offensive_words_filtering: bool,
     #[proto(tag = 245)]
-    #[serde(rename = "AdjustableMaxVehicleSpeed")]
+    #[serde(rename = "AdjustableMaxVehicleSpeed", default)]
     pub adjustable_max_vehicle_speed: bool,
     #[proto(tag = 246)]
-    #[serde(rename = "EnableMatchComponent")]
+    #[serde(rename = "EnableMatchComponent", default)]
     pub enable_match_component: bool,
     #[proto(tag = 247)]
     #[serde(rename = "PreMatchDuration")]
@@ -486,43 +486,43 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "PostMatchDuration")]
     pub post_match_duration: f32,
     #[proto(tag = 250)]
-    #[serde(rename = "EnableFriendlyFire")]
+    #[serde(rename = "EnableFriendlyFire", default)]
     pub enable_friendly_fire: bool,
     #[proto(tag = 251)]
-    #[serde(rename = "EnableTeamBalancing")]
+    #[serde(rename = "EnableTeamBalancing", default)]
     pub enable_team_balancing: bool,
     #[proto(tag = 252)]
     #[serde(rename = "CharacterSpeedMultiplier")]
     pub character_speed_multiplier: f32,
     #[proto(tag = 253)]
-    #[serde(rename = "EnableRecoil")]
+    #[serde(rename = "EnableRecoil", default)]
     pub enable_recoil: bool,
     #[proto(tag = 254)]
     #[serde(rename = "EnvironmentDamageMultiplier")]
     pub environment_damage_multiplier: f32,
     #[proto(tag = 255)]
-    #[serde(rename = "EnableGamepadAimAssist")]
+    #[serde(rename = "EnableGamepadAimAssist", default)]
     pub enable_gamepad_aim_assist: bool,
     #[proto(tag = 256)]
     #[serde(rename = "BackpackDespawnTimer")]
     pub backpack_despawn_timer: f32,
     #[proto(tag = 257)]
-    #[serde(rename = "EnableFactionPlayerNames")]
+    #[serde(rename = "EnableFactionPlayerNames", default)]
     pub enable_faction_player_names: bool,
     #[proto(tag = 258)]
-    #[serde(rename = "EnableTeamScoreCounters")]
+    #[serde(rename = "EnableTeamScoreCounters", default)]
     pub enable_team_score_counters: bool,
     #[proto(tag = 259)]
-    #[serde(rename = "EnableSpaceSuitRespawn")]
+    #[serde(rename = "EnableSpaceSuitRespawn", default)]
     pub enable_space_suit_respawn: bool,
     #[proto(tag = 260)]
     #[serde(rename = "MatchRestartWhenEmptyTime")]
     pub match_restart_when_empty_time: i32,
     #[proto(tag = 261)]
-    #[serde(rename = "EnableFactionVoiceChat")]
+    #[serde(rename = "EnableFactionVoiceChat", default)]
     pub enable_faction_voice_chat: bool,
     #[proto(tag = 262)]
-    #[serde(rename = "EnableOrca")]
+    #[serde(rename = "EnableOrca", default)]
     pub enable_orca: bool,
     #[proto(tag = 264)]
     #[serde(rename = "MaxProductionQueueLength")]
@@ -534,7 +534,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "EnemyTargetIndicatorDistance")]
     pub enemy_target_indicator_distance: f32,
     #[proto(tag = 270)]
-    #[serde(rename = "EnableTrashSettingsPlatformOverride")]
+    #[serde(rename = "EnableTrashSettingsPlatformOverride", default)]
     pub enable_trash_settings_platform_override: bool,
     #[proto(tag = 271)]
     #[serde(rename = "MinimumWorldSize")]
@@ -546,13 +546,13 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "TrashCleanerCargoBagsMaxLiveTime")]
     pub trash_cleaner_cargo_bags_max_live_time: i32,
     #[proto(tag = 274)]
-    #[serde(rename = "ScrapEnabled")]
+    #[serde(rename = "ScrapEnabled", default)]
     pub scrap_enabled: bool,
     #[proto(tag = 275)]
     #[serde(rename = "BroadcastControllerMaxOfflineTransmitDistance")]
     pub broadcast_controller_max_offline_transmit_distance: i32,
     #[proto(tag = 276)]
-    #[serde(rename = "TemporaryContainers")]
+    #[serde(rename = "TemporaryContainers", default)]
     pub temporary_containers: bool,
     #[proto(tag = 278)]
     #[serde(rename = "GlobalEncounterTimer")]
@@ -561,7 +561,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "GlobalEncounterCap")]
     pub global_encounter_cap: i32,
     #[proto(tag = 282)]
-    #[serde(rename = "GlobalEncounterEnableRemovalTimer")]
+    #[serde(rename = "GlobalEncounterEnableRemovalTimer", default)]
     pub global_encounter_enable_removal_timer: bool,
     #[proto(tag = 284)]
     #[serde(rename = "GlobalEncounterMinRemovalTimer")]
@@ -579,7 +579,7 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "EncounterGeneratorVersion")]
     pub encounter_generator_version: i32,
     #[proto(tag = 296)]
-    #[serde(rename = "EnablePlanetaryEncounters")]
+    #[serde(rename = "EnablePlanetaryEncounters", default)]
     pub enable_planetary_encounters: bool,
     #[proto(tag = 298)]
     #[serde(rename = "PlanetaryEncounterTimerMin")]
@@ -612,22 +612,22 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "MaxHudChatMessageCount")]
     pub max_hud_chat_message_count: i32,
     #[proto(tag = 325)]
-    #[serde(rename = "EnableShareInertiaTensor")]
+    #[serde(rename = "EnableShareInertiaTensor", default)]
     pub enable_share_inertia_tensor: bool,
     #[proto(tag = 330)]
-    #[serde(rename = "EnableUnsafePistonImpulses")]
+    #[serde(rename = "EnableUnsafePistonImpulses", default)]
     pub enable_unsafe_piston_impulses: bool,
     #[proto(tag = 335)]
-    #[serde(rename = "EnableUnsafeRotorTorques")]
+    #[serde(rename = "EnableUnsafeRotorTorques", default)]
     pub enable_unsafe_rotor_torques: bool,
     #[proto(tag = 340)]
-    #[serde(rename = "EnableRadiation")]
+    #[serde(rename = "EnableRadiation", default)]
     pub enable_radiation: bool,
     #[proto(tag = 345)]
     #[serde(rename = "SolarRadiationIntensity")]
     pub solar_radiation_intensity: f32,
     #[proto(tag = 350)]
-    #[serde(rename = "ResetForageableItems")]
+    #[serde(rename = "ResetForageableItems", default)]
     pub reset_forageable_items: bool,
     #[proto(tag = 351)]
     #[serde(rename = "ResetForageableItemsTimeM")]
@@ -639,16 +639,16 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "FoodConsumptionRate")]
     pub food_consumption_rate: f32,
     #[proto(tag = 354)]
-    #[serde(rename = "EnableSurvivalBuffs")]
+    #[serde(rename = "EnableSurvivalBuffs", default)]
     pub enable_survival_buffs: bool,
     #[proto(tag = 355)]
-    #[serde(rename = "EnableReducedStatsOnRespawn")]
+    #[serde(rename = "EnableReducedStatsOnRespawn", default)]
     pub enable_reduced_stats_on_respawn: bool,
     #[proto(tag = 360)]
-    #[serde(rename = "RandomizeSeed")]
+    #[serde(rename = "RandomizeSeed", default)]
     pub randomize_seed: bool,
     #[proto(skip)]
-    #[serde(rename = "AutoSave")]
+    #[serde(rename = "AutoSave", default)]
     pub auto_save: bool,
     #[proto(skip)]
     #[serde(skip)]
@@ -680,7 +680,7 @@ pub struct MyCachedServerItem_MyServerData {
     #[serde(rename = "Settings")]
     pub settings: MyObjectBuilder_SessionSettings,
     #[proto(tag = 4)]
-    #[serde(rename = "ExperimentalMode")]
+    #[serde(rename = "ExperimentalMode", default)]
     pub experimental_mode: bool,
     #[proto(tag = 7)]
     #[serde(rename = "Mods", default)]
@@ -833,10 +833,10 @@ pub struct MyObjectBuilder_FactionMember {
     #[serde(rename = "PlayerId")]
     pub player_id: i64,
     #[proto(tag = 4)]
-    #[serde(rename = "IsLeader")]
+    #[serde(rename = "IsLeader", default)]
     pub is_leader: bool,
     #[proto(tag = 7)]
-    #[serde(rename = "IsFounder")]
+    #[serde(rename = "IsFounder", default)]
     pub is_founder: bool,
 }
 // Original enum: VRage.Game.MyFactionTypes
@@ -872,7 +872,7 @@ pub enum MyStationTypeEnum {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "MyObjectBuilderType")]
 pub struct MyObjectBuilderType {
-    #[serde(rename = "IsNull")]
+    #[serde(rename = "IsNull", default)]
     pub is_null: bool,
 }
 // Original type: VRage.ObjectBuilders.SerializableDefinitionId
@@ -959,7 +959,7 @@ pub struct MyObjectBuilder_StoreItem {
     #[serde(rename = "PricePerUnitDiscount")]
     pub price_per_unit_discount: f32,
     #[proto(tag = 21)]
-    #[serde(rename = "IsCustomStoreItem")]
+    #[serde(rename = "IsCustomStoreItem", default)]
     pub is_custom_store_item: bool,
 }
 // Original type: VRage.Game.MyObjectBuilder_Station
@@ -983,7 +983,7 @@ pub struct MyObjectBuilder_Station {
     #[serde(rename = "StationType")]
     pub station_type: MyStationTypeEnum,
     #[proto(tag = 9)]
-    #[serde(rename = "IsDeepSpaceStation")]
+    #[serde(rename = "IsDeepSpaceStation", default)]
     pub is_deep_space_station: bool,
     #[proto(tag = 11)]
     #[serde(rename = "StationEntityId")]
@@ -1001,7 +1001,7 @@ pub struct MyObjectBuilder_Station {
     #[serde(rename = "StoreItems", default)]
     pub store_items: Vec<MyObjectBuilder_StoreItem>,
     #[proto(tag = 23)]
-    #[serde(rename = "IsOnPlanetWithAtmosphere")]
+    #[serde(rename = "IsOnPlanetWithAtmosphere", default)]
     pub is_on_planet_with_atmosphere: bool,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.WorkshopId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<WorkshopId>
@@ -1033,16 +1033,16 @@ pub struct MyObjectBuilder_Faction {
     #[serde(rename = "JoinRequests", default)]
     pub join_requests: Vec<MyObjectBuilder_FactionMember>,
     #[proto(tag = 31)]
-    #[serde(rename = "AutoAcceptMember")]
+    #[serde(rename = "AutoAcceptMember", default)]
     pub auto_accept_member: bool,
     #[proto(tag = 34)]
-    #[serde(rename = "AutoAcceptPeace")]
+    #[serde(rename = "AutoAcceptPeace", default)]
     pub auto_accept_peace: bool,
     #[proto(tag = 37)]
-    #[serde(rename = "AcceptHumans")]
+    #[serde(rename = "AcceptHumans", default)]
     pub accept_humans: bool,
     #[proto(tag = 40)]
-    #[serde(rename = "EnableFriendlyFire")]
+    #[serde(rename = "EnableFriendlyFire", default)]
     pub enable_friendly_fire: bool,
     #[proto(tag = 43)]
     #[serde(rename = "FactionType")]
@@ -1202,7 +1202,7 @@ pub struct MyObjectBuilder_Checkpoint_ModItem {
     #[serde(rename = "PublishedServiceName")]
     pub published_service_name: String,
     #[proto(tag = 76)]
-    #[serde(rename = "IsDependency")]
+    #[serde(rename = "IsDependency", default)]
     pub is_dependency: bool,
     #[proto(tag = 79)]
     #[serde(rename = "@FriendlyName")]
@@ -1295,7 +1295,7 @@ pub struct MyObjectBuilder_Identity {
     #[serde(rename = "TransferedPCUDelta")]
     pub transfered_pcu_delta: i32,
     #[proto(tag = 38)]
-    #[serde(rename = "IsGlobalEncounterSpawner")]
+    #[serde(rename = "IsGlobalEncounterSpawner", default)]
     pub is_global_encounter_spawner: bool,
     #[proto(skip)]
     #[serde(rename = "PlayerId")]
@@ -1314,7 +1314,7 @@ pub struct MyObjectBuilder_Client {
     #[serde(rename = "Name")]
     pub name: String,
     #[proto(tag = 7)]
-    #[serde(rename = "IsAdmin")]
+    #[serde(rename = "IsAdmin", default)]
     pub is_admin: bool,
     #[proto(tag = 10)]
     #[serde(rename = "ClientService")]
@@ -1330,7 +1330,7 @@ pub struct MyObjectBuilder_Client {
 #[serde(rename = "CameraControllerSettings")]
 pub struct CameraControllerSettings {
     #[proto(tag = 1)]
-    #[serde(rename = "IsFirstPerson")]
+    #[serde(rename = "IsFirstPerson", default)]
     pub is_first_person: bool,
     #[proto(tag = 4)]
     #[serde(rename = "Distance")]
@@ -1355,10 +1355,10 @@ pub struct MyObjectBuilder_Player {
     #[serde(rename = "IdentityId")]
     pub identity_id: i64,
     #[proto(tag = 16)]
-    #[serde(rename = "Connected")]
+    #[serde(rename = "Connected", default)]
     pub connected: bool,
     #[proto(tag = 19)]
-    #[serde(rename = "ForceRealPlayer")]
+    #[serde(rename = "ForceRealPlayer", default)]
     pub force_real_player: bool,
     #[proto(tag = 22)]
     #[serde(rename = "Toolbar")]
@@ -1370,7 +1370,7 @@ pub struct MyObjectBuilder_Player {
     #[serde(rename = "BuildColorSlots", default)]
     pub build_color_slots: Vec<crate::math::Vector3F>,
     #[proto(tag = 30)]
-    #[serde(rename = "CreativeToolsEnabled")]
+    #[serde(rename = "CreativeToolsEnabled", default)]
     pub creative_tools_enabled: bool,
     #[proto(tag = 33)]
     #[serde(rename = "RemoteAdminSettings")]
@@ -1400,7 +1400,7 @@ pub struct MyObjectBuilder_Player {
     #[serde(rename = "BuildColorSlot")]
     pub build_color_slot: i32,
     #[proto(tag = 40)]
-    #[serde(rename = "IsWildlifeAgent")]
+    #[serde(rename = "IsWildlifeAgent", default)]
     pub is_wildlife_agent: bool,
     #[proto(tag = 45)]
     #[serde(rename = "PlatformIcon")]
@@ -1431,7 +1431,7 @@ pub struct MyObjectBuilder_PlayerChatItem {
     #[serde(rename = "TimestampMs")]
     pub timestamp_ms: i64,
     #[proto(tag = 34)]
-    #[serde(rename = "Sent")]
+    #[serde(rename = "Sent", default)]
     pub sent: bool,
 }
 // Original type: VRage.Game.MyObjectBuilder_PlayerChatHistory
@@ -1581,13 +1581,13 @@ pub struct MyObjectBuilder_Gps_Entry {
     #[serde(rename = "coords")]
     pub coords: crate::math::Vector3D,
     #[proto(tag = 10)]
-    #[serde(rename = "isFinal")]
+    #[serde(rename = "isFinal", default)]
     pub is_final: bool,
     #[proto(tag = 13)]
-    #[serde(rename = "showOnHud")]
+    #[serde(rename = "showOnHud", default)]
     pub show_on_hud: bool,
     #[proto(tag = 16)]
-    #[serde(rename = "alwaysVisible")]
+    #[serde(rename = "alwaysVisible", default)]
     pub always_visible: bool,
     #[proto(tag = 19)]
     #[serde(rename = "color")]
@@ -1596,13 +1596,13 @@ pub struct MyObjectBuilder_Gps_Entry {
     #[serde(rename = "entityId")]
     pub entity_id: i64,
     #[proto(tag = 28)]
-    #[serde(rename = "isObjective")]
+    #[serde(rename = "isObjective", default)]
     pub is_objective: bool,
     #[proto(tag = 31)]
     #[serde(rename = "contractId")]
     pub contract_id: i64,
     #[proto(tag = 33)]
-    #[serde(rename = "IsGlobalEncounterGPS")]
+    #[serde(rename = "IsGlobalEncounterGPS", default)]
     pub is_global_encounter_gp_s: bool,
     #[proto(tag = 25)]
     #[serde(rename = "DisplayName")]
@@ -1643,7 +1643,7 @@ pub struct MyObjectBuilder_Checkpoint_PlayerItem {
     #[serde(rename = "PlayerId")]
     pub player_id: i64,
     #[proto(tag = 58)]
-    #[serde(rename = "IsDead")]
+    #[serde(rename = "IsDead", default)]
     pub is_dead: bool,
     #[proto(tag = 61)]
     #[serde(rename = "Name")]
@@ -1677,7 +1677,7 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "SpectatorSpeed")]
     pub spectator_speed: crate::math::SerializableVector2F,
     #[proto(tag = 13)]
-    #[serde(rename = "SpectatorIsLightOn")]
+    #[serde(rename = "SpectatorIsLightOn", default)]
     pub spectator_is_light_on: bool,
     #[proto(tag = 16)]
     #[serde(rename = "CameraController")]
@@ -1842,19 +1842,19 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "OnlineMode")]
     pub online_mode: MyOnlineModeEnum,
     #[proto(skip)]
-    #[serde(rename = "AutoHealing")]
+    #[serde(rename = "AutoHealing", default)]
     pub auto_healing: bool,
     #[proto(skip)]
-    #[serde(rename = "EnableCopyPaste")]
+    #[serde(rename = "EnableCopyPaste", default)]
     pub enable_copy_paste: bool,
     #[proto(skip)]
     #[serde(rename = "MaxPlayers")]
     pub max_players: i32,
     #[proto(skip)]
-    #[serde(rename = "WeaponsEnabled")]
+    #[serde(rename = "WeaponsEnabled", default)]
     pub weapons_enabled: bool,
     #[proto(skip)]
-    #[serde(rename = "ShowPlayerNamesOnHud")]
+    #[serde(rename = "ShowPlayerNamesOnHud", default)]
     pub show_player_names_on_hud: bool,
     #[proto(skip)]
     #[serde(rename = "MaxFloatingObjects")]
@@ -1875,13 +1875,13 @@ pub struct MyObjectBuilder_Checkpoint {
     #[serde(rename = "RefinerySpeedMultiplier")]
     pub refinery_speed_multiplier: f32,
     #[proto(skip)]
-    #[serde(rename = "ThrusterDamage")]
+    #[serde(rename = "ThrusterDamage", default)]
     pub thruster_damage: bool,
     #[proto(skip)]
-    #[serde(rename = "CargoShipsEnabled")]
+    #[serde(rename = "CargoShipsEnabled", default)]
     pub cargo_ships_enabled: bool,
     #[proto(skip)]
-    #[serde(rename = "AutoSave")]
+    #[serde(rename = "AutoSave", default)]
     pub auto_save: bool,
 }
 // Note: Type mapping applied from VRageMath.Vector3I to crate::math::Vector3I
@@ -1908,7 +1908,7 @@ pub struct MyObjectBuilder_GlobalEventBase {
     #[serde(rename = "DefinitionId")]
     pub definition_id: crate::compat::Nullable<SerializableDefinitionId>,
     #[proto(tag = 4)]
-    #[serde(rename = "Enabled")]
+    #[serde(rename = "Enabled", default)]
     pub enabled: bool,
     #[proto(tag = 7)]
     #[serde(rename = "ActivationTimeMs")]
@@ -2005,7 +2005,7 @@ impl MyPersistentEntityFlags2 {
 #[serde(rename = "MyObjectBuilder_ComponentBase")]
 pub struct MyObjectBuilder_ComponentBase {
     #[proto(tag = 1)]
-    #[serde(rename = "RemoveExistingComponentOnNewInsert")]
+    #[serde(rename = "RemoveExistingComponentOnNewInsert", default)]
     pub remove_existing_component_on_new_insert: bool,
 }
 // Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentContainer+ComponentData
@@ -2201,7 +2201,7 @@ pub struct MyObjectBuilder_Planet {
     #[serde(rename = "Radius")]
     pub radius: f32,
     #[proto(tag = 13)]
-    #[serde(rename = "HasAtmosphere")]
+    #[serde(rename = "HasAtmosphere", default)]
     pub has_atmosphere: bool,
     #[proto(tag = 16)]
     #[serde(rename = "AtmosphereRadius")]
@@ -2224,7 +2224,7 @@ pub struct MyObjectBuilder_Planet {
     #[serde(rename = "GravityFalloff")]
     pub gravity_falloff: f32,
     #[proto(tag = 34)]
-    #[serde(rename = "MarkAreaEmpty")]
+    #[serde(rename = "MarkAreaEmpty", default)]
     pub mark_area_empty: bool,
     #[proto(tag = 37)]
     #[serde(rename = "AtmosphereSettings")]
@@ -2233,13 +2233,13 @@ pub struct MyObjectBuilder_Planet {
     #[serde(rename = "SurfaceGravity")]
     pub surface_gravity: f32,
     #[proto(tag = 43)]
-    #[serde(rename = "SpawnsFlora")]
+    #[serde(rename = "SpawnsFlora", default)]
     pub spawns_flora: bool,
     #[proto(tag = 46)]
-    #[serde(rename = "ShowGPS")]
+    #[serde(rename = "ShowGPS", default)]
     pub show_gp_s: bool,
     #[proto(tag = 49)]
-    #[serde(rename = "SpherizeWithDistance")]
+    #[serde(rename = "SpherizeWithDistance", default)]
     pub spherize_with_distance: bool,
     #[proto(tag = 52)]
     #[serde(rename = "PlanetGenerator")]
@@ -2322,7 +2322,7 @@ pub struct MyObjectBuilder_Base {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "BitReaderWriter")]
 pub struct BitReaderWriter {
-    #[serde(rename = "IsReading")]
+    #[serde(rename = "IsReading", default)]
     pub is_reading: bool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
@@ -2346,10 +2346,10 @@ pub struct MyObjectBuilder_AutopilotWaypoint {
     #[serde(rename = "Indexes", default)]
     pub indexes: Vec<i32>,
     #[proto(tag = 14)]
-    #[serde(rename = "Draw")]
+    #[serde(rename = "Draw", default)]
     pub draw: bool,
     #[proto(tag = 18)]
-    #[serde(rename = "ForceRotation")]
+    #[serde(rename = "ForceRotation", default)]
     pub force_rotation: bool,
     #[proto(tag = 25)]
     #[serde(rename = "RelatedEntityId")]
@@ -2370,19 +2370,19 @@ pub struct MyObjectBuilder_AutopilotWaypoint {
     #[serde(rename = "StoppingTimeMultiplier")]
     pub stopping_time_multiplier: f32,
     #[proto(tag = 40)]
-    #[serde(rename = "AdaptiveRotationSpeed")]
+    #[serde(rename = "AdaptiveRotationSpeed", default)]
     pub adaptive_rotation_speed: bool,
     #[proto(tag = 43)]
     #[serde(rename = "AreaUp")]
     pub area_up: crate::math::Vector3D,
     #[proto(tag = 46)]
-    #[serde(rename = "SerializeForCopy")]
+    #[serde(rename = "SerializeForCopy", default)]
     pub serialize_for_copy: bool,
     #[proto(tag = 49)]
     #[serde(rename = "DistancePrecisionMultiplier")]
     pub distance_precision_multiplier: f32,
     #[proto(tag = 52)]
-    #[serde(rename = "IsCorrectRotationNeeded")]
+    #[serde(rename = "IsCorrectRotationNeeded", default)]
     pub is_correct_rotation_needed: bool,
 }
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotClipboard
@@ -2406,7 +2406,7 @@ pub struct MyObjectBuilder_AutopilotClipboard {
     #[serde(rename = "Direction")]
     pub direction: i32,
     #[proto(tag = 16)]
-    #[serde(rename = "DockingModeEnabled")]
+    #[serde(rename = "DockingModeEnabled", default)]
     pub docking_mode_enabled: bool,
 }
 // Note: Type mapping applied from VRageMath.MatrixD to crate::math::MatrixD
@@ -2613,7 +2613,7 @@ pub struct MyStatLogic_MyStatAction {
     #[serde(rename = "AmountToActivate")]
     pub amount_to_activate: f32,
     #[proto(tag = 10)]
-    #[serde(rename = "CanPerformWithout")]
+    #[serde(rename = "CanPerformWithout", default)]
     pub can_perform_without: bool,
 }
 // Original enum: VRage.Game.ModAPI.MyShootActionEnum
@@ -2783,7 +2783,7 @@ pub struct MyDisconnectHelper_Group {
     pub first_block_index: i32,
     #[serde(rename = "BlockCount")]
     pub block_count: i32,
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
     #[serde(rename = "EntityId")]
     pub entity_id: i64,
@@ -2813,10 +2813,10 @@ pub struct MyCubeGrid_MyBlockVisuals {
     #[serde(rename = "SkinId")]
     pub skin_id: MyStringHash,
     #[proto(tag = 33)]
-    #[serde(rename = "ApplyColor")]
+    #[serde(rename = "ApplyColor", default)]
     pub apply_color: bool,
     #[proto(tag = 35)]
-    #[serde(rename = "ApplySkin")]
+    #[serde(rename = "ApplySkin", default)]
     pub apply_skin: bool,
 }
 // Original type: VRageMath.MyBlockOrientation
@@ -2834,7 +2834,7 @@ pub struct MyBlockOrientation {
     #[serde(rename = "Left")]
     pub left: crate::compat::direction::Direction,
     #[proto(skip)]
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
 }
 // Note: Type mapping applied from System.UInt16 to u32
@@ -2847,7 +2847,7 @@ pub struct MyRuntimeObjectBuilderId {
     #[serde(rename = "Value")]
     pub value: u32,
     #[proto(skip)]
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
 }
 // Original type: VRage.Game.DefinitionIdBlit
@@ -2862,7 +2862,7 @@ pub struct DefinitionIdBlit {
     #[serde(rename = "SubtypeId")]
     pub subtype_id: MyStringHash,
     #[proto(skip)]
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MyBlockLocation
@@ -2980,7 +2980,7 @@ pub struct MyObjectBuilder_Inventory {
     #[serde(rename = "InventoryFlags")]
     pub inventory_flags: crate::compat::Nullable<crate::compat::BitField<MyInventoryFlags>>,
     #[proto(tag = 22)]
-    #[serde(rename = "RemoveEntityOnEmpty")]
+    #[serde(rename = "RemoveEntityOnEmpty", default)]
     pub remove_entity_on_empty: bool,
 }
 // Original type: VRage.Game.MyObjectBuilder_StockpileItem
@@ -3388,10 +3388,10 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "CubeBlocks", default)]
     pub cube_blocks: Vec<MyObjectBuilder_CubeBlock>,
     #[proto(tag = 7)]
-    #[serde(rename = "IsStatic")]
+    #[serde(rename = "IsStatic", default)]
     pub is_static: bool,
     #[proto(tag = 10)]
-    #[serde(rename = "IsUnsupportedStation")]
+    #[serde(rename = "IsUnsupportedStation", default)]
     pub is_unsupported_station: bool,
     #[proto(tag = 13)]
     #[serde(rename = "Skeleton", default)]
@@ -3412,19 +3412,19 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "ZMirroxPlane")]
     pub z_mirrox_plane: crate::compat::Nullable<crate::math::SerializableVector3I>,
     #[proto(tag = 31)]
-    #[serde(rename = "XMirroxOdd")]
+    #[serde(rename = "XMirroxOdd", default)]
     pub x_mirrox_odd: bool,
     #[proto(tag = 34)]
-    #[serde(rename = "YMirroxOdd")]
+    #[serde(rename = "YMirroxOdd", default)]
     pub y_mirrox_odd: bool,
     #[proto(tag = 37)]
-    #[serde(rename = "ZMirroxOdd")]
+    #[serde(rename = "ZMirroxOdd", default)]
     pub z_mirrox_odd: bool,
     #[proto(tag = 40)]
-    #[serde(rename = "DampenersEnabled")]
+    #[serde(rename = "DampenersEnabled", default)]
     pub dampeners_enabled: bool,
     #[proto(tag = 43)]
-    #[serde(rename = "UsePositionForSpawn")]
+    #[serde(rename = "UsePositionForSpawn", default)]
     pub use_position_for_spawn: bool,
     #[proto(tag = 46)]
     #[serde(rename = "PlanetSpawnHeightRatio")]
@@ -3442,7 +3442,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "BlockGroups", default)]
     pub block_groups: Vec<MyObjectBuilder_BlockGroup>,
     #[proto(tag = 61)]
-    #[serde(rename = "Handbrake")]
+    #[serde(rename = "Handbrake", default)]
     pub handbrake: bool,
     #[proto(tag = 64)]
     #[serde(rename = "DisplayName")]
@@ -3451,7 +3451,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "OxygenAmount", default)]
     pub oxygen_amount: Vec<f32>,
     #[proto(tag = 70)]
-    #[serde(rename = "DestructibleBlocks")]
+    #[serde(rename = "DestructibleBlocks", default)]
     pub destructible_blocks: bool,
     #[proto(tag = 73)]
     #[serde(rename = "JumpDriveDirection")]
@@ -3460,10 +3460,10 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "JumpRemainingTime")]
     pub jump_remaining_time: crate::compat::Nullable<f32>,
     #[proto(tag = 79)]
-    #[serde(rename = "CreatePhysics")]
+    #[serde(rename = "CreatePhysics", default)]
     pub create_physics: bool,
     #[proto(tag = 85)]
-    #[serde(rename = "IsRespawnGrid")]
+    #[serde(rename = "IsRespawnGrid", default)]
     pub is_respawn_grid: bool,
     #[proto(tag = 88)]
     #[serde(rename = "playedTime")]
@@ -3475,22 +3475,22 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "LocalCoordSys")]
     pub local_coord_sys: i64,
     #[proto(tag = 97)]
-    #[serde(rename = "Editable")]
+    #[serde(rename = "Editable", default)]
     pub editable: bool,
     #[proto(tag = 100)]
     #[serde(rename = "TargetingTargets", default)]
     pub targeting_targets: Vec<i64>,
     #[proto(tag = 103)]
-    #[serde(rename = "TargetingWhitelist")]
+    #[serde(rename = "TargetingWhitelist", default)]
     pub targeting_whitelist: bool,
     #[proto(tag = 106)]
-    #[serde(rename = "IsPowered")]
+    #[serde(rename = "IsPowered", default)]
     pub is_powered: bool,
     #[proto(tag = 109)]
     #[serde(rename = "OxygenRooms", default)]
     pub oxygen_rooms: Vec<OxygenRoom>,
     #[proto(tag = 120)]
-    #[serde(rename = "Immune")]
+    #[serde(rename = "Immune", default)]
     pub immune: bool,
     #[proto(tag = 123)]
     #[serde(rename = "GridPresenceTier")]
@@ -3499,7 +3499,7 @@ pub struct MyObjectBuilder_CubeGrid {
     #[serde(rename = "PlayerPresenceTier")]
     pub player_presence_tier: MyUpdateTiersPlayerPresence,
     #[proto(tag = 129)]
-    #[serde(rename = "IsNpcSpawnedGrid")]
+    #[serde(rename = "IsNpcSpawnedGrid", default)]
     pub is_npc_spawned_grid: bool,
     #[proto(tag = 132)]
     #[serde(rename = "NPCGridClaimElapsed")]
@@ -3623,7 +3623,7 @@ pub struct MyObjectBuilder_HudEntityParams {
     #[serde(rename = "Waypoints", default)]
     pub waypoints: Vec<MyPositionAndOrientation>,
     #[proto(tag = 11)]
-    #[serde(rename = "ForceShow")]
+    #[serde(rename = "ForceShow", default)]
     pub force_show: bool,
 }
 // Original type: Sandbox.Game.Entities.MyVoxelBase+MyCapsuleShapeParams
@@ -3708,7 +3708,7 @@ pub struct BoundingBoxI {
     #[serde(rename = "Perimeter")]
     pub perimeter: f32,
     #[proto(skip)]
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
 }
 // Original type: VRageMath.BoundingSphere
@@ -3726,7 +3726,7 @@ pub struct BoundingSphere {
 pub struct NetworkCutoutData_CutOut {
     #[serde(rename = "Sphere")]
     pub sphere: BoundingSphere,
-    #[serde(rename = "ApplyDamagedMaterial")]
+    #[serde(rename = "ApplyDamagedMaterial", default)]
     pub apply_damaged_material: bool,
 }
 // Original type: Sandbox.Game.GameSystems.MyShipMiningSystem+NetworkCutoutData
@@ -3753,7 +3753,7 @@ pub struct MyObjectBuilder_Character_LadderInfo {
     #[serde(rename = "IncrementToBase")]
     pub increment_to_base: crate::math::SerializableVector3F,
     #[proto(tag = 207)]
-    #[serde(rename = "EnableJetpackOnExit")]
+    #[serde(rename = "EnableJetpackOnExit", default)]
     pub enable_jetpack_on_exit: bool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Character+ComponentItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Character_ComponentItem>
@@ -3778,7 +3778,7 @@ pub struct MyObjectBuilder_Character_BuildPlanItem {
     #[serde(rename = "BlockId")]
     pub block_id: SerializableDefinitionId,
     #[proto(tag = 188)]
-    #[serde(rename = "IsInProgress")]
+    #[serde(rename = "IsInProgress", default)]
     pub is_in_progress: bool,
     #[proto(tag = 190)]
     #[serde(rename = "Components", default)]
@@ -3793,7 +3793,7 @@ pub struct MyCueId {
     #[serde(rename = "Hash")]
     pub hash: MyStringHash,
     #[proto(skip)]
-    #[serde(rename = "IsNull")]
+    #[serde(rename = "IsNull", default)]
     pub is_null: bool,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Utils.MyStringHash, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyStringHash>
@@ -3803,7 +3803,7 @@ pub struct MyCueId {
 #[serde(rename = "MyDamageInformation")]
 pub struct MyDamageInformation {
     #[proto(tag = 1)]
-    #[serde(rename = "IsDeformation")]
+    #[serde(rename = "IsDeformation", default)]
     pub is_deformation: bool,
     #[proto(tag = 4)]
     #[serde(rename = "Amount")]
@@ -3866,9 +3866,9 @@ pub struct MyAnimationCommand {
     pub blend_time: f32,
     #[serde(rename = "TimeScale")]
     pub time_scale: f32,
-    #[serde(rename = "ExcludeLegsWhenMoving")]
+    #[serde(rename = "ExcludeLegsWhenMoving", default)]
     pub exclude_legs_when_moving: bool,
-    #[serde(rename = "KeepContinuingAnimations")]
+    #[serde(rename = "KeepContinuingAnimations", default)]
     pub keep_continuing_animations: bool,
 }
 // Original enum: Sandbox.Game.Entities.Cube.MyLaserAntenna+StateEnum
@@ -3999,7 +3999,7 @@ pub struct MyObjectBuilder_ContractCondition {
     #[serde(rename = "Id")]
     pub id: i64,
     #[proto(tag = 2)]
-    #[serde(rename = "IsFinished")]
+    #[serde(rename = "IsFinished", default)]
     pub is_finished: bool,
     #[proto(tag = 3)]
     #[serde(rename = "ContractId")]
@@ -4026,7 +4026,7 @@ pub struct MyObjectBuilder_Contract {
     #[serde(rename = "Id")]
     pub id: i64,
     #[proto(tag = 2)]
-    #[serde(rename = "IsPlayerMade")]
+    #[serde(rename = "IsPlayerMade", default)]
     pub is_player_made: bool,
     #[proto(tag = 3)]
     #[serde(rename = "State")]
@@ -4470,7 +4470,7 @@ pub struct ChatMsg {
     pub channel: i32,
     #[serde(rename = "TargetId")]
     pub target_id: i64,
-    #[serde(rename = "CrossChatEnabled")]
+    #[serde(rename = "CrossChatEnabled", default)]
     pub cross_chat_enabled: bool,
     #[serde(rename = "CustomData")]
     pub custom_data: crate::compat::Nullable<ChatMessageCustomData>,
@@ -4600,7 +4600,7 @@ pub struct MyGuiScreenBoard_MyColumn {
     pub column_draw_align: MyGuiDrawAlignEnum,
     #[serde(rename = "Width")]
     pub width: f32,
-    #[serde(rename = "Visible")]
+    #[serde(rename = "Visible", default)]
     pub visible: bool,
 }
 // Original enum: Sandbox.ModAPI.MyExplosionTypeEnum
@@ -4658,7 +4658,7 @@ pub struct MyExplosionInfoSimplified {
     pub particle_scale: f32,
     #[serde(rename = "Velocity")]
     pub velocity: crate::math::Vector3F,
-    #[serde(rename = "IgnoreFriendlyFireSetting")]
+    #[serde(rename = "IgnoreFriendlyFireSetting", default)]
     pub ignore_friendly_fire_setting: bool,
     #[serde(rename = "CustomEffect")]
     pub custom_effect: String,
@@ -4686,7 +4686,7 @@ pub struct MyHighlightData {
     #[serde(rename = "PlayerId")]
     pub player_id: i64,
     #[proto(tag = 30)]
-    #[serde(rename = "IgnoreUseObjectData")]
+    #[serde(rename = "IgnoreUseObjectData", default)]
     pub ignore_use_object_data: bool,
     #[proto(tag = 35)]
     #[serde(rename = "SubPartNames")]
@@ -4700,7 +4700,7 @@ pub struct MyHighlightSystem_HighlightMsg {
     pub data: MyHighlightData,
     #[serde(rename = "ExclusiveKey")]
     pub exclusive_key: i32,
-    #[serde(rename = "IsExclusive")]
+    #[serde(rename = "IsExclusive", default)]
     pub is_exclusive: bool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_WeatherEffect, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_WeatherEffect>
@@ -4912,7 +4912,7 @@ pub struct MyFactionCollection_MyReputationChangeWrapper {
     pub rep_total: i32,
     #[serde(rename = "Change")]
     pub change: i32,
-    #[serde(rename = "ShowNotification")]
+    #[serde(rename = "ShowNotification", default)]
     pub show_notification: bool,
 }
 // Original enum: VRage.Game.ModAPI.ReputationChangeReason
@@ -4974,7 +4974,7 @@ pub struct MyFactionCollection_AddFactionMsg {
     #[serde(rename = "FactionPrivateInfo")]
     pub faction_private_info: String,
     #[proto(tag = 19)]
-    #[serde(rename = "CreateFromDefinition")]
+    #[serde(rename = "CreateFromDefinition", default)]
     pub create_from_definition: bool,
     #[proto(tag = 25)]
     #[serde(rename = "FactionColor")]
@@ -4995,7 +4995,7 @@ pub struct MyFactionCollection_AddFactionMsg {
     #[serde(rename = "FactionObjectivePercentageCompleted")]
     pub faction_objective_percentage_completed: f32,
     #[proto(tag = 41)]
-    #[serde(rename = "isNPCFaction")]
+    #[serde(rename = "isNPCFaction", default)]
     pub is_npc_faction: bool,
     #[proto(tag = 44)]
     #[serde(rename = "Type")]
@@ -5009,7 +5009,7 @@ pub struct MyPlayer_PlayerId {
     pub steam_id: u64,
     #[serde(rename = "SerialId")]
     pub serial_id: i32,
-    #[serde(rename = "IsValid")]
+    #[serde(rename = "IsValid", default)]
     pub is_valid: bool,
 }
 // Original type: Sandbox.Game.Multiplayer.MyGpsCollection+AddMsg
@@ -5026,11 +5026,11 @@ pub struct MyGpsCollection_AddMsg {
     pub description: String,
     #[serde(rename = "Coords")]
     pub coords: crate::math::Vector3D,
-    #[serde(rename = "ShowOnHud")]
+    #[serde(rename = "ShowOnHud", default)]
     pub show_on_hud: bool,
-    #[serde(rename = "IsFinal")]
+    #[serde(rename = "IsFinal", default)]
     pub is_final: bool,
-    #[serde(rename = "AlwaysVisible")]
+    #[serde(rename = "AlwaysVisible", default)]
     pub always_visible: bool,
     #[serde(rename = "EntityId")]
     pub entity_id: i64,
@@ -5038,13 +5038,13 @@ pub struct MyGpsCollection_AddMsg {
     pub contract_id: i64,
     #[serde(rename = "GPSColor")]
     pub gps_color: Color,
-    #[serde(rename = "IsContainerGPS")]
+    #[serde(rename = "IsContainerGPS", default)]
     pub is_container_gp_s: bool,
-    #[serde(rename = "PlaySoundOnCreation")]
+    #[serde(rename = "PlaySoundOnCreation", default)]
     pub play_sound_on_creation: bool,
-    #[serde(rename = "IsObjective")]
+    #[serde(rename = "IsObjective", default)]
     pub is_objective: bool,
-    #[serde(rename = "IsGlobalEncounterGPS")]
+    #[serde(rename = "IsGlobalEncounterGPS", default)]
     pub is_global_encounter_gp_s: bool,
 }
 // Original type: Sandbox.Game.Multiplayer.MyGpsCollection+ModifyMsg
@@ -5090,13 +5090,13 @@ pub struct MyPlayerCollection_NewPlayerRequestParameters {
     #[serde(rename = "CharacterModel")]
     pub character_model: String,
     #[proto(skip)]
-    #[serde(rename = "RealPlayer")]
+    #[serde(rename = "RealPlayer", default)]
     pub real_player: bool,
     #[proto(skip)]
-    #[serde(rename = "InitialPlayer")]
+    #[serde(rename = "InitialPlayer", default)]
     pub initial_player: bool,
     #[proto(skip)]
-    #[serde(rename = "IsWildlifeEntity")]
+    #[serde(rename = "IsWildlifeEntity", default)]
     pub is_wildlife_entity: bool,
 }
 // Stub for ignored type (no serialization attributes): Sandbox.Game.World.MyBlockLimits+MyTypeLimitData
@@ -5111,9 +5111,9 @@ pub struct MyBlockLimits_MyGridLimitData {}
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "RespawnMsg")]
 pub struct MyPlayerCollection_RespawnMsg {
-    #[serde(rename = "JoinGame")]
+    #[serde(rename = "JoinGame", default)]
     pub join_game: bool,
-    #[serde(rename = "NewIdentity")]
+    #[serde(rename = "NewIdentity", default)]
     pub new_identity: bool,
     #[serde(rename = "RespawnEntityId")]
     pub respawn_entity_id: i64,
@@ -5148,7 +5148,7 @@ pub struct MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo {
     pub random_seed: i32,
     #[serde(rename = "WorldMatrix")]
     pub world_matrix: crate::math::MatrixD,
-    #[serde(rename = "IsProcedural")]
+    #[serde(rename = "IsProcedural", default)]
     pub is_procedural: bool,
     #[serde(rename = "ProceduralRadius")]
     pub procedural_radius: f32,
@@ -5226,7 +5226,7 @@ pub struct MyGuiScreenDebugNetwork_Layer {
     pub entities: Vec<Layer_Entity>,
     #[serde(rename = "PCU")]
     pub PCU: i32,
-    #[serde(rename = "Enabled")]
+    #[serde(rename = "Enabled", default)]
     pub enabled: bool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Engine.Multiplayer.ValidationFailedRecord, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ValidationFailedRecord>
@@ -5291,11 +5291,11 @@ pub enum MyEntityCyclingOrder {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "CyclingOptions")]
 pub struct CyclingOptions {
-    #[serde(rename = "Enabled")]
+    #[serde(rename = "Enabled", default)]
     pub enabled: bool,
-    #[serde(rename = "OnlySmallGrids")]
+    #[serde(rename = "OnlySmallGrids", default)]
     pub only_small_grids: bool,
-    #[serde(rename = "OnlyLargeGrids")]
+    #[serde(rename = "OnlyLargeGrids", default)]
     pub only_large_grids: bool,
 }
 // Original enum: Sandbox.Game.Entities.MyEntityList+EntityListAction
@@ -5339,7 +5339,7 @@ impl AdminSettingsEnum {
 pub struct MyGuiScreenAdminMenu_AdminSettings {
     #[serde(rename = "Flags")]
     pub flags: crate::compat::BitField<MyTrashRemovalFlags>,
-    #[serde(rename = "Enable")]
+    #[serde(rename = "Enable", default)]
     pub enable: bool,
     #[serde(rename = "BlockCount")]
     pub block_count: i32,
@@ -5357,7 +5357,7 @@ pub struct MyGuiScreenAdminMenu_AdminSettings {
     pub stop_grids_period: i32,
     #[serde(rename = "RemoveOldIdentities")]
     pub remove_old_identities: i32,
-    #[serde(rename = "VoxelEnable")]
+    #[serde(rename = "VoxelEnable", default)]
     pub voxel_enable: bool,
     #[serde(rename = "VoxelDistanceFromPlayer")]
     pub voxel_distance_from_player: f32,
@@ -5369,7 +5369,7 @@ pub struct MyGuiScreenAdminMenu_AdminSettings {
     pub trash_cleaner_cargo_bags_max_live_time: i32,
     #[serde(rename = "MaxCargoBags")]
     pub max_cargo_bags: i32,
-    #[serde(rename = "ResetForageableItems")]
+    #[serde(rename = "ResetForageableItems", default)]
     pub reset_forageable_items: bool,
     #[serde(rename = "ResetForageableItemsTimeM")]
     pub reset_forageable_items_time_m: i32,
@@ -5534,7 +5534,7 @@ pub struct MyObjectSeedParams {
     #[serde(rename = "Type")]
     pub r#type: MyObjectSeedType,
     #[proto(tag = 10)]
-    #[serde(rename = "Generated")]
+    #[serde(rename = "Generated", default)]
     pub generated: bool,
     #[proto(tag = 13)]
     #[serde(rename = "m_proxyId")]
@@ -5562,7 +5562,7 @@ pub struct MyCubeBuilder_BuildData {
     pub forward: crate::math::Vector3F,
     #[serde(rename = "Up")]
     pub up: crate::math::Vector3F,
-    #[serde(rename = "AbsolutePosition")]
+    #[serde(rename = "AbsolutePosition", default)]
     pub absolute_position: bool,
 }
 // Original type: Sandbox.Game.Entities.MyCubeBuilder+GridSpawnRequestData
@@ -5575,9 +5575,9 @@ pub struct MyCubeBuilder_GridSpawnRequestData {
     pub definition: DefinitionIdBlit,
     #[serde(rename = "Position")]
     pub position: MyCubeBuilder_BuildData,
-    #[serde(rename = "InstantBuild")]
+    #[serde(rename = "InstantBuild", default)]
     pub instant_build: bool,
-    #[serde(rename = "ForceStatic")]
+    #[serde(rename = "ForceStatic", default)]
     pub force_static: bool,
     #[serde(rename = "Visuals")]
     pub visuals: MyCubeGrid_MyBlockVisuals,
@@ -5586,9 +5586,9 @@ pub struct MyCubeBuilder_GridSpawnRequestData {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[serde(rename = "RelativeOffset")]
 pub struct MyCubeGrid_RelativeOffset {
-    #[serde(rename = "Use")]
+    #[serde(rename = "Use", default)]
     pub r#use: bool,
-    #[serde(rename = "RelativeToEntity")]
+    #[serde(rename = "RelativeToEntity", default)]
     pub relative_to_entity: bool,
     #[serde(rename = "SpawnerId")]
     pub spawner_id: i64,
@@ -5603,9 +5603,9 @@ pub struct MyCubeGrid_MyPasteGridParameters {
     pub entities: Vec<MyObjectBuilder_CubeGrid>,
     #[serde(rename = "ClientsideDLCs", default)]
     pub clientside_dl_cs: Vec<u64>,
-    #[serde(rename = "DetectDisconnects")]
+    #[serde(rename = "DetectDisconnects", default)]
     pub detect_disconnects: bool,
-    #[serde(rename = "InstantBuild")]
+    #[serde(rename = "InstantBuild", default)]
     pub instant_build: bool,
     #[serde(rename = "ObjectVelocity")]
     pub object_velocity: crate::math::Vector3F,
@@ -5703,7 +5703,7 @@ pub struct MyObjectBuilder_SafeZone {
     #[serde(rename = "Radius")]
     pub radius: f32,
     #[proto(tag = 4)]
-    #[serde(rename = "Enabled")]
+    #[serde(rename = "Enabled", default)]
     pub enabled: bool,
     #[proto(tag = 5)]
     #[serde(rename = "SafeZoneBlockId")]
@@ -5748,7 +5748,7 @@ pub struct MyObjectBuilder_SafeZone {
     #[serde(rename = "ContainedGrids", default)]
     pub contained_grids: Vec<i64>,
     #[proto(tag = 43)]
-    #[serde(rename = "IsVisible")]
+    #[serde(rename = "IsVisible", default)]
     pub is_visible: bool,
     #[proto(tag = 46)]
     #[serde(rename = "ModelColor")]
@@ -5868,9 +5868,9 @@ pub struct MySpaceRespawnComponent_MOTDData {
     pub url: String,
     #[serde(rename = "Message")]
     pub message: String,
-    #[serde(rename = "HasMessage")]
+    #[serde(rename = "HasMessage", default)]
     pub has_message: bool,
-    #[serde(rename = "HasUrl")]
+    #[serde(rename = "HasUrl", default)]
     pub has_url: bool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[SpaceEngineers.Game.World.MySpaceRespawnComponent+MyRespawnPointInfo, SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MySpaceRespawnComponent_MyRespawnPointInfo>
