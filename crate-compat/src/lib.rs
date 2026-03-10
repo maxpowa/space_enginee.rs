@@ -1,4 +1,16 @@
-﻿use chrono::{DateTime as ChronoDateTime, Utc};
+use chrono::{DateTime as ChronoDateTime, Utc};
+use deku::bitvec::{BitField as _, BitVec, Msb0};
+use deku::ctx::Order;
+use deku::prelude::{Reader, Writer};
+use deku::{DekuError, DekuReader, DekuWriter};
+use enumflags2::{BitFlag, BitFlags};
+use proto_rs::bytes::Buf;
+use proto_rs::encoding::{DecodeContext, WireType};
+use proto_rs::DecodeError;
+use proto_rs::{
+    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind, ProtoShadowDecode,
+    ProtoShadowEncode, RevWriter,
+};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -7,18 +19,6 @@ use std::fmt::Debug;
 use std::hash::Hash;
 use std::io::{Read, Seek, Write};
 use std::time::Duration;
-use deku::{DekuError, DekuReader, DekuWriter};
-use deku::bitvec::{BitField as _, BitVec, Msb0};
-use deku::ctx::Order;
-use deku::prelude::{Reader, Writer};
-use enumflags2::{BitFlag, BitFlags};
-use proto_rs::DecodeError;
-use proto_rs::bytes::Buf;
-use proto_rs::encoding::{DecodeContext, WireType};
-use proto_rs::{
-    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode,
-    ProtoExt, ProtoKind, ProtoShadowDecode, ProtoShadowEncode, RevWriter,
-};
 use uuid::Uuid;
 
 pub mod direction;
@@ -51,12 +51,9 @@ pub enum DateTimeKind {
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[proto_rs::proto_message]
 pub struct DateTime(
-    #[proto(tag = "1")]
-    i64, // value
-    #[proto(tag = "2")]
-    TimeSpanScale, // scale
-    #[proto(tag = "3")]
-    DateTimeKind, // kind
+    #[proto(tag = "1")] i64,           // value
+    #[proto(tag = "2")] TimeSpanScale, // scale
+    #[proto(tag = "3")] DateTimeKind,  // kind
 );
 
 impl DateTime {
@@ -131,23 +128,14 @@ impl Default for DateTime {
 
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 #[proto_rs::proto_message]
-pub struct TimeSpan(
-    #[proto(tag = "1")]
-    i64,
-    #[proto(tag = "2")]
-    TimeSpanScale,
-);
+pub struct TimeSpan(#[proto(tag = "1")] i64, #[proto(tag = "2")] TimeSpanScale);
 
 impl TimeSpan {
     pub fn from_duration(duration: Duration) -> Self {
         // Convert with some smarts, preferring as little loss as possible
         match duration {
-            d if d == Duration::MAX => {
-                TimeSpan(i64::MAX, TimeSpanScale::MinMax)
-            }
-            d if d == Duration::ZERO => {
-                TimeSpan(0, TimeSpanScale::MinMax)
-            }
+            d if d == Duration::MAX => TimeSpan(i64::MAX, TimeSpanScale::MinMax),
+            d if d == Duration::ZERO => TimeSpan(0, TimeSpanScale::MinMax),
             d if d.as_secs() % 86400 == 0 => {
                 TimeSpan((d.as_secs() / 86400) as i64, TimeSpanScale::Days)
             }
@@ -157,18 +145,14 @@ impl TimeSpan {
             d if d.as_secs() % 60 == 0 => {
                 TimeSpan((d.as_secs() / 60) as i64, TimeSpanScale::Minutes)
             }
-            d if d.subsec_millis() == 0 => {
-                TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds)
-            }
+            d if d.subsec_millis() == 0 => TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds),
             d if d.subsec_nanos() == 0 => {
                 TimeSpan(d.as_millis() as i64, TimeSpanScale::Milliseconds)
             }
             d if d.subsec_nanos() > 0 => {
                 TimeSpan((d.as_nanos() / 100) as i64, TimeSpanScale::Ticks)
             }
-            d => {
-                TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds)
-            }
+            d => TimeSpan(d.as_secs() as i64, TimeSpanScale::Seconds),
         }
     }
     pub fn to_duration(&self) -> Duration {
@@ -176,16 +160,16 @@ impl TimeSpan {
             TimeSpanScale::Days => Duration::from_secs(self.0 as u64 * 86400), // Days
             TimeSpanScale::Hours => Duration::from_secs(self.0 as u64 * 3600), // Hours
             TimeSpanScale::Minutes => Duration::from_secs(self.0 as u64 * 60), // Minutes
-            TimeSpanScale::Seconds => Duration::from_secs(self.0 as u64),           // Seconds
-            TimeSpanScale::Milliseconds => Duration::from_millis(self.0 as u64),    // Milliseconds
-            TimeSpanScale::Ticks => Duration::from_nanos(self.0 as u64 * 100),// Ticks
+            TimeSpanScale::Seconds => Duration::from_secs(self.0 as u64),      // Seconds
+            TimeSpanScale::Milliseconds => Duration::from_millis(self.0 as u64), // Milliseconds
+            TimeSpanScale::Ticks => Duration::from_nanos(self.0 as u64 * 100), // Ticks
             TimeSpanScale::MinMax => {
                 if self.0 == i64::MAX {
                     Duration::MAX
                 } else {
                     Duration::ZERO
                 }
-            },
+            }
         }
     }
 }
@@ -231,18 +215,17 @@ impl Default for TimeSpan {
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[proto_rs::proto_message]
-pub struct Guid(
-    #[proto(tag = "1")]
-    u64,
-    #[proto(tag = "2")]
-    u64,
-);
+pub struct Guid(#[proto(tag = "1")] u64, #[proto(tag = "2")] u64);
 
 impl Guid {
     pub fn from_uuid(uuid: &Uuid) -> Self {
-        let bytes = uuid.as_bytes();
-        let lo = u64::from_le_bytes(bytes[0..8].try_into().unwrap());
-        let hi = u64::from_le_bytes(bytes[8..16].try_into().unwrap());
+        let bytes: &[u8; 16] = uuid.as_bytes();
+        let lo = u64::from_le_bytes([
+            bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
+        ]);
+        let hi = u64::from_le_bytes([
+            bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15],
+        ]);
         Guid(lo, hi)
     }
     pub fn to_uuid(&self) -> Uuid {
@@ -292,7 +275,6 @@ impl Default for Guid {
     }
 }
 
-
 /// protobuf-net bcl.proto Decimal representation.
 /// See: <https://github.com/protobuf-net/protobuf-net/blob/main/src/Tools/bcl.proto>
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
@@ -309,7 +291,11 @@ pub struct Decimal {
 impl Decimal {
     /// Reconstruct a 96-bit integer + sign/scale from the protobuf fields.
     pub fn to_f64(&self) -> f64 {
-        let sign = if self.sign_scale & 0x0001 != 0 { -1.0 } else { 1.0 };
+        let sign = if self.sign_scale & 0x0001 != 0 {
+            -1.0
+        } else {
+            1.0
+        };
         let scale = ((self.sign_scale >> 1) & 0xFF) as i32;
         let raw = (self.hi as u128) << 64 | self.lo as u128;
         sign * (raw as f64) / 10f64.powi(scale)
@@ -332,7 +318,7 @@ impl<'de> Deserialize<'de> for Decimal {
     {
         // Simple round-trip via f64 (lossy for very large decimals)
         let val = f64::deserialize(deserializer)?;
-        let sign = if val < 0.0 { 1u32 } else { 0u32 };
+        let sign = u32::from(val < 0.0);
         let abs = val.abs();
         // Use scale=4 as a reasonable default
         let scale = 4u32;
@@ -345,11 +331,10 @@ impl<'de> Deserialize<'de> for Decimal {
     }
 }
 
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct BitField<T: BitFlag>(BitFlags<T>);
 
-impl<T:BitFlag> Default for BitField<T> {
+impl<T: BitFlag> Default for BitField<T> {
     fn default() -> Self {
         BitField(T::from_bits_truncate(T::DEFAULT))
     }
@@ -465,7 +450,9 @@ where
             proto_rs::encoding::int32::merge(wire_type, &mut i32_val, buf, ctx)?;
             let u32_val = i32_val as u32;
             let numeric: T::Numeric = u32_val.try_into().map_err(|err| {
-                DecodeError::new(format!("Failed to convert u32 to flag numeric type: {:?}", err))
+                DecodeError::new(format!(
+                    "Failed to convert u32 to flag numeric type: {err:?}"
+                ))
             })?;
             value.0 = BitFlags::from_bits_truncate(numeric);
             Ok(())
@@ -485,13 +472,14 @@ where
         proto_rs::encoding::int32::merge(wire_type, &mut i32_val, buf, ctx)?;
         let u32_val = i32_val as u32;
         let numeric: T::Numeric = u32_val.try_into().map_err(|err| {
-            DecodeError::new(format!("Failed to convert u32 to flag numeric type: {:?}", err))
+            DecodeError::new(format!(
+                "Failed to convert u32 to flag numeric type: {err:?}"
+            ))
         })?;
         self.0 = BitFlags::from_bits_truncate(numeric);
         Ok(())
     }
 }
-
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Nullable<T: Default + PartialEq>(pub T);
@@ -530,8 +518,10 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
         D: serde::Deserializer<'de>,
     {
         // Handles xsi:nil="true" / self-closing nil tags in XML by
-        // deserializing as Option<T>: None → default (null), Some(v) → value.
-        Ok(Nullable(Option::<T>::deserialize(deserializer)?.unwrap_or_default()))
+        // deserializing as Option<T>: None ? default (null), Some(v) ? value.
+        Ok(Nullable(
+            Option::<T>::deserialize(deserializer)?.unwrap_or_default(),
+        ))
     }
 }
 
@@ -539,9 +529,12 @@ impl<T> DekuReader<'_, ()> for Nullable<T>
 where
     T: Default + for<'a> DekuReader<'a> + DekuWriter + PartialEq,
 {
-    fn from_reader_with_ctx<R: Read + Seek>(reader: &mut Reader<R>, ctx: ()) -> Result<Self, DekuError>
+    fn from_reader_with_ctx<R: Read + Seek>(
+        reader: &mut Reader<R>,
+        ctx: (),
+    ) -> Result<Self, DekuError>
     where
-        Self: Sized
+        Self: Sized,
     {
         let has_value = reader.read_bits(1, Order::Lsb0)?.unwrap().load::<u8>() == 1u8;
         if has_value {
@@ -558,7 +551,7 @@ where
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, ctx: ()) -> Result<(), DekuError> {
         let mut entry = BitVec::<u8, Msb0>::with_capacity(1);
         entry.push(self.has_value());
-        writer.write_bits_order(&*entry, Order::Lsb0)?;
+        writer.write_bits_order(&entry, Order::Lsb0)?;
         if self.has_value() {
             self.0.to_writer(writer, ctx)?;
         }
@@ -659,15 +652,13 @@ where
     }
 }
 
-
 #[derive(Debug, Clone, PartialEq)]
 #[proto_rs::proto_message]
-pub struct SerializableDictionary<K: Hash + Eq, V>(
-    #[proto(tag = 1)]
-    pub HashMap<K,V>,
-);
+pub struct SerializableDictionary<K: Hash + Eq, V>(#[proto(tag = 1)] pub HashMap<K, V>);
 
-impl<K: Hash + Eq + ::serde::Serialize, V: ::serde::Serialize> ::serde::Serialize for SerializableDictionary<K,V> {
+impl<K: Hash + Eq + ::serde::Serialize, V: ::serde::Serialize> ::serde::Serialize
+    for SerializableDictionary<K, V>
+{
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -682,17 +673,19 @@ impl<K: Hash + Eq + ::serde::Serialize, V: ::serde::Serialize> ::serde::Serializ
         }
 
         let mut state = serializer.serialize_struct("SerializableDictionary", 1)?;
-        let entries_iter = self.0.iter().map(|(k, v)| SerializableDictionaryEntryRef {
-            k,
-            v,
-        });
+        let entries_iter = self
+            .0
+            .iter()
+            .map(|(k, v)| SerializableDictionaryEntryRef { k, v });
         let entries: Vec<_> = entries_iter.collect();
         SerializeStruct::serialize_field(&mut state, "dictionary", &entries)?;
         SerializeStruct::end(state)
     }
 }
 
-impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>> ::serde::Deserialize<'de> for SerializableDictionary<K,V> {
+impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>>
+    ::serde::Deserialize<'de> for SerializableDictionary<K, V>
+{
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -716,6 +709,7 @@ impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>
         /// We use `deserialize_with` on the items field so that each
         /// `<dictionary>` element is first attempted as an `Entry`; if that
         /// fails (e.g. for `<dictionary />`), we silently skip it.
+        #[allow(clippy::unnecessary_wraps)] // serde deserialize_with requires Result
         fn deserialize_entries<'de, T: ::serde::Deserialize<'de>, U: ::serde::Deserialize<'de>, D>(
             deserializer: D,
         ) -> Result<Vec<SerializableDictionaryEntry<T, U>>, D::Error>
@@ -725,17 +719,24 @@ impl<'de, K: Hash + Eq + ::serde::Deserialize<'de>, V: ::serde::Deserialize<'de>
             // Try to deserialize as a Vec; if a single empty element like
             // `<dictionary />` is present, the whole Vec parse may fail.
             // In that case, fall back to an empty Vec.
-            Ok(Vec::<SerializableDictionaryEntry<T, U>>::deserialize(deserializer)
-                .unwrap_or_default())
+            Ok(
+                Vec::<SerializableDictionaryEntry<T, U>>::deserialize(deserializer)
+                    .unwrap_or_default(),
+            )
         }
 
-        fn empty_vec<T>() -> Vec<T> { Vec::new() }
+        fn empty_vec<T>() -> Vec<T> {
+            Vec::new()
+        }
         #[derive(::serde::Deserialize)]
         #[serde(rename = "Dictionary")]
         #[serde(bound(deserialize = "T: ::serde::Deserialize<'de>, U: ::serde::Deserialize<'de>"))]
         struct Helper<T, U> {
-            #[serde(rename = "dictionary", default = "empty_vec",
-                    deserialize_with = "deserialize_entries")]
+            #[serde(
+                rename = "dictionary",
+                default = "empty_vec",
+                deserialize_with = "deserialize_entries"
+            )]
             items: Vec<SerializableDictionaryEntry<T, U>>,
         }
         let helper = Helper::deserialize(deserializer)?;
@@ -757,7 +758,7 @@ impl<K: Hash + Eq, V> Default for SerializableDictionary<K, V> {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 #[proto_rs::proto_message]
 #[serde(rename = "MyTuple")]
-pub struct Tuple<K,V> {
+pub struct Tuple<K, V> {
     #[proto(tag = 1)]
     #[serde(rename = "Item1")]
     pub item1: K,
@@ -766,11 +767,109 @@ pub struct Tuple<K,V> {
     pub item2: V,
 }
 
+/// Generates a module containing `serialize` and `deserialize` functions that
+/// handle C#'s `[XmlArrayItem("name")]` pattern for `Vec<T>` fields.
+///
+/// In C# Space Engineers types, a field like:
+/// ```csharp
+/// [XmlArrayItem("Warning")]
+/// public List<string> SuppressedWarnings = new List<string>();
+/// ```
+/// serializes as:
+/// ```xml
+/// <SuppressedWarnings>
+///   <Warning>value1</Warning>
+///   <Warning>value2</Warning>
+/// </SuppressedWarnings>
+/// ```
+///
+/// Usage (generated by codegen):
+/// ```ignore
+/// crate::compat::define_xml_array_item!(Warning);
+///
+/// #[serde(serialize_with = "Warning::serialize",
+///         deserialize_with = "Warning::deserialize")]
+/// pub my_field: Vec<String>,
+/// ```
+///
+/// The field type remains `Vec<T>` — no wrapper types, no proto changes.
+#[macro_export]
+macro_rules! define_xml_array_item {
+    ($name:ident) => {
+        #[allow(non_snake_case)]
+        pub mod $name {
+            pub fn serialize<T, S>(vec: &Vec<T>, serializer: S) -> Result<S::Ok, S::Error>
+            where
+                T: ::serde::Serialize,
+                S: ::serde::Serializer,
+            {
+                use ::serde::ser::SerializeStruct;
+                let mut state = serializer.serialize_struct("wrapper", 1)?;
+                state.serialize_field(stringify!($name), vec)?;
+                state.end()
+            }
+
+            pub fn deserialize<'de, T, D>(deserializer: D) -> Result<Vec<T>, D::Error>
+            where
+                T: ::serde::Deserialize<'de>,
+                D: ::serde::Deserializer<'de>,
+            {
+                use ::serde::de::{self, MapAccess, Visitor};
+                use ::std::marker::PhantomData;
+
+                struct ArrayVisitor<U>(PhantomData<U>);
+
+                impl<'de2, U: ::serde::Deserialize<'de2>> Visitor<'de2> for ArrayVisitor<U> {
+                    type Value = Vec<U>;
+
+                    fn expecting(
+                        &self,
+                        formatter: &mut ::std::fmt::Formatter,
+                    ) -> ::std::fmt::Result {
+                        write!(formatter, "a sequence of <{}> elements", stringify!($name))
+                    }
+
+                    fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+                    where
+                        A: MapAccess<'de2>,
+                    {
+                        let mut items = Vec::new();
+                        while let Some(key) = map.next_key::<String>()? {
+                            if key == stringify!($name) {
+                                items.push(map.next_value()?);
+                            } else {
+                                // Skip unknown elements
+                                map.next_value::<de::IgnoredAny>()?;
+                            }
+                        }
+                        Ok(items)
+                    }
+
+                    // Handle the case where the element is empty / self-closing
+                    fn visit_str<E: de::Error>(self, _: &str) -> Result<Self::Value, E> {
+                        Ok(Vec::new())
+                    }
+
+                    fn visit_string<E: de::Error>(self, _: String) -> Result<Self::Value, E> {
+                        Ok(Vec::new())
+                    }
+
+                    fn visit_unit<E: de::Error>(self) -> Result<Self::Value, E> {
+                        Ok(Vec::new())
+                    }
+                }
+
+                deserializer.deserialize_map(ArrayVisitor(PhantomData))
+            }
+        }
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::Duration;
     use chrono::{DateTime as ChronoDateTime, Utc};
+    use std::time::Duration;
     use uuid::Uuid;
 
     // DateTime tests
@@ -847,7 +946,11 @@ mod tests {
 
     #[test]
     fn test_datetime_to_chrono_ticks() {
-        let dt = DateTime(TICKS_PER_SECOND * 10, TimeSpanScale::Ticks, DateTimeKind::Utc);
+        let dt = DateTime(
+            TICKS_PER_SECOND * 10,
+            TimeSpanScale::Ticks,
+            DateTimeKind::Utc,
+        );
         let chrono_dt = dt.to_chrono();
         assert_eq!(chrono_dt.timestamp(), 10);
     }
@@ -886,8 +989,12 @@ mod tests {
     #[test]
     fn test_datetime_serde_roundtrip() {
         #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-        struct W { value: DateTime }
-        let w = W { value: DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc) };
+        struct W {
+            value: DateTime,
+        }
+        let w = W {
+            value: DateTime(5, TimeSpanScale::Days, DateTimeKind::Utc),
+        };
         let xml = quick_xml::se::to_string(&w).unwrap();
         let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(w, deserialized);
@@ -928,9 +1035,9 @@ mod tests {
 
     #[test]
     fn test_timespan_from_duration_ticks() {
-        // 7 seconds + 1_500_100ns — secs not divisible by 60, sub-second nanos
+        // 7 seconds + 1_500_100ns � secs not divisible by 60, sub-second nanos
         // with ms component so it reaches the Ticks branch
-        // 1_500_100ns / 100 = 15001 ticks → 15001 * 100 = 1_500_100ns — lossless
+        // 1_500_100ns / 100 = 15001 ticks ? 15001 * 100 = 1_500_100ns � lossless
         let duration = Duration::new(7, 1_500_100);
         let ts = TimeSpan::from_duration(duration);
         assert_eq!(ts.to_duration(), duration);
@@ -1041,8 +1148,12 @@ mod tests {
     #[test]
     fn test_timespan_serde_roundtrip() {
         #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-        struct W { value: TimeSpan }
-        let w = W { value: TimeSpan(3600, TimeSpanScale::Seconds) };
+        struct W {
+            value: TimeSpan,
+        }
+        let w = W {
+            value: TimeSpan(3600, TimeSpanScale::Seconds),
+        };
         let xml = quick_xml::se::to_string(&w).unwrap();
         let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         // Note: serde serializes as seconds, so scale info is lost
@@ -1105,9 +1216,13 @@ mod tests {
     #[test]
     fn test_guid_serde_roundtrip() {
         #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-        struct W { value: Guid }
+        struct W {
+            value: Guid,
+        }
         let uuid = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").unwrap();
-        let w = W { value: Guid::from_uuid(&uuid) };
+        let w = W {
+            value: Guid::from_uuid(&uuid),
+        };
         let xml = quick_xml::se::to_string(&w).unwrap();
         let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(w, deserialized);
@@ -1156,9 +1271,13 @@ mod tests {
     #[test]
     fn test_bitfield_serde_roundtrip() {
         #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-        struct W { value: BitField<TestFlags> }
+        struct W {
+            value: BitField<TestFlags>,
+        }
         let flags: BitFlags<TestFlags> = TestFlags::FlagA | TestFlags::FlagB | TestFlags::FlagC;
-        let w = W { value: BitField::from(flags) };
+        let w = W {
+            value: BitField::from(flags),
+        };
         let xml = quick_xml::se::to_string(&w).unwrap();
         let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(w, deserialized);
@@ -1205,7 +1324,9 @@ mod tests {
 
     #[test]
     fn test_nullable_serde_roundtrip() {
-        let original = NullableWrapper { workshop_id: Nullable(99) };
+        let original = NullableWrapper {
+            workshop_id: Nullable(99),
+        };
         let xml = quick_xml::se::to_string(&original).unwrap();
         let deserialized: NullableWrapper = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(original, deserialized);
@@ -1216,7 +1337,7 @@ mod tests {
     #[test]
     fn test_serializable_dictionary_empty_no_elements() {
         // When a dictionary is empty, no <dictionary> child elements are
-        // present.  The `Option<Vec<…>>` in Helper deserializes as `None`,
+        // present.  The `Option<Vec<�>>` in Helper deserializes as `None`,
         // which `.unwrap_or_default()` turns into an empty Vec.
         #[derive(Debug, PartialEq, ::serde::Deserialize)]
         #[serde(rename = "Root")]
@@ -1275,7 +1396,9 @@ mod tests {
         let mut map = HashMap::new();
         map.insert("key1".to_string(), 10);
         map.insert("key2".to_string(), 20);
-        let original = W { dict: SerializableDictionary(map) };
+        let original = W {
+            dict: SerializableDictionary(map),
+        };
         let xml = quick_xml::se::to_string(&original).unwrap();
         let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
         assert_eq!(original, deserialized);
@@ -1293,5 +1416,111 @@ mod tests {
         let xml = r#"<Root><Dict><dictionary /></Dict></Root>"#;
         let deserialized: W = quick_xml::de::from_str(xml).unwrap();
         assert_eq!(deserialized.dict, SerializableDictionary(HashMap::new()));
+    }
+
+    /// Pre-generated XmlArrayItem modules for element names used by Space Engineers.
+    /// The codegen emits `define_xml_array_item!(Name)` calls for each unique
+    /// `[XmlArrayItem("Name")]` it encounters.
+    pub mod xml_array_item {
+        define_xml_array_item!(Warning);
+    }
+
+    // XmlArrayItem serialize_with/deserialize_with tests
+    // Uses the Warning module defined in xml_array_item
+
+    #[test]
+    fn test_xml_array_item_populated() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "SuppressedWarnings", default)]
+            #[serde(
+                serialize_with = "crate::tests::xml_array_item::Warning::serialize",
+                deserialize_with = "crate::tests::xml_array_item::Warning::deserialize"
+            )]
+            warnings: Vec<String>,
+        }
+        let xml = r#"<Root><SuppressedWarnings><Warning>w1</Warning><Warning>w2</Warning></SuppressedWarnings></Root>"#;
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert_eq!(result.warnings, vec!["w1".to_string(), "w2".to_string()]);
+    }
+
+    #[test]
+    fn test_xml_array_item_empty() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "SuppressedWarnings", default)]
+            #[serde(
+                serialize_with = "crate::tests::xml_array_item::Warning::serialize",
+                deserialize_with = "crate::tests::xml_array_item::Warning::deserialize"
+            )]
+            warnings: Vec<String>,
+        }
+        let xml = r#"<Root><SuppressedWarnings></SuppressedWarnings></Root>"#;
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert!(result.warnings.is_empty());
+    }
+
+    #[test]
+    fn test_xml_array_item_missing_field() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "SuppressedWarnings", default)]
+            #[serde(
+                serialize_with = "crate::tests::xml_array_item::Warning::serialize",
+                deserialize_with = "crate::tests::xml_array_item::Warning::deserialize"
+            )]
+            warnings: Vec<String>,
+        }
+        let xml = r#"<Root></Root>"#;
+        let result: W = quick_xml::de::from_str(xml).unwrap();
+        assert!(result.warnings.is_empty());
+    }
+
+    #[test]
+    fn test_xml_array_item_roundtrip() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "SuppressedWarnings", default)]
+            #[serde(
+                serialize_with = "crate::tests::xml_array_item::Warning::serialize",
+                deserialize_with = "crate::tests::xml_array_item::Warning::deserialize"
+            )]
+            warnings: Vec<String>,
+        }
+        let original = W {
+            warnings: vec!["a".into(), "b".into()],
+        };
+        let xml = quick_xml::se::to_string(&original).unwrap();
+        // Verify the XML preserves the element name
+        assert!(xml.contains("<Warning>a</Warning>"), "XML was: {}", xml);
+        assert!(xml.contains("<Warning>b</Warning>"), "XML was: {}", xml);
+        let deserialized: W = quick_xml::de::from_str(&xml).unwrap();
+        assert_eq!(original, deserialized);
+    }
+
+    #[test]
+    fn test_xml_array_item_roundtrip_preserves_element_name() {
+        #[derive(Debug, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+        #[serde(rename = "Root")]
+        struct W {
+            #[serde(rename = "Warnings", default)]
+            #[serde(
+                serialize_with = "crate::tests::xml_array_item::Warning::serialize",
+                deserialize_with = "crate::tests::xml_array_item::Warning::deserialize"
+            )]
+            items: Vec<String>,
+        }
+        let xml_in =
+            r#"<Root><Warnings><Warning>x</Warning><Warning>y</Warning></Warnings></Root>"#;
+        let parsed: W = quick_xml::de::from_str(xml_in).unwrap();
+        let xml_out = quick_xml::se::to_string(&parsed).unwrap();
+        let reparsed: W = quick_xml::de::from_str(&xml_out).unwrap();
+        assert_eq!(parsed, reparsed);
+        assert!(xml_out.contains("<Warning>x</Warning>"));
+        assert!(xml_out.contains("<Warning>y</Warning>"));
     }
 }

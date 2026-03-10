@@ -1,7 +1,18 @@
-﻿
 // Original enum: VRageMath.Base6Directions+Direction
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(
+    Default,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+)]
 #[serde(rename = "Direction")]
 pub enum Direction {
     #[default]

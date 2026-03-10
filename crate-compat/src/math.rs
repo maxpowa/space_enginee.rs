@@ -1,9 +1,18 @@
-﻿use glam::{Vec2, Vec3, Quat, Mat3, Mat4};
 use deku::prelude::*;
+use glam::{Mat3, Mat4, Quat, Vec2, Vec3};
 
 // Original type: VRage.SerializableVector2
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[derive(
+    Default,
+    Debug,
+    Clone,
+    PartialEq,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::deku::DekuRead,
+    ::deku::DekuWrite,
+)]
 pub struct SerializableVector2F {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
@@ -379,7 +388,9 @@ pub struct Matrix3x3 {
     #[serde(rename = "M33")]
     pub m33: f32,
 }
+#[rustfmt::skip]
 impl Matrix3x3 {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         m11: f32, m12: f32, m13: f32,
         m21: f32, m22: f32, m23: f32,
@@ -392,6 +403,7 @@ impl Matrix3x3 {
         }
     }
 }
+#[rustfmt::skip]
 impl From<Matrix3x3> for Mat3 {
     fn from(value: Matrix3x3) -> Self {
         Mat3::from_cols_array(&[
@@ -401,6 +413,7 @@ impl From<Matrix3x3> for Mat3 {
         ])
     }
 }
+#[rustfmt::skip]
 impl From<Mat3> for Matrix3x3 {
     fn from(value: Mat3) -> Self {
         let cols = value.to_cols_array();
@@ -474,7 +487,9 @@ pub struct MatrixD {
     #[serde(rename = "M44")]
     pub m44: f64,
 }
+#[rustfmt::skip]
 impl MatrixD {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         m11: f64, m12: f64, m13: f64, m14: f64,
         m21: f64, m22: f64, m23: f64, m24: f64,
@@ -489,6 +504,7 @@ impl MatrixD {
         }
     }
 }
+#[rustfmt::skip]
 impl From<MatrixD> for Mat4 {
     fn from(value: MatrixD) -> Self {
         Mat4::from_cols_array(&[
@@ -499,6 +515,7 @@ impl From<MatrixD> for Mat4 {
         ])
     }
 }
+#[rustfmt::skip]
 impl From<Mat4> for MatrixD {
     fn from(value: Mat4) -> Self {
         let cols = value.to_cols_array();
@@ -530,7 +547,6 @@ impl SerializableBoundingBoxD {
         SerializableBoundingBoxD { min, max }
     }
 }
-
 
 // Original type: VRageMath.BoundingBoxD
 #[::proto_rs::proto_message]
