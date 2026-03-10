@@ -1,6 +1,6 @@
 [package]
 name = "space_engineers_sys"
-version = "1.208015.0"
+version = "1.208015.1"
 edition.workspace = true
 rust-version.workspace = true
 description = "Auto-generated Space Engineers data structures (codegen output)"
@@ -14,4 +14,4 @@ serde = { workspace = true, features = ["derive"] }
 proto_rs = { workspace = true }
 enumflags2 = { workspace = true, features = ["serde"] }
 deku = { workspace = true }
-space_engineers_compat = { path = "../crate-compat", version = "1.208015.0" }
+space_engineers_compat = { path = "../crate-compat", version = "1.208015.1" }
