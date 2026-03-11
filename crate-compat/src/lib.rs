@@ -547,11 +547,16 @@ impl<T: Default + PartialEq> From<T> for Nullable<T> {
 }
 
 impl<T: Default + PartialEq> Nullable<T> {
-    fn has_value(&self) -> bool {
+    pub fn has_value(&self) -> bool {
         T::default() != self.0
     }
-    pub fn value(&self) -> &T {
-        &self.0
+    pub fn unwrap_mut(&mut self) -> &mut T {
+        assert!(self.has_value(), "called `Nullable::unwrap_mut()` on a null value");
+        &mut self.0
+    }
+    pub fn unwrap(self) -> T {
+        assert!(self.has_value(), "called `Nullable::unwrap()` on a null value");
+        self.0
     }
 }
 
