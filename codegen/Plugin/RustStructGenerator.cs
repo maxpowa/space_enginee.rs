@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
@@ -194,15 +195,158 @@ public class RustStructGenerator
         };
 
         /// <summary>
+        /// Returns the value from [DefaultValue(...)] attribute if present, otherwise null.
+        /// </summary>
+        public object? DefaultValueAttributeValue
+        {
+            get
+            {
+                var attr = Member.GetCustomAttributes(typeof(DefaultValueAttribute), true)
+                    .OfType<DefaultValueAttribute>()
+                    .FirstOrDefault();
+                return attr?.Value;
+            }
+        }
+
+        // Cache for default instances per type
+        private static readonly ConcurrentDictionary<Type, object?> _defaultInstances = new();
+
+        /// <summary>
+        /// Returns the field initializer value by creating a default instance of the declaring type.
+        /// Returns null if it cannot be determined or if the member is not a field.
+        /// </summary>
+        public object? FieldInitializerValue
+        {
+            get
+            {
+                if (Member is not FieldInfo fieldInfo) return null;
+                var declaringType = Member.DeclaringType;
+                if (declaringType == null) return null;
+
+                try
+                {
+                    var instance = _defaultInstances.GetOrAdd(declaringType, t =>
+                    {
+                        try
+                        {
+                            return Activator.CreateInstance(t);
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                    });
+                    
+                    if (instance == null) return null;
+                    return fieldInfo.GetValue(instance);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the effective numeric default value, checking [DefaultValue] first, then field initializer.
+        /// </summary>
+        public object? EffectiveNumericDefaultValue
+        {
+            get
+            {
+                // First check [DefaultValue] attribute
+                var attrValue = DefaultValueAttributeValue;
+                if (attrValue != null) return attrValue;
+                
+                // Then check field initializer for numeric types
+                if (!IsNumericType) return null;
+                return FieldInitializerValue;
+            }
+        }
+
+        /// <summary>
+        /// True if the member type is a supported numeric type.
+        /// </summary>
+        private bool IsNumericType =>
+            MemberType == typeof(byte) || MemberType == typeof(sbyte) ||
+            MemberType == typeof(short) || MemberType == typeof(ushort) ||
+            MemberType == typeof(int) || MemberType == typeof(uint) ||
+            MemberType == typeof(long) || MemberType == typeof(ulong) ||
+            MemberType == typeof(float) || MemberType == typeof(double);
+
+        /// <summary>
+        /// True when the field has a numeric default value (via [DefaultValue] or field initializer) that is non-zero.
+        /// </summary>
+        public bool HasNumericDefaultValue
+        {
+            get
+            {
+                var defaultVal = EffectiveNumericDefaultValue;
+                if (defaultVal == null) return false;
+                // Check if it's a supported numeric type
+                return IsNumericType;
+            }
+        }
+
+        /// <summary>
+        /// True when the numeric default value is zero (can use serde's built-in default).
+        /// </summary>
+        public bool IsNumericDefaultZero
+        {
+            get
+            {
+                if (!HasNumericDefaultValue) return false;
+                var defaultVal = EffectiveNumericDefaultValue!;
+                return MemberType == typeof(byte) && Convert.ToInt32(defaultVal) == 0 ||
+                       MemberType == typeof(sbyte) && Convert.ToInt32(defaultVal) == 0 ||
+                       MemberType == typeof(short) && Convert.ToInt32(defaultVal) == 0 ||
+                       MemberType == typeof(ushort) && Convert.ToInt32(defaultVal) == 0 ||
+                       MemberType == typeof(int) && Convert.ToInt32(defaultVal) == 0 ||
+                       MemberType == typeof(uint) && Convert.ToUInt32(defaultVal) == 0 ||
+                       MemberType == typeof(long) && Convert.ToInt64(defaultVal) == 0 ||
+                       MemberType == typeof(ulong) && Convert.ToUInt64(defaultVal) == 0 ||
+                       MemberType == typeof(float) && Convert.ToSingle(defaultVal) == 0f ||
+                       MemberType == typeof(double) && Convert.ToDouble(defaultVal) == 0d;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Rust literal for the numeric default value.
+        /// </summary>
+        public string? NumericDefaultRustLiteral
+        {
+            get
+            {
+                if (!HasNumericDefaultValue) return null;
+                var defaultVal = EffectiveNumericDefaultValue!;
+                return MemberType switch
+                {
+                    _ when MemberType == typeof(byte) => Convert.ToInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(sbyte) => Convert.ToInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(short) => Convert.ToInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(ushort) => Convert.ToInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(int) => Convert.ToInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(uint) => Convert.ToUInt32(defaultVal).ToString(),
+                    _ when MemberType == typeof(long) => Convert.ToInt64(defaultVal).ToString(),
+                    _ when MemberType == typeof(ulong) => Convert.ToUInt64(defaultVal).ToString(),
+                    _ when MemberType == typeof(float) => Convert.ToSingle(defaultVal).ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f32",
+                    _ when MemberType == typeof(double) => Convert.ToDouble(defaultVal).ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f64",
+                    _ => null
+                };
+            }
+        }
+
+        /// <summary>
         /// True when the field has a natural default value in Rust and C#, so a
         /// missing XML element should produce that default instead of a
         /// deserialization error.  Covers collections (Vec, HashMap,
-        /// SerializableDictionary) and booleans (default <c>false</c>).
+        /// SerializableDictionary), booleans (default <c>false</c>),
+        /// strings (default <c>""</c>), and numeric types with [DefaultValue].
         /// </summary>
         public bool HasSerdeDefault =>
             IsTypeArray(MemberType) || IsTypeHashMap(MemberType) ||
             (MemberType.IsGenericType && MemberType.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>)) ||
-            MemberType == typeof(bool);
+            MemberType == typeof(bool) || MemberType == typeof(string) || HasNumericDefaultValue;
     }
 
     private class ExtraTypeInfo
@@ -673,6 +817,20 @@ public class RustStructGenerator
 
         foreach (var prop in propertyInfos)
         {
+            var propSerInfo = new ExtraSerializationInfo { Member = prop };
+
+            // Skip computed / alias properties marked [NoSerialize] that have
+            // no explicit XML serialization attributes.  Properties with
+            // [XmlAttribute] or [XmlElement] are needed for XML deserialization
+            // even when [NoSerialize] suppresses protobuf serialization
+            // (e.g. SerializableDefinitionId.TypeIdStringAttribute).
+            // Properties with neither (e.g. MyObjectBuilder_Identity.PlayerId)
+            // are pure aliases that delegate to another field and should be
+            // omitted to avoid duplicate data.
+            if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute
+                && prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length == 0)
+                continue;
+
             if (!WriteRustStructAndDependents(prop.PropertyType, writer))
             {
                 Console.WriteLine(
@@ -685,7 +843,16 @@ public class RustStructGenerator
 
         var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
 
+        // Check if any member has a non-zero numeric default (needs serde_inline_default on struct)
+        var hasInlineDefaults = members.Any(m => 
+            m.Item4.HasNumericDefaultValue && !m.Item4.IsNumericDefaultZero);
+
         writer.WriteLine($"// Original type: {type.FullName}");
+        
+        // If any field has a non-zero numeric default, add serde_inline_default before derives
+        if (hasInlineDefaults)
+            writer.WriteLine("#[::serde_inline_default::serde_inline_default]");
+        
         List<string> traits = ["Debug", "Default", "Clone", "PartialEq", "::serde::Serialize", "::serde::Deserialize"];
         if (isProtobuf) 
         {
@@ -749,9 +916,19 @@ public class RustStructGenerator
                     ? $"rename = \"@{memberName}\""
                     : $"rename = \"{memberName}\"");
 
-                // Default for types with natural zero/empty defaults (collections, booleans)
-                if (memberInfo.HasSerdeDefault)
+                // Non-zero numeric defaults use #[serde_inline_default(value)] as a separate attribute.
+                // Zero/empty defaults (booleans, strings, collections) use serde's built-in default.
+                var inlineDefaultLiteral = memberInfo.HasNumericDefaultValue && !memberInfo.IsNumericDefaultZero
+                    ? memberInfo.NumericDefaultRustLiteral
+                    : null;
+                
+                // Default for types with natural zero/empty defaults (collections, booleans,
+                // strings).  XML attributes are also optional and should default when absent.
+                // Skip adding serde(default) if we're using serde_inline_default for this field.
+                if ((memberInfo.HasSerdeDefault || memberInfo.IsXmlAttribute) && inlineDefaultLiteral == null)
+                {
                     serdeParts.Add("default");
+                }
 
                 // Vec fields need a custom deserializer to handle self-closing XML
                 // elements like `<Members />`.  The XmlArrayItem path below already
@@ -763,6 +940,10 @@ public class RustStructGenerator
                 if (extraTypeInfo.IsArray && !hasXmlArrayItemOverride)
                     serdeParts.Add("deserialize_with = \"crate::compat::xml_vec::deserialize\"");
 
+                // Emit serde_inline_default attribute for non-zero numeric defaults
+                if (inlineDefaultLiteral != null)
+                    writer.WriteLine($"    #[serde_inline_default({inlineDefaultLiteral})]");
+                
                 writer.WriteLine($"    #[serde({string.Join(", ", serdeParts)})]");
             }
             else

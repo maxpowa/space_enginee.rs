@@ -872,11 +872,12 @@ macro_rules! define_xml_array_item {
 /// `quick_xml` treats these as an element with empty text content and tries to
 /// deserialize one `T` from it, which fails when `T` has required fields.
 ///
-/// This function uses `deserialize_any` so that it can handle both:
-/// - A proper sequence of child elements → normal `Vec<T>`
-/// - An empty/self-closing element → empty `Vec`
+/// This function uses `deserialize_any` which in quick_xml's `MapValueDeserializer`
+/// peeks the next event and dispatches:
+/// - `Text` (self-closing) → `deserialize_str` → `visit_str` → empty Vec
+/// - `Start` (populated)   → `deserialize_map` → `visit_map` → collect items
 pub mod xml_vec {
-    use serde::de::{self, SeqAccess, Visitor};
+    use serde::de::{self, Visitor};
     use std::fmt;
     use std::marker::PhantomData;
 
@@ -894,9 +895,20 @@ pub mod xml_vec {
                 formatter.write_str("a sequence of elements or an empty/self-closing element")
             }
 
+            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::MapAccess<'de2>,
+            {
+                let mut items = Vec::new();
+                while let Some(_key) = map.next_key::<de::IgnoredAny>()? {
+                    items.push(map.next_value()?);
+                }
+                Ok(items)
+            }
+
             fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
             where
-                A: SeqAccess<'de2>,
+                A: de::SeqAccess<'de2>,
             {
                 let mut items = Vec::new();
                 while let Some(item) = seq.next_element()? {
@@ -920,17 +932,6 @@ pub mod xml_vec {
 
             fn visit_none<E: de::Error>(self) -> Result<Self::Value, E> {
                 Ok(Vec::new())
-            }
-
-            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
-            where
-                A: de::MapAccess<'de2>,
-            {
-                let mut items = Vec::new();
-                while let Some(_key) = map.next_key::<String>()? {
-                    items.push(map.next_value()?);
-                }
-                Ok(items)
             }
         }
 
