@@ -341,12 +341,100 @@ public class RustStructGenerator
         /// missing XML element should produce that default instead of a
         /// deserialization error.  Covers collections (Vec, HashMap,
         /// SerializableDictionary), booleans (default <c>false</c>),
-        /// strings (default <c>""</c>), and numeric types with [DefaultValue].
+        /// strings (default <c>""</c>), numeric types (all have Default in Rust),
+        /// nullable types (C# T? maps to Nullable<T> which has Default),
+        /// flags enums with zero default (BitField<T> has Default),
+        /// non-flags enums (all derive Default in Rust),
+        /// special value types (DateTime, TimeSpan, Guid),
+        /// and struct types (all generated Rust structs derive Default).
         /// </summary>
         public bool HasSerdeDefault =>
             IsTypeArray(MemberType) || IsTypeHashMap(MemberType) ||
             (MemberType.IsGenericType && MemberType.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>)) ||
-            MemberType == typeof(bool) || MemberType == typeof(string) || HasNumericDefaultValue;
+            MemberType == typeof(bool) || MemberType == typeof(string) || IsNumericType ||
+            IsTypeNullable(MemberType) || HasFlagsEnumZeroDefault || HasStructFieldInitializer ||
+            IsSpecialValueType || IsNonFlagsEnum;
+        
+        /// <summary>
+        /// True for DateTime, TimeSpan, Guid - C# value types that map to Rust types with Default.
+        /// </summary>
+        private bool IsSpecialValueType =>
+            MemberType == typeof(DateTime) || MemberType == typeof(TimeSpan) || MemberType == typeof(Guid);
+        
+        /// <summary>
+        /// True for non-flags enums. All generated Rust enums derive Default.
+        /// </summary>
+        private bool IsNonFlagsEnum =>
+            MemberType.IsEnum && MemberType.GetCustomAttributes(typeof(FlagsAttribute), true).Length == 0;
+
+        /// <summary>
+        /// True when the field is a struct type (class in C#) and has a non-null field initializer.
+        /// This means the Rust struct should use serde(default) since the struct derives Default.
+        /// Since all generated Rust structs derive Default, we can use default for all class-type fields.
+        /// </summary>
+        private bool HasStructFieldInitializer
+        {
+            get
+            {
+                // Only check for class types (C# structs would be value types)
+                if (!MemberType.IsClass || MemberType == typeof(string)) return false;
+                // Skip arrays and generic types - they're handled elsewhere
+                if (MemberType.IsArray || MemberType.IsGenericType) return false;
+                // All generated Rust structs derive Default, so we can always use serde(default)
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// True when the field is a flags enum and has [DefaultValue] with value 0.
+        /// </summary>
+        private bool HasFlagsEnumZeroDefault
+        {
+            get
+            {
+                var attrValue = DefaultValueAttributeValue;
+                if (attrValue == null) return false;
+                var enumType = attrValue.GetType();
+                if (!enumType.IsEnum) return false;
+                if (enumType.GetCustomAttributes(typeof(FlagsAttribute), true).Length == 0) return false;
+                // Check if the value is 0
+                return Convert.ToInt64(attrValue) == 0;
+            }
+        }
+        
+        /// <summary>
+        /// True when the field has a [DefaultValue] attribute with a non-flags enum value.
+        /// Flags enums are handled differently (via HasFlagsEnumZeroDefault or not supported yet).
+        /// </summary>
+        public bool HasEnumDefaultValue
+        {
+            get
+            {
+                var attrValue = DefaultValueAttributeValue;
+                if (attrValue == null) return false;
+                var enumType = attrValue.GetType();
+                if (!enumType.IsEnum) return false;
+                // Skip flags enums - they're handled via HasFlagsEnumZeroDefault or not supported
+                if (enumType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0) return false;
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Rust literal for the enum default value, e.g. "EnumType::Variant".
+        /// Returns null if not an enum default or if it's a flags enum.
+        /// </summary>
+        public string? EnumDefaultRustLiteral
+        {
+            get
+            {
+                if (!HasEnumDefaultValue) return null;
+                var attrValue = DefaultValueAttributeValue!;
+                var enumType = attrValue.GetType();
+                var variant = Enum.GetName(enumType, attrValue);
+                return $"{QualifiedRustName(enumType)}::{variant}";
+            }
+        }
     }
 
     private class ExtraTypeInfo
@@ -830,6 +918,12 @@ public class RustStructGenerator
             if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute
                 && prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length == 0)
                 continue;
+            
+            // Skip properties that have no serialization attributes at all.
+            // These are typically computed properties or aliases (e.g. MaxPlayers).
+            var hasXmlElement = prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
+            if (!propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
+                continue;
 
             if (!WriteRustStructAndDependents(prop.PropertyType, writer))
             {
@@ -843,13 +937,13 @@ public class RustStructGenerator
 
         var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
 
-        // Check if any member has a non-zero numeric default (needs serde_inline_default on struct)
+        // Check if any member has a non-zero numeric default or enum default (needs serde_inline_default on struct)
         var hasInlineDefaults = members.Any(m => 
-            m.Item4.HasNumericDefaultValue && !m.Item4.IsNumericDefaultZero);
+            (m.Item4.HasNumericDefaultValue && !m.Item4.IsNumericDefaultZero) || m.Item4.HasEnumDefaultValue);
 
         writer.WriteLine($"// Original type: {type.FullName}");
         
-        // If any field has a non-zero numeric default, add serde_inline_default before derives
+        // If any field has a non-zero numeric default or enum default, add serde_inline_default before derives
         if (hasInlineDefaults)
             writer.WriteLine("#[::serde_inline_default::serde_inline_default]");
         
@@ -916,11 +1010,13 @@ public class RustStructGenerator
                     ? $"rename = \"@{memberName}\""
                     : $"rename = \"{memberName}\"");
 
-                // Non-zero numeric defaults use #[serde_inline_default(value)] as a separate attribute.
+                // Non-zero numeric defaults and enum defaults use #[serde_inline_default(value)] as a separate attribute.
                 // Zero/empty defaults (booleans, strings, collections) use serde's built-in default.
-                var inlineDefaultLiteral = memberInfo.HasNumericDefaultValue && !memberInfo.IsNumericDefaultZero
-                    ? memberInfo.NumericDefaultRustLiteral
-                    : null;
+                string? inlineDefaultLiteral = null;
+                if (memberInfo.HasNumericDefaultValue && !memberInfo.IsNumericDefaultZero)
+                    inlineDefaultLiteral = memberInfo.NumericDefaultRustLiteral;
+                else if (memberInfo.HasEnumDefaultValue)
+                    inlineDefaultLiteral = memberInfo.EnumDefaultRustLiteral;
                 
                 // Default for types with natural zero/empty defaults (collections, booleans,
                 // strings).  XML attributes are also optional and should default when absent.
@@ -940,7 +1036,7 @@ public class RustStructGenerator
                 if (extraTypeInfo.IsArray && !hasXmlArrayItemOverride)
                     serdeParts.Add("deserialize_with = \"crate::compat::xml_vec::deserialize\"");
 
-                // Emit serde_inline_default attribute for non-zero numeric defaults
+                // Emit serde_inline_default attribute for non-zero numeric defaults and enum defaults
                 if (inlineDefaultLiteral != null)
                     writer.WriteLine($"    #[serde_inline_default({inlineDefaultLiteral})]");
                 

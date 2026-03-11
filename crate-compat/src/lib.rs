@@ -23,6 +23,7 @@ use uuid::Uuid;
 
 pub mod direction;
 pub mod math;
+
 // Support for C# bcl.proto types: DateTime, TimeSpan, Guid, Decimal
 // Also includes support for SerializableDictionary<K, V> (from Space Engineers itself)
 
@@ -112,11 +113,66 @@ impl<'de> ::serde::Deserialize<'de> for DateTime {
     where
         D: serde::Deserializer<'de>,
     {
-        let s = String::deserialize(deserializer)?;
-        let chrono_dt = ChronoDateTime::parse_from_rfc3339(&s)
-            .map_err(serde::de::Error::custom)?
-            .with_timezone(&Utc);
-        Ok(DateTime::from_chrono(chrono_dt))
+        use serde::de::{self, Visitor};
+        use std::fmt;
+
+        struct DateTimeVisitor;
+
+        impl<'de2> Visitor<'de2> for DateTimeVisitor {
+            type Value = DateTime;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("a datetime string or empty element")
+            }
+
+            fn visit_str<E: de::Error>(self, s: &str) -> Result<Self::Value, E> {
+                if s.is_empty() {
+                    return Ok(DateTime::default());
+                }
+                
+                // Try RFC3339 first (with timezone)
+                if let Ok(dt) = ChronoDateTime::parse_from_rfc3339(s) {
+                    return Ok(DateTime::from_chrono(dt.with_timezone(&Utc)));
+                }
+                
+                // Try ISO 8601 without timezone (common in Space Engineers)
+                // Format: 2081-01-01T07:00:00
+                if let Ok(naive) = chrono::NaiveDateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S") {
+                    return Ok(DateTime::from_chrono(naive.and_utc()));
+                }
+                
+                // Try with fractional seconds
+                if let Ok(naive) = chrono::NaiveDateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.f") {
+                    return Ok(DateTime::from_chrono(naive.and_utc()));
+                }
+                
+                Err(de::Error::custom(format!("failed to parse datetime: {s}")))
+            }
+
+            fn visit_string<E: de::Error>(self, s: String) -> Result<Self::Value, E> {
+                self.visit_str(&s)
+            }
+
+            fn visit_unit<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(DateTime::default())
+            }
+
+            fn visit_none<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(DateTime::default())
+            }
+
+            // Handle xsi:nil="true" elements which appear as maps
+            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::MapAccess<'de2>,
+            {
+                // Consume all entries (likely just xsi:nil attribute)
+                while map.next_entry::<de::IgnoredAny, de::IgnoredAny>()?.is_some() {}
+                Ok(DateTime::default())
+            }
+        }
+
+        deserializer.deserialize_any(DateTimeVisitor)
     }
 }
 
@@ -517,11 +573,98 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
     where
         D: serde::Deserializer<'de>,
     {
-        // Handles xsi:nil="true" / self-closing nil tags in XML by
-        // deserializing as Option<T>: None ? default (null), Some(v) ? value.
-        Ok(Nullable(
-            Option::<T>::deserialize(deserializer)?.unwrap_or_default(),
-        ))
+        use serde::de::{self, Visitor};
+        use std::fmt;
+        use std::marker::PhantomData;
+
+        struct NullableVisitor<U>(PhantomData<U>);
+
+        impl<'de2, U: Default + PartialEq + Deserialize<'de2>> Visitor<'de2> for NullableVisitor<U> {
+            type Value = Nullable<U>;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("a nullable value, xsi:nil element, or empty element")
+            }
+
+            // xsi:nil="true" is presented as a map with the attribute
+            fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::MapAccess<'de2>,
+            {
+                // Consume all entries - for xsi:nil there's just the attribute
+                while map.next_entry::<de::IgnoredAny, de::IgnoredAny>()?.is_some() {}
+                Ok(Nullable(U::default()))
+            }
+
+            // Empty elements are presented as empty strings
+            fn visit_str<E: de::Error>(self, s: &str) -> Result<Self::Value, E> {
+                if s.is_empty() {
+                    Ok(Nullable(U::default()))
+                } else {
+                    // Try to deserialize from the string using U's Deserialize
+                    use serde::de::IntoDeserializer;
+                    U::deserialize(s.into_deserializer()).map(Nullable)
+                }
+            }
+
+            fn visit_string<E: de::Error>(self, s: String) -> Result<Self::Value, E> {
+                self.visit_str(&s)
+            }
+
+            fn visit_unit<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(Nullable(U::default()))
+            }
+
+            fn visit_none<E: de::Error>(self) -> Result<Self::Value, E> {
+                Ok(Nullable(U::default()))
+            }
+
+            fn visit_some<D2>(self, deserializer: D2) -> Result<Self::Value, D2::Error>
+            where
+                D2: serde::Deserializer<'de2>,
+            {
+                // Recursively try to deserialize
+                U::deserialize(deserializer).map(Nullable)
+            }
+
+            // Primitives
+            fn visit_bool<E: de::Error>(self, v: bool) -> Result<Self::Value, E> {
+                use serde::de::IntoDeserializer;
+                U::deserialize(v.into_deserializer()).map(Nullable)
+            }
+
+            fn visit_i64<E: de::Error>(self, v: i64) -> Result<Self::Value, E> {
+                use serde::de::IntoDeserializer;
+                U::deserialize(v.into_deserializer()).map(Nullable)
+            }
+
+            fn visit_u64<E: de::Error>(self, v: u64) -> Result<Self::Value, E> {
+                use serde::de::IntoDeserializer;
+                U::deserialize(v.into_deserializer()).map(Nullable)
+            }
+
+            fn visit_f64<E: de::Error>(self, v: f64) -> Result<Self::Value, E> {
+                use serde::de::IntoDeserializer;
+                U::deserialize(v.into_deserializer()).map(Nullable)
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: de::SeqAccess<'de2>,
+            {
+                // Try to deserialize from the sequence
+                // If there's content, use it; otherwise return default
+                if let Some(value) = seq.next_element::<U>()? {
+                    // Drain remaining elements
+                    while seq.next_element::<de::IgnoredAny>()?.is_some() {}
+                    Ok(Nullable(value))
+                } else {
+                    Ok(Nullable(U::default()))
+                }
+            }
+        }
+
+        deserializer.deserialize_any(NullableVisitor(PhantomData))
     }
 }
 

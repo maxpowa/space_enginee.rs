@@ -267,9 +267,8 @@ mod tests {
         println!("Step 4 passed: Faction with FactionIconWorkshopId xsi:nil=true");
     }
 
-    /// Parses a Space Engineers world save XML and validates key fields.
     #[test]
-    fn test_parse_world_sample() {
+    fn test_parse_session_settings() {
         // Test just MyObjectBuilder_SessionSettings first to isolate
         let settings_xml = r#"<MyObjectBuilder_SessionSettings>
             <GameMode>Survival</GameMode>
@@ -449,5 +448,52 @@ mod tests {
         assert_eq!(settings.game_mode, MyGameModeEnum::Survival);
         assert_eq!(settings.max_players, 1);
         assert_eq!(settings.view_distance, 15000);
+    }
+
+    #[test]
+    fn test_parse_world_sample() {
+        // Test the full world sample
+        let xml = include_str!("../test_data/world_sample.xml");
+        
+        println!("Parsing full world sample ({} bytes)...", xml.len());
+        
+        let world: MyObjectBuilder_World = match quick_xml::de::from_str(xml) {
+            Ok(w) => {
+                println!("SUCCESS!");
+                w
+            }
+            Err(e) => {
+                println!("FAILED: {e:?}");
+                
+                // Try to get the position where we failed
+                // quick-xml may give us byte position in the error
+                let error_str = format!("{:?}", e);
+                println!("\nError details: {}", error_str);
+                
+                panic!("Failed to parse world: {e}");
+            }
+        };
+
+        // Checkpoint basics
+        assert_eq!(world.checkpoint.session_name, "Empty World");
+        assert_eq!(world.checkpoint.app_version, 1208015);
+        assert!(!world.checkpoint.spectator_is_light_on);
+        
+        // Settings
+        assert_eq!(world.checkpoint.settings.game_mode, MyGameModeEnum::Survival);
+        assert_eq!(world.checkpoint.settings.inventory_size_multiplier, 3.0);
+        assert_eq!(world.checkpoint.settings.online_mode, MyOnlineModeEnum::PUBLIC);
+        assert_eq!(world.checkpoint.settings.max_players, 4);
+        assert_eq!(world.checkpoint.settings.view_distance, 15000);
+        assert!(world.checkpoint.settings.enable_jetpack);
+        assert!(!world.checkpoint.settings.enable_ingame_scripts);
+        
+        // Factions
+        assert!(world.checkpoint.factions.factions.len() >= 2, "Expected at least 2 factions");
+        let pirates = &world.checkpoint.factions.factions[0];
+        assert_eq!(pirates.tag, "SPRT");
+        assert_eq!(pirates.name, "Space Pirates");
+        assert_eq!(pirates.faction_type, MyFactionTypes::Pirate);
+        assert!(!pirates.stations.is_empty(), "Pirates should have stations");
     }
 }

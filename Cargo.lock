@@ -838,7 +838,7 @@ dependencies = [
 
 [[package]]
 name = "space_engineers"
-version = "1.208015.3"
+version = "1.208015.4"
 dependencies = [
  "space_engineers_compat",
  "space_engineers_sys",
@@ -846,7 +846,7 @@ dependencies = [
 
 [[package]]
 name = "space_engineers_compat"
-version = "1.208015.3"
+version = "1.208015.4"
 dependencies = [
  "chrono",
  "deku",
@@ -860,7 +860,7 @@ dependencies = [
 
 [[package]]
 name = "space_engineers_sys"
-version = "1.208015.3"
+version = "1.208015.4"
 dependencies = [
  "deku",
  "enumflags2",
