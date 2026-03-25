@@ -57,10 +57,10 @@ mod tests {
           <DamageInflicted><dictionary /></DamageInflicted>
         </MyObjectBuilder_Faction>"#;
         let faction: MyObjectBuilder_Faction = quick_xml::de::from_str(xml).unwrap();
-        assert_eq!(faction.faction_id, 275081873502543841);
-        assert_eq!(faction.tag, "FCTM");
+        assert_eq!(faction.faction_id, 275081873502543841.into());
+        assert_eq!(faction.tag, "FCTM".into());
         assert_eq!(faction.members.len(), 1);
-        assert_eq!(faction.members[0].player_id, 144115188075855897);
+        assert_eq!(faction.members[0].player_id, 144115188075855897.into());
         assert!(faction.join_requests.is_empty());
         assert!(faction.stations.is_empty());
     }
@@ -110,8 +110,8 @@ mod tests {
         let collection: MyObjectBuilder_FactionCollection =
             quick_xml::de::from_str(xml).unwrap();
         assert_eq!(collection.factions.len(), 1);
-        assert_eq!(collection.factions[0].faction_id, 123);
-        assert_eq!(collection.factions[0].tag, "TEST");
+        assert_eq!(collection.factions[0].faction_id, 123.into());
+        assert_eq!(collection.factions[0].tag, "TEST".into());
         assert!(collection.factions[0].members.is_empty());
         assert!(collection.factions[0].stations.is_empty());
     }
@@ -134,9 +134,9 @@ mod tests {
           <IsOnPlanetWithAtmosphere>false</IsOnPlanetWithAtmosphere>
         </MyObjectBuilder_Station>"#;
         let station: MyObjectBuilder_Station = quick_xml::de::from_str(xml).unwrap();
-        assert_eq!(station.id, 873803852734506309);
-        assert_eq!(station.faction_id, 258961289160008772);
-        assert_eq!(station.prefab_name, "Economy_SpaceStation_4");
+        assert_eq!(station.id, 873803852734506309.into());
+        assert_eq!(station.faction_id, 258961289160008772.into());
+        assert_eq!(station.prefab_name, "Economy_SpaceStation_4".into());
         assert!(station.store_items.is_empty());
     }
 
@@ -491,8 +491,8 @@ mod tests {
         // Factions
         assert!(world.checkpoint.factions.factions.len() >= 2, "Expected at least 2 factions");
         let pirates = &world.checkpoint.factions.factions[0];
-        assert_eq!(pirates.tag, "SPRT");
-        assert_eq!(pirates.name, "Space Pirates");
+        assert_eq!(pirates.tag, "SPRT".into());
+        assert_eq!(pirates.name, "Space Pirates".into());
         assert_eq!(pirates.faction_type, MyFactionTypes::Pirate);
         assert!(!pirates.stations.is_empty(), "Pirates should have stations");
     }

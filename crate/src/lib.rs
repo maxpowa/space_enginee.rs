@@ -9,3 +9,6 @@ pub use space_engineers_compat::*;
 // Re-export the sys crate (auto-generated SE data structures)
 pub use space_engineers_sys::types;
 pub use space_engineers_sys::types::*;
+
+// Re-export the transport crate (network protocol types)
+pub use space_engineers_transport as transport;

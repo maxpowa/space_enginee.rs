@@ -12,15 +12,24 @@
     Ord,
     ::serde::Serialize,
     ::serde::Deserialize,
+    ::deku::DekuRead,
+    ::deku::DekuWrite,
 )]
+#[deku(id_type = "u8", bits = 3)]
 #[serde(rename = "Direction")]
 pub enum Direction {
     #[default]
+    #[deku(id = 0)]
     Forward,
+    #[deku(id = 1)]
     Backward,
+    #[deku(id = 2)]
     Left,
+    #[deku(id = 3)]
     Right,
+    #[deku(id = 4)]
     Up,
+    #[deku(id = 5)]
     Down,
 }
 

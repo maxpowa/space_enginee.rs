@@ -6,12 +6,84 @@ using System.Xml.Serialization;
 using ProtoBuf;
 using VRage;
 using VRage.Collections;
+using VRage.ObjectBuilder;
 using VRage.Serialization;
 using VRageMath;
 
 namespace StandaloneExtractor.Plugin;
 
-// serde + proto_rs + enumflags2 + quick-xml
+/// <summary>
+/// Generates Rust structs from C# types for Space Engineers serialization.
+/// 
+/// ## Three Serialization Systems
+/// 
+/// Space Engineers uses three independent serialization systems, each with different
+/// rules for which members are included. Our codegen maps these to Rust attributes:
+/// 
+/// ### 1. XML Serialization (serde + quick-xml)
+/// Used for: Save files, world data, definitions
+/// 
+/// | C# Attribute       | Rust Attribute                    | Behavior                    |
+/// |--------------------|-----------------------------------|-----------------------------|
+/// | [XmlIgnore]        | #[serde(skip)]                    | Exclude from XML            |
+/// | [XmlElement("X")]  | #[serde(rename = "X")]            | Element with custom name    |
+/// | [XmlAttribute("X")]| #[serde(rename = "@X")]           | XML attribute (@ prefix)    |
+/// | (default)          | All public properties             | Included by default         |
+/// 
+/// ### 2. Protobuf Serialization (proto_rs)
+/// Used for: Client-server communication, some save data
+/// 
+/// | C# Attribute       | Rust Attribute                    | Behavior                    |
+/// |--------------------|-----------------------------------|-----------------------------|
+/// | [ProtoMember(N)]   | #[proto(tag = N)]                 | Include with tag N          |
+/// | (no ProtoMember)   | #[proto(skip)]                    | Exclude from protobuf       |
+/// | [ProtoContract]    | #[proto_rs::proto_message]        | Type-level marker           |
+/// 
+/// ### 3. Network/Binary Serialization (Deku)
+/// Used for: Real-time network replication events (RPC), state synchronization
+/// 
+/// | C# Attribute/Rule           | Rust Attribute      | Behavior                        |
+/// |-----------------------------|---------------------|---------------------------------|
+/// | [NoSerialize]               | #[deku(skip)]       | Exclude from network            |
+/// | [Serialize]                 | (force include)     | Include even if private setter  |
+/// | private setter              | #[deku(skip)]       | Exclude (not network-public)    |
+/// | Type not Deku-compatible    | #[deku(skip)]       | Can't serialize this type       |
+/// 
+/// The network serializer (MySerializerObject) uses different rules than XML/Protobuf:
+/// - Only members with public getter AND public setter are included
+/// - [NoSerialize] excludes, [Serialize] forces inclusion
+/// - See: VRage\VRage\Serialization\MySerializerObject.cs
+/// - See: VRage.Library\System\Reflection\MemberAccess.cs (IsMemberPublic)
+/// 
+/// ## Example: SerializableDefinitionId
+/// 
+/// ```csharp
+/// // Field - excluded from ALL serialization
+/// [XmlIgnore]
+/// [NoSerialize]
+/// public MyObjectBuilderType TypeId;
+/// 
+/// // XML/Protobuf only - NOT sent over network
+/// [ProtoMember(1)]
+/// [XmlAttribute("Type")]
+/// [NoSerialize]  // &lt;-- NOT sent over network
+/// public string TypeIdStringAttribute { get; set; }
+/// 
+/// // Network only - private with [Serialize] override
+/// [Serialize]  // &lt;-- Forces inclusion in network despite being private
+/// private ushort m_binaryTypeId { get; set; }
+/// ```
+/// 
+/// ## Generated Rust Mapping
+/// 
+/// The same field may have different skip attributes for each system:
+/// ```rust
+/// #[proto(skip)]           // No ProtoMember tag
+/// #[serde(skip)]           // Has [XmlIgnore]
+/// #[deku(skip)]            // Has [NoSerialize] or type not Deku-compatible
+/// pub type_id: MyObjectBuilderType,
+/// ```
+/// </summary>
 public class RustStructGenerator
 {
     private static string StringToSnakeCase(string str)
@@ -47,7 +119,16 @@ public class RustStructGenerator
             sb.Append(char.ToLower(c));
         }
 
-        return sb.ToString();
+        var result = sb.ToString();
+        
+        // Collapse multiple underscores into one
+        while (result.Contains("__"))
+            result = result.Replace("__", "_");
+        
+        // Remove leading underscore if any
+        result = result.TrimStart('_');
+        
+        return result;
     }
 
     private static bool IsTypeNullable(Type type) =>
@@ -66,7 +147,8 @@ public class RustStructGenerator
          type.GetGenericTypeDefinition() == typeof(MyConcurrentHashSet<>) ||
          type.GetGenericTypeDefinition() == typeof(ListReader<>) ||
          type.GetGenericTypeDefinition() == typeof(HashSetReader<>) ||
-         type.GetGenericTypeDefinition() == typeof(ICollection<>));
+         type.GetGenericTypeDefinition() == typeof(ICollection<>) ||
+         type.GetGenericTypeDefinition() == typeof(MySerializableList<>));
 
     private static string GenericTypeName(Type type)
     {
@@ -80,7 +162,7 @@ public class RustStructGenerator
         // }
         if (structName == "SerializableDictionary")
         {
-            return $"crate::compat::SerializableDictionary<{genericArguments}>";
+            return $"crate::compat::VarMap<{genericArguments}>";
         }
         if (structName == "MyTuple")
         {
@@ -147,6 +229,136 @@ public class RustStructGenerator
             _ when type.IsEnum => QualifiedRustName(type),
             _ when type.IsGenericType => GenericTypeName(type),
             _ => QualifiedRustName(type)
+        };
+    }
+
+    /// <summary>
+    /// Returns the Rust type name with Deku wrapper types for bit-aligned serialization.
+    /// Primitives are wrapped in BitAligned&lt;T&gt;, strings in VarString, byte arrays in VarBytes.
+    /// </summary>
+    private static string DekuTypeName(Type type)
+    {
+        return type switch
+        {
+            // Primitives wrapped in BitAligned<T> for bit-aligned reads
+            _ when type == typeof(byte) => "crate::compat::BitAligned<i32>",
+            _ when type == typeof(sbyte) => "crate::compat::BitAligned<u32>",
+            _ when type == typeof(short) => "crate::compat::BitAligned<i32>",
+            _ when type == typeof(ushort) => "crate::compat::BitAligned<u32>",
+            _ when type == typeof(int) => "crate::compat::BitAligned<i32>",
+            _ when type == typeof(uint) => "crate::compat::BitAligned<u32>",
+            _ when type == typeof(long) => "crate::compat::BitAligned<i64>",
+            _ when type == typeof(ulong) => "crate::compat::BitAligned<u64>",
+            _ when type == typeof(float) => "crate::compat::BitAligned<f32>",
+            _ when type == typeof(double) => "crate::compat::BitAligned<f64>",
+            _ when type == typeof(bool) => "crate::compat::BitBool",
+            _ when type == typeof(string) => "crate::compat::VarString",
+            _ when type == typeof(object) => "crate::compat::VarBytes",
+            // Other types use their regular names (they have Deku derives themselves)
+            _ when type == typeof(DateTime) => "crate::compat::DateTime",
+            _ when type == typeof(TimeSpan) => "crate::compat::TimeSpan",
+            _ when type == typeof(Guid) => "crate::compat::Guid",
+            _ when type == typeof(decimal) => "crate::compat::Decimal",
+            _ when type == typeof(Vector2) => "crate::math::Vector2F",
+            _ when type == typeof(SerializableVector2) => "crate::math::SerializableVector2F",
+            _ when type == typeof(Vector3D) => "crate::math::Vector3D",
+            _ when type == typeof(SerializableVector3D) => "crate::math::SerializableVector3D",
+            _ when type == typeof(Vector3) => "crate::math::Vector3F",
+            _ when type == typeof(SerializableVector3) => "crate::math::SerializableVector3F",
+            _ when type == typeof(Vector3I) => "crate::math::Vector3I",
+            _ when type == typeof(SerializableVector3I) => "crate::math::SerializableVector3I",
+            _ when type == typeof(Quaternion) => "crate::math::Quaternion",
+            _ when type == typeof(Matrix3x3) => "crate::math::Matrix3x3",
+            _ when type == typeof(MatrixD) => "crate::math::MatrixD",
+            _ when type == typeof(SerializableBoundingBoxD) => "crate::math::SerializableBoundingBoxD",
+            _ when type == typeof(BoundingBoxD) => "crate::math::BoundingBoxD",
+            _ when type == typeof(Base6Directions.Direction) => "crate::compat::direction::Direction",
+            _ when IsTypeNullable(type) =>
+                type.GenericTypeArguments[0].IsEnum && type.GenericTypeArguments[0].GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0
+                    ? $"crate::compat::Nullable<crate::compat::BitField<{DekuTypeName(type.GenericTypeArguments[0])}>>"
+                    : $"crate::compat::Nullable<{DekuTypeName(type.GenericTypeArguments[0])}>",
+            _ when IsTypeHashMap(type) =>
+                $"::std::collections::HashMap<{DekuTypeName(type.GenericTypeArguments[0])}, {DekuTypeName(type.GenericTypeArguments[1])}>",
+            _ when IsTypeArray(type) =>
+                $"crate::compat::VarVec<{DekuTypeName(type.GetElementType() ?? type.GenericTypeArguments[0])}>",
+            _ when type.IsEnum => QualifiedRustName(type),
+            _ when type.IsGenericType => GenericTypeName(type),
+            _ => QualifiedRustName(type)
+        };
+    }
+    
+    /// <summary>
+    /// Returns the Rust type name for use in crate-transport (events.rs).
+    /// Assumes common types are imported at the top of the file.
+    /// Complex types are prefixed with space_engineers_sys::.
+    /// </summary>
+    public static string DekuTypeNameForTransport(Type type)
+    {
+        return type switch
+        {
+            // Primitives - use wrapper types (imported at top of file)
+            _ when type == typeof(byte) => "BitAligned<u8>",
+            _ when type == typeof(sbyte) => "BitAligned<i8>",
+            _ when type == typeof(short) => "BitAligned<i16>",
+            _ when type == typeof(ushort) => "BitAligned<u16>",
+            _ when type == typeof(int) => "BitAligned<i32>",
+            _ when type == typeof(uint) => "BitAligned<u32>",
+            _ when type == typeof(long) => "BitAligned<i64>",
+            _ when type == typeof(ulong) => "BitAligned<u64>",
+            _ when type == typeof(float) => "BitAligned<f32>",
+            _ when type == typeof(double) => "BitAligned<f64>",
+            _ when type == typeof(bool) => "BitBool",
+            _ when type == typeof(string) => "VarString",
+            _ when type == typeof(byte[]) => "VarBytes",
+            _ when type == typeof(object) => "VarBytes",
+            // BCL types from compat
+            _ when type == typeof(DateTime) => "space_engineers_compat::DateTime",
+            _ when type == typeof(TimeSpan) => "space_engineers_compat::TimeSpan",
+            _ when type == typeof(Guid) => "space_engineers_compat::Guid",
+            _ when type == typeof(decimal) => "space_engineers_compat::Decimal",
+            // Math types (imported at top)
+            _ when type == typeof(Vector3D) => "Vector3D",
+            _ when type == typeof(Vector3) => "Vector3F",
+            _ when type == typeof(Vector2) => "space_engineers_sys::math::Vector2F",
+            _ when type == typeof(SerializableVector3D) => "space_engineers_sys::math::SerializableVector3D",
+            _ when type == typeof(SerializableVector3) => "space_engineers_sys::math::SerializableVector3F",
+            _ when type == typeof(Vector3I) => "space_engineers_sys::math::Vector3I",
+            _ when type == typeof(SerializableVector3I) => "space_engineers_sys::math::SerializableVector3I",
+            _ when type == typeof(Quaternion) => "space_engineers_sys::math::Quaternion",
+            _ when type == typeof(Matrix3x3) => "space_engineers_sys::math::Matrix3x3",
+            _ when type == typeof(MatrixD) => "space_engineers_sys::math::MatrixD",
+            _ when type == typeof(BoundingBoxD) => "space_engineers_sys::math::BoundingBoxD",
+            _ when type == typeof(SerializableBoundingBoxD) => "space_engineers_sys::math::SerializableBoundingBoxD",
+            // Direction enum (nested type in Base6Directions)
+            _ when type == typeof(Base6Directions.Direction) => "space_engineers_compat::direction::Direction",
+            // Generics
+            _ when IsTypeNullable(type) =>
+                $"Nullable<{DekuTypeNameForTransport(type.GenericTypeArguments[0])}>",
+            // VRage.Collections generics - use compat wrappers (VarMap is Deku-compatible)
+            _ when type.IsGenericType && type.GetGenericTypeDefinition().Name.StartsWith("SerializableDictionary") =>
+                $"VarMap<{DekuTypeNameForTransport(type.GenericTypeArguments[0])}, {DekuTypeNameForTransport(type.GenericTypeArguments[1])}>",
+            _ when type.IsGenericType && type.GetGenericTypeDefinition().Name.StartsWith("MyTuple") =>
+                $"space_engineers_compat::Tuple<{string.Join(", ", type.GenericTypeArguments.Select(DekuTypeNameForTransport))}>",
+            // HashMaps - use VarMap if key/value types are Deku-compatible
+            _ when IsTypeHashMap(type) && IsDekuCompatible(type.GenericTypeArguments[0], []) && IsDekuCompatible(type.GenericTypeArguments[1], []) =>
+                $"VarMap<{DekuTypeNameForTransport(type.GenericTypeArguments[0])}, {DekuTypeNameForTransport(type.GenericTypeArguments[1])}>",
+            // HashMaps with non-Deku-compatible key/value - use placeholder
+            _ when IsTypeHashMap(type) =>
+                $"/* {type.FullName} - HashMap not Deku-compatible */ VarBytes",
+            // Arrays/Lists - VarVec with length prefix
+            _ when IsTypeArray(type) =>
+                $"VarVec<{DekuTypeNameForTransport(type.GetElementType() ?? type.GenericTypeArguments[0])}>",
+            // Flags enums - wrap with BitField (same as RustStructGenerator does for fields)
+            _ when type.IsEnum && type.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 =>
+                $"space_engineers_compat::BitField<space_engineers_sys::types::{QualifiedRustName(type)}>",
+            // Non-flags enums in types module
+            _ when type.IsEnum =>
+                $"space_engineers_sys::types::{QualifiedRustName(type)}",
+            // Complex types - check if Deku compatible
+            _ when !IsDekuCompatible(type, []) =>
+                $"/* {type.FullName} - not Deku-compatible */ VarBytes",
+            // Complex types (structs/classes) in types module
+            _ => $"space_engineers_sys::types::{QualifiedRustName(type)}"
         };
     }
 
@@ -449,6 +661,7 @@ public class RustStructGenerator
         private bool HasXmlRootName => XmlRootName != null;
 
         public string SanitizedTypeName => RecursiveTypeName(Type);
+        public string DekuSanitizedTypeName => DekuTypeName(Type);
         
         public bool IsEnumFlags() => IsEnumFlags(Type);
 
@@ -507,6 +720,268 @@ public class RustStructGenerator
     static HashSet<Type> _processedTypes = [];
     /// Tracks XmlArrayItem wrapper type names already emitted, to avoid duplicates.
     static HashSet<string> _emittedXmlArrayItemWrappers = [];
+    /// Types that need Deku derives (replication event argument types and their dependencies).
+    static HashSet<Type> _dekuTypes = [];
+
+    private static bool NeedsDekuDerives(Type type) => _dekuTypes.Contains(type);
+
+    /// <summary>
+    /// Checks if a type will have Deku support in the generated code.
+    /// This differs from IsDekuCompatible in that it checks if the type WILL HAVE
+    /// Deku derives (for complex types), not just if it's structurally compatible.
+    /// </summary>
+    private static bool WillHaveDekuSupport(Type type)
+    {
+        // Primitives are supported via BitAligned wrappers
+        if (type.IsPrimitive) return true;
+        
+        // String and object are supported via VarString/VarBytes wrappers
+        if (type == typeof(string) || type == typeof(object) || type == typeof(byte[]))
+            return true;
+        
+        // DateTime, TimeSpan, Guid, decimal are supported via space_engineers_compat wrappers
+        if (type == typeof(DateTime) || type == typeof(TimeSpan) || 
+            type == typeof(Guid) || type == typeof(decimal))
+            return true;
+        
+        // Nullable<T> - supported via Nullable wrapper if inner type is supported
+        if (IsTypeNullable(type))
+            return WillHaveDekuSupport(type.GenericTypeArguments[0]);
+        
+        // Arrays/Lists - supported via VarVec if element type is supported
+        if (IsTypeArray(type))
+        {
+            var elementType = type.GetElementType() ?? type.GenericTypeArguments[0];
+            return WillHaveDekuSupport(elementType);
+        }
+        
+        // SerializableDictionary - supported via VarMap if key/value types are supported
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>))
+        {
+            return WillHaveDekuSupport(type.GenericTypeArguments[0]) &&
+                   WillHaveDekuSupport(type.GenericTypeArguments[1]);
+        }
+        
+        // Raw Dictionary - supported via VarMap if key/value types are supported
+        if (IsTypeHashMap(type))
+        {
+            return WillHaveDekuSupport(type.GenericTypeArguments[0]) &&
+                   WillHaveDekuSupport(type.GenericTypeArguments[1]);
+        }
+        
+        // Other generic types - not supported
+        if (type.IsGenericType)
+            return false;
+        
+        // All enums are supported (regular enums or flags via BitField wrapper)
+        if (type.IsEnum)
+            return true;
+        
+        // Math types from crate-compat have Deku support
+        Type[] dekuCompatMathTypes = [
+            typeof(VRageMath.Vector2),
+            typeof(VRageMath.Vector3),
+            typeof(VRageMath.Vector3D),
+            typeof(VRageMath.Vector3I),
+            typeof(VRageMath.Quaternion),
+            typeof(VRageMath.Matrix3x3),
+            typeof(VRageMath.MatrixD),
+            typeof(VRageMath.BoundingBoxD),
+            typeof(VRage.SerializableVector2),
+            typeof(VRage.SerializableVector3),
+            typeof(VRage.SerializableVector3D),
+            typeof(VRage.SerializableVector3I),
+            typeof(VRage.SerializableBoundingBoxD),
+        ];
+        if (dekuCompatMathTypes.Contains(type))
+            return true;
+        
+        // For complex types (structs/classes), check if they're in _dekuTypes
+        // (will have Deku derives in generated code)
+        return NeedsDekuDerives(type);
+    }
+
+    /// <summary>
+    /// Checks if a type can be serialized with Deku (only primitives, enums, and structs with Deku-compatible fields).
+    /// </summary>
+    private static bool IsDekuCompatible(Type type, HashSet<Type> checking)
+    {
+        // Prevent infinite recursion
+        if (!checking.Add(type)) return true;
+        
+        try
+        {
+            // Primitives are Deku-compatible
+            if (type.IsPrimitive) return true;
+            
+            // String and object are Deku-compatible via VarString/VarBytes wrappers
+            if (type == typeof(string) || type == typeof(object))
+                return true;
+            
+            // DateTime, TimeSpan, Guid, decimal are Deku-compatible via space_engineers_compat wrappers
+            if (type == typeof(DateTime) || type == typeof(TimeSpan) || 
+                type == typeof(Guid) || type == typeof(decimal))
+                return true;
+            
+            // Nullable<T> - Deku-compatible via our crate::compat::Nullable
+            if (IsTypeNullable(type))
+                return IsDekuCompatible(type.GenericTypeArguments[0], checking);
+            
+            // Arrays/Lists/HashSets - Deku-compatible via length-prefixed Vec
+            if (IsTypeArray(type))
+            {
+                var elementType = type.GetElementType() ?? type.GenericTypeArguments[0];
+                return IsDekuCompatible(elementType, checking);
+            }
+            
+            // SerializableDictionary is Deku-compatible via VarMap wrapper
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>))
+            {
+                return IsDekuCompatible(type.GenericTypeArguments[0], checking) &&
+                       IsDekuCompatible(type.GenericTypeArguments[1], checking);
+            }
+            
+            // Raw HashMaps/Dictionaries are NOT Deku-compatible (need VarMap wrapper)
+            if (IsTypeHashMap(type))
+                return false;
+            
+            // Other generic types - not compatible
+            if (type.IsGenericType)
+                return false;
+            
+            // All enums are Deku-compatible (flags enums via BitField wrapper)
+            if (type.IsEnum)
+                return true;
+            
+            // Math types from crate-compat have Deku support
+            Type[] dekuCompatMathTypes = [
+                typeof(VRageMath.Vector2),
+                typeof(VRageMath.Vector3),
+                typeof(VRageMath.Vector3D),
+                typeof(VRageMath.Vector3I),
+                typeof(VRageMath.Quaternion),
+                typeof(VRageMath.Matrix3x3),
+                typeof(VRageMath.MatrixD),
+                typeof(VRageMath.BoundingBoxD),
+                typeof(VRage.SerializableVector2),
+                typeof(VRage.SerializableVector3),
+                typeof(VRage.SerializableVector3D),
+                typeof(VRage.SerializableVector3I),
+                typeof(VRage.SerializableBoundingBoxD),
+            ];
+            if (dekuCompatMathTypes.Contains(type))
+                return true;
+            
+            // For structs/classes, check all fields and properties that would be network-serialized
+            // Use GetNetworkSerializableMembers to match the game's serialization rules
+            // (skips properties with private setters, [NoSerialize] attributes, etc.)
+            var (fieldInfos, propertyInfos) = GetNetworkSerializableMembers(type);
+            foreach (var field in fieldInfos)
+            {
+                if (!IsDekuCompatible(field.FieldType, checking))
+                    return false;
+            }
+            foreach (var prop in propertyInfos)
+            {
+                if (!IsDekuCompatible(prop.PropertyType, checking))
+                    return false;
+            }
+            
+            return true;
+        }
+        finally
+        {
+            checking.Remove(type);
+        }
+    }
+
+    /// <summary>
+    /// Recursively collects all types that a given type depends on (fields, properties, generic arguments).
+    /// </summary>
+    private static void CollectDependentTypes(Type type, HashSet<Type> collected, HashSet<Type> visited)
+    {
+        if (!visited.Add(type)) return;
+        
+        // Skip primitives and built-in types that have known Rust mappings
+        if (type.IsPrimitive || type == typeof(string) || type == typeof(object) ||
+            type == typeof(DateTime) || type == typeof(TimeSpan) || type == typeof(Guid) ||
+            type == typeof(decimal))
+            return;
+        
+        // Handle nullable types
+        if (IsTypeNullable(type))
+        {
+            CollectDependentTypes(type.GenericTypeArguments[0], collected, visited);
+            return;
+        }
+        
+        // Handle array/list types
+        if (IsTypeArray(type))
+        {
+            var elemType = type.GetElementType() ?? type.GenericTypeArguments[0];
+            CollectDependentTypes(elemType, collected, visited);
+            return;
+        }
+        
+        // Handle HashMap types
+        if (IsTypeHashMap(type))
+        {
+            CollectDependentTypes(type.GenericTypeArguments[0], collected, visited);
+            CollectDependentTypes(type.GenericTypeArguments[1], collected, visited);
+            return;
+        }
+        
+        // Handle other generic types
+        if (type.IsGenericType)
+        {
+            foreach (var arg in type.GenericTypeArguments)
+                CollectDependentTypes(arg, collected, visited);
+            // Still add the type itself if it's a concrete type we'll generate
+            var typeInfo = new ExtraTypeInfo { Type = type };
+            if (!typeInfo.HasRustType)
+                collected.Add(type);
+            return;
+        }
+        
+        // Add enums
+        if (type.IsEnum)
+        {
+            collected.Add(type);
+            return;
+        }
+        
+        // Add the type itself
+        collected.Add(type);
+        
+        // Recurse into fields and properties that would be network-serialized
+        // Use GetNetworkSerializableMembers to match the game's serialization rules
+        var (fieldInfos, propertyInfos) = GetNetworkSerializableMembers(type);
+        foreach (var field in fieldInfos)
+            CollectDependentTypes(field.FieldType, collected, visited);
+        foreach (var prop in propertyInfos)
+            CollectDependentTypes(prop.PropertyType, collected, visited);
+    }
+
+    /// <summary>
+    /// Expands a set of types to include all their transitive dependencies,
+    /// filtering to only include Deku-compatible types.
+    /// </summary>
+    private static HashSet<Type> ExpandWithDependencies(HashSet<Type> types)
+    {
+        var result = new HashSet<Type>();
+        var visited = new HashSet<Type>();
+        foreach (var type in types)
+            CollectDependentTypes(type, result, visited);
+        
+        // Filter to only Deku-compatible types
+        var compatible = new HashSet<Type>();
+        foreach (var type in result)
+        {
+            if (IsDekuCompatible(type, []))
+                compatible.Add(type);
+        }
+        return compatible;
+    }
 
     static bool IsTypeEmpty(Type type)
     {
@@ -519,6 +994,8 @@ public class RustStructGenerator
     static bool IsTypeIgnored(Type type)
     {
         if (type.IsEnum || type.IsPrimitive || type.IsValueType) return false;
+        // Types used in network replication (Deku) should not be ignored
+        if (_dekuTypes.Contains(type)) return false;
         if (type.GetCustomAttributes(typeof(XmlSerializerAssemblyAttribute), true).Length <= 0 &&
             type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length <= 0) return true;
         if (typeof(Type) == type) return true;
@@ -530,6 +1007,53 @@ public class RustStructGenerator
     {
         return (type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+    }
+
+    /// <summary>
+    /// Gets members that would actually be serialized over the network by the game's serializer.
+    /// 
+    /// The game's serialization rules (from VRage.Serialization.MySerializerObject):
+    /// - Must NOT have [NoSerialize] attribute
+    /// - Must EITHER have [Serialize] attribute OR be "member public"
+    /// 
+    /// "Member public" for properties (from VRage.Library.System.Reflection.MemberAccess.IsMemberPublic):
+    /// - GetGetMethod() must return non-null (has public getter)
+    /// - GetSetMethod() must return non-null (has public setter - returns null for private set!)
+    /// - Both must have MethodAttributes.Public
+    /// 
+    /// This is why types like MyStoreItem with `Action { get; private set; }` are actually
+    /// Deku-compatible - the Actions never cross the wire because the game skips them.
+    /// </summary>
+    static (FieldInfo[], PropertyInfo[]) GetNetworkSerializableMembers(Type type)
+    {
+        var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(f => !Attribute.IsDefined(f, typeof(VRage.Serialization.NoSerializeAttribute)))
+            .ToArray();
+        
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(p => !Attribute.IsDefined(p, typeof(VRage.Serialization.NoSerializeAttribute)))
+            .Where(p => Attribute.IsDefined(p, typeof(VRage.Serialization.SerializeAttribute)) || IsPropertyNetworkPublic(p))
+            .ToArray();
+        
+        return (fields, properties);
+    }
+
+    /// <summary>
+    /// Checks if a property is considered "public" for network serialization purposes.
+    /// Matches the game's IsMemberPublic behavior from VRage.Library.
+    /// 
+    /// Key insight: GetSetMethod() returns null for private setters, so properties
+    /// like `public Action OnCancel { get; private set; }` return false here.
+    /// </summary>
+    static bool IsPropertyNetworkPublic(PropertyInfo prop)
+    {
+        var getter = prop.GetGetMethod();
+        var setter = prop.GetSetMethod(); // Returns null for private set!
+        
+        if (getter == null || setter == null)
+            return false;
+        
+        return getter.IsPublic && setter.IsPublic;
     }
 
     static Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo> BuildIntermediateMemberInfo(Type type, MemberInfo member)
@@ -551,6 +1075,8 @@ public class RustStructGenerator
     {
         writer.WriteLine($"// Original enum: {type.FullName}");
         var isFlags = type.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0;
+        var needsDeku = NeedsDekuDerives(type);
+        
         if (isFlags)
         {
             var enumFields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
@@ -583,17 +1109,36 @@ public class RustStructGenerator
         }
         else
         {
-            // Skip proto_message for enums with an "Error" variant — it conflicts with TryFrom::Error
-            var hasErrorVariant = type.GetFields(BindingFlags.Public | BindingFlags.Static).Any(f => f.Name == "Error");
-            if (!hasErrorVariant)
-                writer.WriteLine("#[::proto_rs::proto_message]");
+            writer.WriteLine("#[::proto_rs::proto_message]");
         }
 
         List<string> deriveTraits =
             ["Debug", "Clone", "Copy", "PartialEq", "Eq", "Hash", "PartialOrd", "Ord", "::serde::Serialize", "::serde::Deserialize"];
         if (!isFlags) deriveTraits.Insert(0, "Default");
+        // Deku is only compatible with non-flags enums (flags use enumflags2)
+        if (needsDeku && !isFlags)
+        {
+            deriveTraits.Add("::deku::DekuRead");
+            deriveTraits.Add("::deku::DekuWrite");
+        }
         writer.WriteLine(
                 $"#[derive({string.Join(", ", deriveTraits)})]");
+        
+        // For non-flags enums with Deku, add bit-packed serialization attribute
+        // SE uses: bitCount = (int)Math.Log(maxValue, 2.0) + 1; then ReadUInt64(bitCount)
+        if (needsDeku && !isFlags)
+        {
+            var enumValues = type.GetFields(BindingFlags.Public | BindingFlags.Static)
+                .Select(f => Convert.ToUInt64(f.GetRawConstantValue() ?? 0))
+                .ToList();
+            var maxValue = enumValues.Count > 0 ? enumValues.Max() : 0UL;
+            var bitCount = maxValue > 0 ? (int)Math.Log(maxValue, 2.0) + 1 : 1;
+            var underlyingType = Enum.GetUnderlyingType(type);
+            var dekuType = underlyingType == typeof(byte) || underlyingType == typeof(sbyte) ? "u8" :
+                           underlyingType == typeof(short) || underlyingType == typeof(ushort) ? "u16" :
+                           underlyingType == typeof(int) || underlyingType == typeof(uint) ? "u32" : "u64";
+            writer.WriteLine($"#[deku(id_type = \"{dekuType}\", bits = {bitCount})]");
+        }
         
         var qualifiedName = QualifiedRustName(type);
         writer.WriteLine($"#[serde(rename = \"{type.Name}\")]");
@@ -657,12 +1202,26 @@ public class RustStructGenerator
             }
             else
             {
+                var enumValue = Convert.ToUInt64(field.GetRawConstantValue() ?? 0);
                 if (!setDefault) 
                 {
                     writer.WriteLine($"    #[default]");
                     setDefault = true;
                 }
-                writer.WriteLine($"    {name},");
+                if (needsDeku)
+                {
+                    writer.WriteLine($"    #[deku(id = \"{enumValue}\")]");
+                }
+                // Rename "Error" variant to avoid conflict with TryFrom::Error associated type
+                if (name == "Error")
+                {
+                    writer.WriteLine($"    #[serde(rename = \"Error\")]");
+                    writer.WriteLine($"    Error_,");
+                }
+                else
+                {
+                    writer.WriteLine($"    {name},");
+                }
             }
         }
         
@@ -806,6 +1365,11 @@ public class RustStructGenerator
             }
 
             // Emit a stub for empty types so they can be referenced by other types
+            // But skip types that have built-in Rust mappings (object, string, primitives, etc.)
+            var emptyTypeInfo = new ExtraTypeInfo { Type = type };
+            if (emptyTypeInfo.HasRustType)
+                return true;
+            
             if (!type.IsPrimitive && !type.IsValueType && !type.IsEnum)
             {
 
@@ -816,7 +1380,9 @@ public class RustStructGenerator
                 var serializeName = type.Name.Contains('`') ? type.Name.Split('`')[0] : type.Name;
                 writer.WriteLine($"// Stub for empty/abstract type: {type.FullName}");
                 if (isStubProtobuf) writer.WriteLine("#[::proto_rs::proto_message]");
-                writer.WriteLine("#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]");
+                var stubTraits = new List<string> { "Debug", "Default", "Clone", "PartialEq", "::serde::Serialize", "::serde::Deserialize" };
+                if (NeedsDekuDerives(type)) { stubTraits.Add("::deku::DekuRead"); stubTraits.Add("::deku::DekuWrite"); }
+                writer.WriteLine($"#[derive({string.Join(", ", stubTraits)})]");
                 writer.WriteLine($"#[serde(rename = \"{serializeName}\")]");
                 writer.WriteLine($"pub struct {sanitizedName} {{}}");
             }
@@ -877,7 +1443,9 @@ public class RustStructGenerator
             var ignoredName = QualifiedRustName(type);
             var ignoredSerializeName = type.Name.Contains('`') ? type.Name.Split('`')[0] : type.Name;
             writer.WriteLine($"// Stub for ignored type (no serialization attributes): {type.FullName}");
-            writer.WriteLine("#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]");
+            var ignoredTraits = new List<string> { "Debug", "Default", "Clone", "PartialEq", "::serde::Serialize", "::serde::Deserialize" };
+            if (NeedsDekuDerives(type)) { ignoredTraits.Add("::deku::DekuRead"); ignoredTraits.Add("::deku::DekuWrite"); }
+            writer.WriteLine($"#[derive({string.Join(", ", ignoredTraits)})]");
             writer.WriteLine($"#[serde(rename = \"{ignoredSerializeName}\")]");
             writer.WriteLine($"pub struct {ignoredName} {{}}");
             return true;
@@ -890,9 +1458,15 @@ public class RustStructGenerator
         }
 
         var (fieldInfos, propertyInfos) = GetPublicTypeMembers(type);
+        var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
+        var isDekuOnly = NeedsDekuDerives(type) && !isProtobuf;
         var members = new List<Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo>>();
         foreach (var field in fieldInfos)
         {
+            // For Deku-only types (no protobuf), skip fields marked [NoSerialize]
+            if (isDekuOnly && field.GetCustomAttributes(typeof(NoSerializeAttribute), true).Length > 0)
+                continue;
+
             if (!WriteRustStructAndDependents(field.FieldType, writer))
             {
                 Console.WriteLine(
@@ -921,9 +1495,27 @@ public class RustStructGenerator
             
             // Skip properties that have no serialization attributes at all.
             // These are typically computed properties or aliases (e.g. MaxPlayers).
+            // Exception: Deku-only types include all public properties since they
+            // use network replication via IMemberAccessor, not proto/XML attributes.
             var hasXmlElement = prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
-            if (!propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
+            if (!isDekuOnly && !propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
                 continue;
+
+            // For Deku-only types (no protobuf), completely drop fields that would be:
+            // - serde(skip): XmlIgnore
+            // - deku(skip): not network-public (private setter) and no [Serialize]
+            // These fields exist only for local runtime state (e.g., Action delegates)
+            // and are never serialized in any format.
+            if (isDekuOnly && propSerInfo.IsXmlIgnore)
+            {
+                var isNetworkSerializable = IsPropertyNetworkPublic(prop) ||
+                    Attribute.IsDefined(prop, typeof(VRage.Serialization.SerializeAttribute));
+                if (!isNetworkSerializable)
+                {
+                    Console.WriteLine($"// Dropped non-serialized property `{prop.Name}` (serde+deku skip)");
+                    continue;
+                }
+            }
 
             if (!WriteRustStructAndDependents(prop.PropertyType, writer))
             {
@@ -934,8 +1526,6 @@ public class RustStructGenerator
 
             members.Add(BuildIntermediateMemberInfo(prop.PropertyType, prop));
         }
-
-        var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
 
         // Check if any member has a non-zero numeric default or enum default (needs serde_inline_default on struct)
         var hasInlineDefaults = members.Any(m => 
@@ -948,6 +1538,12 @@ public class RustStructGenerator
             writer.WriteLine("#[::serde_inline_default::serde_inline_default]");
         
         List<string> traits = ["Debug", "Default", "Clone", "PartialEq", "::serde::Serialize", "::serde::Deserialize"];
+        // Add Deku derives for types used in network replication
+        if (NeedsDekuDerives(type))
+        {
+            traits.Add("::deku::DekuRead");
+            traits.Add("::deku::DekuWrite");
+        }
         if (isProtobuf) 
         {
             // traits.Add("::prost::Message");
@@ -980,6 +1576,39 @@ public class RustStructGenerator
         var index = 0;
         foreach (var (memberName, sanitizedName, extraTypeInfo, memberInfo) in members)
         {
+            // Determine if each serialization method would skip this field
+            var serdeWillSkip = memberInfo.IsXmlIgnore;
+            var protoWillSkip = !isProtobuf || !memberInfo.IsProtoMember || memberInfo.NoSerialize;
+            
+            var dekuWillSkip = false;
+            if (NeedsDekuDerives(type))
+            {
+                if (!WillHaveDekuSupport(extraTypeInfo.Type))
+                {
+                    dekuWillSkip = true;
+                }
+                else if (memberInfo.Member is PropertyInfo prop)
+                {
+                    if (!IsPropertyNetworkPublic(prop) && 
+                        !Attribute.IsDefined(prop, typeof(VRage.Serialization.SerializeAttribute)))
+                    {
+                        dekuWillSkip = true;
+                    }
+                }
+            }
+            else
+            {
+                // Non-Deku types don't need the field for Deku, so consider it "skipped"
+                dekuWillSkip = true;
+            }
+            
+            // If ALL three serialization methods skip this field, drop it entirely
+            if (serdeWillSkip && protoWillSkip && dekuWillSkip)
+            {
+                Console.WriteLine($"// Dropped field `{memberName}` (skipped by all serialization methods)");
+                continue;
+            }
+
             if (isProtobuf)
             {
                 if (memberInfo.IsProtoMember && !memberInfo.NoSerialize)
@@ -1018,6 +1647,10 @@ public class RustStructGenerator
                 else if (memberInfo.HasEnumDefaultValue)
                     inlineDefaultLiteral = memberInfo.EnumDefaultRustLiteral;
                 
+                // For Deku types, wrap numeric defaults in BitAligned()
+                if (inlineDefaultLiteral != null && NeedsDekuDerives(type) && memberInfo.HasNumericDefaultValue)
+                    inlineDefaultLiteral = $"crate::compat::BitAligned({inlineDefaultLiteral})";
+                
                 // Default for types with natural zero/empty defaults (collections, booleans,
                 // strings).  XML attributes are also optional and should default when absent.
                 // Skip adding serde(default) if we're using serde_inline_default for this field.
@@ -1030,10 +1663,11 @@ public class RustStructGenerator
                 // elements like `<Members />`.  The XmlArrayItem path below already
                 // supplies its own deserialize_with, so we only add the generic one
                 // when no XmlArrayItem override is present.
+                // Skip for Deku types - they use VarVec which handles serialization differently.
                 var xmlArrayItemName2 = memberInfo.XmlArrayItemName;
                 var hasXmlArrayItemOverride = xmlArrayItemName2 != null && extraTypeInfo.IsArray &&
                                              xmlArrayItemName2 != new ExtraTypeInfo { Type = extraTypeInfo.Type.GetElementType() ?? extraTypeInfo.Type.GenericTypeArguments[0] }.Name;
-                if (extraTypeInfo.IsArray && !hasXmlArrayItemOverride)
+                if (extraTypeInfo.IsArray && !hasXmlArrayItemOverride && !NeedsDekuDerives(type))
                     serdeParts.Add("deserialize_with = \"crate::compat::xml_vec::deserialize\"");
 
                 // Emit serde_inline_default attribute for non-zero numeric defaults and enum defaults
@@ -1047,7 +1681,41 @@ public class RustStructGenerator
                 writer.WriteLine($"    #[serde(skip)]");
             }
 
-            var rustTypeName = extraTypeInfo.IsEnumFlags() ? $"crate::compat::BitField<{extraTypeInfo.SanitizedTypeName}>" : extraTypeInfo.SanitizedTypeName;
+            // For Deku types, skip fields/properties in two cases:
+            // 1. The field's type won't have Deku support (complex type not in _dekuTypes)
+            // 2. Properties with private setters (not network-serializable per game rules)
+            // This matches the game's MySerializerObject behavior - see rpc.rs documentation.
+            if (NeedsDekuDerives(type))
+            {
+                var needsDekuSkip = false;
+                
+                // Check if the member type will have Deku support
+                if (!WillHaveDekuSupport(extraTypeInfo.Type))
+                {
+                    needsDekuSkip = true;
+                }
+                // Check if property has private setter (not network-serializable)
+                else if (memberInfo.Member is PropertyInfo memberProp)
+                {
+                    if (!IsPropertyNetworkPublic(memberProp) && 
+                        !Attribute.IsDefined(memberProp, typeof(VRage.Serialization.SerializeAttribute)))
+                    {
+                        needsDekuSkip = true;
+                    }
+                }
+                
+                if (needsDekuSkip)
+                {
+                    writer.WriteLine($"    #[deku(skip)]");
+                }
+            }
+
+            // Use BitAligned field types for types with Deku derives
+            var rustTypeName = extraTypeInfo.IsEnumFlags() 
+                ? $"crate::compat::BitField<{extraTypeInfo.SanitizedTypeName}>" 
+                : NeedsDekuDerives(type) 
+                    ? extraTypeInfo.DekuSanitizedTypeName 
+                    : extraTypeInfo.SanitizedTypeName;
 
             // If the field has an [XmlArrayItem("...")] attribute, emit a second
             // #[serde] line with serialize_with/deserialize_with pointing to
@@ -1057,8 +1725,9 @@ public class RustStructGenerator
             // However, if the item name already matches the element type's serde
             // rename, quick-xml will naturally use the correct element name and
             // the custom functions are unnecessary.
+            // Skip for Deku types - they use VarVec which has different serialization.
             var xmlArrayItemName = memberInfo.XmlArrayItemName;
-            if (xmlArrayItemName != null && extraTypeInfo.IsArray && !memberInfo.IsXmlIgnore)
+            if (xmlArrayItemName != null && extraTypeInfo.IsArray && !memberInfo.IsXmlIgnore && !NeedsDekuDerives(type))
             {
                 var elementType = extraTypeInfo.Type.GetElementType() ?? extraTypeInfo.Type.GenericTypeArguments[0];
                 var elementTypeInfo = new ExtraTypeInfo { Type = elementType };
@@ -1097,11 +1766,13 @@ public class RustStructGenerator
         return true;
     }
 
-    public static void GenerateRustStructs(List<Type> baseTypes, string outputPath, string filename = "game_data.rs")
+    public static void GenerateRustStructs(List<Type> baseTypes, string outputPath, string filename = "game_data.rs", HashSet<Type>? dekuTypes = null)
     {
         _processedTypes.Clear();
         _floatCheckVisited.Clear();
         _emittedXmlArrayItemWrappers.Clear();
+        // Expand dekuTypes to include all transitive dependencies
+        _dekuTypes = dekuTypes != null ? ExpandWithDependencies(dekuTypes) : [];
 
         var eventListFilename = Path.Combine(outputPath, filename);
         using var writer = new StreamWriter(eventListFilename);

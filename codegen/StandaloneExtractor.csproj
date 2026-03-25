@@ -27,6 +27,10 @@
             <HintPath>$(BinaryPath)\VRage.Platform.Windows.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="VRage.Steam.Windows">
+            <HintPath>$(BinaryPath)\VRage.Steam.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
 
 </Project>

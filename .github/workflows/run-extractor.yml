@@ -166,7 +166,7 @@ jobs:
 
           if ($latestTag) {
             Write-Output "Comparing against last tag: $latestTag"
-            $diff = git diff "$latestTag" -- crate-sys/ crate-compat/src/ crate/src/
+            $diff = git diff "$latestTag" -- crate-sys/ crate-compat/src/ crate-transport/src/ crate/src/
           } else {
             Write-Output "No previous tag for this SE version, treating as new"
             $diff = "new"
@@ -205,7 +205,7 @@ jobs:
         run: |
           $version = "${{ steps.crate-version.outputs.crate_version }}"
 
-          foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate/Cargo.toml")) {
+          foreach ($toml in @("crate-compat/Cargo.toml", "crate-sys/Cargo.toml", "crate-transport/Cargo.toml", "crate/Cargo.toml")) {
             (Get-Content $toml -Raw) -replace 'version = "[\d\.]+"', "version = `"$version`"" |
               Set-Content $toml -NoNewline
           }
@@ -225,7 +225,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add crate-sys/src/types.rs crate-compat/Cargo.toml crate-sys/Cargo.toml crate/Cargo.toml
+          git add crate-sys/src/types.rs crate-transport/src/protocol/ crate-compat/Cargo.toml crate-sys/Cargo.toml crate-transport/Cargo.toml crate/Cargo.toml
           git commit -m "chore: update generated types for SE v$seVersion (crate v$crateVersion)"
           git push
 
@@ -237,7 +237,7 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
           # Publish in dependency order
-          $crates = @("crate-compat", "crate-sys", "crate")
+          $crates = @("crate-compat", "crate-sys", "crate-transport", "crate")
           foreach ($crate in $crates) {
             Write-Output "Publishing $crate..."
             cargo publish --manifest-path "$crate/Cargo.toml" --allow-dirty
@@ -278,13 +278,13 @@ jobs:
           $tag = "${{ steps.tag.outputs.tag }}"
 
           $diagnostics = "${{ steps.extractor.outputs.diagnostics_path }}"
+          $schemaFile = Get-ChildItem "$diagnostics/schema_v*.json" | Select-Object -First 1
 
           gh release create $tag `
             --title "Space Engineers $tag" `
             --notes "Auto-generated types for Space Engineers v$seVersion (Steam build $buildId)." `
             --latest `
-            "$diagnostics/id_to_type.json" `
-            "$diagnostics/static_events.json"
+            "$schemaFile"
 
 
       - name: Save version marker to cache

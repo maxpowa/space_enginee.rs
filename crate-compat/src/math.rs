@@ -75,7 +75,7 @@ impl From<Vec2> for Vector2F {
 
 // Original type: VRage.SerializableVector3D
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 pub struct SerializableVector3D {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
@@ -177,7 +177,7 @@ impl From<Vec3> for Vector3D {
 
 // Original type: VRage.SerializableVector3F
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 pub struct SerializableVector3F {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
@@ -246,7 +246,7 @@ impl From<Vec3> for Vector3F {
 
 // Original type: VRageMath.SerializableVector3I
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 pub struct SerializableVector3I {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
@@ -317,7 +317,7 @@ impl From<Vec3> for Vector3I {
 
 // Original type: VRageMath.Quaternion
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 pub struct Quaternion {
     #[proto(tag = 1)]
     #[serde(rename = "X")]
@@ -530,7 +530,7 @@ impl From<Mat4> for MatrixD {
 
 // Original type: VRage.SerializableBoundingBoxD
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 pub struct SerializableBoundingBoxD {
     #[proto(tag = 1)]
     #[serde(rename = "Min")]
@@ -550,7 +550,7 @@ impl SerializableBoundingBoxD {
 
 // Original type: VRageMath.BoundingBoxD
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Eq, Hash)]
+#[derive(Default, Debug, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Eq, Hash)]
 pub struct BoundingBoxD {
     #[proto(tag = 1)]
     #[serde(rename = "Min")]

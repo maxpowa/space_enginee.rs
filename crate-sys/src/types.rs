@@ -52,7 +52,7 @@ pub enum MyEnvironmentHostilityEnum {
 }
 // Note: Type mapping applied from System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<bool>
 // Note: Type mapping applied from System.UInt32 to u32
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<String,i32>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,i32>
 // Note: Type mapping applied from System.Double to f64
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<String>
 // Note: Type mapping applied from System.Int64 to i64
@@ -314,7 +314,7 @@ pub struct MyObjectBuilder_SessionSettings {
     pub flora_density_multiplier: f32,
     #[proto(tag = 139)]
     #[serde(rename = "BlockTypeLimits", default)]
-    pub block_type_limits: crate::compat::SerializableDictionary<String,i32>,
+    pub block_type_limits: crate::compat::VarMap<String,i32>,
     #[proto(tag = 141)]
     #[serde(rename = "EnableScripterRole", default)]
     pub enable_scripter_role: bool,
@@ -698,15 +698,15 @@ pub struct MyObjectBuilder_SessionSettings {
 // Note: Type mapping applied from System.UInt64 to u64
 // Original type: VRage.Game.WorkshopId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "WorkshopId")]
 pub struct WorkshopId {
     #[proto(tag = 1)]
     #[serde(rename = "Id", default)]
-    pub id: u64,
+    pub id: crate::compat::BitAligned<u64>,
     #[proto(tag = 4)]
     #[serde(rename = "ServiceName", default)]
-    pub service_name: String,
+    pub service_name: crate::compat::VarString,
 }
 // Original type: Sandbox.Game.MyCachedServerItem+MyServerData
 #[::proto_rs::proto_message]
@@ -734,7 +734,7 @@ pub struct MyCachedServerItem_MyServerData {
 // Note: Type mapping applied from VRage.SerializableVector3 to crate::math::SerializableVector3F
 // Original type: VRage.MyPositionAndOrientation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyPositionAndOrientation")]
 pub struct MyPositionAndOrientation {
     #[proto(tag = 1)]
@@ -750,54 +750,72 @@ pub struct MyPositionAndOrientation {
 // Note: Type mapping applied from VRage.SerializableVector2 to crate::math::SerializableVector2F
 // Original enum: VRage.Game.MyCameraControllerEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyCameraControllerEnum")]
 pub enum MyCameraControllerEnum {
     #[default]
+    #[deku(id = "0")]
     Spectator,
+    #[deku(id = "1")]
     Entity,
+    #[deku(id = "2")]
     ThirdPersonSpectator,
+    #[deku(id = "3")]
     SpectatorDelta,
+    #[deku(id = "4")]
     SpectatorFixed,
+    #[deku(id = "5")]
     SpectatorOrbit,
+    #[deku(id = "6")]
     SpectatorFreeMouse,
 }
 // Note: Type mapping applied from System.DateTime to crate::compat::DateTime
 // Note: Type mapping applied from System.Nullable`1[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<u64>
 // Original enum: VRage.Game.MyToolbarType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyToolbarType")]
 pub enum MyToolbarType {
     #[default]
+    #[deku(id = "0")]
     Character,
+    #[deku(id = "1")]
     SmallCockpit,
+    #[deku(id = "2")]
     LargeCockpit,
+    #[deku(id = "3")]
     Ship,
+    #[deku(id = "4")]
     Seat,
+    #[deku(id = "5")]
     ButtonPanel,
+    #[deku(id = "6")]
     Spectator,
+    #[deku(id = "7")]
     None,
+    #[deku(id = "8")]
     BuildCockpit,
 }
 // Note: Type mapping applied from System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<i32>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Toolbar+Slot, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Toolbar_Slot>
 // Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ToolbarItem")]
 pub struct MyObjectBuilder_ToolbarItem {}
 // Original type: VRage.Game.MyObjectBuilder_Toolbar+Slot
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Slot")]
 pub struct MyObjectBuilder_Toolbar_Slot {
     #[proto(tag = 1)]
     #[serde(rename = "Index", default)]
-    pub index: i32,
+    pub index: crate::compat::BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "Item", default)]
-    pub item: String,
+    pub item: crate::compat::VarString,
     #[proto(tag = 7)]
     #[serde(rename = "Data", default)]
     pub data: MyObjectBuilder_ToolbarItem,
@@ -806,7 +824,7 @@ pub struct MyObjectBuilder_Toolbar_Slot {
 // Note: Type mapping applied from VRageMath.Vector3 to crate::math::Vector3F
 // Original type: VRage.Game.MyObjectBuilder_Toolbar
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Toolbar")]
 pub struct MyObjectBuilder_Toolbar {
     #[proto(tag = 10)]
@@ -814,18 +832,18 @@ pub struct MyObjectBuilder_Toolbar {
     pub toolbar_type: MyToolbarType,
     #[proto(tag = 13)]
     #[serde(rename = "SelectedSlot", default)]
-    pub selected_slot: crate::compat::Nullable<i32>,
+    pub selected_slot: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
     #[proto(tag = 16)]
-    #[serde(rename = "Slots", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub slots: Vec<MyObjectBuilder_Toolbar_Slot>,
+    #[serde(rename = "Slots", default)]
+    pub slots: crate::compat::VarVec<MyObjectBuilder_Toolbar_Slot>,
     #[proto(tag = 17)]
-    #[serde(rename = "SlotsGamepad", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub slots_gamepad: Vec<MyObjectBuilder_Toolbar_Slot>,
+    #[serde(rename = "SlotsGamepad", default)]
+    pub slots_gamepad: crate::compat::VarVec<MyObjectBuilder_Toolbar_Slot>,
     #[proto(skip)]
-    #[serde(rename = "ColorMaskHSVList", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub color_mask_hsv_list: Vec<crate::math::Vector3F>,
+    #[serde(rename = "ColorMaskHSVList", default)]
+    pub color_mask_hsv_list: crate::compat::VarVec<crate::math::Vector3F>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::SerializableDictionary<i64,MyObjectBuilder_Checkpoint_PlayerId>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<i64,MyObjectBuilder_Checkpoint_PlayerId>
 // Original type: VRage.Game.MyObjectBuilder_Checkpoint+PlayerId
 #[::proto_rs::proto_message]
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Eq, Hash, PartialOrd, Ord)]
@@ -841,11 +859,7 @@ pub struct MyObjectBuilder_Checkpoint_PlayerId {
     #[serde(rename = "HashedId", default)]
     pub hashed_id: u64,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<String,Vec<u8>>
-// Stub for empty/abstract type: System.Object
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "Object")]
-pub struct Object {}
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,Vec<u8>>
 // Original type: VRage.Game.MyObjectBuilder_ScriptManager
 #[::proto_rs::proto_message]
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
@@ -853,50 +867,64 @@ pub struct Object {}
 pub struct MyObjectBuilder_ScriptManager {
     #[proto(tag = 1)]
     #[serde(rename = "variables", default)]
-    pub variables: crate::compat::SerializableDictionary<String,Vec<u8>>,
+    pub variables: crate::compat::VarMap<String,Vec<u8>>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Faction, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Faction>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_FactionMember, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_FactionMember>
 // Original type: VRage.Game.MyObjectBuilder_FactionMember
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_FactionMember")]
 pub struct MyObjectBuilder_FactionMember {
     #[proto(tag = 1)]
     #[serde(rename = "PlayerId", default)]
-    pub player_id: i64,
+    pub player_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "IsLeader", default)]
-    pub is_leader: bool,
+    pub is_leader: crate::compat::BitBool,
     #[proto(tag = 7)]
     #[serde(rename = "IsFounder", default)]
-    pub is_founder: bool,
+    pub is_founder: crate::compat::BitBool,
 }
 // Original enum: VRage.Game.MyFactionTypes
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyFactionTypes")]
 pub enum MyFactionTypes {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     PlayerMade,
+    #[deku(id = "2")]
     Miner,
+    #[deku(id = "3")]
     Trader,
+    #[deku(id = "4")]
     Builder,
+    #[deku(id = "5")]
     Pirate,
+    #[deku(id = "6")]
     Military,
+    #[deku(id = "7")]
     Custom,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Station, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Station>
 // Original enum: VRage.Game.MyStationTypeEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyStationTypeEnum")]
 pub enum MyStationTypeEnum {
     #[default]
+    #[deku(id = "0")]
     MiningStation,
+    #[deku(id = "1")]
     OrbitalStation,
+    #[deku(id = "2")]
     Outpost,
+    #[deku(id = "3")]
     SpaceStation,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.Definitions.MyObjectBuilder_StoreItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_StoreItem>
@@ -908,54 +936,59 @@ pub struct MyObjectBuilderType {
 }
 // Original type: VRage.ObjectBuilders.SerializableDefinitionId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "SerializableDefinitionId")]
 pub struct SerializableDefinitionId {
     #[proto(skip)]
     #[serde(skip)]
-    pub type_id: MyObjectBuilderType,
-    #[proto(skip)]
-    #[serde(skip)]
-    pub subtype_name: String,
+    pub subtype_name: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "@TypeIdStringAttribute", default)]
-    pub type_id_string_attribute: String,
+    pub type_id_string_attribute: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "TypeIdString", default)]
-    pub type_id_string: String,
+    pub type_id_string: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "@SubtypeIdAttribute", default)]
-    pub subtype_id_attribute: String,
+    pub subtype_id_attribute: crate::compat::VarString,
 }
 // Original enum: VRage.Game.ObjectBuilders.Definitions.ItemTypes
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "ItemTypes")]
 pub enum ItemTypes {
     #[default]
+    #[deku(id = "0")]
     PhysicalItem,
+    #[deku(id = "1")]
     Oxygen,
+    #[deku(id = "2")]
     Hydrogen,
+    #[deku(id = "3")]
     Grid,
 }
 // Original enum: VRage.Game.ObjectBuilders.Definitions.StoreItemTypes
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "StoreItemTypes")]
 pub enum StoreItemTypes {
     #[default]
+    #[deku(id = "0")]
     Offer,
+    #[deku(id = "1")]
     Order,
 }
 // Note: Type mapping applied from System.Byte to i32
 // Original type: VRage.Game.ObjectBuilders.Definitions.MyObjectBuilder_StoreItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_StoreItem")]
 pub struct MyObjectBuilder_StoreItem {
     #[proto(tag = 1)]
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[proto(tag = 3)]
     #[serde(rename = "Item", default)]
     pub item: crate::compat::Nullable<SerializableDefinitionId>,
@@ -964,40 +997,40 @@ pub struct MyObjectBuilder_StoreItem {
     pub item_type: ItemTypes,
     #[proto(tag = 5)]
     #[serde(rename = "Amount", default)]
-    pub amount: i32,
+    pub amount: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "RemovedAmount", default)]
-    pub removed_amount: i32,
+    pub removed_amount: crate::compat::BitAligned<i32>,
     #[proto(tag = 9)]
     #[serde(rename = "PricePerUnit", default)]
-    pub price_per_unit: i32,
+    pub price_per_unit: crate::compat::BitAligned<i32>,
     #[proto(tag = 11)]
     #[serde(rename = "StoreItemType", default)]
     pub store_item_type: StoreItemTypes,
     #[proto(tag = 13)]
     #[serde(rename = "UpdateCount", default)]
-    pub update_count: i32,
+    pub update_count: crate::compat::BitAligned<i32>,
     #[proto(tag = 15)]
     #[serde(rename = "PrefabName", default)]
-    pub prefab_name: String,
+    pub prefab_name: crate::compat::VarString,
     #[proto(tag = 17)]
     #[serde(rename = "PrefabTotalPcu", default)]
-    pub prefab_total_pcu: i32,
+    pub prefab_total_pcu: crate::compat::BitAligned<i32>,
     #[proto(tag = 19)]
     #[serde(rename = "PricePerUnitDiscount", default)]
-    pub price_per_unit_discount: f32,
+    pub price_per_unit_discount: crate::compat::BitAligned<f32>,
     #[proto(tag = 21)]
     #[serde(rename = "IsCustomStoreItem", default)]
-    pub is_custom_store_item: bool,
+    pub is_custom_store_item: crate::compat::BitBool,
 }
 // Original type: VRage.Game.MyObjectBuilder_Station
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Station")]
 pub struct MyObjectBuilder_Station {
     #[proto(tag = 1)]
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[proto(tag = 2)]
     #[serde(rename = "Position")]
     pub position: crate::math::SerializableVector3D,
@@ -1012,75 +1045,75 @@ pub struct MyObjectBuilder_Station {
     pub station_type: MyStationTypeEnum,
     #[proto(tag = 9)]
     #[serde(rename = "IsDeepSpaceStation", default)]
-    pub is_deep_space_station: bool,
+    pub is_deep_space_station: crate::compat::BitBool,
     #[proto(tag = 11)]
     #[serde(rename = "StationEntityId", default)]
-    pub station_entity_id: i64,
+    pub station_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 13)]
     #[serde(rename = "FactionId", default)]
-    pub faction_id: i64,
+    pub faction_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 15)]
     #[serde(rename = "PrefabName", default)]
-    pub prefab_name: String,
+    pub prefab_name: crate::compat::VarString,
     #[proto(tag = 19)]
     #[serde(rename = "SafeZoneEntityId", default)]
-    pub safe_zone_entity_id: i64,
+    pub safe_zone_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 21)]
-    #[serde(rename = "StoreItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub store_items: Vec<MyObjectBuilder_StoreItem>,
+    #[serde(rename = "StoreItems", default)]
+    pub store_items: crate::compat::VarVec<MyObjectBuilder_StoreItem>,
     #[proto(tag = 23)]
     #[serde(rename = "IsOnPlanetWithAtmosphere", default)]
-    pub is_on_planet_with_atmosphere: bool,
+    pub is_on_planet_with_atmosphere: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.WorkshopId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<WorkshopId>
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<i64,f32>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<i64,f32>
 // Original type: VRage.Game.MyObjectBuilder_Faction
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Faction")]
 pub struct MyObjectBuilder_Faction {
     #[proto(tag = 10)]
     #[serde(rename = "FactionId", default)]
-    pub faction_id: i64,
+    pub faction_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 13)]
     #[serde(rename = "Tag", default)]
-    pub tag: String,
+    pub tag: crate::compat::VarString,
     #[proto(tag = 16)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 19)]
     #[serde(rename = "Description", default)]
-    pub description: String,
+    pub description: crate::compat::VarString,
     #[proto(tag = 22)]
     #[serde(rename = "PrivateInfo", default)]
-    pub private_info: String,
+    pub private_info: crate::compat::VarString,
     #[proto(tag = 25)]
-    #[serde(rename = "Members", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub members: Vec<MyObjectBuilder_FactionMember>,
+    #[serde(rename = "Members", default)]
+    pub members: crate::compat::VarVec<MyObjectBuilder_FactionMember>,
     #[proto(tag = 28)]
-    #[serde(rename = "JoinRequests", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub join_requests: Vec<MyObjectBuilder_FactionMember>,
+    #[serde(rename = "JoinRequests", default)]
+    pub join_requests: crate::compat::VarVec<MyObjectBuilder_FactionMember>,
     #[proto(tag = 31)]
     #[serde(rename = "AutoAcceptMember", default)]
-    pub auto_accept_member: bool,
+    pub auto_accept_member: crate::compat::BitBool,
     #[proto(tag = 34)]
     #[serde(rename = "AutoAcceptPeace", default)]
-    pub auto_accept_peace: bool,
+    pub auto_accept_peace: crate::compat::BitBool,
     #[proto(tag = 37)]
     #[serde(rename = "AcceptHumans", default)]
-    pub accept_humans: bool,
+    pub accept_humans: crate::compat::BitBool,
     #[proto(tag = 40)]
     #[serde(rename = "EnableFriendlyFire", default)]
-    pub enable_friendly_fire: bool,
+    pub enable_friendly_fire: crate::compat::BitBool,
     #[proto(tag = 43)]
     #[serde(rename = "FactionType", default)]
     pub faction_type: MyFactionTypes,
     #[proto(tag = 44)]
     #[serde(rename = "FactionTypeString", default)]
-    pub faction_type_string: String,
+    pub faction_type_string: crate::compat::VarString,
     #[proto(tag = 46)]
-    #[serde(rename = "Stations", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub stations: Vec<MyObjectBuilder_Station>,
+    #[serde(rename = "Stations", default)]
+    pub stations: crate::compat::VarVec<MyObjectBuilder_Station>,
     #[proto(tag = 49)]
     #[serde(rename = "CustomColor")]
     pub custom_color: crate::math::SerializableVector3F,
@@ -1089,24 +1122,24 @@ pub struct MyObjectBuilder_Faction {
     pub icon_color: crate::math::SerializableVector3F,
     #[proto(tag = 52)]
     #[serde(rename = "FactionIcon", default)]
-    pub faction_icon: String,
+    pub faction_icon: crate::compat::VarString,
     #[proto(tag = 53)]
     #[serde(rename = "TransferedPCUDelta", default)]
-    pub transfered_pcu_delta: i32,
+    pub transfered_pcu_delta: crate::compat::BitAligned<i32>,
     #[proto(tag = 56)]
     #[serde(rename = "Score", default)]
-    pub score: i32,
+    pub score: crate::compat::BitAligned<i32>,
     #[proto(tag = 59)]
     #[serde(rename = "ObjectivePercentageCompleted", default)]
-    pub objective_percentage_completed: f32,
+    pub objective_percentage_completed: crate::compat::BitAligned<f32>,
     #[proto(tag = 61)]
     #[serde(rename = "FactionIconWorkshopId", default)]
     pub faction_icon_workshop_id: crate::compat::Nullable<WorkshopId>,
     #[proto(tag = 64)]
     #[serde(rename = "DamageInflicted", default)]
-    pub damage_inflicted: crate::compat::SerializableDictionary<i64,f32>,
+    pub damage_inflicted: crate::compat::VarMap<i64,f32>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<i64,i64>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<i64,i64>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_FactionRelation, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_FactionRelation>
 // Original enum: VRage.Game.MyRelationsBetweenFactions
 #[::proto_rs::proto_message]
@@ -1199,7 +1232,7 @@ pub struct MyObjectBuilder_FactionCollection {
     pub factions: Vec<MyObjectBuilder_Faction>,
     #[proto(tag = 19)]
     #[serde(rename = "Players", default)]
-    pub players: crate::compat::SerializableDictionary<i64,i64>,
+    pub players: crate::compat::VarMap<i64,i64>,
     #[proto(tag = 22)]
     #[serde(rename = "Relations", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub relations: Vec<MyObjectBuilder_FactionRelation>,
@@ -1213,7 +1246,7 @@ pub struct MyObjectBuilder_FactionCollection {
     #[serde(rename = "PlayerToFactionsVis", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub player_to_factions_vis: Vec<MyObjectBuilder_FactionsVisEntry>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,i64>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,i64>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Checkpoint+ModItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Checkpoint_ModItem>
 // Original type: VRage.Game.MyObjectBuilder_Checkpoint+ModItem
 #[::proto_rs::proto_message]
@@ -1236,18 +1269,25 @@ pub struct MyObjectBuilder_Checkpoint_ModItem {
     #[serde(rename = "@FriendlyName", default)]
     pub friendly_name: String,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.ModAPI.MyPromoteLevel, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::SerializableDictionary<u64,MyPromoteLevel>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.ModAPI.MyPromoteLevel, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<u64,MyPromoteLevel>
 // Original enum: VRage.Game.ModAPI.MyPromoteLevel
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyPromoteLevel")]
 pub enum MyPromoteLevel {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     Scripter,
+    #[deku(id = "2")]
     Moderator,
+    #[deku(id = "3")]
     SpaceMaster,
+    #[deku(id = "4")]
     Admin,
+    #[deku(id = "5")]
     Owner,
 }
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u64>
@@ -1280,160 +1320,160 @@ pub struct MyObjectBuilder_Checkpoint_RespawnCooldownItem {
 // Note: Type mapping applied from VRageMath.Vector3D to crate::math::Vector3D
 // Original type: VRage.Game.MyObjectBuilder_Identity
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Identity")]
 pub struct MyObjectBuilder_Identity {
     #[proto(tag = 1)]
     #[serde(rename = "IdentityId", default)]
-    pub identity_id: i64,
+    pub identity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[proto(tag = 7)]
     #[serde(rename = "CharacterEntityId", default)]
-    pub character_entity_id: i64,
+    pub character_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 10)]
     #[serde(rename = "Model", default)]
-    pub model: String,
+    pub model: crate::compat::VarString,
     #[proto(tag = 13)]
     #[serde(rename = "ColorMask", default)]
     pub color_mask: crate::compat::Nullable<crate::math::SerializableVector3F>,
     #[proto(tag = 16)]
     #[serde(rename = "BlockLimitModifier", default)]
-    pub block_limit_modifier: i32,
+    pub block_limit_modifier: crate::compat::BitAligned<i32>,
     #[proto(tag = 19)]
     #[serde(rename = "LastLoginTime", default)]
     pub last_login_time: crate::compat::DateTime,
     #[proto(tag = 22)]
-    #[serde(rename = "SavedCharacters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub saved_characters: Vec<i64>,
+    #[serde(rename = "SavedCharacters", default)]
+    pub saved_characters: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 25)]
     #[serde(rename = "LastLogoutTime", default)]
     pub last_logout_time: crate::compat::DateTime,
     #[proto(tag = 28)]
-    #[serde(rename = "RespawnShips", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub respawn_ships: Vec<i64>,
+    #[serde(rename = "RespawnShips", default)]
+    pub respawn_ships: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(skip)]
     #[serde(rename = "LastDeathPosition", default)]
     pub last_death_position: crate::compat::Nullable<crate::math::Vector3D>,
     #[proto(tag = 33)]
-    #[serde(rename = "ActiveContracts", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub active_contracts: Vec<i64>,
+    #[serde(rename = "ActiveContracts", default)]
+    pub active_contracts: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 35)]
     #[serde(rename = "TransferedPCUDelta", default)]
-    pub transfered_pcu_delta: i32,
+    pub transfered_pcu_delta: crate::compat::BitAligned<i32>,
     #[proto(tag = 38)]
     #[serde(rename = "IsGlobalEncounterSpawner", default)]
-    pub is_global_encounter_spawner: bool,
+    pub is_global_encounter_spawner: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Client, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Client>
 // Original type: VRage.Game.MyObjectBuilder_Client
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Client")]
 pub struct MyObjectBuilder_Client {
     #[proto(tag = 1)]
     #[serde(rename = "SteamId", default)]
-    pub steam_id: u64,
+    pub steam_id: crate::compat::BitAligned<u64>,
     #[proto(tag = 4)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 7)]
     #[serde(rename = "IsAdmin", default)]
-    pub is_admin: bool,
+    pub is_admin: crate::compat::BitBool,
     #[proto(tag = 10)]
     #[serde(rename = "ClientService", default)]
-    pub client_service: String,
+    pub client_service: crate::compat::VarString,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.MyEnvironmentHostilityEnum, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyEnvironmentHostilityEnum>
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[VRage.Game.MyObjectBuilder_Player, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[VRage.Game.MyObjectBuilder_Player, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.CameraControllerSettings, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<CameraControllerSettings>
 // Note: Type mapping applied from System.Nullable`1[[VRage.SerializableVector2, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::SerializableVector2F>
 // Original type: VRage.Game.CameraControllerSettings
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "CameraControllerSettings")]
 pub struct CameraControllerSettings {
     #[proto(tag = 1)]
     #[serde(rename = "IsFirstPerson", default)]
-    pub is_first_person: bool,
+    pub is_first_person: crate::compat::BitBool,
     #[proto(tag = 4)]
     #[serde(rename = "Distance", default)]
-    pub distance: f64,
+    pub distance: crate::compat::BitAligned<f64>,
     #[proto(tag = 7)]
     #[serde(rename = "HeadAngle", default)]
     pub head_angle: crate::compat::Nullable<crate::math::SerializableVector2F>,
     #[proto(skip)]
     #[serde(rename = "@EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Player
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Player")]
 pub struct MyObjectBuilder_Player {
     #[proto(tag = 10)]
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[proto(tag = 13)]
     #[serde(rename = "IdentityId", default)]
-    pub identity_id: i64,
+    pub identity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 16)]
     #[serde(rename = "Connected", default)]
-    pub connected: bool,
+    pub connected: crate::compat::BitBool,
     #[proto(tag = 19)]
     #[serde(rename = "ForceRealPlayer", default)]
-    pub force_real_player: bool,
+    pub force_real_player: crate::compat::BitBool,
     #[proto(tag = 22)]
     #[serde(rename = "Toolbar", default)]
     pub toolbar: MyObjectBuilder_Toolbar,
     #[proto(tag = 25)]
-    #[serde(rename = "EntityCameraData", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub entity_camera_data: Vec<CameraControllerSettings>,
+    #[serde(rename = "EntityCameraData", default)]
+    pub entity_camera_data: crate::compat::VarVec<CameraControllerSettings>,
     #[proto(tag = 28)]
-    #[serde(rename = "BuildColorSlots", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub build_color_slots: Vec<crate::math::Vector3F>,
+    #[serde(rename = "BuildColorSlots", default)]
+    pub build_color_slots: crate::compat::VarVec<crate::math::Vector3F>,
     #[proto(tag = 30)]
     #[serde(rename = "CreativeToolsEnabled", default)]
-    pub creative_tools_enabled: bool,
+    pub creative_tools_enabled: crate::compat::BitBool,
     #[proto(tag = 33)]
     #[serde(rename = "RemoteAdminSettings", default)]
-    pub remote_admin_settings: i32,
+    pub remote_admin_settings: crate::compat::BitAligned<i32>,
     #[proto(tag = 38)]
     #[serde(rename = "PromoteLevel", default)]
     pub promote_level: MyPromoteLevel,
     #[proto(skip)]
     #[serde(rename = "SteamID", default)]
-    pub steam_i_d: u64,
+    pub steam_i_d: crate::compat::BitAligned<u64>,
     #[proto(skip)]
     #[serde(rename = "PlayerEntity", default)]
-    pub player_entity: i64,
+    pub player_entity: crate::compat::BitAligned<i64>,
     #[proto(skip)]
     #[serde(rename = "PlayerModel", default)]
-    pub player_model: String,
+    pub player_model: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "PlayerId", default)]
-    pub player_id: i64,
+    pub player_id: crate::compat::BitAligned<i64>,
     #[proto(skip)]
     #[serde(rename = "LastActivity", default)]
-    pub last_activity: i64,
+    pub last_activity: crate::compat::BitAligned<i64>,
     #[proto(tag = 31)]
     #[serde(rename = "BuildArmorSkin", default)]
-    pub build_armor_skin: String,
+    pub build_armor_skin: crate::compat::VarString,
     #[proto(tag = 35)]
     #[serde(rename = "BuildColorSlot", default)]
-    pub build_color_slot: i32,
+    pub build_color_slot: crate::compat::BitAligned<i32>,
     #[proto(tag = 40)]
     #[serde(rename = "IsWildlifeAgent", default)]
-    pub is_wildlife_agent: bool,
+    pub is_wildlife_agent: crate::compat::BitBool,
     #[proto(tag = 45)]
     #[serde(rename = "PlatformIcon", default)]
-    pub platform_icon: String,
+    pub platform_icon: crate::compat::VarString,
     #[proto(tag = 50)]
     #[serde(rename = "GameAcronym", default)]
-    pub game_acronym: String,
+    pub game_acronym: crate::compat::VarString,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Collections.Generic.List`1[[VRageMath.Vector3, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,Vec<crate::math::Vector3F>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Collections.Generic.List`1[[VRageMath.Vector3, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,Vec<crate::math::Vector3F>>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_ChatHistory, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ChatHistory>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_PlayerChatHistory, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_PlayerChatHistory>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_PlayerChatItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_PlayerChatItem>
@@ -1555,16 +1595,16 @@ pub struct MyObjectBuilder_FactionChatHistory {
     #[serde(rename = "FactionId2", default)]
     pub faction_id2: i64,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.MyObjectBuilder_Gps, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::SerializableDictionary<i64,MyObjectBuilder_Gps>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.MyObjectBuilder_Gps, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<i64,MyObjectBuilder_Gps>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Gps+Entry, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Gps_Entry>
 // Original type: VRageMath.Color
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Eq, Hash, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Eq, Hash, PartialOrd, Ord)]
 #[serde(rename = "Color")]
 pub struct Color {
     #[proto(tag = 1)]
     #[serde(rename = "PackedValue", default)]
-    pub packed_value: u32,
+    pub packed_value: crate::compat::BitAligned<u32>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Gps+Entry
 #[::proto_rs::proto_message]
@@ -1617,7 +1657,7 @@ pub struct MyObjectBuilder_Gps {
     #[serde(rename = "Entries", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub entries: Vec<MyObjectBuilder_Gps_Entry>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.List`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,Vec<i64>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.List`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,Vec<i64>>
 // Note: Type mapping applied from System.Nullable`1[[VRage.SerializableBoundingBoxD, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::SerializableBoundingBoxD>
 // Note: Type mapping applied from VRage.SerializableBoundingBoxD to crate::math::SerializableBoundingBoxD
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_SessionComponent, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_SessionComponent>
@@ -1629,7 +1669,7 @@ pub struct MyObjectBuilder_SessionComponent {
 }
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<String>
 // Note: Type mapping applied from System.Guid to crate::compat::Guid
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,i64>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,i64>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Checkpoint+PlayerItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Checkpoint_PlayerItem>
 // Original type: VRage.Game.MyObjectBuilder_Checkpoint+PlayerItem
 #[::proto_rs::proto_message]
@@ -1652,7 +1692,7 @@ pub struct MyObjectBuilder_Checkpoint_PlayerItem {
     #[serde(rename = "Model", default)]
     pub model: String,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,i32>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,i32>
 // Original type: VRage.Game.MyObjectBuilder_Checkpoint
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
@@ -1717,7 +1757,7 @@ pub struct MyObjectBuilder_Checkpoint {
     pub character_toolbar: MyObjectBuilder_Toolbar,
     #[proto(tag = 43)]
     #[serde(rename = "ControlledEntities", default)]
-    pub controlled_entities: crate::compat::SerializableDictionary<i64,MyObjectBuilder_Checkpoint_PlayerId>,
+    pub controlled_entities: crate::compat::VarMap<i64,MyObjectBuilder_Checkpoint_PlayerId>,
     #[proto(tag = 46)]
     #[serde(rename = "Settings", default)]
     pub settings: MyObjectBuilder_SessionSettings,
@@ -1732,13 +1772,13 @@ pub struct MyObjectBuilder_Checkpoint {
     pub factions: MyObjectBuilder_FactionCollection,
     #[proto(tag = 54)]
     #[serde(rename = "PlayersDeadInCryopods", default)]
-    pub players_dead_in_cryopods: crate::compat::SerializableDictionary<u64,i64>,
+    pub players_dead_in_cryopods: crate::compat::VarMap<u64,i64>,
     #[proto(tag = 82)]
     #[serde(rename = "Mods", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub mods: Vec<MyObjectBuilder_Checkpoint_ModItem>,
     #[proto(tag = 85)]
     #[serde(rename = "PromotedUsers", default)]
-    pub promoted_users: crate::compat::SerializableDictionary<u64,MyPromoteLevel>,
+    pub promoted_users: crate::compat::VarMap<u64,MyPromoteLevel>,
     #[proto(skip)]
     #[serde(rename = "CreativeTools", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub creative_tools: Vec<u64>,
@@ -1762,10 +1802,10 @@ pub struct MyObjectBuilder_Checkpoint {
     pub shared_toolbar: u64,
     #[proto(tag = 115)]
     #[serde(rename = "AllPlayersData", default)]
-    pub all_players_data: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>,
+    pub all_players_data: crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>,
     #[proto(tag = 118)]
     #[serde(rename = "AllPlayersColors", default)]
-    pub all_players_colors: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,Vec<crate::math::Vector3F>>,
+    pub all_players_colors: crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,Vec<crate::math::Vector3F>>,
     #[proto(tag = 121)]
     #[serde(rename = "ChatHistory", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub chat_history: Vec<MyObjectBuilder_ChatHistory>,
@@ -1777,10 +1817,10 @@ pub struct MyObjectBuilder_Checkpoint {
     pub non_player_identities: Vec<i64>,
     #[proto(tag = 130)]
     #[serde(rename = "Gps", default)]
-    pub gps: crate::compat::SerializableDictionary<i64,MyObjectBuilder_Gps>,
+    pub gps: crate::compat::VarMap<i64,MyObjectBuilder_Gps>,
     #[proto(tag = 132)]
     #[serde(rename = "ContainerGridIds", default)]
-    pub container_grid_ids: crate::compat::SerializableDictionary<u64,Vec<i64>>,
+    pub container_grid_ids: crate::compat::VarMap<u64,Vec<i64>>,
     #[proto(tag = 133)]
     #[serde(rename = "WorldBoundaries", default)]
     pub world_boundaries: crate::compat::Nullable<crate::math::SerializableBoundingBoxD>,
@@ -1826,16 +1866,16 @@ pub struct MyObjectBuilder_Checkpoint {
     pub world_id: crate::compat::Guid,
     #[proto(tag = 175)]
     #[serde(rename = "ConnectedPlayers", default)]
-    pub connected_players: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>,
+    pub connected_players: crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,MyObjectBuilder_Player>,
     #[proto(tag = 178)]
     #[serde(rename = "DisconnectedPlayers", default)]
-    pub disconnected_players: crate::compat::SerializableDictionary<MyObjectBuilder_Checkpoint_PlayerId,i64>,
+    pub disconnected_players: crate::compat::VarMap<MyObjectBuilder_Checkpoint_PlayerId,i64>,
     #[proto(skip)]
     #[serde(rename = "AllPlayers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub all_players: Vec<MyObjectBuilder_Checkpoint_PlayerItem>,
     #[proto(tag = 181)]
     #[serde(rename = "RemoteAdminSettings", default)]
-    pub remote_admin_settings: crate::compat::SerializableDictionary<u64,i32>,
+    pub remote_admin_settings: crate::compat::VarMap<u64,i32>,
 }
 // Note: Type mapping applied from VRageMath.Vector3I to crate::math::Vector3I
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_GlobalEventBase, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_GlobalEventBase>
@@ -1886,7 +1926,7 @@ pub struct MyObjectBuilder_GlobalEvents {
 // Note: Type mapping applied from VRageMath.BoundingBoxD to crate::math::BoundingBoxD
 // Original type: VRage.Game.MyEncounterId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyEncounterId")]
 pub struct MyEncounterId {
     #[proto(tag = 1)]
@@ -1894,10 +1934,10 @@ pub struct MyEncounterId {
     pub bounding_box: crate::math::BoundingBoxD,
     #[proto(tag = 4)]
     #[serde(rename = "Seed", default)]
-    pub seed: i32,
+    pub seed: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "EncounterId", default)]
-    pub encounter_id: i32,
+    pub encounter_id: crate::compat::BitAligned<i32>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Encounters
 #[::proto_rs::proto_message]
@@ -1954,48 +1994,48 @@ impl MyPersistentEntityFlags2 {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentContainer+ComponentData, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ComponentContainer_ComponentData>
 // Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentBase
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ComponentBase")]
 pub struct MyObjectBuilder_ComponentBase {
     #[proto(tag = 1)]
     #[serde(rename = "RemoveExistingComponentOnNewInsert", default)]
-    pub remove_existing_component_on_new_insert: bool,
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
 }
 // Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentContainer+ComponentData
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ComponentData")]
 pub struct MyObjectBuilder_ComponentContainer_ComponentData {
     #[proto(tag = 1)]
     #[serde(rename = "TypeId", default)]
-    pub type_id: String,
+    pub type_id: crate::compat::VarString,
     #[proto(tag = 4)]
     #[serde(rename = "Component", default)]
     pub component: MyObjectBuilder_ComponentBase,
 }
 // Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentContainer
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ComponentContainer")]
 pub struct MyObjectBuilder_ComponentContainer {
     #[proto(tag = 7)]
-    #[serde(rename = "Components", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub components: Vec<MyObjectBuilder_ComponentContainer_ComponentData>,
+    #[serde(rename = "Components", default)]
+    pub components: crate::compat::VarVec<MyObjectBuilder_ComponentContainer_ComponentData>,
 }
 // Original type: VRage.ObjectBuilders.MyObjectBuilder_EntityBase
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_EntityBase")]
 pub struct MyObjectBuilder_EntityBase {
     #[proto(tag = 1)]
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "PersistentFlags")]
     pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
     #[proto(tag = 7)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 10)]
     #[serde(rename = "PositionAndOrientation", default)]
     pub position_and_orientation: crate::compat::Nullable<MyPositionAndOrientation>,
@@ -2036,7 +2076,7 @@ pub struct MyObjectBuilder_Sector {
     #[serde(rename = "SectorObjects", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub sector_objects: Vec<MyObjectBuilder_EntityBase>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<String,Vec<i32>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,Vec<i32>>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRageMath.BoundingBoxD, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<crate::math::BoundingBoxD>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Planet, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Planet>
 // Original type: VRageMath.Vector3S
@@ -2057,18 +2097,18 @@ pub struct Vector3S {
 // Note: Type mapping applied from System.SByte to u32
 // Original type: VRageMath.Vector3B
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "Vector3B")]
 pub struct Vector3B {
     #[proto(tag = 1)]
     #[serde(rename = "X", default)]
-    pub X: u32,
+    pub X: crate::compat::BitAligned<u32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", default)]
-    pub Y: u32,
+    pub Y: crate::compat::BitAligned<u32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", default)]
-    pub Z: u32,
+    pub Z: crate::compat::BitAligned<u32>,
 }
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
 // Original type: VRage.Game.MyObjectBuilder_Planet+SavedSector
@@ -2132,12 +2172,6 @@ pub struct MyAtmosphereSettings {
     #[proto(tag = 37)]
     #[serde(rename = "Scale", default)]
     pub scale: f32,
-    #[proto(skip)]
-    #[serde(skip)]
-    pub sun_color_linear: crate::compat::Nullable<crate::math::Vector3F>,
-    #[proto(skip)]
-    #[serde(skip)]
-    pub sun_specular_color_linear: crate::compat::Nullable<crate::math::Vector3F>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Planet
 #[::serde_inline_default::serde_inline_default]
@@ -2210,7 +2244,7 @@ pub struct MyObjectBuilder_World {
     pub sector: MyObjectBuilder_Sector,
     #[proto(tag = 7)]
     #[serde(rename = "VoxelMaps", default)]
-    pub voxel_maps: crate::compat::SerializableDictionary<String,Vec<i32>>,
+    pub voxel_maps: crate::compat::VarMap<String,Vec<i32>>,
     #[proto(skip)]
     #[serde(rename = "Clusters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
     pub clusters: Vec<crate::math::BoundingBoxD>,
@@ -2220,12 +2254,12 @@ pub struct MyObjectBuilder_World {
 }
 // Original type: VRage.MyFixedPoint
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "MyFixedPoint")]
 pub struct MyFixedPoint {
     #[proto(tag = 1)]
     #[serde(rename = "RawValue", default)]
-    pub raw_value: i64,
+    pub raw_value: crate::compat::BitAligned<i64>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.MyFixedPoint, VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyFixedPoint>
 // Original enum: VRage.Game.MyItemFlags
@@ -2242,16 +2276,16 @@ impl MyItemFlags {
 }
 // Original type: VRage.ObjectBuilders.MyObjectBuilder_Base
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Base")]
 pub struct MyObjectBuilder_Base {
 }
 // Original type: VRage.Library.Collections.BitReaderWriter
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BitReaderWriter")]
 pub struct BitReaderWriter {
     #[serde(rename = "IsReading", default)]
-    pub is_reading: bool,
+    pub is_reading: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint, SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_AutopilotWaypoint>
@@ -2259,7 +2293,7 @@ pub struct BitReaderWriter {
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_AutopilotWaypoint")]
 pub struct MyObjectBuilder_AutopilotWaypoint {
     #[proto(tag = 1)]
@@ -2267,22 +2301,22 @@ pub struct MyObjectBuilder_AutopilotWaypoint {
     pub coords: crate::math::Vector3D,
     #[proto(tag = 4)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 7)]
-    #[serde(rename = "Actions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub actions: Vec<MyObjectBuilder_ToolbarItem>,
+    #[serde(rename = "Actions", default)]
+    pub actions: crate::compat::VarVec<MyObjectBuilder_ToolbarItem>,
     #[proto(tag = 10)]
-    #[serde(rename = "Indexes", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub indexes: Vec<i32>,
+    #[serde(rename = "Indexes", default)]
+    pub indexes: crate::compat::VarVec<crate::compat::BitAligned<i32>>,
     #[proto(tag = 14)]
     #[serde(rename = "Draw", default)]
-    pub draw: bool,
+    pub draw: crate::compat::BitBool,
     #[proto(tag = 18)]
     #[serde(rename = "ForceRotation", default)]
-    pub force_rotation: bool,
+    pub force_rotation: crate::compat::BitBool,
     #[proto(tag = 25)]
     #[serde(rename = "RelatedEntityId", default)]
-    pub related_entity_id: i64,
+    pub related_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 29)]
     #[serde(rename = "Matrix")]
     pub matrix: MyPositionAndOrientation,
@@ -2296,80 +2330,99 @@ pub struct MyObjectBuilder_AutopilotWaypoint {
     #[serde(rename = "RelatedEntityWorldOffset")]
     pub related_entity_world_offset: crate::math::Vector3D,
     #[proto(tag = 37)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "StoppingTimeMultiplier")]
-    pub stopping_time_multiplier: f32,
+    pub stopping_time_multiplier: crate::compat::BitAligned<f32>,
     #[proto(tag = 40)]
     #[serde(rename = "AdaptiveRotationSpeed", default)]
-    pub adaptive_rotation_speed: bool,
+    pub adaptive_rotation_speed: crate::compat::BitBool,
     #[proto(tag = 43)]
     #[serde(rename = "AreaUp")]
     pub area_up: crate::math::Vector3D,
     #[proto(tag = 46)]
     #[serde(rename = "SerializeForCopy", default)]
-    pub serialize_for_copy: bool,
+    pub serialize_for_copy: crate::compat::BitBool,
     #[proto(tag = 49)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "DistancePrecisionMultiplier")]
-    pub distance_precision_multiplier: f32,
+    pub distance_precision_multiplier: crate::compat::BitAligned<f32>,
     #[proto(tag = 52)]
     #[serde(rename = "IsCorrectRotationNeeded", default)]
-    pub is_correct_rotation_needed: bool,
+    pub is_correct_rotation_needed: crate::compat::BitBool,
 }
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotClipboard
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_AutopilotClipboard")]
 pub struct MyObjectBuilder_AutopilotClipboard {
     #[proto(tag = 1)]
     #[serde(rename = "RemoteEntityId", default)]
-    pub remote_entity_id: i64,
+    pub remote_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "FlightMode", default)]
-    pub flight_mode: i32,
+    pub flight_mode: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
-    #[serde(rename = "indexes", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub indexes: Vec<i32>,
+    #[serde(rename = "indexes", default)]
+    pub indexes: crate::compat::VarVec<crate::compat::BitAligned<i32>>,
     #[proto(tag = 10)]
-    #[serde(rename = "Waypoints", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub waypoints: Vec<MyObjectBuilder_AutopilotWaypoint>,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::VarVec<MyObjectBuilder_AutopilotWaypoint>,
     #[proto(tag = 13)]
     #[serde(rename = "Direction", default)]
-    pub direction: i32,
+    pub direction: crate::compat::BitAligned<i32>,
     #[proto(tag = 16)]
     #[serde(rename = "DockingModeEnabled", default)]
-    pub docking_mode_enabled: bool,
+    pub docking_mode_enabled: crate::compat::BitBool,
 }
 // Note: Type mapping applied from VRageMath.MatrixD to crate::math::MatrixD
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_ToolbarItemActionParameter, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ToolbarItemActionParameter>
 // Original enum: System.TypeCode
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 5)]
 #[serde(rename = "TypeCode")]
 pub enum TypeCode {
     #[default]
+    #[deku(id = "0")]
     Empty,
+    #[deku(id = "1")]
     Object,
+    #[deku(id = "2")]
     DBNull,
+    #[deku(id = "3")]
     Boolean,
+    #[deku(id = "4")]
     Char,
+    #[deku(id = "5")]
     SByte,
+    #[deku(id = "6")]
     Byte,
+    #[deku(id = "7")]
     Int16,
+    #[deku(id = "8")]
     UInt16,
+    #[deku(id = "9")]
     Int32,
+    #[deku(id = "10")]
     UInt32,
+    #[deku(id = "11")]
     Int64,
+    #[deku(id = "12")]
     UInt64,
+    #[deku(id = "13")]
     Single,
+    #[deku(id = "14")]
     Double,
+    #[deku(id = "15")]
     Decimal,
+    #[deku(id = "16")]
     DateTime,
+    #[deku(id = "18")]
     String,
 }
 // Original type: VRage.Game.MyObjectBuilder_ToolbarItemActionParameter
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ToolbarItemActionParameter")]
 pub struct MyObjectBuilder_ToolbarItemActionParameter {
     #[proto(tag = 1)]
@@ -2377,57 +2430,65 @@ pub struct MyObjectBuilder_ToolbarItemActionParameter {
     pub type_code: TypeCode,
     #[proto(tag = 4)]
     #[serde(rename = "Value", default)]
-    pub value: String,
+    pub value: crate::compat::VarString,
 }
 // Original type: Sandbox.Game.Entities.Blocks.ToolbarItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ToolbarItem")]
 pub struct ToolbarItem {
     #[proto(tag = 1)]
     #[serde(rename = "EntityID", default)]
-    pub entity_i_d: i64,
+    pub entity_i_d: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "GroupName", default)]
-    pub group_name: String,
+    pub group_name: crate::compat::VarString,
     #[proto(tag = 7)]
     #[serde(rename = "Action", default)]
-    pub action: String,
+    pub action: crate::compat::VarString,
     #[proto(tag = 10)]
-    #[serde(rename = "Parameters", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub parameters: Vec<MyObjectBuilder_ToolbarItemActionParameter>,
+    #[serde(rename = "Parameters", default)]
+    pub parameters: crate::compat::VarVec<MyObjectBuilder_ToolbarItemActionParameter>,
     #[proto(tag = 13)]
     #[serde(rename = "CustomIconTitle", default)]
-    pub custom_icon_title: String,
+    pub custom_icon_title: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "GunId", default)]
     pub gun_id: crate::compat::Nullable<SerializableDefinitionId>,
 }
 // Original enum: VRage.Game.GUI.TextPanel.SpriteType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 3)]
 #[serde(rename = "SpriteType")]
 pub enum SpriteType {
     #[default]
+    #[deku(id = "0")]
     TEXTURE,
+    #[deku(id = "2")]
     TEXT,
+    #[deku(id = "4")]
     CLIP_RECT,
 }
 // Note: Type mapping applied from System.Nullable`1[[System.UInt32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<u32>
 // Original enum: VRage.Game.GUI.TextPanel.TextAlignment
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 2)]
 #[serde(rename = "TextAlignment")]
 pub enum TextAlignment {
     #[default]
+    #[deku(id = "0")]
     LEFT,
+    #[deku(id = "1")]
     RIGHT,
+    #[deku(id = "2")]
     CENTER,
 }
 // Original type: VRage.Game.GUI.TextPanel.MySerializableSprite
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MySerializableSprite")]
 pub struct MySerializableSprite {
     #[proto(tag = 1)]
@@ -2442,35 +2503,35 @@ pub struct MySerializableSprite {
     pub size: crate::compat::Nullable<crate::math::SerializableVector2F>,
     #[proto(tag = 10)]
     #[serde(rename = "Color", default)]
-    pub color: crate::compat::Nullable<u32>,
+    pub color: crate::compat::Nullable<crate::compat::BitAligned<u32>>,
     #[proto(tag = 13)]
     #[serde(rename = "Data", default)]
-    pub data: String,
+    pub data: crate::compat::VarString,
     #[proto(tag = 16)]
     #[serde(rename = "FontId", default)]
-    pub font_id: String,
+    pub font_id: crate::compat::VarString,
     #[proto(tag = 19)]
     #[serde_inline_default(TextAlignment::CENTER)]
     #[serde(rename = "Alignment")]
     pub alignment: TextAlignment,
     #[proto(tag = 22)]
     #[serde(rename = "RotationOrScale", default)]
-    pub rotation_or_scale: f32,
+    pub rotation_or_scale: crate::compat::BitAligned<f32>,
     #[proto(tag = 25)]
     #[serde(rename = "Index", default)]
-    pub index: i32,
+    pub index: crate::compat::BitAligned<i32>,
 }
 // Original type: VRage.Game.GUI.TextPanel.MySerializableSpriteCollection
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MySerializableSpriteCollection")]
 pub struct MySerializableSpriteCollection {
     #[proto(tag = 1)]
-    #[serde(rename = "Sprites", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub sprites: Vec<MySerializableSprite>,
+    #[serde(rename = "Sprites", default)]
+    pub sprites: crate::compat::VarVec<MySerializableSprite>,
     #[proto(tag = 4)]
     #[serde(rename = "Length", default)]
-    pub length: i32,
+    pub length: crate::compat::BitAligned<i32>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Blocks.ToolbarItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ToolbarItem>
 // Original enum: VRage.Game.Entity.UseObject.UseActionEnum
@@ -2496,54 +2557,62 @@ impl UseActionEnum {
 }
 // Original enum: VRage.Game.Entity.UseObject.UseActionResult
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "UseActionResult")]
 pub enum UseActionResult {
     #[default]
+    #[deku(id = "0")]
     OK,
+    #[deku(id = "1")]
     UsedBySomeoneElse,
+    #[deku(id = "2")]
     AccessDenied,
+    #[deku(id = "3")]
     Closed,
+    #[deku(id = "4")]
     Unpowered,
+    #[deku(id = "5")]
     CockpitDamaged,
+    #[deku(id = "6")]
     MissingDLC,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyEntityStat+MyStatSyncData, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEntityStat_MyStatSyncData>
 // Original type: VRage.Utils.MyStringHash
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Eq, Hash, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Eq, Hash, PartialOrd, Ord)]
 #[serde(rename = "MyStringHash")]
 pub struct MyStringHash {
     #[proto(tag = 1)]
     #[serde(rename = "m_hash", default)]
-    pub m_hash: i32,
+    pub m_hash: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.Entities.MyEntityStat+MyStatSyncData+MyStatChangeInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStatChangeInfo")]
 pub struct MyStatSyncData_MyStatChangeInfo {
     #[serde(rename = "DamageType")]
     pub damage_type: MyStringHash,
     #[serde(rename = "DamageSound", default)]
-    pub damage_sound: String,
+    pub damage_sound: crate::compat::VarString,
 }
 // Original type: Sandbox.Game.Entities.MyEntityStat+MyStatSyncData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStatSyncData")]
 pub struct MyEntityStat_MyStatSyncData {
     #[serde(rename = "StatId")]
     pub stat_id: MyStringHash,
     #[serde(rename = "Amount", default)]
-    pub amount: f32,
+    pub amount: crate::compat::BitAligned<f32>,
     #[serde(rename = "RegenLeft", default)]
-    pub regen_left: f32,
+    pub regen_left: crate::compat::BitAligned<f32>,
     #[serde(rename = "ChangeInfo")]
     pub change_info: MyStatSyncData_MyStatChangeInfo,
 }
 // Note: Type mapping applied from System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Sandbox.Game.MyStatLogic+MyStatAction, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to ::std::collections::HashMap<String, MyStatLogic_MyStatAction>
 // Original type: Sandbox.Game.MyStatLogic+MyStatAction
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStatAction")]
 pub struct MyStatLogic_MyStatAction {
     #[proto(tag = 1)]
@@ -2551,27 +2620,31 @@ pub struct MyStatLogic_MyStatAction {
     pub stat_id: MyStringHash,
     #[proto(tag = 4)]
     #[serde(rename = "Cost", default)]
-    pub cost: f32,
+    pub cost: crate::compat::BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "AmountToActivate", default)]
-    pub amount_to_activate: f32,
+    pub amount_to_activate: crate::compat::BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "CanPerformWithout", default)]
-    pub can_perform_without: bool,
+    pub can_perform_without: crate::compat::BitBool,
 }
 // Original enum: VRage.Game.ModAPI.MyShootActionEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 2)]
 #[serde(rename = "MyShootActionEnum")]
 pub enum MyShootActionEnum {
     #[default]
+    #[deku(id = "0")]
     PrimaryAction,
+    #[deku(id = "1")]
     SecondaryAction,
+    #[deku(id = "2")]
     TertiaryAction,
 }
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Missile
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Missile")]
 pub struct MyObjectBuilder_Missile {
     #[proto(tag = 1)]
@@ -2585,96 +2658,105 @@ pub struct MyObjectBuilder_Missile {
     pub linear_velocity: crate::math::Vector3F,
     #[proto(tag = 10)]
     #[serde(rename = "Owner", default)]
-    pub owner: i64,
+    pub owner: crate::compat::BitAligned<i64>,
     #[proto(tag = 13)]
     #[serde(rename = "OriginEntity", default)]
-    pub origin_entity: i64,
+    pub origin_entity: crate::compat::BitAligned<i64>,
     #[proto(tag = 16)]
     #[serde(rename = "LauncherId", default)]
-    pub launcher_id: i64,
+    pub launcher_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 19)]
     #[serde(rename = "HealthPool", default)]
-    pub health_pool: f32,
+    pub health_pool: crate::compat::BitAligned<f32>,
 }
 // Original enum: Sandbox.Game.Entities.Interfaces.TargetFocusResult
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "TargetFocusResult")]
 pub enum TargetFocusResult {
     #[default]
+    #[deku(id = "0")]
     Ok,
+    #[deku(id = "1")]
     IsNotInLoS,
+    #[deku(id = "2")]
     IsOutOfRange,
+    #[deku(id = "3")]
     Other,
+    #[deku(id = "4")]
     Filter,
 }
 // Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotBase
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_AutopilotBase")]
 pub struct MyObjectBuilder_AutopilotBase {}
 // Note: Type mapping applied from System.Nullable`1[[VRageMath.Matrix, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<Matrix>
 // Original type: VRageMath.Matrix
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Matrix")]
 pub struct Matrix {
     #[proto(tag = 1)]
     #[serde(rename = "M11", default)]
-    pub M11: f32,
+    pub M11: crate::compat::BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "M12", default)]
-    pub M12: f32,
+    pub M12: crate::compat::BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "M13", default)]
-    pub M13: f32,
+    pub M13: crate::compat::BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "M14", default)]
-    pub M14: f32,
+    pub M14: crate::compat::BitAligned<f32>,
     #[proto(tag = 13)]
     #[serde(rename = "M21", default)]
-    pub M21: f32,
+    pub M21: crate::compat::BitAligned<f32>,
     #[proto(tag = 16)]
     #[serde(rename = "M22", default)]
-    pub M22: f32,
+    pub M22: crate::compat::BitAligned<f32>,
     #[proto(tag = 19)]
     #[serde(rename = "M23", default)]
-    pub M23: f32,
+    pub M23: crate::compat::BitAligned<f32>,
     #[proto(tag = 22)]
     #[serde(rename = "M24", default)]
-    pub M24: f32,
+    pub M24: crate::compat::BitAligned<f32>,
     #[proto(tag = 25)]
     #[serde(rename = "M31", default)]
-    pub M31: f32,
+    pub M31: crate::compat::BitAligned<f32>,
     #[proto(tag = 28)]
     #[serde(rename = "M32", default)]
-    pub M32: f32,
+    pub M32: crate::compat::BitAligned<f32>,
     #[proto(tag = 31)]
     #[serde(rename = "M33", default)]
-    pub M33: f32,
+    pub M33: crate::compat::BitAligned<f32>,
     #[proto(tag = 34)]
     #[serde(rename = "M34", default)]
-    pub M34: f32,
+    pub M34: crate::compat::BitAligned<f32>,
     #[proto(tag = 37)]
     #[serde(rename = "M41", default)]
-    pub M41: f32,
+    pub M41: crate::compat::BitAligned<f32>,
     #[proto(tag = 40)]
     #[serde(rename = "M42", default)]
-    pub M42: f32,
+    pub M42: crate::compat::BitAligned<f32>,
     #[proto(tag = 43)]
     #[serde(rename = "M43", default)]
-    pub M43: f32,
+    pub M43: crate::compat::BitAligned<f32>,
     #[proto(tag = 46)]
     #[serde(rename = "M44", default)]
-    pub M44: f32,
+    pub M44: crate::compat::BitAligned<f32>,
 }
 // Original enum: Sandbox.ModAPI.Ingame.MyConveyorSorterMode
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MyConveyorSorterMode")]
 pub enum MyConveyorSorterMode {
     #[default]
+    #[deku(id = "0")]
     Whitelist,
+    #[deku(id = "1")]
     Blacklist,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.MyTuple`2[[VRage.ObjectBuilders.SerializableDefinitionId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<crate::compat::Tuple<SerializableDefinitionId,bool>>
@@ -2683,22 +2765,22 @@ pub enum MyConveyorSorterMode {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRageMath.Vector3I, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<crate::math::Vector3I>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Cube.MyDisconnectHelper+Group, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyDisconnectHelper_Group>
 // Original type: Sandbox.Game.Entities.Cube.MyDisconnectHelper+Group
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Group")]
 pub struct MyDisconnectHelper_Group {
     #[serde(rename = "FirstBlockIndex", default)]
-    pub first_block_index: i32,
+    pub first_block_index: crate::compat::BitAligned<i32>,
     #[serde(rename = "BlockCount", default)]
-    pub block_count: i32,
+    pub block_count: crate::compat::BitAligned<i32>,
     #[serde(rename = "IsValid", default)]
-    pub is_valid: bool,
+    pub is_valid: crate::compat::BitBool,
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyCubeGrid+BlockPositionId, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyCubeGrid_BlockPositionId>
 // Original type: Sandbox.Game.Entities.MyCubeGrid+BlockPositionId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BlockPositionId")]
 pub struct MyCubeGrid_BlockPositionId {
     #[proto(tag = 22)]
@@ -2706,29 +2788,29 @@ pub struct MyCubeGrid_BlockPositionId {
     pub position: crate::math::Vector3I,
     #[proto(tag = 25)]
     #[serde(rename = "CompoundId", default)]
-    pub compound_id: u32,
+    pub compound_id: crate::compat::BitAligned<u32>,
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MyBlockVisuals
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyBlockVisuals")]
 pub struct MyCubeGrid_MyBlockVisuals {
     #[proto(tag = 28)]
     #[serde(rename = "ColorMaskHSV", default)]
-    pub color_mask_hs_v: u32,
+    pub color_mask_hs_v: crate::compat::BitAligned<u32>,
     #[proto(tag = 31)]
     #[serde(rename = "SkinId")]
     pub skin_id: MyStringHash,
     #[proto(tag = 33)]
     #[serde(rename = "ApplyColor", default)]
-    pub apply_color: bool,
+    pub apply_color: crate::compat::BitBool,
     #[proto(tag = 35)]
     #[serde(rename = "ApplySkin", default)]
-    pub apply_skin: bool,
+    pub apply_skin: crate::compat::BitBool,
 }
 // Original type: VRageMath.MyBlockOrientation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "MyBlockOrientation")]
 pub struct MyBlockOrientation {
     #[proto(tag = 1)]
@@ -2750,11 +2832,12 @@ pub struct MyRuntimeObjectBuilderId {
 }
 // Original type: VRage.Game.DefinitionIdBlit
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "DefinitionIdBlit")]
 pub struct DefinitionIdBlit {
     #[proto(skip)]
     #[serde(rename = "TypeId")]
+    #[deku(skip)]
     pub type_id: MyRuntimeObjectBuilderId,
     #[proto(tag = 4)]
     #[serde(rename = "SubtypeId")]
@@ -2762,7 +2845,7 @@ pub struct DefinitionIdBlit {
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MyBlockLocation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyBlockLocation")]
 pub struct MyCubeGrid_MyBlockLocation {
     #[proto(tag = 1)]
@@ -2779,17 +2862,17 @@ pub struct MyCubeGrid_MyBlockLocation {
     pub orientation: MyBlockOrientation,
     #[proto(tag = 13)]
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 16)]
     #[serde(rename = "BlockDefinition")]
     pub block_definition: DefinitionIdBlit,
     #[proto(tag = 19)]
     #[serde(rename = "Owner", default)]
-    pub owner: i64,
+    pub owner: crate::compat::BitAligned<i64>,
 }
 // Original type: VRage.Game.SerializableBlockOrientation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "SerializableBlockOrientation")]
 pub struct SerializableBlockOrientation {
     #[proto(tag = 1)]
@@ -2803,7 +2886,7 @@ pub struct SerializableBlockOrientation {
 // Note: Type mapping applied from System.Nullable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<f32>
 // Original type: VRage.Game.MyObjectBuilder_PhysicalObject
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_PhysicalObject")]
 pub struct MyObjectBuilder_PhysicalObject {
     #[proto(tag = 1)]
@@ -2811,22 +2894,22 @@ pub struct MyObjectBuilder_PhysicalObject {
     pub flags: crate::compat::BitField<MyItemFlags>,
     #[proto(tag = 4)]
     #[serde(rename = "DurabilityHP", default)]
-    pub durability_h_p: crate::compat::Nullable<f32>,
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
 }
 // Note: Type mapping applied from System.Decimal to crate::compat::Decimal
 // Original type: VRage.Game.MyObjectBuilder_InventoryItem
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_InventoryItem")]
 pub struct MyObjectBuilder_InventoryItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount")]
     pub amount: MyFixedPoint,
     #[proto(tag = 4)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "Scale")]
-    pub scale: f32,
+    pub scale: crate::compat::BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "Content", default)]
     pub content: MyObjectBuilder_PhysicalObject,
@@ -2835,7 +2918,7 @@ pub struct MyObjectBuilder_InventoryItem {
     pub physical_content: MyObjectBuilder_PhysicalObject,
     #[proto(tag = 13)]
     #[serde(rename = "ItemId", default)]
-    pub item_id: u32,
+    pub item_id: crate::compat::BitAligned<u32>,
     #[proto(skip)]
     #[serde(rename = "Obsolete_AmountDecimal")]
     pub obsolete_amount_decimal: crate::compat::Decimal,
@@ -2882,46 +2965,50 @@ pub struct MyObjectBuilder_Inventory {
 }
 // Original type: VRage.Game.MyObjectBuilder_StockpileItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_StockpileItem")]
 pub struct MyObjectBuilder_StockpileItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount", default)]
-    pub amount: i32,
+    pub amount: crate::compat::BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "PhysicalContent", default)]
     pub physical_content: MyObjectBuilder_PhysicalObject,
 }
 // Original type: VRage.Game.MyObjectBuilder_ConstructionStockpile
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ConstructionStockpile")]
 pub struct MyObjectBuilder_ConstructionStockpile {
     #[proto(tag = 1)]
-    #[serde(rename = "Items", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub items: Vec<MyObjectBuilder_StockpileItem>,
+    #[serde(rename = "Items", default)]
+    pub items: crate::compat::VarVec<MyObjectBuilder_StockpileItem>,
 }
 // Original enum: VRage.Game.MyOwnershipShareModeEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyOwnershipShareModeEnum")]
 pub enum MyOwnershipShareModeEnum {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     Faction,
+    #[deku(id = "2")]
     All,
 }
 // Original type: VRage.Game.MyObjectBuilder_CubeBlock+MySubBlockId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MySubBlockId")]
 pub struct MyObjectBuilder_CubeBlock_MySubBlockId {
     #[proto(tag = 43)]
     #[serde(rename = "SubGridId", default)]
-    pub sub_grid_id: i64,
+    pub sub_grid_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 46)]
     #[serde(rename = "SubGridName", default)]
-    pub sub_grid_name: String,
+    pub sub_grid_name: crate::compat::VarString,
     #[proto(tag = 49)]
     #[serde(rename = "SubBlockPosition")]
     pub sub_block_position: crate::math::SerializableVector3I,
@@ -2929,73 +3016,72 @@ pub struct MyObjectBuilder_CubeBlock_MySubBlockId {
 // Original type: VRage.Game.MyObjectBuilder_CubeBlock
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_CubeBlock")]
 pub struct MyObjectBuilder_CubeBlock {
     #[proto(tag = 1)]
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 7)]
     #[serde(rename = "Min")]
     pub min: crate::math::SerializableVector3I,
     #[proto(tag = 10)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "IntegrityPercent")]
-    pub integrity_percent: f32,
+    pub integrity_percent: crate::compat::BitAligned<f32>,
     #[proto(tag = 13)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "BuildPercent")]
-    pub build_percent: f32,
+    pub build_percent: crate::compat::BitAligned<f32>,
     #[proto(tag = 16)]
     #[serde(rename = "BlockOrientation")]
     pub block_orientation: SerializableBlockOrientation,
     #[proto(skip)]
     #[serde(rename = "ConstructionInventory", default)]
+    #[deku(skip)]
     pub construction_inventory: MyObjectBuilder_Inventory,
     #[proto(tag = 22)]
     #[serde(rename = "ColorMaskHSV")]
     pub color_mask_hs_v: crate::math::SerializableVector3F,
     #[proto(tag = 25)]
     #[serde(rename = "SkinSubtypeId", default)]
-    pub skin_subtype_id: String,
+    pub skin_subtype_id: crate::compat::VarString,
     #[proto(tag = 28)]
     #[serde(rename = "ConstructionStockpile", default)]
     pub construction_stockpile: MyObjectBuilder_ConstructionStockpile,
     #[proto(tag = 31)]
     #[serde(rename = "Owner", default)]
-    pub owner: i64,
+    pub owner: crate::compat::BitAligned<i64>,
     #[proto(tag = 34)]
     #[serde(rename = "BuiltBy", default)]
-    pub built_by: i64,
+    pub built_by: crate::compat::BitAligned<i64>,
     #[proto(tag = 37)]
     #[serde_inline_default(MyOwnershipShareModeEnum::None)]
     #[serde(rename = "ShareMode")]
     pub share_mode: MyOwnershipShareModeEnum,
     #[proto(skip)]
     #[serde(rename = "DeformationRatio", default)]
-    pub deformation_ratio: f32,
+    pub deformation_ratio: crate::compat::BitAligned<f32>,
     #[proto(tag = 52)]
     #[serde(rename = "SubBlocks", default)]
-    #[serde(serialize_with = "xml_array_item::SubBlock::serialize",
-            deserialize_with = "xml_array_item::SubBlock::deserialize")]
-    pub sub_blocks: Vec<MyObjectBuilder_CubeBlock_MySubBlockId>,
+    pub sub_blocks: crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>,
     #[proto(tag = 55)]
     #[serde(rename = "MultiBlockId", default)]
-    pub multi_block_id: i32,
+    pub multi_block_id: crate::compat::BitAligned<i32>,
     #[proto(tag = 58)]
     #[serde(rename = "MultiBlockDefinition", default)]
     pub multi_block_definition: crate::compat::Nullable<SerializableDefinitionId>,
     #[proto(tag = 61)]
-    #[serde_inline_default(-1)]
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
     #[serde(rename = "MultiBlockIndex")]
-    pub multi_block_index: i32,
+    pub multi_block_index: crate::compat::BitAligned<i32>,
     #[proto(tag = 64)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "BlockGeneralDamageModifier")]
-    pub block_general_damage_modifier: f32,
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
     #[proto(tag = 67)]
     #[serde(rename = "ComponentContainer", default)]
     pub component_container: MyObjectBuilder_ComponentContainer,
@@ -3003,27 +3089,27 @@ pub struct MyObjectBuilder_CubeBlock {
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[Sandbox.Game.Entities.MyCubeGrid+MyBlockLocation, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyCubeGrid_MyBlockLocation>
 // Original type: VRageMath.Vector3UByte
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "Vector3UByte")]
 pub struct Vector3UByte {
     #[proto(tag = 1)]
     #[serde(rename = "X", default)]
-    pub X: i32,
+    pub X: crate::compat::BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", default)]
-    pub Y: i32,
+    pub Y: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", default)]
-    pub Z: i32,
+    pub Z: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MyBlockBuildArea
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyBlockBuildArea")]
 pub struct MyCubeGrid_MyBlockBuildArea {
     #[serde(rename = "DefinitionId")]
     pub definition_id: DefinitionIdBlit,
     #[serde(rename = "ColorMaskHSV", default)]
-    pub color_mask_hs_v: u32,
+    pub color_mask_hs_v: crate::compat::BitAligned<u32>,
     #[serde(rename = "PosInGrid")]
     pub pos_in_grid: crate::math::Vector3I,
     #[serde(rename = "BlockMin")]
@@ -3044,28 +3130,37 @@ pub struct MyCubeGrid_MyBlockBuildArea {
 // Note: Type mapping applied from System.Collections.Generic.HashSet`1[[VRageMath.Vector3UByte, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<Vector3UByte>
 // Original enum: VRage.Game.ModAPI.MyIntegrityChangeEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyIntegrityChangeEnum")]
 pub enum MyIntegrityChangeEnum {
     #[default]
+    #[deku(id = "0")]
     Damage,
+    #[deku(id = "1")]
     ConstructionBegin,
+    #[deku(id = "2")]
     ConstructionEnd,
+    #[deku(id = "3")]
     ConstructionProcess,
+    #[deku(id = "4")]
     DeconstructionBegin,
+    #[deku(id = "5")]
     DeconstructionEnd,
+    #[deku(id = "6")]
     DeconstructionProcess,
+    #[deku(id = "7")]
     Repair,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyStockpileItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyStockpileItem>
 // Original type: Sandbox.Game.Entities.MyStockpileItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStockpileItem")]
 pub struct MyStockpileItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount", default)]
-    pub amount: i32,
+    pub amount: crate::compat::BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "Content", default)]
     pub content: MyObjectBuilder_PhysicalObject,
@@ -3073,42 +3168,45 @@ pub struct MyStockpileItem {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_CubeGrid, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_CubeGrid>
 // Original enum: VRage.Game.MyCubeSize
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 1)]
 #[serde(rename = "MyCubeSize")]
 pub enum MyCubeSize {
     #[default]
+    #[deku(id = "0")]
     Large,
+    #[deku(id = "1")]
     Small,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_CubeBlock, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_CubeBlock>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.BoneInfo, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<BoneInfo>
 // Original type: VRage.SerializableVector3UByte
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "SerializableVector3UByte")]
 pub struct SerializableVector3UByte {
     #[proto(skip)]
     #[serde(rename = "X", default)]
-    pub X: i32,
+    pub X: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "Y", default)]
-    pub Y: i32,
+    pub Y: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "Z", default)]
-    pub Z: i32,
+    pub Z: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "@x", default)]
-    pub x: i32,
+    pub x: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "@y", default)]
-    pub y: i32,
+    pub y: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "@z", default)]
-    pub z: i32,
+    pub z: crate::compat::BitAligned<i32>,
 }
 // Original type: VRage.Game.BoneInfo
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BoneInfo")]
 pub struct BoneInfo {
     #[proto(tag = 1)]
@@ -3123,7 +3221,7 @@ pub struct BoneInfo {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_ConveyorPacket, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ConveyorPacket>
 // Original type: VRage.Game.MyObjectBuilder_ConveyorPacket
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ConveyorPacket")]
 pub struct MyObjectBuilder_ConveyorPacket {
     #[proto(tag = 1)]
@@ -3131,12 +3229,12 @@ pub struct MyObjectBuilder_ConveyorPacket {
     pub item: MyObjectBuilder_InventoryItem,
     #[proto(tag = 4)]
     #[serde(rename = "LinePosition", default)]
-    pub line_position: i32,
+    pub line_position: crate::compat::BitAligned<i32>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.SerializableLineSectionInformation, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<SerializableLineSectionInformation>
 // Original type: VRage.Game.SerializableLineSectionInformation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "SerializableLineSectionInformation")]
 pub struct SerializableLineSectionInformation {
     #[proto(tag = 1)]
@@ -3144,33 +3242,42 @@ pub struct SerializableLineSectionInformation {
     pub direction: crate::compat::direction::Direction,
     #[proto(tag = 4)]
     #[serde(rename = "@Length", default)]
-    pub length: i32,
+    pub length: crate::compat::BitAligned<i32>,
 }
 // Original enum: VRage.Game.MyObjectBuilder_ConveyorLine+LineType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "LineType")]
 pub enum MyObjectBuilder_ConveyorLine_LineType {
     #[default]
+    #[deku(id = "0")]
     DEFAULT_LINE,
+    #[deku(id = "1")]
     SMALL_LINE,
+    #[deku(id = "2")]
     LARGE_LINE,
 }
 // Original enum: VRage.Game.MyObjectBuilder_ConveyorLine+LineConductivity
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "LineConductivity")]
 pub enum MyObjectBuilder_ConveyorLine_LineConductivity {
     #[default]
+    #[deku(id = "0")]
     FULL,
+    #[deku(id = "1")]
     FORWARD,
+    #[deku(id = "2")]
     BACKWARD,
+    #[deku(id = "3")]
     NONE,
 }
 // Original type: VRage.Game.MyObjectBuilder_ConveyorLine
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ConveyorLine")]
 pub struct MyObjectBuilder_ConveyorLine {
     #[proto(tag = 1)]
@@ -3186,16 +3293,14 @@ pub struct MyObjectBuilder_ConveyorLine {
     #[serde(rename = "EndDirection", default)]
     pub end_direction: crate::compat::direction::Direction,
     #[proto(tag = 13)]
-    #[serde(rename = "PacketsForward", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub packets_forward: Vec<MyObjectBuilder_ConveyorPacket>,
+    #[serde(rename = "PacketsForward", default)]
+    pub packets_forward: crate::compat::VarVec<MyObjectBuilder_ConveyorPacket>,
     #[proto(tag = 16)]
-    #[serde(rename = "PacketsBackward", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub packets_backward: Vec<MyObjectBuilder_ConveyorPacket>,
+    #[serde(rename = "PacketsBackward", default)]
+    pub packets_backward: crate::compat::VarVec<MyObjectBuilder_ConveyorPacket>,
     #[proto(tag = 19)]
     #[serde(rename = "Sections", default)]
-    #[serde(serialize_with = "xml_array_item::Section::serialize",
-            deserialize_with = "xml_array_item::Section::deserialize")]
-    pub sections: Vec<SerializableLineSectionInformation>,
+    pub sections: crate::compat::VarVec<SerializableLineSectionInformation>,
     #[proto(tag = 22)]
     #[serde_inline_default(MyObjectBuilder_ConveyorLine_LineType::DEFAULT_LINE)]
     #[serde(rename = "ConveyorLineType")]
@@ -3208,19 +3313,19 @@ pub struct MyObjectBuilder_ConveyorLine {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_BlockGroup, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_BlockGroup>
 // Original type: VRage.Game.MyObjectBuilder_BlockGroup
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_BlockGroup")]
 pub struct MyObjectBuilder_BlockGroup {
     #[proto(tag = 1)]
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[proto(tag = 4)]
-    #[serde(rename = "Blocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub blocks: Vec<crate::math::Vector3I>,
+    #[serde(rename = "Blocks", default)]
+    pub blocks: crate::compat::VarVec<crate::math::Vector3I>,
 }
 // Original type: VRage.Game.OxygenRoom
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "OxygenRoom")]
 pub struct OxygenRoom {
     #[proto(tag = 112)]
@@ -3228,48 +3333,55 @@ pub struct OxygenRoom {
     pub starting_position: crate::math::Vector3I,
     #[proto(tag = 115)]
     #[serde(rename = "@OxygenAmount", default)]
-    pub oxygen_amount: f32,
+    pub oxygen_amount: crate::compat::BitAligned<f32>,
 }
 // Original enum: VRage.Game.ModAPI.MyUpdateTiersGridPresence
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MyUpdateTiersGridPresence")]
 pub enum MyUpdateTiersGridPresence {
     #[default]
+    #[deku(id = "0")]
     Normal,
+    #[deku(id = "1")]
     Tier1,
 }
 // Original enum: VRage.Game.ModAPI.MyUpdateTiersPlayerPresence
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyUpdateTiersPlayerPresence")]
 pub enum MyUpdateTiersPlayerPresence {
     #[default]
+    #[deku(id = "0")]
     Normal,
+    #[deku(id = "1")]
     Tier1,
+    #[deku(id = "2")]
     Tier2,
 }
 // Original type: VRage.Game.MyObjectBuilder_CubeGrid
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_CubeGrid")]
 pub struct MyObjectBuilder_CubeGrid {
     #[proto(tag = 1)]
     #[serde(rename = "GridSizeEnum", default)]
     pub grid_size_enum: MyCubeSize,
     #[proto(tag = 4)]
-    #[serde(rename = "CubeBlocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub cube_blocks: Vec<MyObjectBuilder_CubeBlock>,
+    #[serde(rename = "CubeBlocks", default)]
+    pub cube_blocks: crate::compat::VarVec<MyObjectBuilder_CubeBlock>,
     #[proto(tag = 7)]
     #[serde(rename = "IsStatic", default)]
-    pub is_static: bool,
+    pub is_static: crate::compat::BitBool,
     #[proto(tag = 10)]
     #[serde(rename = "IsUnsupportedStation", default)]
-    pub is_unsupported_station: bool,
+    pub is_unsupported_station: crate::compat::BitBool,
     #[proto(tag = 13)]
-    #[serde(rename = "Skeleton", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub skeleton: Vec<BoneInfo>,
+    #[serde(rename = "Skeleton", default)]
+    pub skeleton: crate::compat::VarVec<BoneInfo>,
     #[proto(tag = 16)]
     #[serde(rename = "LinearVelocity")]
     pub linear_velocity: crate::math::SerializableVector3F,
@@ -3287,90 +3399,90 @@ pub struct MyObjectBuilder_CubeGrid {
     pub z_mirrox_plane: crate::compat::Nullable<crate::math::SerializableVector3I>,
     #[proto(tag = 31)]
     #[serde(rename = "XMirroxOdd", default)]
-    pub x_mirrox_odd: bool,
+    pub x_mirrox_odd: crate::compat::BitBool,
     #[proto(tag = 34)]
     #[serde(rename = "YMirroxOdd", default)]
-    pub y_mirrox_odd: bool,
+    pub y_mirrox_odd: crate::compat::BitBool,
     #[proto(tag = 37)]
     #[serde(rename = "ZMirroxOdd", default)]
-    pub z_mirrox_odd: bool,
+    pub z_mirrox_odd: crate::compat::BitBool,
     #[proto(tag = 40)]
     #[serde(rename = "DampenersEnabled", default)]
-    pub dampeners_enabled: bool,
+    pub dampeners_enabled: crate::compat::BitBool,
     #[proto(tag = 43)]
     #[serde(rename = "UsePositionForSpawn", default)]
-    pub use_position_for_spawn: bool,
+    pub use_position_for_spawn: crate::compat::BitBool,
     #[proto(tag = 46)]
-    #[serde_inline_default(0.3f32)]
+    #[serde_inline_default(crate::compat::BitAligned(0.3f32))]
     #[serde(rename = "PlanetSpawnHeightRatio")]
-    pub planet_spawn_height_ratio: f32,
+    pub planet_spawn_height_ratio: crate::compat::BitAligned<f32>,
     #[proto(tag = 49)]
-    #[serde_inline_default(500f32)]
+    #[serde_inline_default(crate::compat::BitAligned(500f32))]
     #[serde(rename = "SpawnRangeMin")]
-    pub spawn_range_min: f32,
+    pub spawn_range_min: crate::compat::BitAligned<f32>,
     #[proto(tag = 52)]
-    #[serde_inline_default(650f32)]
+    #[serde_inline_default(crate::compat::BitAligned(650f32))]
     #[serde(rename = "SpawnRangeMax")]
-    pub spawn_range_max: f32,
+    pub spawn_range_max: crate::compat::BitAligned<f32>,
     #[proto(tag = 55)]
-    #[serde(rename = "ConveyorLines", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub conveyor_lines: Vec<MyObjectBuilder_ConveyorLine>,
+    #[serde(rename = "ConveyorLines", default)]
+    pub conveyor_lines: crate::compat::VarVec<MyObjectBuilder_ConveyorLine>,
     #[proto(tag = 58)]
-    #[serde(rename = "BlockGroups", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub block_groups: Vec<MyObjectBuilder_BlockGroup>,
+    #[serde(rename = "BlockGroups", default)]
+    pub block_groups: crate::compat::VarVec<MyObjectBuilder_BlockGroup>,
     #[proto(tag = 61)]
     #[serde(rename = "Handbrake", default)]
-    pub handbrake: bool,
+    pub handbrake: crate::compat::BitBool,
     #[proto(tag = 64)]
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[proto(tag = 67)]
-    #[serde(rename = "OxygenAmount", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub oxygen_amount: Vec<f32>,
+    #[serde(rename = "OxygenAmount", default)]
+    pub oxygen_amount: crate::compat::VarVec<crate::compat::BitAligned<f32>>,
     #[proto(tag = 70)]
     #[serde(rename = "DestructibleBlocks", default)]
-    pub destructible_blocks: bool,
+    pub destructible_blocks: crate::compat::BitBool,
     #[proto(tag = 73)]
     #[serde(rename = "JumpDriveDirection", default)]
     pub jump_drive_direction: crate::compat::Nullable<crate::math::Vector3D>,
     #[proto(tag = 76)]
     #[serde(rename = "JumpRemainingTime", default)]
-    pub jump_remaining_time: crate::compat::Nullable<f32>,
+    pub jump_remaining_time: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
     #[proto(tag = 79)]
     #[serde(rename = "CreatePhysics", default)]
-    pub create_physics: bool,
+    pub create_physics: crate::compat::BitBool,
     #[proto(tag = 85)]
     #[serde(rename = "IsRespawnGrid", default)]
-    pub is_respawn_grid: bool,
+    pub is_respawn_grid: crate::compat::BitBool,
     #[proto(tag = 88)]
-    #[serde_inline_default(-1)]
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
     #[serde(rename = "playedTime")]
-    pub played_time: i32,
+    pub played_time: crate::compat::BitAligned<i32>,
     #[proto(tag = 91)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "GridGeneralDamageModifier")]
-    pub grid_general_damage_modifier: f32,
+    pub grid_general_damage_modifier: crate::compat::BitAligned<f32>,
     #[proto(tag = 94)]
     #[serde(rename = "LocalCoordSys", default)]
-    pub local_coord_sys: i64,
+    pub local_coord_sys: crate::compat::BitAligned<i64>,
     #[proto(tag = 97)]
     #[serde(rename = "Editable", default)]
-    pub editable: bool,
+    pub editable: crate::compat::BitBool,
     #[proto(tag = 100)]
-    #[serde(rename = "TargetingTargets", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub targeting_targets: Vec<i64>,
+    #[serde(rename = "TargetingTargets", default)]
+    pub targeting_targets: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 103)]
     #[serde(rename = "TargetingWhitelist", default)]
-    pub targeting_whitelist: bool,
+    pub targeting_whitelist: crate::compat::BitBool,
     #[proto(tag = 106)]
     #[serde(rename = "IsPowered", default)]
-    pub is_powered: bool,
+    pub is_powered: crate::compat::BitBool,
     #[proto(tag = 109)]
-    #[serde(rename = "OxygenRooms", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub oxygen_rooms: Vec<OxygenRoom>,
+    #[serde(rename = "OxygenRooms", default)]
+    pub oxygen_rooms: crate::compat::VarVec<OxygenRoom>,
     #[proto(tag = 120)]
     #[serde(rename = "Immune", default)]
-    pub immune: bool,
+    pub immune: crate::compat::BitBool,
     #[proto(tag = 123)]
     #[serde_inline_default(MyUpdateTiersGridPresence::Normal)]
     #[serde(rename = "GridPresenceTier")]
@@ -3381,14 +3493,14 @@ pub struct MyObjectBuilder_CubeGrid {
     pub player_presence_tier: MyUpdateTiersPlayerPresence,
     #[proto(tag = 129)]
     #[serde(rename = "IsNpcSpawnedGrid", default)]
-    pub is_npc_spawned_grid: bool,
+    pub is_npc_spawned_grid: crate::compat::BitBool,
     #[proto(tag = 132)]
     #[serde(rename = "NPCGridClaimElapsed", default)]
-    pub npc_grid_claim_elapsed: crate::compat::Nullable<i32>,
+    pub npc_grid_claim_elapsed: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u64>
 // Original type: VRageMath.MatrixI
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MatrixI")]
 pub struct MatrixI {
     #[serde(rename = "Right", default)]
@@ -3399,39 +3511,72 @@ pub struct MatrixI {
     pub backward: crate::compat::direction::Direction,
     #[serde(rename = "Translation")]
     pub translation: crate::math::Vector3I,
+    #[serde(rename = "Left", default)]
+    pub left: crate::compat::direction::Direction,
+    #[serde(rename = "Down", default)]
+    pub down: crate::compat::direction::Direction,
+    #[serde(rename = "Forward", default)]
+    pub forward: crate::compat::direction::Direction,
+    #[serde(rename = "RightVector")]
+    pub right_vector: crate::math::Vector3I,
+    #[serde(rename = "LeftVector")]
+    pub left_vector: crate::math::Vector3I,
+    #[serde(rename = "UpVector")]
+    pub up_vector: crate::math::Vector3I,
+    #[serde(rename = "DownVector")]
+    pub down_vector: crate::math::Vector3I,
+    #[serde(rename = "BackwardVector")]
+    pub backward_vector: crate::math::Vector3I,
+    #[serde(rename = "ForwardVector")]
+    pub forward_vector: crate::math::Vector3I,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.Byte, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
 // Original enum: VRage.MyMultipleEnabledEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 2)]
 #[serde(rename = "MyMultipleEnabledEnum")]
 pub enum MyMultipleEnabledEnum {
     #[default]
+    #[deku(id = "0")]
     NoObjects,
+    #[deku(id = "1")]
     AllDisabled,
+    #[deku(id = "2")]
     Mixed,
+    #[deku(id = "3")]
     AllEnabled,
 }
 // Original enum: Sandbox.Game.Entities.MyCubeGrid+MyTestDynamicReason
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyTestDynamicReason")]
 pub enum MyCubeGrid_MyTestDynamicReason {
     #[default]
+    #[deku(id = "0")]
     NoReason,
+    #[deku(id = "1")]
     GridCopied,
+    #[deku(id = "2")]
     GridSplit,
+    #[deku(id = "3")]
     GridSplitByBlock,
+    #[deku(id = "4")]
     ConvertToShip,
 }
 // Original enum: Sandbox.Game.Entities.MyCubeGrid+HandbrakeToggleResult
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "HandbrakeToggleResult")]
 pub enum MyCubeGrid_HandbrakeToggleResult {
     #[default]
+    #[deku(id = "1")]
     RELEASED,
+    #[deku(id = "2")]
     ENGAGED_SUCCESSFULLY,
+    #[deku(id = "3")]
     FAILED_TO_ENGAGE,
 }
 // Note: Type mapping applied from System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<i64>
@@ -3458,7 +3603,7 @@ impl MyHudIndicatorFlagsEnum {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.MyPositionAndOrientation, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyPositionAndOrientation>
 // Original type: VRage.Game.MyObjectBuilder_HudEntityParams
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_HudEntityParams")]
 pub struct MyObjectBuilder_HudEntityParams {
     #[proto(tag = 1)]
@@ -3466,31 +3611,31 @@ pub struct MyObjectBuilder_HudEntityParams {
     pub position: crate::math::Vector3D,
     #[proto(tag = 2)]
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 3)]
     #[serde(rename = "Text", default)]
-    pub text: String,
+    pub text: crate::compat::VarString,
     #[proto(tag = 4)]
     #[serde(rename = "FlagsEnum")]
     pub flags_enum: crate::compat::BitField<MyHudIndicatorFlagsEnum>,
     #[proto(tag = 5)]
     #[serde(rename = "Owner", default)]
-    pub owner: i64,
+    pub owner: crate::compat::BitAligned<i64>,
     #[proto(tag = 6)]
     #[serde(rename = "Share", default)]
     pub share: MyOwnershipShareModeEnum,
     #[proto(tag = 7)]
     #[serde(rename = "BlinkingTime", default)]
-    pub blinking_time: f32,
+    pub blinking_time: crate::compat::BitAligned<f32>,
     #[proto(tag = 9)]
-    #[serde(rename = "Waypoints", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub waypoints: Vec<MyPositionAndOrientation>,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::VarVec<MyPositionAndOrientation>,
     #[proto(tag = 11)]
     #[serde(rename = "ForceShow", default)]
-    pub force_show: bool,
+    pub force_show: crate::compat::BitBool,
 }
 // Original type: Sandbox.Game.Entities.MyVoxelBase+MyCapsuleShapeParams
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyCapsuleShapeParams")]
 pub struct MyVoxelBase_MyCapsuleShapeParams {
     #[serde(rename = "A")]
@@ -3498,25 +3643,30 @@ pub struct MyVoxelBase_MyCapsuleShapeParams {
     #[serde(rename = "B")]
     pub B: crate::math::Vector3D,
     #[serde(rename = "Radius", default)]
-    pub radius: f32,
+    pub radius: crate::compat::BitAligned<f32>,
     #[serde(rename = "Transformation")]
     pub transformation: crate::math::MatrixD,
     #[serde(rename = "Material", default)]
-    pub material: i32,
+    pub material: crate::compat::BitAligned<i32>,
 }
 // Original enum: Sandbox.Game.Entities.MyVoxelBase+OperationType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 2)]
 #[serde(rename = "OperationType")]
 pub enum MyVoxelBase_OperationType {
     #[default]
+    #[deku(id = "0")]
     Fill,
+    #[deku(id = "1")]
     Paint,
+    #[deku(id = "2")]
     Cut,
+    #[deku(id = "3")]
     Revert,
 }
 // Original type: Sandbox.Game.Entities.MyVoxelBase+MyRampShapeParams
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyRampShapeParams")]
 pub struct MyVoxelBase_MyRampShapeParams {
     #[serde(rename = "Box")]
@@ -3524,11 +3674,11 @@ pub struct MyVoxelBase_MyRampShapeParams {
     #[serde(rename = "RampNormal")]
     pub ramp_normal: crate::math::Vector3D,
     #[serde(rename = "RampNormalW", default)]
-    pub ramp_normal_w: f64,
+    pub ramp_normal_w: crate::compat::BitAligned<f64>,
     #[serde(rename = "Transformation")]
     pub transformation: crate::math::MatrixD,
     #[serde(rename = "Material", default)]
-    pub material: i32,
+    pub material: crate::compat::BitAligned<i32>,
 }
 // Original enum: VRage.Voxels.MyStorageDataTypeFlags
 #[::enumflags2::bitflags]
@@ -3549,7 +3699,7 @@ impl MyStorageDataTypeFlags {
 }
 // Original type: VRageMath.BoundingBoxI
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BoundingBoxI")]
 pub struct BoundingBoxI {
     #[proto(tag = 1)]
@@ -3560,38 +3710,38 @@ pub struct BoundingBoxI {
     pub max: crate::math::Vector3I,
 }
 // Original type: VRageMath.BoundingSphere
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BoundingSphere")]
 pub struct BoundingSphere {
     #[serde(rename = "Center")]
     pub center: crate::math::Vector3F,
     #[serde(rename = "Radius", default)]
-    pub radius: f32,
+    pub radius: crate::compat::BitAligned<f32>,
 }
 // Original type: Sandbox.Game.GameSystems.MyShipMiningSystem+NetworkCutoutData+CutOut
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "CutOut")]
 pub struct NetworkCutoutData_CutOut {
     #[serde(rename = "Sphere")]
     pub sphere: BoundingSphere,
     #[serde(rename = "ApplyDamagedMaterial", default)]
-    pub apply_damaged_material: bool,
+    pub apply_damaged_material: crate::compat::BitBool,
 }
 // Original type: Sandbox.Game.GameSystems.MyShipMiningSystem+NetworkCutoutData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "NetworkCutoutData")]
 pub struct MyShipMiningSystem_NetworkCutoutData {
     #[serde(rename = "StorageOffset")]
     pub storage_offset: crate::math::Vector3I,
     #[serde(rename = "AffectedRange")]
     pub affected_range: BoundingBoxI,
-    #[serde(rename = "CutOuts", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub cut_outs: Vec<NetworkCutoutData_CutOut>,
+    #[serde(rename = "CutOuts", default)]
+    pub cut_outs: crate::compat::VarVec<NetworkCutoutData_CutOut>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.MyObjectBuilder_Character+LadderInfo, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyObjectBuilder_Character_LadderInfo>
 // Original type: VRage.Game.MyObjectBuilder_Character+LadderInfo
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "LadderInfo")]
 pub struct MyObjectBuilder_Character_LadderInfo {
     #[proto(tag = 200)]
@@ -3602,12 +3752,12 @@ pub struct MyObjectBuilder_Character_LadderInfo {
     pub increment_to_base: crate::math::SerializableVector3F,
     #[proto(tag = 207)]
     #[serde(rename = "EnableJetpackOnExit", default)]
-    pub enable_jetpack_on_exit: bool,
+    pub enable_jetpack_on_exit: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Character+ComponentItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Character_ComponentItem>
 // Original type: VRage.Game.MyObjectBuilder_Character+ComponentItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ComponentItem")]
 pub struct MyObjectBuilder_Character_ComponentItem {
     #[proto(tag = 197)]
@@ -3615,11 +3765,11 @@ pub struct MyObjectBuilder_Character_ComponentItem {
     pub component_id: SerializableDefinitionId,
     #[proto(tag = 199)]
     #[serde(rename = "Count", default)]
-    pub count: i32,
+    pub count: crate::compat::BitAligned<i32>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Character+BuildPlanItem
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BuildPlanItem")]
 pub struct MyObjectBuilder_Character_BuildPlanItem {
     #[proto(tag = 185)]
@@ -3627,14 +3777,14 @@ pub struct MyObjectBuilder_Character_BuildPlanItem {
     pub block_id: SerializableDefinitionId,
     #[proto(tag = 188)]
     #[serde(rename = "IsInProgress", default)]
-    pub is_in_progress: bool,
+    pub is_in_progress: crate::compat::BitBool,
     #[proto(tag = 190)]
-    #[serde(rename = "Components", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub components: Vec<MyObjectBuilder_Character_ComponentItem>,
+    #[serde(rename = "Components", default)]
+    pub components: crate::compat::VarVec<MyObjectBuilder_Character_ComponentItem>,
 }
 // Original type: VRage.Audio.MyCueId
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "MyCueId")]
 pub struct MyCueId {
     #[proto(tag = 1)]
@@ -3644,61 +3794,73 @@ pub struct MyCueId {
 // Note: Type mapping applied from System.Nullable`1[[VRage.Utils.MyStringHash, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyStringHash>
 // Original type: VRage.Game.ModAPI.MyDamageInformation
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyDamageInformation")]
 pub struct MyDamageInformation {
     #[proto(tag = 1)]
     #[serde(rename = "IsDeformation", default)]
-    pub is_deformation: bool,
+    pub is_deformation: crate::compat::BitBool,
     #[proto(tag = 4)]
     #[serde(rename = "Amount", default)]
-    pub amount: f32,
+    pub amount: crate::compat::BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "Type")]
     pub r#type: MyStringHash,
     #[proto(tag = 10)]
     #[serde(rename = "AttackerId", default)]
-    pub attacker_id: i64,
+    pub attacker_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 13)]
     #[serde(rename = "ExtraInfo", default)]
     pub extra_info: crate::compat::Nullable<MyStringHash>,
 }
 // Original enum: Sandbox.Game.Entities.MyPlaybackCommand
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MyPlaybackCommand")]
 pub enum MyPlaybackCommand {
     #[default]
+    #[deku(id = "0")]
     Play,
+    #[deku(id = "1")]
     Stop,
 }
 // Original enum: Sandbox.Game.Entities.MyBlendOption
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MyBlendOption")]
 pub enum MyBlendOption {
     #[default]
+    #[deku(id = "0")]
     Immediate,
+    #[deku(id = "1")]
     WaitForPreviousEnd,
 }
 // Original enum: Sandbox.Game.Entities.MyFrameOption
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyFrameOption")]
 pub enum MyFrameOption {
     #[default]
+    #[deku(id = "0")]
     Default,
+    #[deku(id = "1")]
     PlayOnce,
+    #[deku(id = "2")]
     JustFirstFrame,
+    #[deku(id = "3")]
     StayOnLastFrame,
+    #[deku(id = "4")]
     Loop,
 }
 // Original type: Sandbox.Game.Entities.MyAnimationCommand
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyAnimationCommand")]
 pub struct MyAnimationCommand {
     #[serde(rename = "AnimationSubtypeName", default)]
-    pub animation_subtype_name: String,
+    pub animation_subtype_name: crate::compat::VarString,
     #[serde(rename = "PlaybackCommand", default)]
     pub playback_command: MyPlaybackCommand,
     #[serde(rename = "BlendOption", default)]
@@ -3706,282 +3868,347 @@ pub struct MyAnimationCommand {
     #[serde(rename = "FrameOption", default)]
     pub frame_option: MyFrameOption,
     #[serde(rename = "Area", default)]
-    pub area: String,
+    pub area: crate::compat::VarString,
     #[serde(rename = "BlendTime", default)]
-    pub blend_time: f32,
+    pub blend_time: crate::compat::BitAligned<f32>,
     #[serde(rename = "TimeScale", default)]
-    pub time_scale: f32,
+    pub time_scale: crate::compat::BitAligned<f32>,
     #[serde(rename = "ExcludeLegsWhenMoving", default)]
-    pub exclude_legs_when_moving: bool,
+    pub exclude_legs_when_moving: crate::compat::BitBool,
     #[serde(rename = "KeepContinuingAnimations", default)]
-    pub keep_continuing_animations: bool,
+    pub keep_continuing_animations: crate::compat::BitBool,
 }
 // Note: Type mapping applied from VRageMath.Quaternion to crate::math::Quaternion
 // Original enum: Sandbox.Game.Entities.Cube.MyLaserAntenna+StateEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 3)]
 #[serde(rename = "StateEnum")]
 pub enum MyLaserAntenna_StateEnum {
     #[default]
+    #[deku(id = "0")]
     idle,
+    #[deku(id = "1")]
     rot_GPS,
+    #[deku(id = "2")]
     search_GPS,
+    #[deku(id = "3")]
     rot_Rec,
+    #[deku(id = "4")]
     contact_Rec,
+    #[deku(id = "5")]
     connected,
 }
 // Original enum: Sandbox.Game.Entities.Blocks.MyMechanicalConnectionBlockBase+MyTopBlockSize
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyTopBlockSize")]
 pub enum MyMechanicalConnectionBlockBase_MyTopBlockSize {
     #[default]
+    #[deku(id = "0")]
     Normal,
+    #[deku(id = "1")]
     Medium,
+    #[deku(id = "2")]
     Small,
 }
 // Original enum: Sandbox.Game.World.MySession+LimitResult
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "LimitResult")]
 pub enum MySession_LimitResult {
     #[default]
+    #[deku(id = "0")]
     Passed,
+    #[deku(id = "1")]
     MaxGridSize,
+    #[deku(id = "2")]
     NoFaction,
+    #[deku(id = "3")]
     BlockTypeLimit,
+    #[deku(id = "4")]
     MaxBlocksPerPlayer,
+    #[deku(id = "5")]
     PCU,
 }
 // Original enum: Sandbox.ModAPI.Ingame.MyRotationDirection
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyRotationDirection")]
 pub enum MyRotationDirection {
     #[default]
+    #[deku(id = "0")]
     AUTO,
+    #[deku(id = "1")]
     CW,
+    #[deku(id = "2")]
     CCW,
 }
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyContractCreationDataWrapper_Deliver
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyContractCreationDataWrapper_Deliver")]
 pub struct MyContractBlock_MyContractCreationDataWrapper_Deliver {
     #[serde(rename = "RewardMoney", default)]
-    pub reward_money: i32,
+    pub reward_money: crate::compat::BitAligned<i32>,
     #[serde(rename = "StartingDeposit", default)]
-    pub starting_deposit: i32,
+    pub starting_deposit: crate::compat::BitAligned<i32>,
     #[serde(rename = "DurationInMin", default)]
-    pub duration_in_min: i32,
+    pub duration_in_min: crate::compat::BitAligned<i32>,
     #[serde(rename = "TargetBlockId", default)]
-    pub target_block_id: i64,
+    pub target_block_id: crate::compat::BitAligned<i64>,
 }
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyContractCreationDataWrapper_ObtainAndDeliver
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyContractCreationDataWrapper_ObtainAndDeliver")]
 pub struct MyContractBlock_MyContractCreationDataWrapper_ObtainAndDeliver {
     #[serde(rename = "RewardMoney", default)]
-    pub reward_money: i32,
+    pub reward_money: crate::compat::BitAligned<i32>,
     #[serde(rename = "StartingDeposit", default)]
-    pub starting_deposit: i32,
+    pub starting_deposit: crate::compat::BitAligned<i32>,
     #[serde(rename = "DurationInMin", default)]
-    pub duration_in_min: i32,
+    pub duration_in_min: crate::compat::BitAligned<i32>,
     #[serde(rename = "TargetBlockId", default)]
-    pub target_block_id: i64,
+    pub target_block_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "ItemTypeId")]
     pub item_type_id: SerializableDefinitionId,
     #[serde(rename = "ItemAmount", default)]
-    pub item_amount: i32,
+    pub item_amount: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyContractCreationDataWrapper_Repair
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyContractCreationDataWrapper_Repair")]
 pub struct MyContractBlock_MyContractCreationDataWrapper_Repair {
     #[serde(rename = "RewardMoney", default)]
-    pub reward_money: i32,
+    pub reward_money: crate::compat::BitAligned<i32>,
     #[serde(rename = "StartingDeposit", default)]
-    pub starting_deposit: i32,
+    pub starting_deposit: crate::compat::BitAligned<i32>,
     #[serde(rename = "DurationInMin", default)]
-    pub duration_in_min: i32,
+    pub duration_in_min: crate::compat::BitAligned<i32>,
     #[serde(rename = "TargetGridId", default)]
-    pub target_grid_id: i64,
+    pub target_grid_id: crate::compat::BitAligned<i64>,
 }
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyContractCreationDataWrapper_Find
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyContractCreationDataWrapper_Find")]
 pub struct MyContractBlock_MyContractCreationDataWrapper_Find {
     #[serde(rename = "RewardMoney", default)]
-    pub reward_money: i32,
+    pub reward_money: crate::compat::BitAligned<i32>,
     #[serde(rename = "StartingDeposit", default)]
-    pub starting_deposit: i32,
+    pub starting_deposit: crate::compat::BitAligned<i32>,
     #[serde(rename = "DurationInMin", default)]
-    pub duration_in_min: i32,
+    pub duration_in_min: crate::compat::BitAligned<i32>,
     #[serde(rename = "TargetGridId", default)]
-    pub target_grid_id: i64,
+    pub target_grid_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "SearchRadius", default)]
-    pub search_radius: f64,
+    pub search_radius: crate::compat::BitAligned<f64>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_Contract, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Contract>
 // Original enum: VRage.Game.ObjectBuilders.Components.Contracts.MyContractStateEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyContractStateEnum")]
 pub enum MyContractStateEnum {
     #[default]
+    #[deku(id = "0")]
     Inactive,
+    #[deku(id = "1")]
     Active,
+    #[deku(id = "2")]
     Finished,
+    #[deku(id = "3")]
     Failed,
+    #[deku(id = "4")]
     ToBeDisposed,
+    #[deku(id = "5")]
     Disposed,
 }
 // Note: Type mapping applied from System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<f64>
 // Original type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractCondition
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_ContractCondition")]
 pub struct MyObjectBuilder_ContractCondition {
     #[proto(tag = 1)]
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[proto(tag = 2)]
     #[serde(rename = "IsFinished", default)]
-    pub is_finished: bool,
+    pub is_finished: crate::compat::BitBool,
     #[proto(tag = 3)]
     #[serde(rename = "ContractId", default)]
-    pub contract_id: i64,
+    pub contract_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "SubId", default)]
-    pub sub_id: i32,
+    pub sub_id: crate::compat::BitAligned<i32>,
     #[proto(tag = 5)]
     #[serde(rename = "StationEndId", default)]
-    pub station_end_id: i64,
+    pub station_end_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 9)]
     #[serde(rename = "FactionEndId", default)]
-    pub faction_end_id: i64,
+    pub faction_end_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 11)]
     #[serde(rename = "BlockEndId", default)]
-    pub block_end_id: i64,
+    pub block_end_id: crate::compat::BitAligned<i64>,
 }
 // Original type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_Contract
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Contract")]
 pub struct MyObjectBuilder_Contract {
     #[proto(tag = 1)]
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[proto(tag = 2)]
     #[serde(rename = "IsPlayerMade", default)]
-    pub is_player_made: bool,
+    pub is_player_made: crate::compat::BitBool,
     #[proto(tag = 3)]
     #[serde(rename = "State", default)]
     pub state: MyContractStateEnum,
     #[proto(tag = 5)]
-    #[serde(rename = "Owners")]
-    pub owners: Vec<i64>,
+    #[serde(rename = "Owners", default)]
+    pub owners: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 7)]
     #[serde(rename = "RewardMoney", default)]
-    pub reward_money: i64,
+    pub reward_money: crate::compat::BitAligned<i64>,
     #[proto(tag = 9)]
     #[serde(rename = "RewardReputation", default)]
-    pub reward_reputation: i32,
+    pub reward_reputation: crate::compat::BitAligned<i32>,
     #[proto(tag = 11)]
     #[serde(rename = "StartingDeposit", default)]
-    pub starting_deposit: i64,
+    pub starting_deposit: crate::compat::BitAligned<i64>,
     #[proto(tag = 13)]
     #[serde(rename = "FailReputationPrice", default)]
-    pub fail_reputation_price: i32,
+    pub fail_reputation_price: crate::compat::BitAligned<i32>,
     #[proto(tag = 15)]
     #[serde(rename = "StartFaction", default)]
-    pub start_faction: i64,
+    pub start_faction: crate::compat::BitAligned<i64>,
     #[proto(tag = 17)]
     #[serde(rename = "StartStation", default)]
-    pub start_station: i64,
+    pub start_station: crate::compat::BitAligned<i64>,
     #[proto(tag = 18)]
     #[serde(rename = "StartBlock", default)]
-    pub start_block: i64,
+    pub start_block: crate::compat::BitAligned<i64>,
     #[proto(tag = 19)]
     #[serde(rename = "Creation", default)]
-    pub creation: i64,
+    pub creation: crate::compat::BitAligned<i64>,
     #[proto(tag = 21)]
     #[serde(rename = "TicksToDiscard", default)]
-    pub ticks_to_discard: crate::compat::Nullable<i32>,
+    pub ticks_to_discard: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
     #[proto(tag = 23)]
     #[serde(rename = "RemainingTimeInS", default)]
-    pub remaining_time_in_s: crate::compat::Nullable<f64>,
+    pub remaining_time_in_s: crate::compat::Nullable<crate::compat::BitAligned<f64>>,
     #[proto(tag = 25)]
     #[serde(rename = "ContractCondition", default)]
     pub contract_condition: MyObjectBuilder_ContractCondition,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Blocks.MyContractBlock+MyEntityInfoWrapper, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyContractBlock_MyEntityInfoWrapper>
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyEntityInfoWrapper
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyEntityInfoWrapper")]
 pub struct MyContractBlock_MyEntityInfoWrapper {
     #[serde(rename = "NamePrefix", default)]
-    pub name_prefix: String,
+    pub name_prefix: crate::compat::VarString,
     #[serde(rename = "NameSuffix", default)]
-    pub name_suffix: String,
+    pub name_suffix: crate::compat::VarString,
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractCondition, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ContractCondition>
 // Original enum: Sandbox.Game.Entities.Blocks.MyContractResults
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 5)]
 #[serde(rename = "MyContractResults")]
 pub enum MyContractResults {
     #[default]
+    #[deku(id = "0")]
     Success,
+    #[deku(id = "1")]
     Error_Unknown,
+    #[deku(id = "2")]
     Error_MissingKeyStructure,
+    #[deku(id = "3")]
     Error_InvalidData,
+    #[deku(id = "4")]
     Fail_CannotAccess,
+    #[deku(id = "5")]
     Fail_NotPossible,
+    #[deku(id = "6")]
     Fail_ActivationConditionsNotMet,
+    #[deku(id = "7")]
     Fail_ActivationConditionsNotMet_InsufficientFunds,
+    #[deku(id = "8")]
     Fail_ActivationConditionsNotMet_InsufficientSpace,
+    #[deku(id = "9")]
     Fail_FinishConditionsNotMet,
+    #[deku(id = "10")]
     Fail_FinishConditionsNotMet_MissingPackage,
+    #[deku(id = "11")]
     Fail_FinishConditionsNotMet_IncorrectTargetEntity,
+    #[deku(id = "12")]
     Fail_ContractNotFound_Activation,
+    #[deku(id = "13")]
     Fail_ContractNotFound_Abandon,
+    #[deku(id = "14")]
     Fail_ContractNotFound_Finish,
+    #[deku(id = "15")]
     Fail_FinishConditionsNotMet_NotEnoughItems,
+    #[deku(id = "16")]
     Fail_ActivationConditionsNotMet_ContractLimitReachedHard,
+    #[deku(id = "17")]
     Fail_ActivationConditionsNotMet_TargetOffline,
+    #[deku(id = "18")]
     Fail_FinishConditionsNotMet_NotEnoughSpace,
+    #[deku(id = "19")]
     Fail_ActivationConditionsNotMet_YouAreTargetOfThisHunt,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Blocks.MyContractBlock+MyTargetEntityInfoWrapper, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyContractBlock_MyTargetEntityInfoWrapper>
 // Original type: Sandbox.Game.Entities.Blocks.MyContractBlock+MyTargetEntityInfoWrapper
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyTargetEntityInfoWrapper")]
 pub struct MyContractBlock_MyTargetEntityInfoWrapper {
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
 }
 // Original enum: Sandbox.Game.World.Generator.MyContractCreationResults
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyContractCreationResults")]
 pub enum MyContractCreationResults {
     #[default]
+    #[deku(id = "0")]
     Success,
+    #[deku(id = "1")]
     Fail_Common,
+    #[deku(id = "2")]
     Fail_Impossible,
+    #[deku(id = "3")]
     Fail_NoAccess,
+    #[deku(id = "4")]
     Fail_GridNotFound,
+    #[deku(id = "5")]
     Fail_BlockNotFound,
-    Error,
+    #[deku(id = "6")]
+    #[serde(rename = "Error")]
+    Error_,
+    #[deku(id = "7")]
     Error_MissingKeyStructure,
+    #[deku(id = "8")]
     Fail_NotAnOwnerOfBlock,
+    #[deku(id = "9")]
     Fail_NotAnOwnerOfGrid,
+    #[deku(id = "10")]
     Fail_NotEnoughFunds,
+    #[deku(id = "11")]
     Fail_CreationLimitHard,
 }
 // Original enum: Sandbox.ModAPI.Ingame.UpdateType
@@ -4005,466 +4232,836 @@ impl UpdateType {
     pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Blocks.MyStoreItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyStoreItem>
-// Stub for ignored type (no serialization attributes): Sandbox.Game.Entities.Blocks.MyStoreItem
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original type: Sandbox.Game.Entities.Blocks.MyStoreItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStoreItem")]
-pub struct MyStoreItem {}
-// Stub for ignored type (no serialization attributes): Sandbox.Game.Entities.Blocks.MyStoreBuyItemResult
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "MyStoreBuyItemResult")]
-pub struct MyStoreBuyItemResult {}
-// Stub for ignored type (no serialization attributes): Sandbox.Game.Entities.Blocks.MyStoreSellItemResult
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "MyStoreSellItemResult")]
-pub struct MyStoreSellItemResult {}
-// Original enum: Sandbox.Game.Entities.Blocks.MyStoreCreationResult
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "MyStoreCreationResult")]
-pub enum MyStoreCreationResult {
-    #[default]
-    Success,
-    Fail_CreationLimitHard,
-    Fail_PricePerUnitIsLowerThanMinimum,
-    Error,
+pub struct MyStoreItem {
+    #[serde(rename = "Id", default)]
+    pub id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Item", default)]
+    pub item: crate::compat::Nullable<SerializableDefinitionId>,
+    #[serde(rename = "ItemType", default)]
+    pub item_type: ItemTypes,
+    #[serde(rename = "Amount", default)]
+    pub amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "RemovedAmount", default)]
+    #[deku(skip)]
+    pub removed_amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "UpdateCount", default)]
+    #[deku(skip)]
+    pub update_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PricePerUnit", default)]
+    pub price_per_unit: crate::compat::BitAligned<i32>,
+    #[serde(rename = "StoreItemType", default)]
+    pub store_item_type: StoreItemTypes,
+    #[serde(rename = "IsActive", default)]
+    pub is_active: crate::compat::BitBool,
+    #[serde(rename = "PrefabName", default)]
+    pub prefab_name: crate::compat::VarString,
+    #[serde(rename = "PrefabTotalPcu", default)]
+    pub prefab_total_pcu: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PricePerUnitDiscount", default)]
+    pub price_per_unit_discount: crate::compat::BitAligned<f32>,
+    #[serde(rename = "IsCustomStoreItem", default)]
+    pub is_custom_store_item: crate::compat::BitBool,
 }
 // Original enum: Sandbox.Game.Entities.Blocks.MyStoreBuyItemResults
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 5)]
 #[serde(rename = "MyStoreBuyItemResults")]
 pub enum MyStoreBuyItemResults {
     #[default]
+    #[deku(id = "0")]
     Success,
+    #[deku(id = "1")]
     ItemNotFound,
+    #[deku(id = "2")]
     WrongAmount,
+    #[deku(id = "3")]
     NotEnoughMoney,
+    #[deku(id = "4")]
     ItemsTimeout,
+    #[deku(id = "5")]
     NotEnoughInventorySpace,
+    #[deku(id = "6")]
     WrongInventory,
+    #[deku(id = "7")]
     SpawnFailed,
+    #[deku(id = "8")]
     FreePositionNotFound,
+    #[deku(id = "9")]
     NotEnoughStoreBlockInventorySpace,
+    #[deku(id = "10")]
     NotEnoughAmount,
+    #[deku(id = "11")]
     NotEnoughPCU,
+    #[deku(id = "12")]
     NotEnoughSpaceInTank,
+    #[deku(id = "13")]
     StoreNotOwnedByFaction,
+    #[deku(id = "14")]
     LimitsGridSize,
+    #[deku(id = "15")]
     LimitsNoFaction,
+    #[deku(id = "16")]
     LimitsPerBlockType,
+    #[deku(id = "17")]
     LimitsPlayer,
+}
+// Original type: Sandbox.Game.Entities.Blocks.MyStoreBuyItemResult
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyStoreBuyItemResult")]
+pub struct MyStoreBuyItemResult {
+    #[serde(rename = "ItemId", default)]
+    pub item_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Amount", default)]
+    pub amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Result", default)]
+    pub result: MyStoreBuyItemResults,
+}
+// Original enum: Sandbox.Game.Entities.Blocks.MyStoreSellItemResults
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
+#[serde(rename = "MyStoreSellItemResults")]
+pub enum MyStoreSellItemResults {
+    #[default]
+    #[deku(id = "0")]
+    Success,
+    #[deku(id = "1")]
+    ItemNotFound,
+    #[deku(id = "2")]
+    WrongAmount,
+    #[deku(id = "3")]
+    ItemsTimeout,
+    #[deku(id = "4")]
+    NotEnoughAmount,
+    #[deku(id = "5")]
+    NotEnoughMoney,
+    #[deku(id = "6")]
+    NotEnoughInventorySpace,
+    #[deku(id = "7")]
+    NoFaction,
+}
+// Original type: Sandbox.Game.Entities.Blocks.MyStoreSellItemResult
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyStoreSellItemResult")]
+pub struct MyStoreSellItemResult {
+    #[serde(rename = "ItemId", default)]
+    pub item_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Amount", default)]
+    pub amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Result", default)]
+    pub result: MyStoreSellItemResults,
+}
+// Original enum: Sandbox.Game.Entities.Blocks.MyStoreCreationResult
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
+#[serde(rename = "MyStoreCreationResult")]
+pub enum MyStoreCreationResult {
+    #[default]
+    #[deku(id = "0")]
+    Success,
+    #[deku(id = "1")]
+    Fail_CreationLimitHard,
+    #[deku(id = "2")]
+    Fail_PricePerUnitIsLowerThanMinimum,
+    #[deku(id = "3")]
+    #[serde(rename = "Error")]
+    Error_,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<f32>
 // Note: Type mapping applied from System.Nullable`1[[VRage.Input.MyKeys, VRage.Input, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyKeys>
 // Original enum: VRage.Input.MyKeys
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 8)]
 #[serde(rename = "MyKeys")]
 pub enum MyKeys {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     LeftButton,
+    #[deku(id = "2")]
     RightButton,
+    #[deku(id = "3")]
     Cancel,
+    #[deku(id = "4")]
     MiddleButton,
+    #[deku(id = "5")]
     ExtraButton1,
+    #[deku(id = "6")]
     ExtraButton2,
+    #[deku(id = "8")]
     Back,
+    #[deku(id = "9")]
     Tab,
+    #[deku(id = "12")]
     Clear,
+    #[deku(id = "13")]
     Enter,
+    #[deku(id = "16")]
     Shift,
+    #[deku(id = "17")]
     Control,
+    #[deku(id = "18")]
     Alt,
+    #[deku(id = "19")]
     Pause,
+    #[deku(id = "20")]
     CapsLock,
+    #[deku(id = "21")]
     Kana,
+    #[deku(id = "21")]
     Hangeul,
+    #[deku(id = "21")]
     Hangul,
+    #[deku(id = "23")]
     Junja,
+    #[deku(id = "24")]
     Final,
+    #[deku(id = "25")]
     Hanja,
+    #[deku(id = "25")]
     Kanji,
+    #[deku(id = "25")]
     Ctrl_Y,
+    #[deku(id = "26")]
     Ctrl_Z,
+    #[deku(id = "27")]
     Escape,
+    #[deku(id = "28")]
     Convert,
+    #[deku(id = "29")]
     NonConvert,
+    #[deku(id = "30")]
     Accept,
+    #[deku(id = "31")]
     ModeChange,
+    #[deku(id = "32")]
     Space,
+    #[deku(id = "33")]
     PageUp,
+    #[deku(id = "34")]
     PageDown,
+    #[deku(id = "35")]
     End,
+    #[deku(id = "36")]
     Home,
+    #[deku(id = "37")]
     Left,
+    #[deku(id = "38")]
     Up,
+    #[deku(id = "39")]
     Right,
+    #[deku(id = "40")]
     Down,
+    #[deku(id = "41")]
     Select,
+    #[deku(id = "42")]
     Print,
+    #[deku(id = "43")]
     Execute,
+    #[deku(id = "44")]
     Snapshot,
+    #[deku(id = "45")]
     Insert,
+    #[deku(id = "46")]
     Delete,
+    #[deku(id = "47")]
     Help,
+    #[deku(id = "48")]
     D0,
+    #[deku(id = "49")]
     D1,
+    #[deku(id = "50")]
     D2,
+    #[deku(id = "51")]
     D3,
+    #[deku(id = "52")]
     D4,
+    #[deku(id = "53")]
     D5,
+    #[deku(id = "54")]
     D6,
+    #[deku(id = "55")]
     D7,
+    #[deku(id = "56")]
     D8,
+    #[deku(id = "57")]
     D9,
+    #[deku(id = "65")]
     A,
+    #[deku(id = "66")]
     B,
+    #[deku(id = "67")]
     C,
+    #[deku(id = "68")]
     D,
+    #[deku(id = "69")]
     E,
+    #[deku(id = "70")]
     F,
+    #[deku(id = "71")]
     G,
+    #[deku(id = "72")]
     H,
+    #[deku(id = "73")]
     I,
+    #[deku(id = "74")]
     J,
+    #[deku(id = "75")]
     K,
+    #[deku(id = "76")]
     L,
+    #[deku(id = "77")]
     M,
+    #[deku(id = "78")]
     N,
+    #[deku(id = "79")]
     O,
+    #[deku(id = "80")]
     P,
+    #[deku(id = "81")]
     Q,
+    #[deku(id = "82")]
     R,
+    #[deku(id = "83")]
     S,
+    #[deku(id = "84")]
     T,
+    #[deku(id = "85")]
     U,
+    #[deku(id = "86")]
     V,
+    #[deku(id = "87")]
     W,
+    #[deku(id = "88")]
     X,
+    #[deku(id = "89")]
     Y,
+    #[deku(id = "90")]
     Z,
+    #[deku(id = "91")]
     LeftWindows,
+    #[deku(id = "92")]
     RightWindows,
+    #[deku(id = "93")]
     Apps,
+    #[deku(id = "95")]
     Sleep,
+    #[deku(id = "96")]
     NumPad0,
+    #[deku(id = "97")]
     NumPad1,
+    #[deku(id = "98")]
     NumPad2,
+    #[deku(id = "99")]
     NumPad3,
+    #[deku(id = "100")]
     NumPad4,
+    #[deku(id = "101")]
     NumPad5,
+    #[deku(id = "102")]
     NumPad6,
+    #[deku(id = "103")]
     NumPad7,
+    #[deku(id = "104")]
     NumPad8,
+    #[deku(id = "105")]
     NumPad9,
+    #[deku(id = "106")]
     Multiply,
+    #[deku(id = "107")]
     Add,
+    #[deku(id = "108")]
     Separator,
+    #[deku(id = "109")]
     Subtract,
+    #[deku(id = "110")]
     Decimal,
+    #[deku(id = "111")]
     Divide,
+    #[deku(id = "112")]
     F1,
+    #[deku(id = "113")]
     F2,
+    #[deku(id = "114")]
     F3,
+    #[deku(id = "115")]
     F4,
+    #[deku(id = "116")]
     F5,
+    #[deku(id = "117")]
     F6,
+    #[deku(id = "118")]
     F7,
+    #[deku(id = "119")]
     F8,
+    #[deku(id = "120")]
     F9,
+    #[deku(id = "121")]
     F10,
+    #[deku(id = "122")]
     F11,
+    #[deku(id = "123")]
     F12,
+    #[deku(id = "124")]
     F13,
+    #[deku(id = "125")]
     F14,
+    #[deku(id = "126")]
     F15,
+    #[deku(id = "127")]
     F16,
+    #[deku(id = "128")]
     F17,
+    #[deku(id = "129")]
     F18,
+    #[deku(id = "130")]
     F19,
+    #[deku(id = "131")]
     F20,
+    #[deku(id = "132")]
     F21,
+    #[deku(id = "133")]
     F22,
+    #[deku(id = "134")]
     F23,
+    #[deku(id = "135")]
     F24,
+    #[deku(id = "144")]
     NumLock,
+    #[deku(id = "145")]
     ScrollLock,
+    #[deku(id = "146")]
     NEC_Equal,
+    #[deku(id = "146")]
     Fujitsu_Jisho,
+    #[deku(id = "147")]
     Fujitsu_Masshou,
+    #[deku(id = "148")]
     Fujitsu_Touroku,
+    #[deku(id = "149")]
     Fujitsu_Loya,
+    #[deku(id = "150")]
     Fujitsu_Roya,
+    #[deku(id = "160")]
     LeftShift,
+    #[deku(id = "161")]
     RightShift,
+    #[deku(id = "162")]
     LeftControl,
+    #[deku(id = "163")]
     RightControl,
+    #[deku(id = "164")]
     LeftAlt,
+    #[deku(id = "165")]
     RightAlt,
+    #[deku(id = "166")]
     BrowserBack,
+    #[deku(id = "167")]
     BrowserForward,
+    #[deku(id = "168")]
     BrowserRefresh,
+    #[deku(id = "169")]
     BrowserStop,
+    #[deku(id = "170")]
     BrowserSearch,
+    #[deku(id = "171")]
     BrowserFavorites,
+    #[deku(id = "172")]
     BrowserHome,
+    #[deku(id = "173")]
     VolumeMute,
+    #[deku(id = "174")]
     VolumeDown,
+    #[deku(id = "175")]
     VolumeUp,
+    #[deku(id = "176")]
     MediaNextTrack,
+    #[deku(id = "177")]
     MediaPrevTrack,
+    #[deku(id = "178")]
     MediaStop,
+    #[deku(id = "179")]
     MediaPlayPause,
+    #[deku(id = "180")]
     LaunchMail,
+    #[deku(id = "181")]
     LaunchMediaSelect,
+    #[deku(id = "182")]
     LaunchApplication1,
+    #[deku(id = "183")]
     LaunchApplication2,
+    #[deku(id = "186")]
     OemSemicolon,
+    #[deku(id = "187")]
     OemPlus,
+    #[deku(id = "188")]
     OemComma,
+    #[deku(id = "189")]
     OemMinus,
+    #[deku(id = "190")]
     OemPeriod,
+    #[deku(id = "191")]
     OemQuestion,
+    #[deku(id = "192")]
     OemTilde,
+    #[deku(id = "202")]
     ChatPadGreen,
+    #[deku(id = "203")]
     ChatPadOrange,
+    #[deku(id = "219")]
     OemOpenBrackets,
+    #[deku(id = "220")]
     OemPipe,
+    #[deku(id = "221")]
     OemCloseBrackets,
+    #[deku(id = "222")]
     OemQuotes,
+    #[deku(id = "223")]
     Oem8,
+    #[deku(id = "225")]
     OEMAX,
+    #[deku(id = "226")]
     OemBackslash,
+    #[deku(id = "227")]
     ICOHelp,
+    #[deku(id = "228")]
     ICO00,
+    #[deku(id = "229")]
     ProcessKey,
+    #[deku(id = "230")]
     ICOClear,
+    #[deku(id = "231")]
     Packet,
+    #[deku(id = "233")]
     OEMReset,
+    #[deku(id = "234")]
     OEMJump,
+    #[deku(id = "235")]
     OEMPA1,
+    #[deku(id = "236")]
     OEMPA2,
+    #[deku(id = "237")]
     OEMPA3,
+    #[deku(id = "238")]
     OEMWSCtrl,
+    #[deku(id = "239")]
     OEMCUSel,
+    #[deku(id = "240")]
     OEMATTN,
+    #[deku(id = "241")]
     OEMFinish,
+    #[deku(id = "242")]
     OEMCopy,
+    #[deku(id = "243")]
     OEMAuto,
+    #[deku(id = "244")]
     OEMENLW,
+    #[deku(id = "245")]
     OEMBackTab,
+    #[deku(id = "246")]
     ATTN,
+    #[deku(id = "247")]
     CRSel,
+    #[deku(id = "248")]
     EXSel,
+    #[deku(id = "249")]
     EREOF,
+    #[deku(id = "250")]
     Play,
+    #[deku(id = "251")]
     Zoom,
+    #[deku(id = "252")]
     Noname,
+    #[deku(id = "253")]
     PA1,
+    #[deku(id = "254")]
     OEMClear,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Multiplayer.MyPlayerCollection+AllPlayerData, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyPlayerCollection_AllPlayerData>
 // Original type: Sandbox.Game.Multiplayer.MyPlayerCollection+AllPlayerData
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "AllPlayerData")]
 pub struct MyPlayerCollection_AllPlayerData {
     #[proto(tag = 1)]
     #[serde(rename = "SteamId", default)]
-    pub steam_id: u64,
+    pub steam_id: crate::compat::BitAligned<u64>,
     #[proto(tag = 4)]
     #[serde(rename = "SerialId", default)]
-    pub serial_id: i32,
+    pub serial_id: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "Player", default)]
     pub player: MyObjectBuilder_Player,
 }
 // Original type: Sandbox.Engine.Multiplayer.AllMembersDataMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "AllMembersDataMsg")]
 pub struct AllMembersDataMsg {
-    #[serde(rename = "Identities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub identities: Vec<MyObjectBuilder_Identity>,
-    #[serde(rename = "Players", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub players: Vec<MyPlayerCollection_AllPlayerData>,
-    #[serde(rename = "Factions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub factions: Vec<MyObjectBuilder_Faction>,
-    #[serde(rename = "Clients", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub clients: Vec<MyObjectBuilder_Client>,
+    #[serde(rename = "Identities", default)]
+    pub identities: crate::compat::VarVec<MyObjectBuilder_Identity>,
+    #[serde(rename = "Players", default)]
+    pub players: crate::compat::VarVec<MyPlayerCollection_AllPlayerData>,
+    #[serde(rename = "Factions", default)]
+    pub factions: crate::compat::VarVec<MyObjectBuilder_Faction>,
+    #[serde(rename = "Clients", default)]
+    pub clients: crate::compat::VarVec<MyObjectBuilder_Client>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.GameServices.ChatMessageCustomData, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<ChatMessageCustomData>
 // Note: Type mapping applied from System.Nullable`1[[VRageMath.Color, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<Color>
 // Original type: VRage.GameServices.ChatMessageCustomData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ChatMessageCustomData")]
 pub struct ChatMessageCustomData {
     #[serde(rename = "AuthorName", default)]
-    pub author_name: String,
+    pub author_name: crate::compat::VarString,
     #[serde(rename = "SenderId", default)]
-    pub sender_id: crate::compat::Nullable<u64>,
+    pub sender_id: crate::compat::Nullable<crate::compat::BitAligned<u64>>,
     #[serde(rename = "TextColor", default)]
     pub text_color: crate::compat::Nullable<Color>,
 }
 // Original type: VRage.Network.ChatMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ChatMsg")]
 pub struct ChatMsg {
     #[serde(rename = "Text", default)]
-    pub text: String,
+    pub text: crate::compat::VarString,
     #[serde(rename = "Author", default)]
-    pub author: u64,
+    pub author: crate::compat::BitAligned<u64>,
     #[serde(rename = "Channel", default)]
-    pub channel: i32,
+    pub channel: crate::compat::BitAligned<i32>,
     #[serde(rename = "TargetId", default)]
-    pub target_id: i64,
+    pub target_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "CrossChatEnabled", default)]
-    pub cross_chat_enabled: bool,
+    pub cross_chat_enabled: crate::compat::BitBool,
     #[serde(rename = "CustomData", default)]
     pub custom_data: crate::compat::Nullable<ChatMessageCustomData>,
 }
 // Original type: VRage.Network.BlockList
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BlockList")]
 pub struct BlockList {
-    #[serde(rename = "BlockedUsers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub blocked_users: Vec<u64>,
+    #[serde(rename = "BlockedUsers", default)]
+    pub blocked_users: crate::compat::VarVec<crate::compat::BitAligned<u64>>,
 }
 // Original type: Sandbox.Engine.Multiplayer.ScriptedChatMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ScriptedChatMsg")]
 pub struct ScriptedChatMsg {
     #[serde(rename = "Text", default)]
-    pub text: String,
+    pub text: crate::compat::VarString,
     #[serde(rename = "Author", default)]
-    pub author: String,
+    pub author: crate::compat::VarString,
     #[serde(rename = "Target", default)]
-    pub target: i64,
+    pub target: crate::compat::BitAligned<i64>,
     #[serde(rename = "Font", default)]
-    pub font: String,
+    pub font: crate::compat::VarString,
     #[serde(rename = "Color")]
     pub color: Color,
 }
 // Original enum: VRage.Audio.MyGuiSounds
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 6)]
 #[serde(rename = "MyGuiSounds")]
 pub enum MyGuiSounds {
     #[default]
+    #[deku(id = "0")]
     HudClick,
+    #[deku(id = "1")]
     HudUse,
+    #[deku(id = "2")]
     HudRotateBlock,
+    #[deku(id = "3")]
     HudPlaceBlock,
+    #[deku(id = "4")]
     HudDeleteBlock,
+    #[deku(id = "5")]
     HudColorBlock,
+    #[deku(id = "6")]
     HudMouseClick,
+    #[deku(id = "7")]
     HudMouseOver,
+    #[deku(id = "8")]
     HudUnable,
+    #[deku(id = "9")]
     HudGPSNotification1,
+    #[deku(id = "10")]
     HudGPSNotification2,
+    #[deku(id = "11")]
     HudGPSNotification3,
+    #[deku(id = "12")]
     PlayDropItem,
+    #[deku(id = "13")]
     HudVocInventoryFull,
+    #[deku(id = "14")]
     HudVocMeteorInbound,
+    #[deku(id = "15")]
     HudVocHealthLow,
+    #[deku(id = "16")]
     HudVocHealthCritical,
+    #[deku(id = "17")]
     HudVocFuelLow,
+    #[deku(id = "18")]
     HudVocFuelCrit,
+    #[deku(id = "19")]
     None,
+    #[deku(id = "20")]
     HudVocEnergyLow,
+    #[deku(id = "21")]
     HudVocStationFuelLow,
+    #[deku(id = "22")]
     HudVocShipFuelLow,
+    #[deku(id = "23")]
     HudVocEnergyCrit,
+    #[deku(id = "24")]
     HudVocStationFuelCrit,
+    #[deku(id = "25")]
     HudVocShipFuelCrit,
+    #[deku(id = "26")]
     HudVocEnergyNo,
+    #[deku(id = "27")]
     HudVocStationFuelNo,
+    #[deku(id = "28")]
     HudVocShipFuelNo,
+    #[deku(id = "29")]
     HudCraftBarProgressLoop,
+    #[deku(id = "30")]
     HudErrorMessage,
+    #[deku(id = "31")]
     HudOpenCraftWin,
+    #[deku(id = "32")]
     HudOpenInventory,
+    #[deku(id = "33")]
     HudItem,
+    #[deku(id = "34")]
     PlayTakeItem,
+    #[deku(id = "35")]
     HudPlaceItem,
+    #[deku(id = "36")]
     HudAntennaOn,
+    #[deku(id = "37")]
     HudAntennaOff,
+    #[deku(id = "38")]
     HudBrakeOff,
+    #[deku(id = "39")]
     HudBrakeOn,
+    #[deku(id = "40")]
     HudObjectiveComplete,
+    #[deku(id = "41")]
     HudBleep,
+    #[deku(id = "42")]
     HudQuestlogDetail,
+    #[deku(id = "43")]
     HudLockingProgress,
+    #[deku(id = "44")]
     HudLockingSuccess,
+    #[deku(id = "45")]
     HudLockingLost,
+    #[deku(id = "46")]
     MatchVictory,
+    #[deku(id = "47")]
     MatchDraw,
+    #[deku(id = "48")]
     MatchDefeat,
+    #[deku(id = "49")]
     HudVocFoodLow,
+    #[deku(id = "50")]
     HudVocRadiationImmunityLow,
+    #[deku(id = "51")]
     HudVocRadiationCritical,
 }
 // Note: Type mapping applied from VRageMath.Vector2 to crate::math::Vector2F
 // Original enum: VRage.Utils.MyGuiDrawAlignEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyGuiDrawAlignEnum")]
 pub enum MyGuiDrawAlignEnum {
     #[default]
+    #[deku(id = "0")]
     HORISONTAL_LEFT_AND_VERTICAL_TOP,
+    #[deku(id = "1")]
     HORISONTAL_LEFT_AND_VERTICAL_CENTER,
+    #[deku(id = "2")]
     HORISONTAL_LEFT_AND_VERTICAL_BOTTOM,
+    #[deku(id = "3")]
     HORISONTAL_CENTER_AND_VERTICAL_TOP,
+    #[deku(id = "4")]
     HORISONTAL_CENTER_AND_VERTICAL_CENTER,
+    #[deku(id = "5")]
     HORISONTAL_CENTER_AND_VERTICAL_BOTTOM,
+    #[deku(id = "6")]
     HORISONTAL_RIGHT_AND_VERTICAL_TOP,
+    #[deku(id = "7")]
     HORISONTAL_RIGHT_AND_VERTICAL_CENTER,
+    #[deku(id = "8")]
     HORISONTAL_RIGHT_AND_VERTICAL_BOTTOM,
 }
 // Original type: Sandbox.Game.MyUIString
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyUIString")]
 pub struct MyUIString {
     #[serde(rename = "Text", default)]
-    pub text: String,
+    pub text: crate::compat::VarString,
     #[serde(rename = "NormalizedCoord")]
     pub normalized_coord: crate::math::Vector2F,
     #[serde(rename = "Scale", default)]
-    pub scale: f32,
+    pub scale: crate::compat::BitAligned<f32>,
     #[serde(rename = "Font", default)]
-    pub font: String,
+    pub font: crate::compat::VarString,
     #[serde(rename = "DrawAlign", default)]
     pub draw_align: MyGuiDrawAlignEnum,
 }
 // Original type: Sandbox.Game.Gui.MyGuiScreenBoard+MyColumn
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyColumn")]
 pub struct MyGuiScreenBoard_MyColumn {
     #[serde(rename = "HeaderText", default)]
-    pub header_text: String,
+    pub header_text: crate::compat::VarString,
     #[serde(rename = "HeaderDrawAlign", default)]
     pub header_draw_align: MyGuiDrawAlignEnum,
     #[serde(rename = "ColumnDrawAlign", default)]
     pub column_draw_align: MyGuiDrawAlignEnum,
     #[serde(rename = "Width", default)]
-    pub width: f32,
+    pub width: crate::compat::BitAligned<f32>,
     #[serde(rename = "Visible", default)]
-    pub visible: bool,
+    pub visible: crate::compat::BitBool,
 }
 // Original enum: Sandbox.ModAPI.MyExplosionTypeEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 4)]
 #[serde(rename = "MyExplosionTypeEnum")]
 pub enum MyExplosionTypeEnum {
     #[default]
+    #[deku(id = "0")]
     MISSILE_EXPLOSION,
+    #[deku(id = "1")]
     BOMB_EXPLOSION,
+    #[deku(id = "2")]
     AMMO_EXPLOSION,
+    #[deku(id = "3")]
     GRID_DEFORMATION,
+    #[deku(id = "4")]
     GRID_DESTRUCTION,
+    #[deku(id = "5")]
     WARHEAD_EXPLOSION_02,
+    #[deku(id = "6")]
     WARHEAD_EXPLOSION_15,
+    #[deku(id = "7")]
     WARHEAD_EXPLOSION_30,
+    #[deku(id = "8")]
     WARHEAD_EXPLOSION_50,
+    #[deku(id = "9")]
     CUSTOM,
+    #[deku(id = "10")]
     ProjectileExplosion,
 }
 // Original enum: Sandbox.Game.MyExplosionFlags
@@ -4485,15 +5082,15 @@ pub enum MyExplosionFlags {
     FORCE_CUSTOM_END_OF_LIFE_EFFECT = 512,
 }
 // Original type: Sandbox.Game.MyExplosionInfoSimplified
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyExplosionInfoSimplified")]
 pub struct MyExplosionInfoSimplified {
     #[serde(rename = "Damage", default)]
-    pub damage: f32,
+    pub damage: crate::compat::BitAligned<f32>,
     #[serde(rename = "Center")]
     pub center: crate::math::Vector3D,
     #[serde(rename = "Radius", default)]
-    pub radius: f32,
+    pub radius: crate::compat::BitAligned<f32>,
     #[serde(rename = "Type", default)]
     pub r#type: MyExplosionTypeEnum,
     #[serde(rename = "Flags")]
@@ -4501,58 +5098,58 @@ pub struct MyExplosionInfoSimplified {
     #[serde(rename = "VoxelCenter")]
     pub voxel_center: crate::math::Vector3D,
     #[serde(rename = "ParticleScale", default)]
-    pub particle_scale: f32,
+    pub particle_scale: crate::compat::BitAligned<f32>,
     #[serde(rename = "Velocity")]
     pub velocity: crate::math::Vector3F,
     #[serde(rename = "IgnoreFriendlyFireSetting", default)]
-    pub ignore_friendly_fire_setting: bool,
+    pub ignore_friendly_fire_setting: crate::compat::BitBool,
     #[serde(rename = "CustomEffect", default)]
-    pub custom_effect: String,
+    pub custom_effect: crate::compat::VarString,
     #[serde(rename = "CustomSound", default)]
-    pub custom_sound: String,
+    pub custom_sound: crate::compat::VarString,
 }
 // Original type: VRage.Game.ObjectBuilders.Gui.MyHighlightData
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyHighlightData")]
 pub struct MyHighlightData {
     #[proto(tag = 5)]
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 10)]
     #[serde(rename = "OutlineColor", default)]
     pub outline_color: crate::compat::Nullable<Color>,
     #[proto(tag = 15)]
     #[serde(rename = "Thickness", default)]
-    pub thickness: i32,
+    pub thickness: crate::compat::BitAligned<i32>,
     #[proto(tag = 20)]
     #[serde(rename = "PulseTimeInFrames", default)]
-    pub pulse_time_in_frames: u64,
+    pub pulse_time_in_frames: crate::compat::BitAligned<u64>,
     #[proto(tag = 25)]
     #[serde(rename = "PlayerId", default)]
-    pub player_id: i64,
+    pub player_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 30)]
     #[serde(rename = "IgnoreUseObjectData", default)]
-    pub ignore_use_object_data: bool,
+    pub ignore_use_object_data: crate::compat::BitBool,
     #[proto(tag = 35)]
     #[serde(rename = "SubPartNames", default)]
-    pub sub_part_names: String,
+    pub sub_part_names: crate::compat::VarString,
 }
 // Original type: Sandbox.Game.SessionComponents.MyHighlightSystem+HighlightMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "HighlightMsg")]
 pub struct MyHighlightSystem_HighlightMsg {
     #[serde(rename = "Data")]
     pub data: MyHighlightData,
     #[serde(rename = "ExclusiveKey", default)]
-    pub exclusive_key: i32,
+    pub exclusive_key: crate::compat::BitAligned<i32>,
     #[serde(rename = "IsExclusive", default)]
-    pub is_exclusive: bool,
+    pub is_exclusive: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_WeatherEffect, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_WeatherEffect>
 // Original type: VRage.Game.MyObjectBuilder_WeatherEffect
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_WeatherEffect")]
 pub struct MyObjectBuilder_WeatherEffect {
     #[proto(tag = 5)]
@@ -4563,69 +5160,69 @@ pub struct MyObjectBuilder_WeatherEffect {
     pub velocity: crate::math::Vector3D,
     #[proto(tag = 10)]
     #[serde(rename = "Weather", default)]
-    pub weather: String,
+    pub weather: crate::compat::VarString,
     #[proto(tag = 15)]
     #[serde(rename = "Radius", default)]
-    pub radius: f32,
+    pub radius: crate::compat::BitAligned<f32>,
     #[proto(tag = 20)]
     #[serde(rename = "Life", default)]
-    pub life: i32,
+    pub life: crate::compat::BitAligned<i32>,
     #[proto(tag = 21)]
     #[serde(rename = "MaxLife", default)]
-    pub max_life: i32,
+    pub max_life: crate::compat::BitAligned<i32>,
     #[proto(tag = 25)]
     #[serde(rename = "Intensity", default)]
-    pub intensity: f32,
+    pub intensity: crate::compat::BitAligned<f32>,
     #[proto(tag = 30)]
     #[serde(rename = "StartPoint")]
     pub start_point: crate::math::Vector3D,
     #[proto(tag = 35)]
     #[serde(rename = "NextLightning", default)]
-    pub next_lightning: i32,
+    pub next_lightning: crate::compat::BitAligned<i32>,
     #[proto(tag = 40)]
     #[serde(rename = "NextLightningCharacter", default)]
-    pub next_lightning_character: i32,
+    pub next_lightning_character: crate::compat::BitAligned<i32>,
     #[proto(tag = 45)]
     #[serde(rename = "NextLightningGrid", default)]
-    pub next_lightning_grid: i32,
+    pub next_lightning_grid: crate::compat::BitAligned<i32>,
 }
 // Original type: VRage.Game.MyObjectBuilder_WeatherPlanetData
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_WeatherPlanetData")]
 pub struct MyObjectBuilder_WeatherPlanetData {
     #[proto(tag = 5)]
     #[serde(rename = "PlanetId", default)]
-    pub planet_id: i64,
+    pub planet_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 10)]
     #[serde(rename = "NextWeather", default)]
-    pub next_weather: i32,
+    pub next_weather: crate::compat::BitAligned<i32>,
     #[proto(tag = 30)]
-    #[serde(rename = "Weathers", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub weathers: Vec<MyObjectBuilder_WeatherEffect>,
+    #[serde(rename = "Weathers", default)]
+    pub weathers: crate::compat::VarVec<MyObjectBuilder_WeatherEffect>,
 }
 // Original type: VRageMath.Vector4
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Vector4")]
 pub struct Vector4 {
     #[proto(tag = 1)]
     #[serde(rename = "X", default)]
-    pub X: f32,
+    pub X: crate::compat::BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", default)]
-    pub Y: f32,
+    pub Y: crate::compat::BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", default)]
-    pub Z: f32,
+    pub Z: crate::compat::BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "W", default)]
-    pub W: f32,
+    pub W: crate::compat::BitAligned<f32>,
 }
 // Original type: VRage.Game.MyObjectBuilder_WeatherLightning
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_WeatherLightning")]
 pub struct MyObjectBuilder_WeatherLightning {
     #[proto(tag = 5)]
@@ -4633,81 +5230,122 @@ pub struct MyObjectBuilder_WeatherLightning {
     pub position: crate::math::Vector3D,
     #[proto(tag = 10)]
     #[serde(rename = "Life", default)]
-    pub life: i32,
+    pub life: crate::compat::BitAligned<i32>,
     #[proto(tag = 15)]
-    #[serde_inline_default(7)]
+    #[serde_inline_default(crate::compat::BitAligned(7))]
     #[serde(rename = "MaxLife")]
-    pub max_life: i32,
+    pub max_life: crate::compat::BitAligned<i32>,
     #[proto(tag = 20)]
-    #[serde_inline_default(5000f32)]
+    #[serde_inline_default(crate::compat::BitAligned(5000f32))]
     #[serde(rename = "BoltLength")]
-    pub bolt_length: f32,
+    pub bolt_length: crate::compat::BitAligned<f32>,
     #[proto(tag = 25)]
-    #[serde_inline_default(50)]
+    #[serde_inline_default(crate::compat::BitAligned(50))]
     #[serde(rename = "BoltParts")]
-    pub bolt_parts: i32,
+    pub bolt_parts: crate::compat::BitAligned<i32>,
     #[proto(tag = 30)]
-    #[serde_inline_default(100)]
+    #[serde_inline_default(crate::compat::BitAligned(100))]
     #[serde(rename = "BoltVariation")]
-    pub bolt_variation: i32,
+    pub bolt_variation: crate::compat::BitAligned<i32>,
     #[proto(tag = 35)]
-    #[serde_inline_default(30f32)]
+    #[serde_inline_default(crate::compat::BitAligned(30f32))]
     #[serde(rename = "BoltRadius")]
-    pub bolt_radius: f32,
+    pub bolt_radius: crate::compat::BitAligned<f32>,
     #[proto(tag = 40)]
     #[serde(rename = "Damage", default)]
-    pub damage: i32,
+    pub damage: crate::compat::BitAligned<i32>,
     #[proto(tag = 45)]
     #[serde(rename = "Sound", default)]
-    pub sound: String,
+    pub sound: crate::compat::VarString,
     #[proto(tag = 50)]
     #[serde(rename = "Color")]
     pub color: Vector4,
     #[proto(tag = 55)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "BoltImpulseMultiplier")]
-    pub bolt_impulse_multiplier: f32,
+    pub bolt_impulse_multiplier: crate::compat::BitAligned<f32>,
     #[proto(tag = 65)]
-    #[serde_inline_default(1f32)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "ExplosionRadius")]
-    pub explosion_radius: f32,
+    pub explosion_radius: crate::compat::BitAligned<f32>,
 }
 // Original enum: Sandbox.Game.SessionComponents.MyContractNotificationTypes
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MyContractNotificationTypes")]
 pub enum MyContractNotificationTypes {
     #[default]
+    #[deku(id = "0")]
     ContractSuccessful,
+    #[deku(id = "1")]
     ContractFailed,
 }
 // Original enum: Sandbox.Game.SessionComponents.MyMatchState
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "MyMatchState")]
 pub enum MyMatchState {
     #[default]
+    #[deku(id = "0")]
     PreMatch,
+    #[deku(id = "1")]
     Match,
+    #[deku(id = "2")]
     PostMatch,
+    #[deku(id = "3")]
     Finished,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyEntityList+MyEntityListInfoItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEntityList_MyEntityListInfoItem>
-// Stub for ignored type (no serialization attributes): Sandbox.Game.Entities.MyEntityList+MyEntityListInfoItem
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original type: Sandbox.Game.Entities.MyEntityList+MyEntityListInfoItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyEntityListInfoItem")]
-pub struct MyEntityList_MyEntityListInfoItem {}
+pub struct MyEntityList_MyEntityListInfoItem {
+    #[serde(rename = "DisplayName", default)]
+    pub display_name: crate::compat::VarString,
+    #[serde(rename = "EntityId", default)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "BlockCount", default)]
+    pub block_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PCU", default)]
+    pub PCU: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    #[serde(rename = "Mass", default)]
+    pub mass: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Position")]
+    pub position: crate::math::Vector3D,
+    #[serde(rename = "OwnerName", default)]
+    pub owner_name: crate::compat::VarString,
+    #[serde(rename = "Owner", default)]
+    pub owner: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Speed", default)]
+    pub speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "DistanceFromPlayers", default)]
+    pub distance_from_players: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OwnerLoginTime", default)]
+    pub owner_login_time: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OwnerLogoutTime", default)]
+    pub owner_logout_time: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "PlayerPresenceTier", default)]
+    pub player_presence_tier: MyUpdateTiersPlayerPresence,
+    #[serde(rename = "GridPresenceTier", default)]
+    pub grid_presence_tier: MyUpdateTiersGridPresence,
+    #[serde(rename = "IsReplicated", default)]
+    pub is_replicated: crate::compat::Nullable<crate::compat::BitBool>,
+    #[serde(rename = "IsGrid", default)]
+    pub is_grid: crate::compat::BitBool,
+}
 // Note: Type mapping applied from System.TimeSpan to crate::compat::TimeSpan
 // Original type: Sandbox.Game.SessionComponents.MySessionComponentTrash+ForageableItemInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ForageableItemInfo")]
 pub struct MySessionComponentTrash_ForageableItemInfo {
     #[serde(rename = "ItemID", default)]
-    pub item_i_d: i32,
+    pub item_i_d: crate::compat::BitAligned<i32>,
     #[serde(rename = "SectorID", default)]
-    pub sector_i_d: i64,
+    pub sector_i_d: crate::compat::BitAligned<i64>,
     #[serde(rename = "PlanetID", default)]
-    pub planet_i_d: i64,
+    pub planet_i_d: crate::compat::BitAligned<i64>,
     #[serde(rename = "WorldAABB")]
     pub world_aab_b: crate::math::BoundingBoxD,
     #[serde(rename = "WorldPosition")]
@@ -4719,21 +5357,30 @@ pub struct MySessionComponentTrash_ForageableItemInfo {
 // Note: Type mapping applied from System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Nullable<crate::compat::DateTime>
 // Original enum: Sandbox.Game.SessionComponents.MySessionComponentWarningSystem+Category
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "Category")]
 pub enum MySessionComponentWarningSystem_Category {
     #[default]
+    #[deku(id = "0")]
     Graphics,
+    #[deku(id = "1")]
     Blocks,
+    #[deku(id = "2")]
     Other,
+    #[deku(id = "3")]
     UnsafeGrids,
+    #[deku(id = "4")]
     BlockLimits,
+    #[deku(id = "5")]
     Server,
+    #[deku(id = "6")]
     Performance,
+    #[deku(id = "7")]
     General,
 }
 // Original type: Sandbox.Game.SessionComponents.MySessionComponentWarningSystem+WarningData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "WarningData")]
 pub struct MySessionComponentWarningSystem_WarningData {
     #[serde(rename = "LastOccurence", default)]
@@ -4741,89 +5388,112 @@ pub struct MySessionComponentWarningSystem_WarningData {
     #[serde(rename = "Category", default)]
     pub category: MySessionComponentWarningSystem_Category,
     #[serde(rename = "TitleIdKey", default)]
-    pub title_id_key: String,
+    pub title_id_key: crate::compat::VarString,
     #[serde(rename = "TitleString", default)]
-    pub title_string: String,
+    pub title_string: crate::compat::VarString,
     #[serde(rename = "DescriptionIdKey", default)]
-    pub description_id_key: String,
+    pub description_id_key: crate::compat::VarString,
     #[serde(rename = "DescriptionString", default)]
-    pub description_string: String,
+    pub description_string: crate::compat::VarString,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Multiplayer.MyFactionCollection+MyReputationChangeWrapper, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyFactionCollection_MyReputationChangeWrapper>
 // Original type: Sandbox.Game.Multiplayer.MyFactionCollection+MyReputationChangeWrapper
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyReputationChangeWrapper")]
 pub struct MyFactionCollection_MyReputationChangeWrapper {
     #[serde(rename = "FactionId", default)]
-    pub faction_id: i64,
+    pub faction_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "RepTotal", default)]
-    pub rep_total: i32,
+    pub rep_total: crate::compat::BitAligned<i32>,
     #[serde(rename = "Change", default)]
-    pub change: i32,
+    pub change: crate::compat::BitAligned<i32>,
     #[serde(rename = "ShowNotification", default)]
-    pub show_notification: bool,
+    pub show_notification: crate::compat::BitBool,
 }
 // Original enum: VRage.Game.ModAPI.ReputationChangeReason
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "ReputationChangeReason")]
 pub enum ReputationChangeReason {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     Hostility,
+    #[deku(id = "2")]
     Contract,
+    #[deku(id = "3")]
     Admin,
+    #[deku(id = "4")]
     Mod,
 }
 // Original enum: VRage.Game.ModAPI.MyFactionStateChange
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyFactionStateChange")]
 pub enum MyFactionStateChange {
     #[default]
+    #[deku(id = "0")]
     RemoveFaction,
+    #[deku(id = "1")]
     SendPeaceRequest,
+    #[deku(id = "2")]
     CancelPeaceRequest,
+    #[deku(id = "3")]
     AcceptPeace,
+    #[deku(id = "4")]
     DeclareWar,
+    #[deku(id = "5")]
     SendFriendRequest,
+    #[deku(id = "6")]
     CancelFriendRequest,
+    #[deku(id = "7")]
     AcceptFriendRequest,
+    #[deku(id = "8")]
     FactionMemberSendJoin,
+    #[deku(id = "9")]
     FactionMemberCancelJoin,
+    #[deku(id = "10")]
     FactionMemberAcceptJoin,
+    #[deku(id = "11")]
     FactionMemberKick,
+    #[deku(id = "12")]
     FactionMemberPromote,
+    #[deku(id = "13")]
     FactionMemberDemote,
+    #[deku(id = "14")]
     FactionMemberLeave,
+    #[deku(id = "15")]
     FactionMemberNotPossibleJoin,
 }
 // Original type: Sandbox.Game.Multiplayer.MyFactionCollection+AddFactionMsg
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "AddFactionMsg")]
 pub struct MyFactionCollection_AddFactionMsg {
     #[proto(tag = 1)]
     #[serde(rename = "FounderId", default)]
-    pub founder_id: i64,
+    pub founder_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "FactionId", default)]
-    pub faction_id: i64,
+    pub faction_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 7)]
     #[serde(rename = "FactionTag", default)]
-    pub faction_tag: String,
+    pub faction_tag: crate::compat::VarString,
     #[proto(tag = 10)]
     #[serde(rename = "FactionName", default)]
-    pub faction_name: String,
+    pub faction_name: crate::compat::VarString,
     #[proto(tag = 13)]
     #[serde(rename = "FactionDescription", default)]
-    pub faction_description: String,
+    pub faction_description: crate::compat::VarString,
     #[proto(tag = 16)]
     #[serde(rename = "FactionPrivateInfo", default)]
-    pub faction_private_info: String,
+    pub faction_private_info: crate::compat::VarString,
     #[proto(tag = 19)]
     #[serde(rename = "CreateFromDefinition", default)]
-    pub create_from_definition: bool,
+    pub create_from_definition: crate::compat::BitBool,
     #[proto(tag = 25)]
     #[serde(rename = "FactionColor")]
     pub faction_color: crate::math::SerializableVector3F,
@@ -4835,146 +5505,161 @@ pub struct MyFactionCollection_AddFactionMsg {
     pub faction_icon_group_id: crate::compat::Nullable<SerializableDefinitionId>,
     #[proto(tag = 31)]
     #[serde(rename = "FactionIconId", default)]
-    pub faction_icon_id: i32,
+    pub faction_icon_id: crate::compat::BitAligned<i32>,
     #[proto(tag = 35)]
     #[serde(rename = "FactionScore", default)]
-    pub faction_score: i32,
+    pub faction_score: crate::compat::BitAligned<i32>,
     #[proto(tag = 38)]
     #[serde(rename = "FactionObjectivePercentageCompleted", default)]
-    pub faction_objective_percentage_completed: f32,
+    pub faction_objective_percentage_completed: crate::compat::BitAligned<f32>,
     #[proto(tag = 41)]
     #[serde(rename = "isNPCFaction", default)]
-    pub is_npc_faction: bool,
+    pub is_npc_faction: crate::compat::BitBool,
     #[proto(tag = 44)]
     #[serde(rename = "Type", default)]
-    pub r#type: String,
+    pub r#type: crate::compat::VarString,
 }
 // Original type: Sandbox.Game.World.MyPlayer+PlayerId
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "PlayerId")]
 pub struct MyPlayer_PlayerId {
     #[serde(rename = "SteamId", default)]
-    pub steam_id: u64,
+    pub steam_id: crate::compat::BitAligned<u64>,
     #[serde(rename = "SerialId", default)]
-    pub serial_id: i32,
+    pub serial_id: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsValid", default)]
+    #[deku(skip)]
+    pub is_valid: crate::compat::BitBool,
 }
 // Original type: Sandbox.Game.Multiplayer.MyGpsCollection+AddMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "AddMsg")]
 pub struct MyGpsCollection_AddMsg {
     #[serde(rename = "IdentityId", default)]
-    pub identity_id: i64,
+    pub identity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[serde(rename = "Description", default)]
-    pub description: String,
+    pub description: crate::compat::VarString,
     #[serde(rename = "Coords")]
     pub coords: crate::math::Vector3D,
     #[serde(rename = "ShowOnHud", default)]
-    pub show_on_hud: bool,
+    pub show_on_hud: crate::compat::BitBool,
     #[serde(rename = "IsFinal", default)]
-    pub is_final: bool,
+    pub is_final: crate::compat::BitBool,
     #[serde(rename = "AlwaysVisible", default)]
-    pub always_visible: bool,
+    pub always_visible: crate::compat::BitBool,
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "ContractId", default)]
-    pub contract_id: i64,
+    pub contract_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "GPSColor")]
     pub gps_color: Color,
     #[serde(rename = "IsContainerGPS", default)]
-    pub is_container_gp_s: bool,
+    pub is_container_gp_s: crate::compat::BitBool,
     #[serde(rename = "PlaySoundOnCreation", default)]
-    pub play_sound_on_creation: bool,
+    pub play_sound_on_creation: crate::compat::BitBool,
     #[serde(rename = "IsObjective", default)]
-    pub is_objective: bool,
+    pub is_objective: crate::compat::BitBool,
     #[serde(rename = "IsGlobalEncounterGPS", default)]
-    pub is_global_encounter_gp_s: bool,
+    pub is_global_encounter_gp_s: crate::compat::BitBool,
 }
 // Original type: Sandbox.Game.Multiplayer.MyGpsCollection+ModifyMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ModifyMsg")]
 pub struct MyGpsCollection_ModifyMsg {
     #[serde(rename = "IdentityId", default)]
-    pub identity_id: i64,
+    pub identity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "Hash", default)]
-    pub hash: i32,
+    pub hash: crate::compat::BitAligned<i32>,
     #[serde(rename = "Name", default)]
-    pub name: String,
+    pub name: crate::compat::VarString,
     #[serde(rename = "Description", default)]
-    pub description: String,
+    pub description: crate::compat::VarString,
     #[serde(rename = "Coords")]
     pub coords: crate::math::Vector3D,
     #[serde(rename = "GPSColor")]
     pub gps_color: Color,
     #[serde(rename = "ContractId", default)]
-    pub contract_id: i64,
+    pub contract_id: crate::compat::BitAligned<i64>,
 }
 // Original type: Sandbox.Game.Multiplayer.MyPlayerCollection+NewPlayerRequestParameters
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "NewPlayerRequestParameters")]
 pub struct MyPlayerCollection_NewPlayerRequestParameters {
     #[proto(skip)]
     #[serde(rename = "ClientSteamId", default)]
-    pub client_steam_id: u64,
+    pub client_steam_id: crate::compat::BitAligned<u64>,
     #[proto(skip)]
     #[serde(rename = "PlayerSerialId", default)]
-    pub player_serial_id: i32,
+    pub player_serial_id: crate::compat::BitAligned<i32>,
     #[proto(skip)]
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "PlatformIcon", default)]
-    pub platform_icon: String,
+    pub platform_icon: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "GameAcronym", default)]
-    pub game_acronym: String,
+    pub game_acronym: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "CharacterModel", default)]
-    pub character_model: String,
+    pub character_model: crate::compat::VarString,
     #[proto(skip)]
     #[serde(rename = "RealPlayer", default)]
-    pub real_player: bool,
+    pub real_player: crate::compat::BitBool,
     #[proto(skip)]
     #[serde(rename = "InitialPlayer", default)]
-    pub initial_player: bool,
+    pub initial_player: crate::compat::BitBool,
     #[proto(skip)]
     #[serde(rename = "IsWildlifeEntity", default)]
-    pub is_wildlife_entity: bool,
+    pub is_wildlife_entity: crate::compat::BitBool,
 }
-// Stub for ignored type (no serialization attributes): Sandbox.Game.World.MyBlockLimits+MyTypeLimitData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original type: Sandbox.Game.World.MyBlockLimits+MyTypeLimitData
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyTypeLimitData")]
-pub struct MyBlockLimits_MyTypeLimitData {}
-// Stub for ignored type (no serialization attributes): Sandbox.Game.World.MyBlockLimits+MyGridLimitData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+pub struct MyBlockLimits_MyTypeLimitData {
+    #[serde(rename = "BlockPairName", default)]
+    pub block_pair_name: crate::compat::VarString,
+    #[serde(rename = "BlocksBuilt", default)]
+    pub blocks_built: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Game.World.MyBlockLimits+MyGridLimitData
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyGridLimitData")]
-pub struct MyBlockLimits_MyGridLimitData {}
+pub struct MyBlockLimits_MyGridLimitData {
+    #[serde(rename = "EntityId", default)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "BlocksBuilt", default)]
+    pub blocks_built: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PCUBuilt", default)]
+    pub pcu_built: crate::compat::BitAligned<i32>,
+}
 // Original type: Sandbox.Game.Multiplayer.MyPlayerCollection+RespawnMsg
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "RespawnMsg")]
 pub struct MyPlayerCollection_RespawnMsg {
     #[serde(rename = "JoinGame", default)]
-    pub join_game: bool,
+    pub join_game: crate::compat::BitBool,
     #[serde(rename = "NewIdentity", default)]
-    pub new_identity: bool,
+    pub new_identity: crate::compat::BitBool,
     #[serde(rename = "RespawnEntityId", default)]
-    pub respawn_entity_id: i64,
+    pub respawn_entity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "RespawnShipId", default)]
-    pub respawn_ship_id: String,
+    pub respawn_ship_id: crate::compat::VarString,
     #[serde(rename = "PlayerSerialId", default)]
-    pub player_serial_id: i32,
+    pub player_serial_id: crate::compat::BitAligned<i32>,
     #[serde(rename = "ModelName", default)]
-    pub model_name: String,
+    pub model_name: crate::compat::VarString,
     #[serde(rename = "Color")]
     pub color: Color,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugEconomy_MyStationDebugDrawStructure>
 // Original type: Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyStationDebugDrawStructure")]
 pub struct MyGuiScreenDebugEconomy_MyStationDebugDrawStructure {
     #[serde(rename = "Start")]
@@ -4982,29 +5667,29 @@ pub struct MyGuiScreenDebugEconomy_MyStationDebugDrawStructure {
     #[serde(rename = "End")]
     pub end: crate::math::SerializableVector3D,
     #[serde(rename = "TypeId", default)]
-    pub type_id: i32,
+    pub type_id: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.Gui.MyGuiScreenDebugSpawnMenu+SpawnAsteroidInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "SpawnAsteroidInfo")]
 pub struct MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo {
     #[serde(rename = "Asteroid", default)]
-    pub asteroid: String,
+    pub asteroid: crate::compat::VarString,
     #[serde(rename = "RandomSeed", default)]
-    pub random_seed: i32,
+    pub random_seed: crate::compat::BitAligned<i32>,
     #[serde(rename = "WorldMatrix")]
     pub world_matrix: crate::math::MatrixD,
     #[serde(rename = "IsProcedural", default)]
-    pub is_procedural: bool,
+    pub is_procedural: crate::compat::BitBool,
     #[serde(rename = "ProceduralRadius", default)]
-    pub procedural_radius: f32,
+    pub procedural_radius: crate::compat::BitAligned<f32>,
     #[serde(rename = "VoxelMaterial", default)]
-    pub voxel_material: String,
+    pub voxel_material: crate::compat::VarString,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugNetwork_Layer>
 // Original type: VRageMath.BoundingBox
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BoundingBox")]
 pub struct BoundingBox {
     #[proto(tag = 1)]
@@ -5017,105 +5702,136 @@ pub struct BoundingBox {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<Layer_Entity>
 // Note: Type mapping applied from System.Nullable`1[[VRageMath.BoundingBoxD, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::BoundingBoxD>
 // Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Entity")]
 pub struct Layer_Entity {
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[serde(rename = "Bounds", default)]
     pub bounds: crate::compat::Nullable<crate::math::BoundingBoxD>,
 }
 // Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Layer")]
 pub struct MyGuiScreenDebugNetwork_Layer {
     #[serde(rename = "Bounds")]
     pub bounds: BoundingBox,
-    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub entities: Vec<Layer_Entity>,
+    #[serde(rename = "Entities", default)]
+    pub entities: crate::compat::VarVec<Layer_Entity>,
     #[serde(rename = "PCU", default)]
-    pub PCU: i32,
+    pub PCU: crate::compat::BitAligned<i32>,
     #[serde(rename = "Enabled", default)]
-    pub enabled: bool,
+    pub enabled: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Engine.Multiplayer.ValidationFailedRecord, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ValidationFailedRecord>
 // Original type: Sandbox.Engine.Multiplayer.ValidationFailedRecord
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ValidationFailedRecord")]
 pub struct ValidationFailedRecord {
     #[proto(tag = 1)]
     #[serde(rename = "PlayerId", default)]
-    pub player_id: u64,
+    pub player_id: crate::compat::BitAligned<u64>,
     #[proto(tag = 4)]
     #[serde(rename = "TimeAgo", default)]
-    pub time_ago: u32,
+    pub time_ago: crate::compat::BitAligned<u32>,
     #[proto(tag = 7)]
     #[serde(rename = "Explanation", default)]
-    pub explanation: String,
+    pub explanation: crate::compat::VarString,
     #[proto(tag = 11)]
     #[serde(rename = "Id", default)]
-    pub id: u32,
+    pub id: crate::compat::BitAligned<u32>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.UInt32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u32>
 // Original enum: Sandbox.Game.Entities.MyEntityList+MyEntityTypeEnum
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyEntityTypeEnum")]
 pub enum MyEntityList_MyEntityTypeEnum {
     #[default]
+    #[deku(id = "0")]
     Grids,
+    #[deku(id = "1")]
     SmallGrids,
+    #[deku(id = "2")]
     LargeGrids,
+    #[deku(id = "3")]
     Characters,
+    #[deku(id = "4")]
     FloatingObjects,
+    #[deku(id = "5")]
     Planets,
+    #[deku(id = "6")]
     Asteroids,
+    #[deku(id = "7")]
     Replicated,
+    #[deku(id = "8")]
     NotReplicated,
 }
 // Original enum: Sandbox.Game.Entities.MyEntityCyclingOrder
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyEntityCyclingOrder")]
 pub enum MyEntityCyclingOrder {
     #[default]
+    #[deku(id = "0")]
     Characters,
+    #[deku(id = "1")]
     BiggestGrids,
+    #[deku(id = "2")]
     Fastest,
+    #[deku(id = "3")]
     BiggestDistanceFromPlayers,
+    #[deku(id = "4")]
     MostActiveDrills,
+    #[deku(id = "5")]
     MostActiveReactors,
+    #[deku(id = "6")]
     MostActiveProductionBuildings,
+    #[deku(id = "7")]
     MostActiveSensors,
+    #[deku(id = "8")]
     MostActiveThrusters,
+    #[deku(id = "9")]
     MostWheels,
+    #[deku(id = "10")]
     StaticObjects,
+    #[deku(id = "11")]
     FloatingObjects,
+    #[deku(id = "12")]
     Gps,
+    #[deku(id = "13")]
     Planets,
+    #[deku(id = "14")]
     OwnerLoginTime,
 }
 // Original type: Sandbox.Game.Entities.CyclingOptions
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "CyclingOptions")]
 pub struct CyclingOptions {
     #[serde(rename = "Enabled", default)]
-    pub enabled: bool,
+    pub enabled: crate::compat::BitBool,
     #[serde(rename = "OnlySmallGrids", default)]
-    pub only_small_grids: bool,
+    pub only_small_grids: crate::compat::BitBool,
     #[serde(rename = "OnlyLargeGrids", default)]
-    pub only_large_grids: bool,
+    pub only_large_grids: crate::compat::BitBool,
 }
 // Original enum: Sandbox.Game.Entities.MyEntityList+EntityListAction
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2)]
 #[serde(rename = "EntityListAction")]
 pub enum MyEntityList_EntityListAction {
     #[default]
+    #[deku(id = "0")]
     Remove,
+    #[deku(id = "1")]
     Stop,
+    #[deku(id = "2")]
     Depower,
+    #[deku(id = "3")]
     Power,
 }
 // Original enum: VRage.Game.MyTrashRemovalFlags
@@ -5172,228 +5888,314 @@ impl AdminSettingsEnum {
     pub const ADMIN_ONLY: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{Invulnerable | Untargetable | IgnoreSafeZones | IgnorePcu});
 }
 // Original type: Sandbox.Game.Gui.MyGuiScreenAdminMenu+AdminSettings
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "AdminSettings")]
 pub struct MyGuiScreenAdminMenu_AdminSettings {
     #[serde(rename = "Flags")]
     pub flags: crate::compat::BitField<MyTrashRemovalFlags>,
     #[serde(rename = "Enable", default)]
-    pub enable: bool,
+    pub enable: crate::compat::BitBool,
     #[serde(rename = "BlockCount", default)]
-    pub block_count: i32,
+    pub block_count: crate::compat::BitAligned<i32>,
     #[serde(rename = "PlayerDistance", default)]
-    pub player_distance: f32,
+    pub player_distance: crate::compat::BitAligned<f32>,
     #[serde(rename = "GridCount", default)]
-    pub grid_count: i32,
+    pub grid_count: crate::compat::BitAligned<i32>,
     #[serde(rename = "PlayerInactivity", default)]
-    pub player_inactivity: f32,
+    pub player_inactivity: crate::compat::BitAligned<f32>,
     #[serde(rename = "CharacterRemovalThreshold", default)]
-    pub character_removal_threshold: i32,
+    pub character_removal_threshold: crate::compat::BitAligned<i32>,
     #[serde(rename = "AfkTimeout", default)]
-    pub afk_timeout: i32,
+    pub afk_timeout: crate::compat::BitAligned<i32>,
     #[serde(rename = "StopGridsPeriod", default)]
-    pub stop_grids_period: i32,
+    pub stop_grids_period: crate::compat::BitAligned<i32>,
     #[serde(rename = "RemoveOldIdentities", default)]
-    pub remove_old_identities: i32,
+    pub remove_old_identities: crate::compat::BitAligned<i32>,
     #[serde(rename = "VoxelEnable", default)]
-    pub voxel_enable: bool,
+    pub voxel_enable: crate::compat::BitBool,
     #[serde(rename = "VoxelDistanceFromPlayer", default)]
-    pub voxel_distance_from_player: f32,
+    pub voxel_distance_from_player: crate::compat::BitAligned<f32>,
     #[serde(rename = "VoxelDistanceFromGrid", default)]
-    pub voxel_distance_from_grid: f32,
+    pub voxel_distance_from_grid: crate::compat::BitAligned<f32>,
     #[serde(rename = "VoxelAge", default)]
-    pub voxel_age: i32,
+    pub voxel_age: crate::compat::BitAligned<i32>,
     #[serde(rename = "TrashCleanerCargoBagsMaxLiveTime", default)]
-    pub trash_cleaner_cargo_bags_max_live_time: i32,
+    pub trash_cleaner_cargo_bags_max_live_time: crate::compat::BitAligned<i32>,
     #[serde(rename = "MaxCargoBags", default)]
-    pub max_cargo_bags: i32,
+    pub max_cargo_bags: crate::compat::BitAligned<i32>,
     #[serde(rename = "ResetForageableItems", default)]
-    pub reset_forageable_items: bool,
+    pub reset_forageable_items: crate::compat::BitBool,
     #[serde(rename = "ResetForageableItemsTimeM", default)]
-    pub reset_forageable_items_time_m: i32,
+    pub reset_forageable_items_time_m: crate::compat::BitAligned<i32>,
     #[serde(rename = "ResetForageableItemsDistance", default)]
-    pub reset_forageable_items_distance: i32,
+    pub reset_forageable_items_distance: crate::compat::BitAligned<i32>,
     #[serde(rename = "AdminSettingsFlags")]
     pub admin_settings_flags: crate::compat::BitField<AdminSettingsEnum>,
 }
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::SerializableDictionary<u64,i32>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,i32>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEntityList_MyEntityListShortInfoItem>
-// Stub for ignored type (no serialization attributes): Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original type: Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyEntityListShortInfoItem")]
-pub struct MyEntityList_MyEntityListShortInfoItem {}
+pub struct MyEntityList_MyEntityListShortInfoItem {
+    #[serde(rename = "DisplayName", default)]
+    pub display_name: crate::compat::VarString,
+    #[serde(rename = "EntityId", default)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+}
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyTerminalInfoController_GridBuiltByIdInfo>
 // Original type: Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "GridBuiltByIdInfo")]
 pub struct MyTerminalInfoController_GridBuiltByIdInfo {
     #[serde(rename = "GridName", default)]
-    pub grid_name: String,
+    pub grid_name: crate::compat::VarString,
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "PCUBuilt", default)]
-    pub pcu_built: i32,
+    pub pcu_built: crate::compat::BitAligned<i32>,
     #[serde(rename = "BlockCount", default)]
-    pub block_count: i32,
-    #[serde(rename = "UnsafeBlocks", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub unsafe_blocks: Vec<String>,
+    pub block_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "UnsafeBlocks", default)]
+    pub unsafe_blocks: crate::compat::VarVec<crate::compat::VarString>,
 }
 // Original enum: Sandbox.Game.GameSystems.Trading.MyTradeResponseReason
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyTradeResponseReason")]
 pub enum MyTradeResponseReason {
     #[default]
+    #[deku(id = "0")]
     AlreadyTrading,
+    #[deku(id = "1")]
     Offline,
+    #[deku(id = "2")]
     Dead,
+    #[deku(id = "3")]
     Ok,
+    #[deku(id = "4")]
     Cancel,
+    #[deku(id = "5")]
     Abort,
+    #[deku(id = "6")]
     Complete,
 }
 // Original type: VRage.Game.ObjectBuilders.Components.Trading.MyObjectBuilder_SubmitOffer
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_SubmitOffer")]
 pub struct MyObjectBuilder_SubmitOffer {
     #[proto(skip)]
-    #[serde(rename = "InventoryItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub inventory_items: Vec<MyObjectBuilder_InventoryItem>,
+    #[serde(rename = "InventoryItems", default)]
+    pub inventory_items: crate::compat::VarVec<MyObjectBuilder_InventoryItem>,
     #[proto(skip)]
     #[serde(rename = "CurrencyAmount", default)]
-    pub currency_amount: i64,
+    pub currency_amount: crate::compat::BitAligned<i64>,
     #[proto(skip)]
     #[serde(rename = "PCUAmount", default)]
-    pub pcu_amount: i32,
+    pub pcu_amount: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.GameSystems.CoordinateSystem.MyCoordinateSystem+MyCreateCoordSysBuffer
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyCreateCoordSysBuffer")]
 pub struct MyCoordinateSystem_MyCreateCoordSysBuffer {
     #[serde(rename = "Id", default)]
-    pub id: i64,
+    pub id: crate::compat::BitAligned<i64>,
     #[serde(rename = "Position")]
     pub position: crate::math::Vector3D,
     #[serde(rename = "Rotation")]
     pub rotation: crate::math::Quaternion,
 }
-// Stub for ignored type (no serialization attributes): Sandbox.Game.GameSystems.Chat.MyUnifiedChatItem
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original enum: Sandbox.Game.Gui.ChatChannel
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 3)]
+#[serde(rename = "ChatChannel")]
+pub enum ChatChannel {
+    #[default]
+    #[deku(id = "0")]
+    Global,
+    #[deku(id = "1")]
+    GlobalScripted,
+    #[deku(id = "2")]
+    Faction,
+    #[deku(id = "3")]
+    Private,
+    #[deku(id = "4")]
+    ChatBot,
+    #[deku(id = "5")]
+    BroadcastController,
+}
+// Original type: Sandbox.Game.GameSystems.Chat.MyUnifiedChatItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyUnifiedChatItem")]
-pub struct MyUnifiedChatItem {}
+pub struct MyUnifiedChatItem {
+    #[serde(rename = "AuthorFont", default)]
+    pub author_font: crate::compat::VarString,
+    #[serde(rename = "Text", default)]
+    pub text: crate::compat::VarString,
+    #[serde(rename = "Timestamp", default)]
+    pub timestamp: crate::compat::DateTime,
+    #[serde(rename = "Channel", default)]
+    pub channel: ChatChannel,
+    #[serde(rename = "CustomAuthor", default)]
+    pub custom_author: crate::compat::VarString,
+    #[serde(rename = "SenderId", default)]
+    pub sender_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TargetId", default)]
+    pub target_id: crate::compat::BitAligned<i64>,
+}
 // Original enum: VRage.GameServices.MyGameInventoryItemSlot
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4)]
 #[serde(rename = "MyGameInventoryItemSlot")]
 pub enum MyGameInventoryItemSlot {
     #[default]
+    #[deku(id = "0")]
     None,
+    #[deku(id = "1")]
     Face,
+    #[deku(id = "2")]
     Helmet,
+    #[deku(id = "3")]
     Gloves,
+    #[deku(id = "4")]
     Boots,
+    #[deku(id = "5")]
     Suit,
+    #[deku(id = "6")]
     Rifle,
+    #[deku(id = "7")]
     Welder,
+    #[deku(id = "8")]
     Grinder,
+    #[deku(id = "9")]
     Drill,
+    #[deku(id = "10")]
     Emote,
+    #[deku(id = "11")]
     Armor,
 }
 // Original type: Sandbox.Game.World.MyBlockLimits+TransferMessageData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "TransferMessageData")]
 pub struct MyBlockLimits_TransferMessageData {
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "GridName", default)]
-    pub grid_name: String,
+    pub grid_name: crate::compat::VarString,
     #[serde(rename = "BlocksBuilt", default)]
-    pub blocks_built: i32,
+    pub blocks_built: crate::compat::BitAligned<i32>,
     #[serde(rename = "PCUBuilt", default)]
-    pub pcu_built: i32,
+    pub pcu_built: crate::compat::BitAligned<i32>,
 }
 // Original enum: Sandbox.Game.World.MySession+MyHitIndicatorTarget
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyHitIndicatorTarget")]
 pub enum MySession_MyHitIndicatorTarget {
     #[default]
+    #[deku(id = "0")]
     Character,
+    #[deku(id = "1")]
     Headshot,
+    #[deku(id = "2")]
     Kill,
+    #[deku(id = "3")]
     Grid,
+    #[deku(id = "4")]
     Other,
+    #[deku(id = "5")]
     Friend,
+    #[deku(id = "6")]
     None,
 }
 // Original enum: VRage.MySimpleProfiler+ProfilingBlockType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 3)]
 #[serde(rename = "ProfilingBlockType")]
 pub enum MySimpleProfiler_ProfilingBlockType {
     #[default]
+    #[deku(id = "0")]
     GPU,
+    #[deku(id = "1")]
     MOD,
+    #[deku(id = "2")]
     BLOCK,
+    #[deku(id = "3")]
     RENDER,
+    #[deku(id = "4")]
     OTHER,
+    #[deku(id = "5")]
     INTERNAL,
+    #[deku(id = "6")]
     INTERNALGPU,
 }
 // Original enum: VRage.Game.MyObjectSeedType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "MyObjectSeedType")]
 pub enum MyObjectSeedType {
     #[default]
+    #[deku(id = "0")]
     Empty,
+    #[deku(id = "1")]
     Asteroid,
+    #[deku(id = "2")]
     AsteroidCluster,
+    #[deku(id = "3")]
     EncounterAlone,
+    #[deku(id = "4")]
     EncounterSingle,
+    #[deku(id = "5")]
     Planet,
+    #[deku(id = "6")]
     Moon,
+    #[deku(id = "7")]
     Station,
 }
 // Original type: VRage.Game.MyObjectSeedParams
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Hash, Eq, PartialOrd, Ord)]
 #[serde(rename = "MyObjectSeedParams")]
 pub struct MyObjectSeedParams {
     #[proto(tag = 1)]
     #[serde(rename = "Index", default)]
-    pub index: i32,
+    pub index: crate::compat::BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "Seed", default)]
-    pub seed: i32,
+    pub seed: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "Type", default)]
     pub r#type: MyObjectSeedType,
     #[proto(tag = 10)]
     #[serde(rename = "Generated", default)]
-    pub generated: bool,
+    pub generated: crate::compat::BitBool,
     #[proto(tag = 13)]
-    #[serde_inline_default(-1)]
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
     #[serde(rename = "m_proxyId")]
-    pub m_proxy_id: i32,
+    pub m_proxy_id: crate::compat::BitAligned<i32>,
     #[proto(tag = 16)]
     #[serde(rename = "GeneratorSeed", default)]
-    pub generator_seed: i32,
+    pub generator_seed: crate::compat::BitAligned<i32>,
 }
 // Original type: Sandbox.Game.Entities.MyCubeBuilder+Author
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Author")]
 pub struct MyCubeBuilder_Author {
     #[serde(rename = "EntityId", default)]
-    pub entity_id: i64,
+    pub entity_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "IdentityId", default)]
-    pub identity_id: i64,
+    pub identity_id: crate::compat::BitAligned<i64>,
 }
 // Original type: Sandbox.Game.Entities.MyCubeBuilder+BuildData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "BuildData")]
 pub struct MyCubeBuilder_BuildData {
     #[serde(rename = "Position")]
@@ -5403,10 +6205,10 @@ pub struct MyCubeBuilder_BuildData {
     #[serde(rename = "Up")]
     pub up: crate::math::Vector3F,
     #[serde(rename = "AbsolutePosition", default)]
-    pub absolute_position: bool,
+    pub absolute_position: crate::compat::BitBool,
 }
 // Original type: Sandbox.Game.Entities.MyCubeBuilder+GridSpawnRequestData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "GridSpawnRequestData")]
 pub struct MyCubeBuilder_GridSpawnRequestData {
     #[serde(rename = "Author")]
@@ -5416,37 +6218,37 @@ pub struct MyCubeBuilder_GridSpawnRequestData {
     #[serde(rename = "Position")]
     pub position: MyCubeBuilder_BuildData,
     #[serde(rename = "InstantBuild", default)]
-    pub instant_build: bool,
+    pub instant_build: crate::compat::BitBool,
     #[serde(rename = "ForceStatic", default)]
-    pub force_static: bool,
+    pub force_static: crate::compat::BitBool,
     #[serde(rename = "Visuals")]
     pub visuals: MyCubeGrid_MyBlockVisuals,
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+RelativeOffset
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "RelativeOffset")]
 pub struct MyCubeGrid_RelativeOffset {
     #[serde(rename = "Use", default)]
-    pub r#use: bool,
+    pub r#use: crate::compat::BitBool,
     #[serde(rename = "RelativeToEntity", default)]
-    pub relative_to_entity: bool,
+    pub relative_to_entity: crate::compat::BitBool,
     #[serde(rename = "SpawnerId", default)]
-    pub spawner_id: i64,
+    pub spawner_id: crate::compat::BitAligned<i64>,
     #[serde(rename = "OriginalSpawnPoint")]
     pub original_spawn_point: crate::math::Vector3D,
 }
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MyPasteGridParameters
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyPasteGridParameters")]
 pub struct MyCubeGrid_MyPasteGridParameters {
-    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub entities: Vec<MyObjectBuilder_CubeGrid>,
-    #[serde(rename = "ClientsideDLCs", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub clientside_dl_cs: Vec<u64>,
+    #[serde(rename = "Entities", default)]
+    pub entities: crate::compat::VarVec<MyObjectBuilder_CubeGrid>,
+    #[serde(rename = "ClientsideDLCs", default)]
+    pub clientside_dl_cs: crate::compat::VarVec<crate::compat::BitAligned<u64>>,
     #[serde(rename = "DetectDisconnects", default)]
-    pub detect_disconnects: bool,
+    pub detect_disconnects: crate::compat::BitBool,
     #[serde(rename = "InstantBuild", default)]
-    pub instant_build: bool,
+    pub instant_build: crate::compat::BitBool,
     #[serde(rename = "ObjectVelocity")]
     pub object_velocity: crate::math::Vector3F,
     #[serde(rename = "Offset")]
@@ -5455,24 +6257,24 @@ pub struct MyCubeGrid_MyPasteGridParameters {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyCubeGrid+MySingleOwnershipRequest, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyCubeGrid_MySingleOwnershipRequest>
 // Original type: Sandbox.Game.Entities.MyCubeGrid+MySingleOwnershipRequest
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MySingleOwnershipRequest")]
 pub struct MyCubeGrid_MySingleOwnershipRequest {
     #[proto(tag = 28)]
     #[serde(rename = "BlockId", default)]
-    pub block_id: i64,
+    pub block_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 31)]
     #[serde(rename = "Owner", default)]
-    pub owner: i64,
+    pub owner: crate::compat::BitAligned<i64>,
     #[proto(tag = 50)]
     #[serde(rename = "Sender", default)]
-    pub sender: u64,
+    pub sender: crate::compat::BitAligned<u64>,
     #[proto(tag = 55)]
     #[serde(rename = "BatchGuid", default)]
     pub batch_guid: crate::compat::Guid,
     #[proto(tag = 60)]
     #[serde(rename = "GridId", default)]
-    pub grid_id: i64,
+    pub grid_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 65)]
     #[serde(rename = "ShareMode", default)]
     pub share_mode: MyOwnershipShareModeEnum,
@@ -5480,7 +6282,7 @@ pub struct MyCubeGrid_MySingleOwnershipRequest {
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<crate::compat::Guid>
 // Original type: VRage.Game.MyObjectBuilder_FloatingObject
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_FloatingObject")]
 pub struct MyObjectBuilder_FloatingObject {
     #[proto(tag = 1)]
@@ -5488,18 +6290,21 @@ pub struct MyObjectBuilder_FloatingObject {
     pub item: MyObjectBuilder_InventoryItem,
     #[proto(tag = 4)]
     #[serde(rename = "ModelVariant", default)]
-    pub model_variant: i32,
+    pub model_variant: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "OreSubtypeId", default)]
-    pub ore_subtype_id: String,
+    pub ore_subtype_id: crate::compat::VarString,
 }
 // Original enum: Sandbox.Common.ObjectBuilders.MySafeZoneAccess
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MySafeZoneAccess")]
 pub enum MySafeZoneAccess {
     #[default]
+    #[deku(id = "0")]
     Whitelist,
+    #[deku(id = "1")]
     Blacklist,
 }
 // Original enum: VRage.Game.ObjectBuilders.Components.MySafeZoneAction
@@ -5527,29 +6332,32 @@ impl MySafeZoneAction {
 }
 // Original enum: Sandbox.Common.ObjectBuilders.MySafeZoneShape
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1)]
 #[serde(rename = "MySafeZoneShape")]
 pub enum MySafeZoneShape {
     #[default]
+    #[deku(id = "0")]
     Sphere,
+    #[deku(id = "1")]
     Box,
 }
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SafeZone
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_SafeZone")]
 pub struct MyObjectBuilder_SafeZone {
     #[proto(tag = 1)]
-    #[serde_inline_default(50f32)]
+    #[serde_inline_default(crate::compat::BitAligned(50f32))]
     #[serde(rename = "Radius")]
-    pub radius: f32,
+    pub radius: crate::compat::BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "Enabled", default)]
-    pub enabled: bool,
+    pub enabled: crate::compat::BitBool,
     #[proto(tag = 5)]
     #[serde(rename = "SafeZoneBlockId", default)]
-    pub safe_zone_block_id: i64,
+    pub safe_zone_block_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 7)]
     #[serde(rename = "AccessTypePlayers", default)]
     pub access_type_players: MySafeZoneAccess,
@@ -5566,14 +6374,14 @@ pub struct MyObjectBuilder_SafeZone {
     #[serde(rename = "AllowedActions")]
     pub allowed_actions: crate::compat::BitField<MySafeZoneAction>,
     #[proto(tag = 22)]
-    #[serde(rename = "Factions", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub factions: Vec<i64>,
+    #[serde(rename = "Factions", default)]
+    pub factions: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 25)]
-    #[serde(rename = "Players", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub players: Vec<i64>,
+    #[serde(rename = "Players", default)]
+    pub players: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 28)]
-    #[serde(rename = "Entities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub entities: Vec<i64>,
+    #[serde(rename = "Entities", default)]
+    pub entities: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 31)]
     #[serde(rename = "Size")]
     pub size: crate::math::Vector3F,
@@ -5582,29 +6390,29 @@ pub struct MyObjectBuilder_SafeZone {
     pub shape: MySafeZoneShape,
     #[proto(tag = 37)]
     #[serde(rename = "DisplayName", default)]
-    pub display_name: String,
+    pub display_name: crate::compat::VarString,
     #[proto(tag = 40)]
-    #[serde(rename = "ContainedEntities", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub contained_entities: Vec<i64>,
+    #[serde(rename = "ContainedEntities", default)]
+    pub contained_entities: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 41)]
-    #[serde(rename = "ContainedGrids", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub contained_grids: Vec<i64>,
+    #[serde(rename = "ContainedGrids", default)]
+    pub contained_grids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
     #[proto(tag = 43)]
     #[serde(rename = "IsVisible", default)]
-    pub is_visible: bool,
+    pub is_visible: crate::compat::BitBool,
     #[proto(tag = 46)]
     #[serde(rename = "ModelColor")]
     pub model_color: crate::math::SerializableVector3F,
     #[proto(tag = 49)]
     #[serde(rename = "Texture", default)]
-    pub texture: String,
+    pub texture: crate::compat::VarString,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.MyTuple`2[[VRageMath.Vector3I, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<crate::compat::Tuple<crate::math::Vector3I,f32>>
 // Note: Type mapping applied from VRage.MyTuple`2[[VRageMath.Vector3I, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::Tuple<crate::math::Vector3I,f32>
 // Note: Type mapping applied from System.Nullable`1[[VRage.Game.ModAPI.MyHitInfo, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyHitInfo>
 // Original type: VRage.Game.ModAPI.MyHitInfo
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyHitInfo")]
 pub struct MyHitInfo {
     #[proto(tag = 1)]
@@ -5618,22 +6426,22 @@ pub struct MyHitInfo {
     pub velocity: crate::math::Vector3D,
     #[proto(tag = 10)]
     #[serde(rename = "ShapeKey", default)]
-    pub shape_key: u32,
+    pub shape_key: crate::compat::BitAligned<u32>,
 }
 // Original type: Sandbox.Game.Entities.Cube.MySlimBlock+DoDamageSlimBlockMsg
 #[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "DoDamageSlimBlockMsg")]
 pub struct MySlimBlock_DoDamageSlimBlockMsg {
     #[proto(tag = 1)]
     #[serde(rename = "GridEntityId", default)]
-    pub grid_entity_id: i64,
+    pub grid_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 4)]
     #[serde(rename = "Position")]
     pub position: crate::math::Vector3I,
     #[proto(tag = 7)]
     #[serde(rename = "Damage", default)]
-    pub damage: f32,
+    pub damage: crate::compat::BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "Type")]
     pub r#type: MyStringHash,
@@ -5642,96 +6450,183 @@ pub struct MySlimBlock_DoDamageSlimBlockMsg {
     pub hit_info: crate::compat::Nullable<MyHitInfo>,
     #[proto(tag = 16)]
     #[serde(rename = "AttackerEntityId", default)]
-    pub attacker_entity_id: i64,
+    pub attacker_entity_id: crate::compat::BitAligned<i64>,
     #[proto(tag = 22)]
     #[serde(rename = "ExtraInfo")]
     pub extra_info: MyStringHash,
 }
 // Original enum: VRage.Profiler.RenderProfilerCommand
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 6)]
 #[serde(rename = "RenderProfilerCommand")]
 pub enum RenderProfilerCommand {
     #[default]
+    #[deku(id = "0")]
     Enable,
+    #[deku(id = "1")]
     ToggleEnabled,
+    #[deku(id = "2")]
     JumpToLevel,
+    #[deku(id = "3")]
     JumpToRoot,
+    #[deku(id = "4")]
     Pause,
+    #[deku(id = "5")]
     NextFrame,
+    #[deku(id = "6")]
     PreviousFrame,
+    #[deku(id = "7")]
     DisableFrameSelection,
+    #[deku(id = "8")]
     NextThread,
+    #[deku(id = "9")]
     PreviousThread,
+    #[deku(id = "10")]
     IncreaseLevel,
+    #[deku(id = "11")]
     DecreaseLevel,
+    #[deku(id = "12")]
     IncreaseLocalArea,
+    #[deku(id = "13")]
     DecreaseLocalArea,
+    #[deku(id = "14")]
     IncreaseRange,
+    #[deku(id = "15")]
     DecreaseRange,
+    #[deku(id = "16")]
     Reset,
+    #[deku(id = "17")]
     SetLevel,
+    #[deku(id = "18")]
     ChangeSortingOrder,
+    #[deku(id = "19")]
     CopyPathToClipboard,
+    #[deku(id = "20")]
     TryGoToPathInClipboard,
+    #[deku(id = "21")]
     GetFomServer,
+    #[deku(id = "22")]
     GetFromClient,
+    #[deku(id = "23")]
     SaveToFile,
+    #[deku(id = "24")]
     LoadFromFile,
+    #[deku(id = "25")]
     SwapBlockOptimized,
+    #[deku(id = "26")]
     ToggleOptimizationsEnabled,
+    #[deku(id = "27")]
     ResetAllOptimizations,
+    #[deku(id = "28")]
     SwitchBlockRender,
+    #[deku(id = "29")]
     SwitchGraphContent,
+    #[deku(id = "30")]
     SwitchShallowProfile,
+    #[deku(id = "31")]
     ToggleAutoScale,
+    #[deku(id = "32")]
     SwitchAverageTimes,
+    #[deku(id = "33")]
     SubtractFromFile,
+    #[deku(id = "34")]
     EnableAutoScale,
+    #[deku(id = "35")]
     EnableShallowProfile,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[SpaceEngineers.Game.World.MySpaceRespawnComponent+RespawnCooldownEntry, SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MySpaceRespawnComponent_RespawnCooldownEntry>
 // Original type: SpaceEngineers.Game.World.MySpaceRespawnComponent+RespawnCooldownEntry
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "RespawnCooldownEntry")]
 pub struct MySpaceRespawnComponent_RespawnCooldownEntry {
     #[serde(rename = "ControllerId", default)]
-    pub controller_id: i32,
+    pub controller_id: crate::compat::BitAligned<i32>,
     #[serde(rename = "ShipId", default)]
-    pub ship_id: String,
+    pub ship_id: crate::compat::VarString,
     #[serde(rename = "RelativeRespawnTime", default)]
-    pub relative_respawn_time: i32,
+    pub relative_respawn_time: crate::compat::BitAligned<i32>,
 }
 // Original type: SpaceEngineers.Game.World.MySpaceRespawnComponent+MOTDData
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MOTDData")]
 pub struct MySpaceRespawnComponent_MOTDData {
     #[serde(rename = "Url", default)]
-    pub url: String,
+    pub url: crate::compat::VarString,
     #[serde(rename = "Message", default)]
-    pub message: String,
+    pub message: crate::compat::VarString,
+    #[serde(rename = "HasMessage", default)]
+    #[deku(skip)]
+    pub has_message: crate::compat::BitBool,
+    #[serde(rename = "HasUrl", default)]
+    #[deku(skip)]
+    pub has_url: crate::compat::BitBool,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[SpaceEngineers.Game.World.MySpaceRespawnComponent+MyRespawnPointInfo, SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MySpaceRespawnComponent_MyRespawnPointInfo>
-// Stub for ignored type (no serialization attributes): SpaceEngineers.Game.World.MySpaceRespawnComponent+MyRespawnPointInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+// Original type: SpaceEngineers.Game.World.MySpaceRespawnComponent+MyRespawnPointInfo
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyRespawnPointInfo")]
-pub struct MySpaceRespawnComponent_MyRespawnPointInfo {}
-// Stub for ignored type (no serialization attributes): SpaceEngineers.Game.GUI.MyGuiScreenMedicals+MyPlanetInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+pub struct MySpaceRespawnComponent_MyRespawnPointInfo {
+    #[serde(rename = "MedicalRoomId", default)]
+    pub medical_room_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "MedicalRoomGridId", default)]
+    pub medical_room_grid_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "MedicalRoomName", default)]
+    pub medical_room_name: crate::compat::VarString,
+    #[serde(rename = "OxygenLevel", default)]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OwnerId", default)]
+    pub owner_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "PrefferedCameraPosition")]
+    pub preffered_camera_position: crate::math::Vector3D,
+    #[serde(rename = "MedicalRoomPosition")]
+    pub medical_room_position: crate::math::Vector3D,
+    #[serde(rename = "MedicalRoomUp")]
+    pub medical_room_up: crate::math::Vector3D,
+    #[serde(rename = "MedicalRoomVelocity")]
+    pub medical_room_velocity: crate::math::Vector3F,
+}
+// Original type: SpaceEngineers.Game.GUI.MyGuiScreenMedicals+MyPlanetInfo
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyPlanetInfo")]
-pub struct MyGuiScreenMedicals_MyPlanetInfo {}
+pub struct MyGuiScreenMedicals_MyPlanetInfo {
+    #[serde(rename = "PlanetId", default)]
+    pub planet_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "PlanetName", default)]
+    pub planet_name: crate::compat::VarString,
+    #[serde(rename = "WorldAABB")]
+    pub world_aab_b: crate::math::BoundingBoxD,
+    #[serde(rename = "Gravity", default)]
+    pub gravity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OxygenLevel", default)]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Difficulty", default)]
+    pub difficulty: crate::compat::VarString,
+    #[serde(rename = "DropPodForDetail", default)]
+    pub drop_pod_for_detail: crate::compat::VarString,
+    #[serde(rename = "RespawnShipForCooldownCheck", default)]
+    pub respawn_ship_for_cooldown_check: crate::compat::VarString,
+}
 // Original enum: SpaceEngineers.Game.GUI.DebugScreens.MyGuiScreenDebugCharacterStats+StatType
 #[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 3)]
 #[serde(rename = "StatType")]
 pub enum MyGuiScreenDebugCharacterStats_StatType {
     #[default]
+    #[deku(id = "0")]
     Health,
+    #[deku(id = "1")]
     Radiation,
+    #[deku(id = "2")]
     RadiationImmunity,
+    #[deku(id = "3")]
     Oxygen,
+    #[deku(id = "4")]
     Hydrogen,
+    #[deku(id = "5")]
     Energy,
+    #[deku(id = "6")]
     Food,
 }
 
@@ -5744,6 +6639,4 @@ pub mod xml_array_item {
     crate::compat::define_xml_array_item!(GCI);
     crate::compat::define_xml_array_item!(FCI);
     crate::compat::define_xml_array_item!(Sector);
-    crate::compat::define_xml_array_item!(SubBlock);
-    crate::compat::define_xml_array_item!(Section);
 }

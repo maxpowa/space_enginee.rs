@@ -17,6 +17,8 @@ chrono = { workspace = true, features = ["serde", "clock"] }
 uuid = { workspace = true, features = ["serde", "v4"] }
 deku = { workspace = true }
 glam = { workspace = true }
+flate2 = { workspace = true }
+quick-xml = { workspace = true, features = ["serialize"] }
 
 [dev-dependencies]
 quick-xml = { workspace = true }
