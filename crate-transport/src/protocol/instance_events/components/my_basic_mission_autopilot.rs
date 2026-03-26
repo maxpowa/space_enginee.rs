@@ -52,7 +52,7 @@ pub struct MyBasicMissionAutopilot_AddWaypointBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionAutopilot.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyBasicMissionAutopilotInstanceEvent {
     /// Hash: -333179875

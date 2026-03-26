@@ -91,7 +91,7 @@ pub struct MyLandingGear_AttachRequestPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MyLandingGear.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyLandingGearInstanceEvent {
     /// Hash: -1220660812

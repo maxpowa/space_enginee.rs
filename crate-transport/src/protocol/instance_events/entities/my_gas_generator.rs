@@ -78,7 +78,7 @@ pub struct MyGasGenerator_OnChangeDescriptionPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyGasGenerator.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyGasGeneratorInstanceEvent {
     /// Hash: -1220660812

@@ -19,7 +19,7 @@ pub struct MyPropertySyncStateGroup_SyncPropertyChanged_ImplementationPayload {
 
 /// Stable instance event identities for Sandbox.Game.Replication.StateGroups.MyPropertySyncStateGroup.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyPropertySyncStateGroupInstanceEvent {
     /// Hash: -1351917169

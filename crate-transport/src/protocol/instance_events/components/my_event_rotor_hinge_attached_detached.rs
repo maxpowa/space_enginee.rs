@@ -27,7 +27,7 @@ pub struct MyEventRotorHingeAttachedDetached_UpdateDetailedInfoAllBroadcastPaylo
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventRotorHingeAttachedDetached.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventRotorHingeAttachedDetachedInstanceEvent {
     /// Hash: 608684499

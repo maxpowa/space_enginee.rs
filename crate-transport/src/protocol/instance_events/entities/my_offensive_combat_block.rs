@@ -90,7 +90,7 @@ pub struct MyOffensiveCombatBlock_ChangeActionsPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MyOffensiveCombatBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyOffensiveCombatBlockInstanceEvent {
     /// Hash: -1220660812

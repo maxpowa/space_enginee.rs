@@ -414,7 +414,7 @@ pub struct MyCubeGrid_CompetetiveContainerOpenedPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyCubeGrid.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCubeGridInstanceEvent {
     /// Hash: 575530984

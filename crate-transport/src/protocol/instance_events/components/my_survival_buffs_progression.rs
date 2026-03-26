@@ -20,7 +20,7 @@ pub struct MySurvivalBuffsProgression_ShowBuffNotificationClientPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.GameLogic.Buffs.MySurvivalBuffsProgression.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySurvivalBuffsProgressionInstanceEvent {
     /// Hash: -104519763

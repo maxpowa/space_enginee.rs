@@ -11,7 +11,7 @@ use space_engineers_sys::math::Vector3D;
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyMaintenancePanelComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyMaintenancePanelComponentInstanceEvent {
     /// Hash: -57825791

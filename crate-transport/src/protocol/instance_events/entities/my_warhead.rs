@@ -51,7 +51,7 @@ pub struct MyWarhead_SetCountdownClientPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Cube.MyWarhead.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyWarheadInstanceEvent {
     /// Hash: -1220660812

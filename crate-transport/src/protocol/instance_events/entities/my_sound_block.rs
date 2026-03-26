@@ -78,7 +78,7 @@ pub struct MySoundBlock_OnChangeDescriptionPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MySoundBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySoundBlockInstanceEvent {
     /// Hash: -1220660812

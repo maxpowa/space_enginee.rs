@@ -17,7 +17,7 @@ pub struct MySignalChannelEntityComponent_OnSetAndSendServerPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MySignalChannelEntityComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySignalChannelEntityComponentInstanceEvent {
     /// Hash: -1305038049

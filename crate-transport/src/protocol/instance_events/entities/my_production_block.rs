@@ -117,7 +117,7 @@ pub struct MyProductionBlock_OnRemoveQueueItemPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Cube.MyProductionBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyProductionBlockInstanceEvent {
     /// Hash: -1220660812

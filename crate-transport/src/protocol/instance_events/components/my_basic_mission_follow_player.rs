@@ -17,7 +17,7 @@ pub struct MyBasicMissionFollowPlayer_UpdateFollowedIdentityPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowPlayer.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyBasicMissionFollowPlayerInstanceEvent {
     /// Hash: 236721166

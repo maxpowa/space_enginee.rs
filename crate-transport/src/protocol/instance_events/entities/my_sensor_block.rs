@@ -85,7 +85,7 @@ pub struct MySensorBlock_SendToolbarItemChangedPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MySensorBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySensorBlockInstanceEvent {
     /// Hash: -1220660812

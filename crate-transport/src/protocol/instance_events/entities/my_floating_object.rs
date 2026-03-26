@@ -11,7 +11,7 @@ use space_engineers_sys::math::Vector3D;
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyFloatingObject.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyFloatingObjectInstanceEvent {
     /// Hash: 1774104568

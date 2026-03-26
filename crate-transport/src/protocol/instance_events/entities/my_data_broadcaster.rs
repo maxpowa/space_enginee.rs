@@ -39,7 +39,7 @@ pub struct MyDataBroadcaster_OnUpdateHudParamsPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyDataBroadcaster.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyDataBroadcasterInstanceEvent {
     /// Hash: -1768876280

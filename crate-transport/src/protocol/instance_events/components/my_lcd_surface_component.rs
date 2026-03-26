@@ -59,7 +59,7 @@ pub struct MyLcdSurfaceComponent_OnUpdateSpriteCollectionPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyLcdSurfaceComponentInstanceEvent {
     /// Hash: 1125732510

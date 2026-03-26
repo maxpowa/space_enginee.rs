@@ -85,7 +85,7 @@ pub struct MyDoorBase_OpenRequestPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyDoorBase.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyDoorBaseInstanceEvent {
     /// Hash: -1220660812

@@ -17,7 +17,7 @@ pub struct MyForageableEntity_Forage_ImplementationPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyForageableEntity.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyForageableEntityInstanceEvent {
     /// Hash: -366401412

@@ -27,7 +27,7 @@ pub struct MyEventMagneticLockReady_UpdateDetailedInfoAllBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMagneticLockReady.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventMagneticLockReadyInstanceEvent {
     /// Hash: -1937428084

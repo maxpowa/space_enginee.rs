@@ -27,7 +27,7 @@ pub struct MyEventStoredPower_UpdateDetailedInfoAllBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventStoredPower.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventStoredPowerInstanceEvent {
     /// Hash: 1250730332

@@ -27,7 +27,7 @@ pub struct MyProceduralLogicalSector_HandleItemEventClientPayload {
 
 /// Stable instance event identities for Sandbox.Game.WorldEnvironment.MyProceduralLogicalSector.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyProceduralLogicalSectorInstanceEvent {
     /// Hash: 1730331496

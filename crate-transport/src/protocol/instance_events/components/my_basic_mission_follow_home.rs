@@ -18,7 +18,7 @@ pub struct MyBasicMissionFollowHome_SetNewHomeMinMaxRangePayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowHome.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyBasicMissionFollowHomeInstanceEvent {
     /// Hash: -1751963021

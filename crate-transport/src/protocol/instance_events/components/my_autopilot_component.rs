@@ -79,7 +79,7 @@ pub struct MyAutopilotComponent_OnToolbarItemChangedPayload {
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyAutopilotComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyAutopilotComponentInstanceEvent {
     /// Hash: 58446088

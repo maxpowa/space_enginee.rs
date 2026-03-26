@@ -27,7 +27,7 @@ pub struct MyEventAngleChanged_UpdateDetailedInfoAllBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventAngleChanged.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventAngleChangedInstanceEvent {
     /// Hash: 2063788711

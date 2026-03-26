@@ -230,7 +230,7 @@ pub struct MyCharacter_IsDrillingAnObjectSyncPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Character.MyCharacter.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCharacterInstanceEvent {
     /// Hash: 628673205

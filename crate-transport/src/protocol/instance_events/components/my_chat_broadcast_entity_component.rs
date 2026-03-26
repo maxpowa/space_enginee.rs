@@ -24,7 +24,7 @@ pub struct MyChatBroadcastEntityComponent_OnTransmitMessage_1Payload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyChatBroadcastEntityComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyChatBroadcastEntityComponentInstanceEvent {
     /// Hash: -1092803857

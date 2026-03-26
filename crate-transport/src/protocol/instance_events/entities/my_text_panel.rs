@@ -122,7 +122,7 @@ pub struct MyTextPanel_OnChangeOpenSuccess_15Payload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyTextPanel.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyTextPanelInstanceEvent {
     /// Hash: -1220660812

@@ -48,7 +48,7 @@ pub struct MyFarmPlotLogic_ClearFarmPlotPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.GameLogic.MyFarmPlotLogic.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyFarmPlotLogicInstanceEvent {
     /// Hash: -1400983102

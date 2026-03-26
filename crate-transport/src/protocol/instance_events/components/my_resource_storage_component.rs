@@ -23,7 +23,7 @@ pub struct MyResourceStorageComponent_OnStockpileModeCallbackPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyResourceStorageComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyResourceStorageComponentInstanceEvent {
     /// Hash: 1683540042

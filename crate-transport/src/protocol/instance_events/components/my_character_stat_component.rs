@@ -31,7 +31,7 @@ pub struct MyCharacterStatComponent_ShowStatChangeNotificationClientPayload {
 
 /// Stable instance event identities for Sandbox.Game.Components.MyCharacterStatComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCharacterStatComponentInstanceEvent {
     /// Hash: 460704751

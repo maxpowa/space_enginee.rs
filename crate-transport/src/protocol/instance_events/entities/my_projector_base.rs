@@ -109,7 +109,7 @@ pub struct MyProjectorBase_OnOffsetChangedSuccessPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyProjectorBase.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyProjectorBaseInstanceEvent {
     /// Hash: -1220660812

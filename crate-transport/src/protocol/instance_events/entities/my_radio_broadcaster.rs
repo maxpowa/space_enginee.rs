@@ -45,7 +45,7 @@ pub struct MyRadioBroadcaster_ChangeBroadcastRadiusPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Cube.MyRadioBroadcaster.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyRadioBroadcasterInstanceEvent {
     /// Hash: -1768876280

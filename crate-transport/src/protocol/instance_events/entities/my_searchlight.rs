@@ -84,7 +84,7 @@ pub struct MySearchlight_RequestReleasePayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MySearchlight.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySearchlightInstanceEvent {
     /// Hash: -1220660812

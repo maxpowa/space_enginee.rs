@@ -52,7 +52,7 @@ pub struct MyPathRecorderComponent_AddWaypointBroadcast_7Payload {
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyPathRecorderComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyPathRecorderComponentInstanceEvent {
     /// Hash: 1762576984

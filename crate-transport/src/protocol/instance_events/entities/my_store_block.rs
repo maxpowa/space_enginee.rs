@@ -195,7 +195,7 @@ pub struct MyStoreBlock_ShowPreviewImplementationPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyStoreBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyStoreBlockInstanceEvent {
     /// Hash: -1220660812

@@ -17,7 +17,7 @@ pub struct MyModifiableEntity_AddAssetModifierSyncPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyModifiableEntity.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyModifiableEntityInstanceEvent {
     /// Hash: -562823050

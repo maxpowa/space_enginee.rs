@@ -23,7 +23,7 @@ pub struct MySafeZoneComponent_SetUpkeepCountdown_ClientPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MySafeZoneComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySafeZoneComponentInstanceEvent {
     /// Hash: -1961925876

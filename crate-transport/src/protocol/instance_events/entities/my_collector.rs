@@ -84,7 +84,7 @@ pub struct MyCollector_PlayActionSoundAndParticlePayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyCollector.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCollectorInstanceEvent {
     /// Hash: -1220660812

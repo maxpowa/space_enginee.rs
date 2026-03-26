@@ -4,7 +4,7 @@
 
 /// Stable replicated type identity based on type hash.
 ///
-/// Use `VersionSchema` to convert to/from version-specific indices.
+/// Use `Version` to convert to/from version-specific indices.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum ReplicatedType {
     /// Sandbox.Game.MyInventory

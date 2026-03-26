@@ -27,7 +27,7 @@ pub struct MyEventThrustPercentage_UpdateDetailedInfoAllBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventThrustPercentage.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventThrustPercentageInstanceEvent {
     /// Hash: 660461161

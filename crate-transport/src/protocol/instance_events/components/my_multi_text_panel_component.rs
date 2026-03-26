@@ -53,7 +53,7 @@ pub struct MyMultiTextPanelComponent_OnUpdateSpriteCollectionPayload {
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyMultiTextPanelComponent.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyMultiTextPanelComponentInstanceEvent {
     /// Hash: -351312774

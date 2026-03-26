@@ -91,7 +91,7 @@ pub struct MyTargetDummyBlock_SendStatesPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyTargetDummyBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyTargetDummyBlockInstanceEvent {
     /// Hash: -1220660812

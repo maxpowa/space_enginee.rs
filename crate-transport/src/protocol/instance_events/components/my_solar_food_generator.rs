@@ -20,7 +20,7 @@ pub struct MySolarFoodGenerator_UpdateDetailedInfoLimitedBroadcastPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MySolarFoodGenerator.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySolarFoodGeneratorInstanceEvent {
     /// Hash: -645301096

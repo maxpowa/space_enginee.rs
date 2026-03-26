@@ -30,7 +30,7 @@ pub struct MySafeZone_RemoveEntity_ImplementationPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MySafeZone.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MySafeZoneInstanceEvent {
     /// Hash: 52065325

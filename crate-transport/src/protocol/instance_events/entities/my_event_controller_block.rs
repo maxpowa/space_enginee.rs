@@ -109,7 +109,7 @@ pub struct MyEventControllerBlock_SetEmissiveStatePayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MyEventControllerBlock.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyEventControllerBlockInstanceEvent {
     /// Hash: -1220660812

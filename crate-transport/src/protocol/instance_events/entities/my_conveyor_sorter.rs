@@ -105,7 +105,7 @@ pub struct MyConveyorSorter_DoSetupFilterPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyConveyorSorter.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyConveyorSorterInstanceEvent {
     /// Hash: -1220660812

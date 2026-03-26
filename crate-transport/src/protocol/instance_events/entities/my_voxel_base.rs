@@ -91,7 +91,7 @@ pub struct MyVoxelBase_CreateVoxelMeteorCrater_ImplementationPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyVoxelBase.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyVoxelBaseInstanceEvent {
     /// Hash: 1660913711

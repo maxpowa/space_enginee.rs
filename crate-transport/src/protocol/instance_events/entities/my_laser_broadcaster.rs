@@ -51,7 +51,7 @@ pub struct MyLaserBroadcaster_ChangeSuccessfullyContactingPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyLaserBroadcaster.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyLaserBroadcasterInstanceEvent {
     /// Hash: -1768876280

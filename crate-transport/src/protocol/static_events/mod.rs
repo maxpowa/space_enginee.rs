@@ -20,7 +20,7 @@ use deku::prelude::*;
 
 /// Stable static event identity based on event hash.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum StaticEventType {
     /// Hash: -2040581433

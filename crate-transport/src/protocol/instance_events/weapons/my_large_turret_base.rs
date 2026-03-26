@@ -142,7 +142,7 @@ pub struct MyLargeTurretBase_ReloadStartedOnServerPayload {
 
 /// Stable instance event identities for Sandbox.Game.Weapons.MyLargeTurretBase.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyLargeTurretBaseInstanceEvent {
     /// Hash: -1220660812

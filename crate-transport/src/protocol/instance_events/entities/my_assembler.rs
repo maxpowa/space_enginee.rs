@@ -136,7 +136,7 @@ pub struct MyAssembler_RepeatEnabledCallbackPayload {
 
 /// Stable instance event identities for Sandbox.Game.Entities.Cube.MyAssembler.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyAssemblerInstanceEvent {
     /// Hash: -1220660812

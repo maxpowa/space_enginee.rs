@@ -96,7 +96,7 @@ pub struct MyMedicalRoom_RequestSupportPayload {
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MyMedicalRoom.
 ///
-/// Use `VersionSchema` to convert to/from version-specific event IDs.
+/// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyMedicalRoomInstanceEvent {
     /// Hash: -1220660812
