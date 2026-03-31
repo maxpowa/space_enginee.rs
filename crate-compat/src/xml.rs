@@ -244,7 +244,7 @@ where
         match result {
             Ok(_) => {
                 let compressed_size = output.len();
-                Varint::from_value(compressed_size as u32).to_writer(writer, ())?;
+                Varint::from(compressed_size as u32).to_writer(writer, ())?;
                 // TODO: This is horrifically inefficient right now.
                 let output_data = BitVec::from_iter(output.as_bits::<Lsb0>().iter().rev());
                 writer.write_bits_order(&*output_data, Order::Lsb0)?;

@@ -36,6 +36,19 @@ impl<T: BitFlag> From<BitFlags<T>> for BitField<T> {
     }
 }
 
+impl<T: BitFlag> std::ops::Deref for BitField<T> {
+    type Target = BitFlags<T>;
+    fn deref(&self) -> &BitFlags<T> {
+        &self.0
+    }
+}
+
+impl<T: BitFlag> std::ops::DerefMut for BitField<T> {
+    fn deref_mut(&mut self) -> &mut BitFlags<T> {
+        &mut self.0
+    }
+}
+
 impl<T: BitFlag> BitField<T> {
     pub fn bits(&self) -> T::Numeric {
         self.0.bits()

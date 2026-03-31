@@ -42,19 +42,38 @@ impl<T: Copy> Varint<T> {
     pub fn new(value: T) -> Self {
         Varint(value)
     }
-}
 
-impl<T> Varint<T>
-where
-    T: Into<u64> + TryFrom<u64> + Copy,
-    <T as TryFrom<u64>>::Error: Debug,
-{
-    pub fn from_value(value: T) -> Self {
-        Varint(value)
+    pub fn into_inner(self) -> T {
+        self.0
     }
 
-    pub fn to_value(&self) -> T {
+    pub fn get(&self) -> T {
         self.0
+    }
+}
+
+impl<T: Copy> std::ops::Deref for Varint<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+
+impl<T: Copy> std::ops::DerefMut for Varint<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
+impl<T: Copy> AsRef<T> for Varint<T> {
+    fn as_ref(&self) -> &T {
+        &self.0
+    }
+}
+
+impl<T: Copy> From<T> for Varint<T> {
+    fn from(value: T) -> Self {
+        Varint(value)
     }
 }
 
@@ -178,6 +197,12 @@ impl<T: Copy> std::ops::Deref for BitAligned<T> {
     type Target = T;
     fn deref(&self) -> &T {
         &self.0
+    }
+}
+
+impl<T: Copy> std::ops::DerefMut for BitAligned<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.0
     }
 }
 
@@ -335,6 +360,19 @@ impl From<VarBytes> for Vec<u8> {
     }
 }
 
+impl std::ops::Deref for VarBytes {
+    type Target = [u8];
+    fn deref(&self) -> &[u8] {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for VarBytes {
+    fn deref_mut(&mut self) -> &mut [u8] {
+        &mut self.0
+    }
+}
+
 // ---- Serde (transparent) ----
 
 impl Serialize for VarBytes {
@@ -378,7 +416,7 @@ impl DekuReader<'_, ()> for VarBytes {
 
 impl DekuWriter<()> for VarBytes {
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, _: ()) -> Result<(), DekuError> {
-        Varint::from_value(self.0.len() as u32).to_writer(writer, ())?;
+        Varint::from(self.0.len() as u32).to_writer(writer, ())?;
 
         let data = BitVec::from_iter(self.0.as_slice().as_bits::<Lsb0>().iter().rev());
         writer.write_bits_order(&data, Order::Lsb0)?;
@@ -434,6 +472,19 @@ impl From<VarString> for String {
     }
 }
 
+impl std::ops::Deref for VarString {
+    type Target = str;
+    fn deref(&self) -> &str {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for VarString {
+    fn deref_mut(&mut self) -> &mut str {
+        &mut self.0
+    }
+}
+
 // ---- Serde (transparent) ----
 
 impl Serialize for VarString {
@@ -481,7 +532,7 @@ impl DekuWriter<()> for VarString {
         writer: &mut Writer<W>,
         _ctx: (),
     ) -> Result<(), DekuError> {
-        Varint::from_value(self.0.len() as u64).to_writer(writer, ())?;
+        Varint::from(self.0.len() as u64).to_writer(writer, ())?;
 
         let data = BitVec::from_iter(self.0.as_bytes().as_bits::<Lsb0>().iter().rev());
         writer.write_bits_order(&data, Order::Lsb0)?;
@@ -833,6 +884,12 @@ impl std::ops::Deref for BitBool {
     }
 }
 
+impl std::ops::DerefMut for BitBool {
+    fn deref_mut(&mut self) -> &mut bool {
+        &mut self.0
+    }
+}
+
 impl Debug for BitBool {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.0.fmt(f)
@@ -1090,7 +1147,7 @@ where
     T: DekuWriter<()>,
 {
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, _ctx: ()) -> Result<(), DekuError> {
-        Varint::from_value(self.0.len() as u32).to_writer(writer, ())?;
+        Varint::from(self.0.len() as u32).to_writer(writer, ())?;
         for item in &self.0 {
             item.to_writer(writer, ())?;
         }

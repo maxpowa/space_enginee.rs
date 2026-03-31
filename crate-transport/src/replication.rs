@@ -566,7 +566,7 @@ mod tests {
             // packet_id is next 8 bits: 0x7e >> 1 = 0x3F = 63
             assert_eq!(server_state_sync.packet_id.0, 63);
             // statistics has_value bit = 0, so None
-            assert!(!server_state_sync.statistics.has_value());
+            assert!(server_state_sync.statistics.is_none());
             // Timestamps look plausible (milliseconds)
             assert_eq!(server_state_sync.server_timestamp.0, 67216197.8008f64);
             assert_eq!(server_state_sync.last_client_timestamp.0, 67216164.9354f64);

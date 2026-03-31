@@ -1,0 +1,41 @@
+# Build performance optimizations
+[build]
+# Use all available CPU cores for parallel compilation
+jobs = -1
+
+[profile.dev]
+# Faster incremental builds - skip debug info for dependencies
+debug = 0
+codegen-backend = "cranelift"
+
+[profile.dev.package."*"]
+# Optimize dependencies even in dev (speeds up proc-macro execution)
+opt-level = 1
+debug = false
+
+# Proc-macro crates benefit heavily from optimization
+[profile.dev.package.deku_derive]
+opt-level = 3
+
+[profile.dev.package.syn]
+opt-level = 3
+
+[profile.dev.package.quote]
+opt-level = 3
+
+[profile.dev.package.proc-macro2]
+opt-level = 3
+
+[profile.dev.package.serde_derive]
+opt-level = 3
+
+[profile.dev.package.darling_macro]
+opt-level = 3
+
+# Use faster linker on Windows
+[target.x86_64-pc-windows-msvc]
+# Uncomment if you have lld installed (via LLVM or rustup component add llvm-tools)
+# linker = "lld-link"
+
+[unstable]
+codegen-backend = true

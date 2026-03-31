@@ -2,6 +2,8 @@
 //!
 //! In C#, `Nullable<T>` (or `T?`) represents a value type that can be null.
 //! This wrapper provides similar semantics for Rust with serde/proto/deku support.
+//!
+//! Internally uses `Option<T>` for proper null semantics.
 
 use deku::bitvec::{BitField as _, BitVec, Msb0};
 use deku::ctx::Order;
@@ -21,53 +23,75 @@ use std::io::{Read, Seek, Write};
 // Nullable<T>
 // ============================================================================
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct Nullable<T: Default + PartialEq>(pub T);
+/// A nullable value type, similar to C#'s `Nullable<T>` or `T?`.
+///
+/// Internally uses `Option<T>` for proper null semantics. Provides `Deref` to
+/// `Option<T>` so all `Option` methods are available.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+pub struct Nullable<T>(pub Option<T>);
 
-impl<T: Default + PartialEq> From<T> for Nullable<T> {
-    fn from(value: T) -> Self {
-        Nullable(value)
+impl<T> Nullable<T> {
+    /// Creates a `Nullable` containing the given value.
+    pub fn some(value: T) -> Self {
+        Nullable(Some(value))
+    }
+
+    /// Creates an empty `Nullable`.
+    pub fn none() -> Self {
+        Nullable(None)
+    }
+
+    /// Returns `true` if the nullable contains a value.
+    pub fn is_some(&self) -> bool {
+        self.0.is_some()
+    }
+
+    /// Returns `true` if the nullable is empty.
+    pub fn is_none(&self) -> bool {
+        self.0.is_none()
     }
 }
 
-impl<T: Default + PartialEq> Nullable<T> {
-    pub fn has_value(&self) -> bool {
-        T::default() != self.0
+impl<T> std::ops::Deref for Nullable<T> {
+    type Target = Option<T>;
+    fn deref(&self) -> &Option<T> {
+        &self.0
     }
+}
 
-    pub fn unwrap_mut(&mut self) -> &mut T {
-        assert!(
-            self.has_value(),
-            "called `Nullable::unwrap_mut()` on a null value"
-        );
+impl<T> std::ops::DerefMut for Nullable<T> {
+    fn deref_mut(&mut self) -> &mut Option<T> {
         &mut self.0
     }
+}
 
-    pub fn unwrap(self) -> T {
-        assert!(
-            self.has_value(),
-            "called `Nullable::unwrap()` on a null value"
-        );
-        self.0
+impl<T> From<T> for Nullable<T> {
+    fn from(value: T) -> Self {
+        Nullable(Some(value))
+    }
+}
+
+impl<T> From<Option<T>> for Nullable<T> {
+    fn from(opt: Option<T>) -> Self {
+        Nullable(opt)
     }
 }
 
 // ---- Serde ----
 
-impl<T: Default + PartialEq + Serialize> Serialize for Nullable<T> {
+impl<T: Serialize> Serialize for Nullable<T> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        if self.has_value() {
-            serializer.serialize_some(&self.0)
-        } else {
-            serializer.serialize_none()
+        match &self.0 {
+            Some(value) => serializer.serialize_some(value),
+            None => serializer.serialize_none(),
         }
     }
 }
 
-impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullable<T> {
+impl<'de, T: Deserialize<'de>> Deserialize<'de> for Nullable<T> {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -78,7 +102,7 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
 
         struct NullableVisitor<U>(PhantomData<U>);
 
-        impl<'de2, U: Default + PartialEq + Deserialize<'de2>> Visitor<'de2> for NullableVisitor<U> {
+        impl<'de2, U: Deserialize<'de2>> Visitor<'de2> for NullableVisitor<U> {
             type Value = Nullable<U>;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -90,15 +114,15 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
                 A: de::MapAccess<'de2>,
             {
                 while map.next_entry::<de::IgnoredAny, de::IgnoredAny>()?.is_some() {}
-                Ok(Nullable(U::default()))
+                Ok(Nullable::none())
             }
 
             fn visit_str<E: de::Error>(self, s: &str) -> Result<Self::Value, E> {
                 if s.is_empty() {
-                    Ok(Nullable(U::default()))
+                    Ok(Nullable::none())
                 } else {
                     use serde::de::IntoDeserializer;
-                    U::deserialize(s.into_deserializer()).map(Nullable)
+                    U::deserialize(s.into_deserializer()).map(Nullable::some)
                 }
             }
 
@@ -107,38 +131,38 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
             }
 
             fn visit_unit<E: de::Error>(self) -> Result<Self::Value, E> {
-                Ok(Nullable(U::default()))
+                Ok(Nullable::none())
             }
 
             fn visit_none<E: de::Error>(self) -> Result<Self::Value, E> {
-                Ok(Nullable(U::default()))
+                Ok(Nullable::none())
             }
 
             fn visit_some<D2>(self, deserializer: D2) -> Result<Self::Value, D2::Error>
             where
                 D2: serde::Deserializer<'de2>,
             {
-                U::deserialize(deserializer).map(Nullable)
+                U::deserialize(deserializer).map(Nullable::some)
             }
 
             fn visit_bool<E: de::Error>(self, v: bool) -> Result<Self::Value, E> {
                 use serde::de::IntoDeserializer;
-                U::deserialize(v.into_deserializer()).map(Nullable)
+                U::deserialize(v.into_deserializer()).map(Nullable::some)
             }
 
             fn visit_i64<E: de::Error>(self, v: i64) -> Result<Self::Value, E> {
                 use serde::de::IntoDeserializer;
-                U::deserialize(v.into_deserializer()).map(Nullable)
+                U::deserialize(v.into_deserializer()).map(Nullable::some)
             }
 
             fn visit_u64<E: de::Error>(self, v: u64) -> Result<Self::Value, E> {
                 use serde::de::IntoDeserializer;
-                U::deserialize(v.into_deserializer()).map(Nullable)
+                U::deserialize(v.into_deserializer()).map(Nullable::some)
             }
 
             fn visit_f64<E: de::Error>(self, v: f64) -> Result<Self::Value, E> {
                 use serde::de::IntoDeserializer;
-                U::deserialize(v.into_deserializer()).map(Nullable)
+                U::deserialize(v.into_deserializer()).map(Nullable::some)
             }
 
             fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
@@ -147,9 +171,9 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
             {
                 if let Some(value) = seq.next_element::<U>()? {
                     while seq.next_element::<de::IgnoredAny>()?.is_some() {}
-                    Ok(Nullable(value))
+                    Ok(Nullable::some(value))
                 } else {
-                    Ok(Nullable(U::default()))
+                    Ok(Nullable::none())
                 }
             }
         }
@@ -162,7 +186,7 @@ impl<'de, T: Default + PartialEq + Deserialize<'de>> Deserialize<'de> for Nullab
 
 impl<T> DekuReader<'_, ()> for Nullable<T>
 where
-    T: Default + for<'a> DekuReader<'a> + DekuWriter + PartialEq,
+    T: for<'a> DekuReader<'a> + DekuWriter,
 {
     fn from_reader_with_ctx<R: Read + Seek>(
         reader: &mut Reader<R>,
@@ -173,22 +197,23 @@ where
     {
         let has_value = reader.read_bits(1, Order::Lsb0)?.unwrap().load::<u8>() == 1u8;
         if has_value {
-            return Ok(Nullable(T::from_reader_with_ctx(reader, ctx)?));
+            Ok(Nullable::some(T::from_reader_with_ctx(reader, ctx)?))
+        } else {
+            Ok(Nullable::none())
         }
-        Ok(Nullable(T::default()))
     }
 }
 
 impl<T> DekuWriter<()> for Nullable<T>
 where
-    T: Default + for<'a> DekuReader<'a> + DekuWriter + PartialEq,
+    T: for<'a> DekuReader<'a> + DekuWriter,
 {
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, ctx: ()) -> Result<(), DekuError> {
         let mut entry = BitVec::<u8, Msb0>::with_capacity(1);
-        entry.push(self.has_value());
+        entry.push(self.is_some());
         writer.write_bits_order(&entry, Order::Lsb0)?;
-        if self.has_value() {
-            self.0.to_writer(writer, ctx)?;
+        if let Some(value) = &self.0 {
+            value.to_writer(writer, ctx)?;
         }
         Ok(())
     }
@@ -197,7 +222,7 @@ where
 // ---- Proto-rs ----
 
 #[doc(hidden)]
-pub struct NullableShadow<S>(S);
+pub struct NullableShadow<S>(Option<S>);
 
 impl<S: ProtoExt> ProtoExt for NullableShadow<S> {
     const KIND: ProtoKind = S::KIND;
@@ -206,54 +231,53 @@ impl<S: ProtoExt> ProtoExt for NullableShadow<S> {
 impl<S: ProtoArchive> ProtoArchive for NullableShadow<S> {
     #[inline]
     fn is_default(&self) -> bool {
-        self.0.is_default()
+        match &self.0 {
+            Some(inner) => inner.is_default(),
+            None => true,
+        }
     }
 
     #[inline]
     fn archive<const TAG: u32>(&self, w: &mut impl RevWriter) {
-        self.0.archive::<TAG>(w);
+        if let Some(inner) = &self.0 {
+            inner.archive::<TAG>(w);
+        }
     }
 }
 
 impl<'a, T> ProtoShadowEncode<'a, Nullable<T>> for NullableShadow<<T as ProtoEncode>::Shadow<'a>>
 where
-    T: ProtoEncode + Default + PartialEq,
+    T: ProtoEncode,
 {
     #[inline]
     fn from_sun(value: &'a Nullable<T>) -> Self {
-        NullableShadow(<T as ProtoEncode>::Shadow::from_sun(&value.0))
+        NullableShadow(value.0.as_ref().map(|v| <T as ProtoEncode>::Shadow::from_sun(v)))
     }
 }
 
 impl<T> ProtoExt for Nullable<T>
 where
-    T: ProtoExt + Default + PartialEq,
+    T: ProtoExt,
 {
     const KIND: ProtoKind = T::KIND;
 }
 
 impl<T> ProtoEncode for Nullable<T>
 where
-    T: ProtoEncode + Default + PartialEq,
+    T: ProtoEncode,
     for<'a> <T as ProtoEncode>::Shadow<'a>: ProtoArchive + ProtoExt,
 {
     type Shadow<'a> = NullableShadow<<T as ProtoEncode>::Shadow<'a>>;
 }
 
-impl<T> ProtoDefault for Nullable<T>
-where
-    T: ProtoDefault + Default + PartialEq,
-{
+impl<T> ProtoDefault for Nullable<T> {
     #[inline]
     fn proto_default() -> Self {
-        Nullable(T::proto_default())
+        Nullable::none()
     }
 }
 
-impl<T> ProtoShadowDecode<Nullable<T>> for Nullable<T>
-where
-    T: Default + PartialEq,
-{
+impl<T> ProtoShadowDecode<Nullable<T>> for Nullable<T> {
     #[inline]
     fn to_sun(self) -> Result<Nullable<T>, DecodeError> {
         Ok(self)
@@ -262,7 +286,7 @@ where
 
 impl<T> ProtoDecoder for Nullable<T>
 where
-    T: ProtoDecoder + Default + PartialEq,
+    T: ProtoDecoder + Default,
 {
     #[inline]
     fn merge_field(
@@ -272,7 +296,9 @@ where
         buf: &mut impl Buf,
         ctx: DecodeContext,
     ) -> Result<(), DecodeError> {
-        T::merge_field(&mut value.0, tag, wire_type, buf, ctx)
+        // Ensure we have a value to merge into
+        let inner = value.0.get_or_insert_with(T::default);
+        T::merge_field(inner, tag, wire_type, buf, ctx)
     }
 
     #[inline]
@@ -282,7 +308,9 @@ where
         buf: &mut impl Buf,
         ctx: DecodeContext,
     ) -> Result<(), DecodeError> {
-        T::merge(&mut self.0, wire_type, buf, ctx)
+        // Ensure we have a value to merge into
+        let inner = self.0.get_or_insert_with(T::default);
+        T::merge(inner, wire_type, buf, ctx)
     }
 }
 
@@ -291,17 +319,41 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_nullable_has_value() {
-        let n: Nullable<i32> = Nullable(42);
-        assert!(n.has_value());
+    fn test_nullable_is_some() {
+        let n: Nullable<i32> = Nullable::some(42);
+        assert!(n.is_some());
 
-        let empty: Nullable<i32> = Nullable::default();
-        assert!(!empty.has_value());
+        let empty: Nullable<i32> = Nullable::none();
+        assert!(empty.is_none());
+        
+        let default: Nullable<i32> = Nullable::default();
+        assert!(default.is_none());
     }
 
     #[test]
     fn test_nullable_unwrap() {
-        let n: Nullable<i32> = Nullable(42);
+        let n: Nullable<i32> = Nullable::some(42);
         assert_eq!(n.unwrap(), 42);
+    }
+    
+    #[test]
+    fn test_nullable_from() {
+        let n: Nullable<i32> = 42.into();
+        assert!(n.is_some());
+        assert_eq!(n.unwrap(), 42);
+        
+        let opt: Nullable<i32> = Some(42).into();
+        assert_eq!(opt.unwrap(), 42);
+        
+        let none: Nullable<i32> = None.into();
+        assert!(none.is_none());
+    }
+    
+    #[test]
+    fn test_nullable_deref() {
+        let n: Nullable<i32> = Nullable::some(42);
+        // Can use Option methods via Deref
+        assert_eq!(n.map(|x| x * 2), Some(84));
+        assert_eq!(n.unwrap_or(0), 42);
     }
 }

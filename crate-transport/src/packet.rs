@@ -49,7 +49,7 @@ where
     T: for<'a> DekuReader<'a, usize> + DekuWriter<usize>,
 {
     /// Magic number -- looks similar to the Keen logo when viewed as a CP-437 character
-    #[deku(magic = b"\xCE")]
+    #[deku(assert_eq = "MAGIC_NUMBER")]
     pub magic_number: u8,
 
     /// Message type (protection level)
@@ -148,6 +148,9 @@ impl<T: for<'a> DekuReader<'a, usize> + DekuWriter<usize>> PacketFrame<T> {
 
 #[cfg(test)]
 mod tests {
+    use crate::replication::{Packet, PacketId};
+    use crate::{ReplicationPacket, StaticEventPayload};
+
     use super::*;
 
     #[test]
@@ -163,5 +166,99 @@ mod tests {
             let read_type = MessageType::from_reader_with_ctx(&mut reader, ()).unwrap();
             assert_eq!(msg_type, read_type);
         }
+    }
+
+    #[test]
+    fn test_real_packet() {
+        let data: [u8; 25] = [
+            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00,
+            0xa7, 0x00, 0xa6, 0x8f, 0x80, 0x94, 0x00, 0x00, 0x00, 0x00, 0x72, 0x91,
+            0x55,
+        ];
+        let mut reader = Reader::new(std::io::Cursor::new(&data));
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len()).unwrap();
+
+        // Frame header
+        assert_eq!(frame.magic_number, MAGIC_NUMBER);
+        assert_eq!(frame.message_type, MessageType::Unprotected);
+        assert_eq!(frame.checksum, 0xffffffff);
+        assert_eq!(frame.packet_index, 0);
+        assert_eq!(frame.packet_count, 1);
+
+        // Inner replication packet
+        let replication = &frame.inner;
+        assert_eq!(replication.packet_id, PacketId::Rpc);
+        assert_eq!(replication.index, 0);
+
+        // Extract the RPC packet
+        let Packet::Rpc(rpc) = &replication.data else {
+            panic!("Expected Rpc packet");
+        };
+
+        // Verify RPC fields
+        assert_eq!(*rpc.network_id, 0, "Static event has network_id 0");
+        assert_eq!(*rpc.blocked_by_network_id, 0);
+        assert_eq!(rpc.event_id, 167);
+
+        // Parse the payload
+        match rpc.parse_static_event_embedded().unwrap() {
+            StaticEventPayload::MySessionComponentMatch_RecieveTimeSync(time_sync) => {
+                assert_eq!(*time_sync.sync_time_seconds, 3150324.8);
+                assert_eq!(*time_sync.time_left_seconds, 0.0);
+            }
+            other => panic!("Expected RecieveTimeSync payload, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn test_real_packet_2() {
+        let data: [u8; 76] = [
+            0xce, 0x01, 0xa0, 0x8b, 0x06, 0x87, 0x00, 0x01, 0x07, 0x00, 0x72, 0x03,
+            0x00, 0x00, 0x00, 0xf4, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x74,
+            0x54, 0x55, 0xfb, 0x00, 0xd4, 0x57, 0x03, 0x11, 0x81, 0xbe, 0xa0, 0x14,
+            0x01, 0x48, 0xe1, 0x7a, 0x14, 0xf8, 0xe6, 0x46, 0x04, 0x01, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0xc0, 0xff, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0,
+            0xff, 0x02, 0x00, 0x00, 0xfe, 0xc0, 0x64, 0x0a, 0x02, 0xf9, 0x5c, 0xad,
+            0xfe, 0xe4, 0x22, 0x03,
+        ];
+
+        let mut reader = Reader::new(std::io::Cursor::new(&data));
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len()).unwrap();
+
+        // Frame header
+        assert_eq!(frame.magic_number, MAGIC_NUMBER);
+        assert_eq!(frame.message_type, MessageType::TamperResistant);
+        assert_eq!(frame.checksum, 2265353120);
+        assert_eq!(frame.packet_index, 0);
+        assert_eq!(frame.packet_count, 1);
+
+        // Inner replication packet
+        let replication = &frame.inner;
+        assert_eq!(replication.packet_id, PacketId::ServerStateSync);
+        assert_eq!(replication.index, 0);
+
+        // Extract the ServerStateSync packet
+        let Packet::ServerStateSync(packet) = &replication.data else {
+            panic!("Expected ServerStateSync packet");
+        };
+
+        // Verify ServerStateSync fields
+        assert!(!packet.is_streaming);
+        assert_eq!(*packet.packet_id, 185);
+        
+        let stats = packet.statistics.as_ref().expect("Expected statistics");
+        assert_eq!(*stats.duplicates, 0);
+        assert_eq!(*stats.out_of_order, 0);
+        assert_eq!(*stats.drops, 0);
+        assert_eq!(*stats.tampered, 0);
+        assert_eq!(*stats.outgoing_data, 701);
+        assert_eq!(*stats.incoming_data, 0);
+        assert_eq!(*stats.pending_packet_count, 0);
+        
+        assert_eq!(*packet.server_timestamp, 290415.505);
+        assert_eq!(*packet.last_client_timestamp, -1.0);
+        assert_eq!(*packet.last_client_realtime, -1.0);
+        assert_eq!(*packet.server_simulation_ratio, 1.0);
+        assert!(packet.state_groups.entries.is_empty());
     }
 }

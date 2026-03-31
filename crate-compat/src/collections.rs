@@ -54,6 +54,31 @@ impl<K: Hash + Eq, V> VarMap<K, V> {
     }
 }
 
+impl<K: Hash + Eq, V> std::ops::Deref for VarMap<K, V> {
+    type Target = HashMap<K, V>;
+    fn deref(&self) -> &HashMap<K, V> {
+        &self.0
+    }
+}
+
+impl<K: Hash + Eq, V> std::ops::DerefMut for VarMap<K, V> {
+    fn deref_mut(&mut self) -> &mut HashMap<K, V> {
+        &mut self.0
+    }
+}
+
+impl<K: Hash + Eq, V> From<HashMap<K, V>> for VarMap<K, V> {
+    fn from(map: HashMap<K, V>) -> Self {
+        VarMap(map)
+    }
+}
+
+impl<K: Hash + Eq, V> From<VarMap<K, V>> for HashMap<K, V> {
+    fn from(var_map: VarMap<K, V>) -> Self {
+        var_map.0
+    }
+}
+
 impl<K: Hash + Eq + Serialize, V: Serialize> Serialize for VarMap<K, V> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
