@@ -6,7 +6,7 @@ jobs = -1
 [profile.dev]
 # Faster incremental builds - skip debug info for dependencies
 debug = 0
-codegen-backend = "cranelift"
+# codegen-backend = "cranelift"
 
 [profile.dev.package."*"]
 # Optimize dependencies even in dev (speeds up proc-macro execution)
@@ -36,6 +36,3 @@ opt-level = 3
 [target.x86_64-pc-windows-msvc]
 # Uncomment if you have lld installed (via LLVM or rustup component add llvm-tools)
 # linker = "lld-link"
-
-[unstable]
-codegen-backend = true
