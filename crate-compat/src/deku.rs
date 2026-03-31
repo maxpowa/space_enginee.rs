@@ -875,6 +875,11 @@ impl BitBool {
     pub fn new(value: bool) -> Self {
         BitBool(value)
     }
+    
+    /// Returns the inner bool value. Useful in deku conditions to avoid double-deref.
+    pub fn get(&self) -> bool {
+        self.0
+    }
 }
 
 impl std::ops::Deref for BitBool {
@@ -905,6 +910,19 @@ impl From<bool> for BitBool {
 impl From<BitBool> for bool {
     fn from(value: BitBool) -> Self {
         value.0
+    }
+}
+
+impl std::ops::Not for BitBool {
+    type Output = bool;
+    fn not(self) -> bool {
+        !self.0
+    }
+}
+
+impl PartialEq<bool> for BitBool {
+    fn eq(&self, other: &bool) -> bool {
+        self.0 == *other
     }
 }
 
@@ -1116,7 +1134,9 @@ impl<'de, T: Deserialize<'de>> Deserialize<'de> for VarVec<T> {
     where
         D: serde::Deserializer<'de>,
     {
-        Vec::<T>::deserialize(deserializer).map(VarVec)
+        // Use xml_vec-style deserialization to handle self-closing XML elements
+        // like `<Stations />` which quick_xml presents as empty text content.
+        crate::xml::xml_vec::deserialize(deserializer).map(VarVec)
     }
 }
 

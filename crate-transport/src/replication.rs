@@ -5,8 +5,9 @@
 
 use deku::prelude::*;
 use deku::bitvec::{BitField, BitSlice, Msb0};
-use space_engineers_compat::{BitAligned, Nullable, PacketCompressedXmlObject, VarBytes, VarString, Varint};
-use space_engineers_sys::types::MyObjectBuilder_World;
+use space_engineers_compat::{BitAligned, BitBool, Nullable, PacketCompressedXmlObject, VarBytes, VarString, Varint};
+use space_engineers_compat::math::{Quaternion, Vector3D};
+use space_engineers_sys::types::{MyObjectBuilder_Player, MyObjectBuilder_World};
 
 use crate::packet::PacketFrame;
 use crate::rpc::RawRpcPacket;
@@ -58,6 +59,80 @@ pub struct ReplicationPacket {
     pub sender: u64,
 }
 
+/// Replication create packet header.
+///
+/// Sent by the server when a new replicable object enters the client's scope.
+/// After this header, the replicable writes its own type-specific data via OnSave().
+#[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
+pub struct ReplicationCreatePacket {
+    pub type_id: Varint<u32>,
+    pub network_id: NetworkId,
+    pub parent_id: NetworkId,
+    #[deku(update = "self.state_group_ids.len() as u8")]
+    pub state_group_count: u8,
+    #[deku(count = "state_group_count")]
+    pub state_group_ids: Vec<NetworkId>,
+    /// Raw OnSave data (type-specific, not parsed)
+    #[deku(read_all)]
+    pub data: Vec<u8>,
+}
+
+/// Replication destroy packet.
+#[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
+pub struct ReplicationDestroyPacket {
+    /// Network ID of the destroyed replicable
+    pub network_id: NetworkId,
+}
+
+/// Replication island done packet.
+#[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
+pub struct ReplicationIslandDonePacket {
+    pub index: u8,
+    #[deku(update = "BitAligned(self.entities.len() as i32)")]
+    pub entity_count: BitAligned<i32>,
+    #[deku(count = "entity_count.0 as usize")]
+    pub entities: Vec<IslandEntity>,
+}
+
+#[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
+pub struct IslandEntity {
+    pub entity_id: BitAligned<i64>,
+    pub position: Vector3D,
+    pub rotation: Quaternion,
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+pub struct ReplicationStreamBeginPacket {
+    pub type_id: Varint<u32>,
+    pub network_id: NetworkId,
+    pub parent_id: NetworkId,
+    #[deku(update = "self.state_group_ids.len() as u8")]
+    pub state_group_count: u8,
+    #[deku(count = "state_group_count")]
+    pub state_group_ids: Vec<NetworkId>,
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+pub struct ReplicationRequestPacket {
+    pub entity_id: BitAligned<i64>,
+    pub add: BitBool,
+    pub has_medical_room: BitBool,
+    pub has_interacted_entity: BitBool,
+    #[deku(cond = "add.get()")]
+    pub layer: Option<BitAligned<u8>>,
+    #[deku(cond = "has_medical_room.get()")]
+    pub medical_room_id: Option<BitAligned<i64>>,
+    #[deku(cond = "has_interacted_entity.get()")]
+    pub interacted_entity_id: Option<BitAligned<i64>>,
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+pub struct ReplicationReadyPacket {
+    pub network_id: NetworkId,               // Varint<u32>
+    pub loaded: BitBool,
+    pub terminator: BitAligned<u16>,         // always 51385
+}
+
 /// Game mode indicator.
 #[derive(Clone, Copy, Debug, Default, PartialEq, deku::DekuRead, deku::DekuWrite)]
 #[repr(u8)]
@@ -83,43 +158,36 @@ pub enum ContextKind {
 /// Client state information sent with client update packets.
 #[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct ClientState {
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub has_controlled_entity: bool,
+    pub has_controlled_entity: BitBool,
 
-    #[deku(cond = "!*has_controlled_entity", default = "false")]
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub has_spectator_camera_position: bool,
+    #[deku(cond = "!has_controlled_entity.get()", default = "BitBool::from(false)")]
+    pub has_spectator_camera_position: BitBool,
 
-    #[deku(cond = "*has_spectator_camera_position")]
+    #[deku(cond = "has_spectator_camera_position.get()")]
     pub position: space_engineers_sys::math::Vector3D,
 
-    #[deku(cond = "*has_controlled_entity")]
+    #[deku(cond = "has_controlled_entity.get()")]
     pub controlled_entity_id: BitAligned<i64>,
 
-    #[deku(cond = "*has_controlled_entity")]
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub has_control: bool,
+    #[deku(cond = "has_controlled_entity.get()")]
+    pub has_control: BitBool,
 
     pub magic: BitAligned<i16>,
 
-    #[deku(cond = "*has_controlled_entity")]
+    #[deku(cond = "has_controlled_entity.get()")]
     pub context_by_page: ContextKind,
 
-    #[deku(cond = "*has_controlled_entity && *context_by_page != ContextKind::None")]
+    #[deku(cond = "has_controlled_entity.get() && *context_by_page != ContextKind::None")]
     pub interacted_entity_id: BitAligned<i64>,
 }
 
 /// Client ready notification packet.
 #[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct ClientReadyPacket {
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub force_playout_delay_buffer: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub use_playout_delay_buffer_for_character: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub use_playout_delay_buffer_for_jetpack: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub use_playout_delay_buffer_for_grids: bool,
+    pub force_playout_delay_buffer: BitBool,
+    pub use_playout_delay_buffer_for_character: BitBool,
+    pub use_playout_delay_buffer_for_jetpack: BitBool,
+    pub use_playout_delay_buffer_for_grids: BitBool,
 }
 
 /// Client update packet with timestamp and state.
@@ -331,8 +399,7 @@ impl StateGroups {
 #[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct ServerStatePacket {
     // See VRage.Network.MyReplicationClient.OnServerStateSync
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub is_streaming: bool,
+    pub is_streaming: BitBool,
     pub packet_id: BitAligned<u8>,
     pub statistics: Nullable<StatisticsState>,
     pub server_timestamp: BitAligned<f64>,
@@ -342,7 +409,7 @@ pub struct ServerStatePacket {
     pub server_simulation_ratio: BitAligned<f32>,
     pub server_cpu_load: BitAligned<f32>,
     pub server_thread_load: BitAligned<f32>,
-    #[deku(ctx = "*is_streaming")]
+    #[deku(ctx = "is_streaming.get()")]
     pub state_groups: StateGroups,
 }
 
@@ -369,15 +436,11 @@ pub struct WorldDataPacket {
 /// Client connected packet for connection handshake.
 #[derive(Clone, Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct ClientConnectedPacket {
-    pub client_id: u64,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub experimental_mode: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub is_admin: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub is_profiling: bool,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub join: bool,
+    pub client_id: BitAligned<u64>,
+    pub experimental_mode: BitBool,
+    pub is_admin: BitBool,
+    pub is_profiling: BitBool,
+    pub join: BitBool,
     pub name: Nullable<VarString>,
     pub service_name: Nullable<VarString>,
     pub token: Nullable<VarBytes>,
@@ -387,8 +450,7 @@ pub struct ClientConnectedPacket {
 #[derive(Clone, Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct ClientAckPacket {
     pub last_state_sync_packet_id: BitAligned<u8>,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub received_streaming_packet: bool,
+    pub received_streaming_packet: BitBool,
     pub last_streaming_packet_id: BitAligned<u8>,
     #[deku(update = "BitAligned(self.ack_packets.len() as u8)")]
     pub ack_packet_count: BitAligned<u8>,
@@ -430,16 +492,23 @@ pub enum JoinResult {
 /// Join result packet.
 #[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct JoinResultPacket {
-    pub admin_id: u64,
+    pub admin_id: BitAligned<u64>,
     pub join_result: JoinResult,
-    #[deku(bits = 1, bit_order = "lsb")]
-    pub server_experimental_mode: bool,
+    pub server_experimental_mode: BitBool,
 }
 
 #[derive(Debug, PartialEq, deku::DekuRead, deku::DekuWrite)]
 pub struct WorldPacket {
     // Contains the entire world data in a gzipped byte array.
     pub data: PacketCompressedXmlObject<MyObjectBuilder_World>,
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+pub struct PlayerDataPacket {
+    pub client_steam_id: BitAligned<u64>,
+    pub player_serial_id: BitAligned<i32>,
+    pub new_identity: BitBool,
+    pub player_builder_data: MyObjectBuilder_Player,
 }
 
 /// Packet payload enum dispatched by packet ID.
@@ -451,9 +520,9 @@ pub enum Packet {
     #[deku(id = "PacketId::Rpc")]
     Rpc(RawRpcPacket),
     #[deku(id = "PacketId::ReplicationCreate")]
-    ReplicationCreate,
+    ReplicationCreate(ReplicationCreatePacket),
     #[deku(id = "PacketId::ReplicationDestroy")]
-    ReplicationDestroy,
+    ReplicationDestroy(ReplicationDestroyPacket),
     #[deku(id = "PacketId::ServerData")]
     ServerData(ServerDataPacket),
     #[deku(id = "PacketId::ServerStateSync")]
@@ -463,9 +532,9 @@ pub enum Packet {
     #[deku(id = "PacketId::ClientUpdate")]
     ClientUpdate(ClientUpdatePacket),
     #[deku(id = "PacketId::ReplicationReady")]
-    ReplicationReady,
+    ReplicationReady(ReplicationReadyPacket),
     #[deku(id = "PacketId::ReplicationStreamBegin")]
-    ReplicationStreamBegin,
+    ReplicationStreamBegin(ReplicationStreamBeginPacket),
     #[deku(id = "PacketId::JoinResult")]
     JoinResult(JoinResultPacket),
     #[deku(id = "PacketId::WorldData")]
@@ -475,13 +544,13 @@ pub enum Packet {
     #[deku(id = "PacketId::ClientAcks")]
     ClientAcks(ClientAckPacket),
     #[deku(id = "PacketId::ReplicationIslandDone")]
-    ReplicationIslandDone,
+    ReplicationIslandDone(ReplicationIslandDonePacket),
     #[deku(id = "PacketId::ReplicationRequest")]
-    ReplicationRequest,
+    ReplicationRequest(ReplicationRequestPacket),
     #[deku(id = "PacketId::World")]
     World(WorldPacket),
     #[deku(id = "PacketId::PlayerData")]
-    PlayerData,
+    PlayerData(PlayerDataPacket),
     #[deku(id_pat = "_")]
     Unknown,
 }
