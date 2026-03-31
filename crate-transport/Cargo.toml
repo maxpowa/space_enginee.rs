@@ -1,6 +1,6 @@
 [package]
 name = "space_engineers_transport"
-version = "1.208015.8"
+version = "1.208015.9"
 edition.workspace = true
 rust-version.workspace = true
 description = "Space Engineers network transport layer - packet framing, replication, and RPC"
@@ -14,7 +14,7 @@ deku = { workspace = true }
 crc = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
-space_engineers_compat = { path = "../crate-compat", version = "1.208015.8" }
-space_engineers_sys = { path = "../crate-sys", version = "1.208015.8" }
+space_engineers_compat = { path = "../crate-compat", version = "1.208015.9" }
+space_engineers_sys = { path = "../crate-sys", version = "1.208015.9" }
 
 [dev-dependencies]
