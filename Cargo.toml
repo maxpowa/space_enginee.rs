@@ -23,6 +23,7 @@ cast_possible_wrap = "allow"
 must_use_candidate = "allow"
 
 [workspace.dependencies]
+base64 = "0.22"
 deku = "0.20"
 crc = "3.2"
 flate2 = "1.0"

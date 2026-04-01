@@ -1,4 +1,4 @@
-use deku::prelude::*;
+use crate::BitAligned;
 use glam::{Mat3, Mat4, Quat, Vec2, Vec3};
 
 // Original type: VRage.SerializableVector2
@@ -16,19 +16,19 @@ use glam::{Mat3, Mat4, Quat, Vec2, Vec3};
 pub struct SerializableVector2F {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
-    pub x: f32,
+    pub x: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "@y", alias = "@Y")]
-    pub y: f32,
+    pub y: BitAligned<f32>,
 }
 impl SerializableVector2F {
     pub fn new(x: f32, y: f32) -> Self {
-        SerializableVector2F { x, y }
+        SerializableVector2F { x: BitAligned(x), y: BitAligned(y) }
     }
 }
 impl From<SerializableVector2F> for Vec2 {
     fn from(value: SerializableVector2F) -> Self {
-        Vec2::new(value.x, value.y)
+        Vec2::new(*value.x, *value.y)
     }
 }
 impl From<Vec2> for SerializableVector2F {
@@ -52,19 +52,19 @@ impl From<Vec2> for SerializableVector2F {
 pub struct Vector2F {
     #[proto(tag = 1)]
     #[serde(rename = "X", alias = "x")]
-    pub x: f32,
+    pub x: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", alias = "y")]
-    pub y: f32,
+    pub y: BitAligned<f32>,
 }
 impl Vector2F {
     pub fn new(x: f32, y: f32) -> Self {
-        Vector2F { x, y }
+        Vector2F { x: BitAligned(x), y: BitAligned(y) }
     }
 }
 impl From<Vector2F> for Vec2 {
     fn from(value: Vector2F) -> Self {
-        Vec2::new(value.x, value.y)
+        Vec2::new(*value.x, *value.y)
     }
 }
 impl From<Vec2> for Vector2F {
@@ -79,22 +79,22 @@ impl From<Vec2> for Vector2F {
 pub struct SerializableVector3D {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
-    pub x: f64,
+    pub x: BitAligned<f64>,
     #[proto(tag = 4)]
     #[serde(rename = "@y", alias = "@Y")]
-    pub y: f64,
+    pub y: BitAligned<f64>,
     #[proto(tag = 7)]
     #[serde(rename = "@z", alias = "@Z")]
-    pub z: f64,
+    pub z: BitAligned<f64>,
 }
 impl SerializableVector3D {
     pub fn new(x: f64, y: f64, z: f64) -> Self {
-        SerializableVector3D { x, y, z }
+        SerializableVector3D { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl From<SerializableVector3D> for Vec3 {
     fn from(value: SerializableVector3D) -> Self {
-        Vec3::new(value.x as f32, value.y as f32, value.z as f32)
+        Vec3::new(*value.x as f32, *value.y as f32, *value.z as f32)
     }
 }
 impl From<Vec3> for SerializableVector3D {
@@ -118,55 +118,30 @@ impl From<Vec3> for SerializableVector3D {
 pub struct Vector3D {
     #[proto(tag = 1)]
     #[serde(rename = "X", alias = "x")]
-    #[deku(
-        reader = "Vector3D::read_value(deku::reader)",
-        writer = "Vector3D::write_value(deku::writer, self.x)"
-    )]
-    pub x: f64,
+    pub x: BitAligned<f64>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", alias = "y")]
-    #[deku(
-        reader = "Vector3D::read_value(deku::reader)",
-        writer = "Vector3D::write_value(deku::writer, self.y)"
-    )]
-    pub y: f64,
+    pub y: BitAligned<f64>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", alias = "z")]
-    #[deku(
-        reader = "Vector3D::read_value(deku::reader)",
-        writer = "Vector3D::write_value(deku::writer, self.z)"
-    )]
-    pub z: f64,
+    pub z: BitAligned<f64>,
 }
 impl Vector3D {
     pub fn new(x: f64, y: f64, z: f64) -> Self {
-        Vector3D { x, y, z }
-    }
-
-    fn read_value<R: std::io::Read + std::io::Seek>(
-        reader: &mut deku::reader::Reader<R>,
-    ) -> Result<f64, DekuError> {
-        Ok(u64::from_reader_with_ctx(reader, ())? as f64)
-    }
-
-    fn write_value<W: std::io::Write + std::io::Seek>(
-        writer: &mut Writer<W>,
-        input: f64,
-    ) -> Result<(), DekuError> {
-        (input as u64).to_writer(writer, ())
+        Vector3D { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl std::hash::Hash for Vector3D {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        state.write_u64(self.x.to_bits());
-        state.write_u64(self.y.to_bits());
-        state.write_u64(self.z.to_bits());
+        state.write_u64((*self.x).to_bits());
+        state.write_u64((*self.y).to_bits());
+        state.write_u64((*self.z).to_bits());
     }
 }
 impl std::cmp::Eq for Vector3D {}
 impl From<Vector3D> for Vec3 {
     fn from(value: Vector3D) -> Self {
-        Vec3::new(value.x as f32, value.y as f32, value.z as f32)
+        Vec3::new(*value.x as f32, *value.y as f32, *value.z as f32)
     }
 }
 impl From<Vec3> for Vector3D {
@@ -181,22 +156,22 @@ impl From<Vec3> for Vector3D {
 pub struct SerializableVector3F {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
-    pub x: f32,
+    pub x: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "@y", alias = "@Y")]
-    pub y: f32,
+    pub y: BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "@z", alias = "@Z")]
-    pub z: f32,
+    pub z: BitAligned<f32>,
 }
 impl SerializableVector3F {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
-        SerializableVector3F { x, y, z }
+        SerializableVector3F { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl From<SerializableVector3F> for Vec3 {
     fn from(value: SerializableVector3F) -> Self {
-        Vec3::new(value.x, value.y, value.z)
+        Vec3::new(*value.x, *value.y, *value.z)
     }
 }
 impl From<Vec3> for SerializableVector3F {
@@ -220,22 +195,22 @@ impl From<Vec3> for SerializableVector3F {
 pub struct Vector3F {
     #[proto(tag = 1)]
     #[serde(rename = "X", alias = "x")]
-    pub x: f32,
+    pub x: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", alias = "y")]
-    pub y: f32,
+    pub y: BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", alias = "z")]
-    pub z: f32,
+    pub z: BitAligned<f32>,
 }
 impl Vector3F {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
-        Vector3F { x, y, z }
+        Vector3F { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl From<Vector3F> for Vec3 {
     fn from(value: Vector3F) -> Self {
-        Vec3::new(value.x, value.y, value.z)
+        Vec3::new(*value.x, *value.y, *value.z)
     }
 }
 impl From<Vec3> for Vector3F {
@@ -250,22 +225,22 @@ impl From<Vec3> for Vector3F {
 pub struct SerializableVector3I {
     #[proto(tag = 1)]
     #[serde(rename = "@x", alias = "@X")]
-    pub x: i32,
+    pub x: BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "@y", alias = "@Y")]
-    pub y: i32,
+    pub y: BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "@z", alias = "@Z")]
-    pub z: i32,
+    pub z: BitAligned<i32>,
 }
 impl SerializableVector3I {
     pub fn new(x: i32, y: i32, z: i32) -> Self {
-        SerializableVector3I { x, y, z }
+        SerializableVector3I { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl From<SerializableVector3I> for Vec3 {
     fn from(value: SerializableVector3I) -> Self {
-        Vec3::new(value.x as f32, value.y as f32, value.z as f32)
+        Vec3::new(*value.x as f32, *value.y as f32, *value.z as f32)
     }
 }
 impl From<Vec3> for SerializableVector3I {
@@ -291,22 +266,22 @@ impl From<Vec3> for SerializableVector3I {
 pub struct Vector3I {
     #[proto(tag = 1)]
     #[serde(rename = "X", alias = "x")]
-    pub x: i32,
+    pub x: BitAligned<i32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y", alias = "y")]
-    pub y: i32,
+    pub y: BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z", alias = "z")]
-    pub z: i32,
+    pub z: BitAligned<i32>,
 }
 impl Vector3I {
     pub fn new(x: i32, y: i32, z: i32) -> Self {
-        Vector3I { x, y, z }
+        Vector3I { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z) }
     }
 }
 impl From<Vector3I> for Vec3 {
     fn from(value: Vector3I) -> Self {
-        Vec3::new(value.x as f32, value.y as f32, value.z as f32)
+        Vec3::new(*value.x as f32, *value.y as f32, *value.z as f32)
     }
 }
 impl From<Vec3> for Vector3I {
@@ -321,25 +296,25 @@ impl From<Vec3> for Vector3I {
 pub struct Quaternion {
     #[proto(tag = 1)]
     #[serde(rename = "X")]
-    pub x: f32,
+    pub x: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "Y")]
-    pub y: f32,
+    pub y: BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "Z")]
-    pub z: f32,
+    pub z: BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "W")]
-    pub w: f32,
+    pub w: BitAligned<f32>,
 }
 impl Quaternion {
     pub fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
-        Quaternion { x, y, z, w }
+        Quaternion { x: BitAligned(x), y: BitAligned(y), z: BitAligned(z), w: BitAligned(w) }
     }
 }
 impl From<Quaternion> for Quat {
     fn from(value: Quaternion) -> Self {
-        Quat::from_xyzw(value.x, value.y, value.z, value.w)
+        Quat::from_xyzw(*value.x, *value.y, *value.z, *value.w)
     }
 }
 impl From<Quat> for Quaternion {
@@ -362,31 +337,31 @@ impl From<Quat> for Quaternion {
 pub struct Matrix3x3 {
     #[proto(tag = 1)]
     #[serde(rename = "M11")]
-    pub m11: f32,
+    pub m11: BitAligned<f32>,
     #[proto(tag = 4)]
     #[serde(rename = "M12")]
-    pub m12: f32,
+    pub m12: BitAligned<f32>,
     #[proto(tag = 7)]
     #[serde(rename = "M13")]
-    pub m13: f32,
+    pub m13: BitAligned<f32>,
     #[proto(tag = 10)]
     #[serde(rename = "M21")]
-    pub m21: f32,
+    pub m21: BitAligned<f32>,
     #[proto(tag = 13)]
     #[serde(rename = "M22")]
-    pub m22: f32,
+    pub m22: BitAligned<f32>,
     #[proto(tag = 16)]
     #[serde(rename = "M23")]
-    pub m23: f32,
+    pub m23: BitAligned<f32>,
     #[proto(tag = 19)]
     #[serde(rename = "M31")]
-    pub m31: f32,
+    pub m31: BitAligned<f32>,
     #[proto(tag = 22)]
     #[serde(rename = "M32")]
-    pub m32: f32,
+    pub m32: BitAligned<f32>,
     #[proto(tag = 25)]
     #[serde(rename = "M33")]
-    pub m33: f32,
+    pub m33: BitAligned<f32>,
 }
 #[rustfmt::skip]
 impl Matrix3x3 {
@@ -397,9 +372,9 @@ impl Matrix3x3 {
         m31: f32, m32: f32, m33: f32,
     ) -> Self {
         Matrix3x3 {
-            m11, m12, m13,
-            m21, m22, m23,
-            m31, m32, m33,
+            m11: BitAligned(m11), m12: BitAligned(m12), m13: BitAligned(m13),
+            m21: BitAligned(m21), m22: BitAligned(m22), m23: BitAligned(m23),
+            m31: BitAligned(m31), m32: BitAligned(m32), m33: BitAligned(m33),
         }
     }
 }
@@ -407,9 +382,9 @@ impl Matrix3x3 {
 impl From<Matrix3x3> for Mat3 {
     fn from(value: Matrix3x3) -> Self {
         Mat3::from_cols_array(&[
-            value.m11, value.m21, value.m31,
-            value.m12, value.m22, value.m32,
-            value.m13, value.m23, value.m33,
+            *value.m11, *value.m21, *value.m31,
+            *value.m12, *value.m22, *value.m32,
+            *value.m13, *value.m23, *value.m33,
         ])
     }
 }
@@ -440,52 +415,52 @@ impl From<Mat3> for Matrix3x3 {
 pub struct MatrixD {
     #[proto(tag = 1)]
     #[serde(rename = "M11")]
-    pub m11: f64,
+    pub m11: BitAligned<f64>,
     #[proto(tag = 4)]
     #[serde(rename = "M12")]
-    pub m12: f64,
+    pub m12: BitAligned<f64>,
     #[proto(tag = 7)]
     #[serde(rename = "M13")]
-    pub m13: f64,
+    pub m13: BitAligned<f64>,
     #[proto(tag = 10)]
     #[serde(rename = "M14")]
-    pub m14: f64,
+    pub m14: BitAligned<f64>,
     #[proto(tag = 13)]
     #[serde(rename = "M21")]
-    pub m21: f64,
+    pub m21: BitAligned<f64>,
     #[proto(tag = 16)]
     #[serde(rename = "M22")]
-    pub m22: f64,
+    pub m22: BitAligned<f64>,
     #[proto(tag = 19)]
     #[serde(rename = "M23")]
-    pub m23: f64,
+    pub m23: BitAligned<f64>,
     #[proto(tag = 22)]
     #[serde(rename = "M24")]
-    pub m24: f64,
+    pub m24: BitAligned<f64>,
     #[proto(tag = 25)]
     #[serde(rename = "M31")]
-    pub m31: f64,
+    pub m31: BitAligned<f64>,
     #[proto(tag = 28)]
     #[serde(rename = "M32")]
-    pub m32: f64,
+    pub m32: BitAligned<f64>,
     #[proto(tag = 31)]
     #[serde(rename = "M33")]
-    pub m33: f64,
+    pub m33: BitAligned<f64>,
     #[proto(tag = 34)]
     #[serde(rename = "M34")]
-    pub m34: f64,
+    pub m34: BitAligned<f64>,
     #[proto(tag = 37)]
     #[serde(rename = "M41")]
-    pub m41: f64,
+    pub m41: BitAligned<f64>,
     #[proto(tag = 40)]
     #[serde(rename = "M42")]
-    pub m42: f64,
+    pub m42: BitAligned<f64>,
     #[proto(tag = 43)]
     #[serde(rename = "M43")]
-    pub m43: f64,
+    pub m43: BitAligned<f64>,
     #[proto(tag = 46)]
     #[serde(rename = "M44")]
-    pub m44: f64,
+    pub m44: BitAligned<f64>,
 }
 #[rustfmt::skip]
 impl MatrixD {
@@ -497,10 +472,10 @@ impl MatrixD {
         m41: f64, m42: f64, m43: f64, m44: f64,
     ) -> Self {
         MatrixD {
-            m11, m12, m13, m14,
-            m21, m22, m23, m24,
-            m31, m32, m33, m34,
-            m41, m42, m43, m44,
+            m11: BitAligned(m11), m12: BitAligned(m12), m13: BitAligned(m13), m14: BitAligned(m14),
+            m21: BitAligned(m21), m22: BitAligned(m22), m23: BitAligned(m23), m24: BitAligned(m24),
+            m31: BitAligned(m31), m32: BitAligned(m32), m33: BitAligned(m33), m34: BitAligned(m34),
+            m41: BitAligned(m41), m42: BitAligned(m42), m43: BitAligned(m43), m44: BitAligned(m44),
         }
     }
 }
@@ -508,10 +483,10 @@ impl MatrixD {
 impl From<MatrixD> for Mat4 {
     fn from(value: MatrixD) -> Self {
         Mat4::from_cols_array(&[
-            value.m11 as f32, value.m21 as f32, value.m31 as f32, value.m41 as f32,
-            value.m12 as f32, value.m22 as f32, value.m32 as f32, value.m42 as f32,
-            value.m13 as f32, value.m23 as f32, value.m33 as f32, value.m43 as f32,
-            value.m14 as f32, value.m24 as f32, value.m34 as f32, value.m44 as f32,
+            *value.m11 as f32, *value.m21 as f32, *value.m31 as f32, *value.m41 as f32,
+            *value.m12 as f32, *value.m22 as f32, *value.m32 as f32, *value.m42 as f32,
+            *value.m13 as f32, *value.m23 as f32, *value.m33 as f32, *value.m43 as f32,
+            *value.m14 as f32, *value.m24 as f32, *value.m34 as f32, *value.m44 as f32,
         ])
     }
 }

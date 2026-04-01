@@ -24,6 +24,7 @@ mod nullable;
 mod xml;
 
 // Game-specific modules  
+pub mod compression;
 pub mod direction;
 pub mod math;
 
@@ -37,3 +38,4 @@ pub use deku::{
 };
 pub use nullable::{Nullable, NullableShadow};
 pub use xml::{xml_vec, PacketCompressedXmlObject};
+pub use compression::{compress, decompress};

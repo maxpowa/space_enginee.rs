@@ -43,6 +43,7 @@ pub mod packet;
 pub mod replication;
 pub mod rpc;
 pub mod protocol;
+pub mod server_data;
 
 // Re-export commonly used types
 pub use control::{ControlPacket, ControlPacketId, ControlPayload};
@@ -55,3 +56,4 @@ pub use replication::{
 pub use rpc::{RawRpcPacket, RpcError, StaticRpcPacket};
 pub use protocol::{parse_static_event, ReplicatedType, StaticEventPayload, StaticEventType};
 pub use protocol::{SchemaError, Version};
+pub use server_data::{ServerDataError, encode_rules, decode_rules};

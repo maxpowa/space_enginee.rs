@@ -234,8 +234,6 @@ where
     T: Serialize {
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, _: ()) -> Result<(), DekuError> {
         let data_str = to_string(&self.0).unwrap();
-        // print the string for debugging
-        println!("{:?}", data_str);
         let data = data_str.into_bytes();
 
         let mut output = vec![];
