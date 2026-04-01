@@ -46,8 +46,8 @@ use space_engineers_compat::{BitAligned, Nullable};
 use space_engineers_sys::math::Vector3D;
 
 use crate::packet::TERMINATOR;
-use crate::replication::NetworkId;
 use crate::protocol::{SchemaError, StaticEventPayload, StaticEventType, Version};
+use crate::replication::NetworkId;
 
 // =============================================================================
 // Raw RPC Packet (for multi-version or manual parsing)
@@ -85,36 +85,86 @@ impl DekuReader<'_, ()> for RawRpcPacket {
         let event_id: BitAligned<u16> = BitAligned::from_reader_with_ctx(reader, ())?;
         let position: Nullable<Vector3D> = Nullable::from_reader_with_ctx(reader, ())?;
 
-        // Read remaining bytes
-        let mut remaining = Vec::new();
+        // Read all remaining bits into a buffer.
+        // After Nullable<Vector3D> (1-bit presence flag), we may not be byte-aligned.
+        // The terminator is written at the current bit position, not necessarily byte-aligned.
+        // After the terminator, there are 0-7 padding bits to reach a byte boundary.
+        // The padding bits are NOT guaranteed to be zeros - they're whatever junk is in the stream.
+        let mut all_bits: Vec<bool> = Vec::new();
         loop {
-            match reader.read_bits(8, Order::Lsb0) {
-                Ok(Some(bits)) => remaining.push(bits.load_le()),
+            match reader.read_bits(1, Order::Lsb0) {
+                Ok(Some(bits)) => all_bits.push(bits.load_le::<u8>() != 0),
                 Ok(None) => break,
                 Err(DekuError::Incomplete(_)) => break,
                 Err(e) => return Err(e),
             }
         }
 
-        // Validate and extract terminator
-        if remaining.len() < 2 {
+        // Need at least 16 bits for the terminator
+        if all_bits.len() < 16 {
             return Err(DekuError::Assertion(
                 "RPC packet too short - missing terminator".into(),
             ));
         }
 
-        let term_pos = remaining.len() - 2;
-        let term_bytes = &remaining[term_pos..];
-        let terminator = u16::from_le_bytes([term_bytes[0], term_bytes[1]]);
+        // Search for the terminator (0xC8B9) from the end.
+        // The terminator is followed by 0-7 padding bits.
+        // We search backwards from the last possible position (allowing up to 7 padding bits).
+        let mut term_pos = None;
+        let max_padding = 7.min(all_bits.len().saturating_sub(16));
 
-        if terminator != TERMINATOR {
-            return Err(DekuError::Assertion(format!(
-                "Invalid RPC terminator: expected 0x{:04X}, got 0x{:04X}",
-                TERMINATOR, terminator
-            ).into()));
+        for padding in 0..=max_padding {
+            let candidate_end = all_bits.len() - padding;
+            if candidate_end < 16 {
+                break;
+            }
+            let candidate_start = candidate_end - 16;
+
+            // Extract the candidate terminator value
+            let mut terminator: u16 = 0;
+            for (i, &bit) in all_bits[candidate_start..candidate_end].iter().enumerate() {
+                if bit {
+                    terminator |= 1 << i;
+                }
+            }
+
+            if terminator == TERMINATOR {
+                term_pos = Some(candidate_start);
+                break;
+            }
         }
 
-        let payload = remaining[..term_pos].to_vec();
+        let term_start = term_pos.ok_or_else(|| {
+            // For error reporting, show what we found at each position
+            let mut found_values: Vec<String> = Vec::new();
+            for padding in 0..=max_padding {
+                let candidate_end = all_bits.len() - padding;
+                if candidate_end < 16 {
+                    break;
+                }
+                let candidate_start = candidate_end - 16;
+                let mut found: u16 = 0;
+                for (i, &bit) in all_bits[candidate_start..candidate_end].iter().enumerate() {
+                    if bit {
+                        found |= 1 << i;
+                    }
+                }
+                found_values.push(format!("0x{:04X}", found));
+            }
+            DekuError::Assertion(
+                format!(
+                    "Invalid RPC terminator: expected 0x{:04X}, searched {} positions: [{}]",
+                    TERMINATOR,
+                    max_padding + 1,
+                    found_values.join(", ")
+                )
+                .into(),
+            )
+        })?;
+
+        // Convert payload bits to bytes (the bits before the terminator)
+        let payload_bits = &all_bits[..term_start];
+        let payload = bits_to_bytes(payload_bits);
 
         Ok(RawRpcPacket {
             network_id,
@@ -126,8 +176,27 @@ impl DekuReader<'_, ()> for RawRpcPacket {
     }
 }
 
+/// Convert a slice of bits (LSB first within each byte) to bytes
+fn bits_to_bytes(bits: &[bool]) -> Vec<u8> {
+    let mut bytes = Vec::with_capacity((bits.len() + 7) / 8);
+    for chunk in bits.chunks(8) {
+        let mut byte: u8 = 0;
+        for (i, &bit) in chunk.iter().enumerate() {
+            if bit {
+                byte |= 1 << i;
+            }
+        }
+        bytes.push(byte);
+    }
+    bytes
+}
+
 impl DekuWriter<()> for RawRpcPacket {
-    fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, _ctx: ()) -> Result<(), DekuError> {
+    fn to_writer<W: Write + Seek>(
+        &self,
+        writer: &mut Writer<W>,
+        _ctx: (),
+    ) -> Result<(), DekuError> {
         self.network_id.to_writer(writer, ())?;
         self.blocked_by_network_id.to_writer(writer, ())?;
         BitAligned(self.event_id).to_writer(writer, ())?;
@@ -176,7 +245,10 @@ impl RawRpcPacket {
     }
 
     /// Resolve the static event type identity using the schema.
-    pub fn resolve_static_event(&self, schema: &Version) -> Result<Option<StaticEventType>, RpcError> {
+    pub fn resolve_static_event(
+        &self,
+        schema: &Version,
+    ) -> Result<Option<StaticEventType>, RpcError> {
         if !self.is_static_event() {
             return Err(RpcError::NotStaticEvent);
         }
@@ -259,10 +331,15 @@ impl DekuReader<'_, ()> for StaticRpcPacket {
         let schema = Version::embedded();
         let event_hash = schema
             .try_decode_static_event_id(raw.event_id)
-            .ok_or_else(|| DekuError::Assertion(format!(
-                "Unknown static event ID {} in embedded schema",
-                raw.event_id
-            ).into()))?;
+            .ok_or_else(|| {
+                DekuError::Assertion(
+                    format!(
+                        "Unknown static event ID {} in embedded schema",
+                        raw.event_id
+                    )
+                    .into(),
+                )
+            })?;
 
         let payload = crate::protocol::parse_static_event(event_hash, &raw.payload)?;
 
@@ -323,8 +400,15 @@ impl std::fmt::Display for RpcError {
         match self {
             RpcError::NotStaticEvent => write!(f, "not a static event (network_id != 0)"),
             RpcError::UnknownEventId(id) => write!(f, "unknown event ID: {}", id),
-            RpcError::UnknownInstanceEvent { type_hash, event_id } => {
-                write!(f, "unknown instance event {} for type hash {}", event_id, type_hash)
+            RpcError::UnknownInstanceEvent {
+                type_hash,
+                event_id,
+            } => {
+                write!(
+                    f,
+                    "unknown instance event {} for type hash {}",
+                    event_id, type_hash
+                )
             }
             RpcError::PayloadParse(e) => write!(f, "payload parse error: {}", e),
             RpcError::Schema(e) => write!(f, "schema error: {}", e),
@@ -337,5 +421,89 @@ impl std::error::Error for RpcError {}
 impl From<SchemaError> for RpcError {
     fn from(e: SchemaError) -> Self {
         RpcError::Schema(e)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use space_engineers_compat::Varint;
+
+    #[test]
+    fn test_rpc_round_trip_no_position() {
+        // Create a packet with no position (1 bit for false)
+        let original = RawRpcPacket {
+            network_id: Varint(0), // static event
+            blocked_by_network_id: Varint(0),
+            event_id: 42,
+            position: Nullable::none(), // 1 bit = false, stream not byte-aligned after this
+            payload: vec![0xAB, 0xCD, 0xEF], // 3 bytes of payload
+        };
+
+        // Serialize
+        let bytes = original.to_bytes().expect("serialization should succeed");
+
+        // Parse back
+        let parsed = RawRpcPacket::from_bytes(&bytes).expect("parsing should succeed");
+
+        assert_eq!(parsed.network_id.0, original.network_id.0);
+        assert_eq!(
+            parsed.blocked_by_network_id.0,
+            original.blocked_by_network_id.0
+        );
+        assert_eq!(parsed.event_id, original.event_id);
+        assert!(parsed.position.is_none());
+        assert_eq!(parsed.payload, original.payload);
+    }
+
+    #[test]
+    fn test_rpc_round_trip_with_position() {
+        use space_engineers_compat::BitAligned;
+        use space_engineers_sys::math::Vector3D;
+
+        let pos = Vector3D {
+            x: BitAligned(1.0),
+            y: BitAligned(2.0),
+            z: BitAligned(3.0),
+        };
+        let original = RawRpcPacket {
+            network_id: Varint(123),
+            blocked_by_network_id: Varint(456),
+            event_id: 999,
+            position: Nullable::some(pos),
+            payload: vec![0x11, 0x22],
+        };
+
+        let bytes = original.to_bytes().expect("serialization should succeed");
+        let parsed = RawRpcPacket::from_bytes(&bytes).expect("parsing should succeed");
+
+        assert_eq!(parsed.network_id.0, original.network_id.0);
+        assert_eq!(
+            parsed.blocked_by_network_id.0,
+            original.blocked_by_network_id.0
+        );
+        assert_eq!(parsed.event_id, original.event_id);
+        assert!(parsed.position.is_some());
+        let parsed_pos = parsed.position.as_ref().unwrap();
+        assert_eq!(parsed_pos.x.0, 1.0);
+        assert_eq!(parsed_pos.y.0, 2.0);
+        assert_eq!(parsed_pos.z.0, 3.0);
+        assert_eq!(parsed.payload, original.payload);
+    }
+
+    #[test]
+    fn test_rpc_empty_payload() {
+        let original = RawRpcPacket {
+            network_id: Varint(0),
+            blocked_by_network_id: Varint(0),
+            event_id: 0,
+            position: Nullable::none(),
+            payload: vec![],
+        };
+
+        let bytes = original.to_bytes().expect("serialization should succeed");
+        let parsed = RawRpcPacket::from_bytes(&bytes).expect("parsing should succeed");
+
+        assert_eq!(parsed.payload.len(), 0);
     }
 }

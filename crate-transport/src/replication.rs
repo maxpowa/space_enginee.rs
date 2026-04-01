@@ -3,10 +3,12 @@
 //! This module defines the replication packet structure and the various
 //! packet types used for client-server communication.
 
-use deku::prelude::*;
 use deku::bitvec::{BitField, BitSlice, Msb0};
-use space_engineers_compat::{BitAligned, BitBool, Nullable, PacketCompressedXmlObject, VarBytes, VarString, Varint};
+use deku::prelude::*;
 use space_engineers_compat::math::{Quaternion, Vector3D};
+use space_engineers_compat::{
+    BitAligned, BitBool, Nullable, PacketCompressedXmlObject, VarBytes, VarString, Varint,
+};
 use space_engineers_sys::types::{MyObjectBuilder_Player, MyObjectBuilder_World};
 
 use crate::packet::PacketFrame;
@@ -128,9 +130,9 @@ pub struct ReplicationRequestPacket {
 
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 pub struct ReplicationReadyPacket {
-    pub network_id: NetworkId,               // Varint<u32>
+    pub network_id: NetworkId, // Varint<u32>
     pub loaded: BitBool,
-    pub terminator: BitAligned<u16>,         // always 51385
+    pub terminator: BitAligned<u16>, // always 51385
 }
 
 /// Game mode indicator.
@@ -160,7 +162,10 @@ pub enum ContextKind {
 pub struct ClientState {
     pub has_controlled_entity: BitBool,
 
-    #[deku(cond = "!has_controlled_entity.get()", default = "BitBool::from(false)")]
+    #[deku(
+        cond = "!has_controlled_entity.get()",
+        default = "BitBool::from(false)"
+    )]
     pub has_spectator_camera_position: BitBool,
 
     #[deku(cond = "has_spectator_camera_position.get()")]
@@ -257,19 +262,19 @@ impl DekuWriter<bool> for StateGroups {
         is_streaming: bool,
     ) -> Result<(), DekuError> {
         use deku::ctx::Order;
-        
+
         const STATE_GROUP_TERMINATOR: u16 = 51385; // 0xC8B9
         const FINAL_TERMINATOR: u16 = 0;
-        
+
         for entry in &self.entries {
             // Write state group terminator (51385)
             let term_bytes = STATE_GROUP_TERMINATOR.to_le_bytes();
             let bits = BitSlice::<u8, Msb0>::from_slice(&term_bytes);
             writer.write_bits_order(bits, Order::Lsb0)?;
-            
+
             // Write network_id as Varint
             entry.network_id.to_writer(writer, ())?;
-            
+
             // Write size_bits
             if is_streaming {
                 // i32 for streaming
@@ -282,21 +287,20 @@ impl DekuWriter<bool> for StateGroups {
                 let bits = BitSlice::<u8, Msb0>::from_slice(&size_bytes);
                 writer.write_bits_order(bits, Order::Lsb0)?;
             }
-            
+
             // Write data bytes
             let data_bits = BitSlice::<u8, Msb0>::from_slice(&entry.data);
             writer.write_bits_order(data_bits, Order::Lsb0)?;
         }
-        
+
         // Write final terminator (0x0000)
         let term_bytes = FINAL_TERMINATOR.to_le_bytes();
         let bits = BitSlice::<u8, Msb0>::from_slice(&term_bytes);
         writer.write_bits_order(bits, Order::Lsb0)?;
-        
+
         Ok(())
     }
 }
-
 
 impl StateGroups {
     /// Read state groups until we hit a non-51385 terminator or run out of data
@@ -306,9 +310,9 @@ impl StateGroups {
         is_streaming: bool,
     ) -> Result<(Self, u16), DekuError> {
         use deku::ctx::Order;
-        
+
         let mut entries = Vec::new();
-        
+
         // Read all remaining bytes first so we know the length
         let mut remaining_bytes = Vec::new();
         loop {
@@ -317,21 +321,22 @@ impl StateGroups {
                 _ => break,
             }
         }
-        
+
         let total_bytes = remaining_bytes.len();
         let mut pos = 0;
-        
+
         // C#: while (BytePosition + 2 < ByteLength)
         while pos + 2 < total_bytes {
             // Read terminator (2 bytes)
-            let terminator = (remaining_bytes[pos] as u16) | ((remaining_bytes[pos + 1] as u16) << 8);
+            let terminator =
+                (remaining_bytes[pos] as u16) | ((remaining_bytes[pos + 1] as u16) << 8);
             pos += 2;
-            
+
             // If not 51385, this is the final terminator - we're done
             if terminator != 51385 {
                 return Ok((StateGroups { entries }, terminator));
             }
-            
+
             // Read NetworkId (Varint encoded) - read bytes until continuation bit is 0
             let mut network_id: u32 = 0;
             let mut shift = 0;
@@ -347,12 +352,12 @@ impl StateGroups {
                 }
                 shift += 7;
             }
-            
+
             // Read size in bits
             if pos + 2 > total_bytes {
                 return Ok((StateGroups { entries }, 0));
             }
-            
+
             let size_bits: i32 = if is_streaming {
                 if pos + 4 > total_bytes {
                     return Ok((StateGroups { entries }, 0));
@@ -368,30 +373,30 @@ impl StateGroups {
                 pos += 2;
                 val as i32
             };
-            
+
             // Read state group data (size_bits bits = ceil(size_bits/8) bytes)
             let data_bytes = ((size_bits + 7) / 8) as usize;
             if pos + data_bytes > total_bytes {
                 return Ok((StateGroups { entries }, 0));
             }
-            
+
             let data = remaining_bytes[pos..pos + data_bytes].to_vec();
             pos += data_bytes;
-            
+
             entries.push(StateGroupEntry {
                 network_id: Varint(network_id),
                 size_bits,
                 data,
             });
         }
-        
+
         // Read final terminator if we have exactly 2 bytes left
         let final_terminator = if pos + 2 <= total_bytes {
             (remaining_bytes[pos] as u16) | ((remaining_bytes[pos + 1] as u16) << 8)
         } else {
             0
         };
-        
+
         Ok((StateGroups { entries }, final_terminator))
     }
 }
@@ -587,7 +592,8 @@ mod tests {
 
         // Treat content as raw binary data (including the header frame)
         let mut reader = Reader::new(Cursor::new(data.as_slice()));
-        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len()).unwrap();
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len())
+            .unwrap();
         let replication_packet = frame.inner;
 
         // Now you can work with the replication_packet
@@ -599,32 +605,29 @@ mod tests {
         }
     }
 
-    
     #[test]
     pub fn server_state_sync_parse() {
         let data: [u8; 194] = [
-            0xce, 0x01, 0x80, 0xe0, 0x5d, 0xca, 0x00, 0x01, 0x07, 0x00, 0x7e, 0xa8,
-            0x13, 0xd0, 0x5c, 0x34, 0x1a, 0x40, 0x06, 0xfd, 0x65, 0xf7, 0x4e, 0x32,
-            0x1a, 0x40, 0x06, 0xb1, 0xb6, 0xe2, 0x33, 0xb2, 0x4f, 0xfb, 0x06, 0x01,
-            0x00, 0x00, 0xfe, 0x00, 0x91, 0x5e, 0x00, 0xd5, 0x12, 0x72, 0xfc, 0xe4,
-            0x22, 0x9b, 0x1b, 0x40, 0x11, 0x00, 0x94, 0x4f, 0x55, 0xeb, 0x44, 0xc1,
-            0xed, 0x0b, 0xd4, 0x41, 0x2b, 0x67, 0xb3, 0xdf, 0xa4, 0x0c, 0xc4, 0x71,
-            0xdc, 0x33, 0xe9, 0xc0, 0x18, 0x0b, 0x0c, 0x00, 0x00, 0x00, 0x60, 0x66,
-            0x66, 0xf6, 0x03, 0x00, 0x00, 0x00, 0x80, 0x8e, 0xd0, 0xea, 0x7b, 0x04,
-            0x43, 0xf5, 0x13, 0x71, 0xb8, 0xe9, 0xc3, 0x65, 0x71, 0xea, 0x03, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x80, 0xfe,
-            0xfe, 0xfe, 0xce, 0x11, 0x5a, 0x7d, 0x8b, 0x60, 0xa8, 0x7e, 0x20, 0x0e,
-            0x37, 0x7d, 0xb6, 0x2c, 0x4e, 0x7d, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe4,
-            0x22, 0x03,
+            0xce, 0x01, 0x80, 0xe0, 0x5d, 0xca, 0x00, 0x01, 0x07, 0x00, 0x7e, 0xa8, 0x13, 0xd0,
+            0x5c, 0x34, 0x1a, 0x40, 0x06, 0xfd, 0x65, 0xf7, 0x4e, 0x32, 0x1a, 0x40, 0x06, 0xb1,
+            0xb6, 0xe2, 0x33, 0xb2, 0x4f, 0xfb, 0x06, 0x01, 0x00, 0x00, 0xfe, 0x00, 0x91, 0x5e,
+            0x00, 0xd5, 0x12, 0x72, 0xfc, 0xe4, 0x22, 0x9b, 0x1b, 0x40, 0x11, 0x00, 0x94, 0x4f,
+            0x55, 0xeb, 0x44, 0xc1, 0xed, 0x0b, 0xd4, 0x41, 0x2b, 0x67, 0xb3, 0xdf, 0xa4, 0x0c,
+            0xc4, 0x71, 0xdc, 0x33, 0xe9, 0xc0, 0x18, 0x0b, 0x0c, 0x00, 0x00, 0x00, 0x60, 0x66,
+            0x66, 0xf6, 0x03, 0x00, 0x00, 0x00, 0x80, 0x8e, 0xd0, 0xea, 0x7b, 0x04, 0x43, 0xf5,
+            0x13, 0x71, 0xb8, 0xe9, 0xc3, 0x65, 0x71, 0xea, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+            0x00, 0x00, 0x80, 0xfe, 0xfe, 0xfe, 0xce, 0x11, 0x5a, 0x7d, 0x8b, 0x60, 0xa8, 0x7e,
+            0x20, 0x0e, 0x37, 0x7d, 0xb6, 0x2c, 0x4e, 0x7d, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe4, 0x22, 0x03,
         ];
 
         // Treat content as raw binary data (including the header frame)
         let mut reader = Reader::new(Cursor::new(data));
-        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len()).unwrap();
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len())
+            .unwrap();
         let replication_packet = frame.inner;
 
         // check if replication_packet was parsed correctly
@@ -640,14 +643,28 @@ mod tests {
             assert_eq!(server_state_sync.server_timestamp.0, 67216197.8008f64);
             assert_eq!(server_state_sync.last_client_timestamp.0, 67216164.9354f64);
             // Custom state values
-            println!("server_simulation_ratio: {}", server_state_sync.server_simulation_ratio.0);
+            println!(
+                "server_simulation_ratio: {}",
+                server_state_sync.server_simulation_ratio.0
+            );
             println!("server_cpu_load: {}", server_state_sync.server_cpu_load.0);
-            println!("server_thread_load: {}", server_state_sync.server_thread_load.0);
+            println!(
+                "server_thread_load: {}",
+                server_state_sync.server_thread_load.0
+            );
             // Print state groups for debugging
-            println!("Number of state groups: {}", server_state_sync.state_groups.entries.len());
+            println!(
+                "Number of state groups: {}",
+                server_state_sync.state_groups.entries.len()
+            );
             for (i, entry) in server_state_sync.state_groups.entries.iter().enumerate() {
-                println!("  State group {}: network_id={:?}, size_bits={}, data_len={}", 
-                    i, entry.network_id, entry.size_bits, entry.data.len());
+                println!(
+                    "  State group {}: network_id={:?}, size_bits={}, data_len={}",
+                    i,
+                    entry.network_id,
+                    entry.size_bits,
+                    entry.data.len()
+                );
             }
             // println!("Final terminator: 0x{:04X}", server_state_sync.terminator);
             // Note: This packet appears to be truncated - the state group data extends beyond
@@ -663,12 +680,13 @@ mod tests {
     #[test]
     pub fn client_acks_packet_parse() {
         let data: [u8; 17] = [
-            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x11, 0x00, 0x95, 0x00,
-            0x02, 0x2a, 0x73, 0x91, 0x01,
+            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x11, 0x00, 0x95, 0x00, 0x02, 0x2a,
+            0x73, 0x91, 0x01,
         ];
 
         let mut reader = Reader::new(Cursor::new(data));
-        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len()).unwrap();
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len())
+            .unwrap();
         let replication_packet = frame.inner;
 
         assert_eq!(replication_packet.packet_id, PacketId::ClientAcks);
@@ -681,6 +699,32 @@ mod tests {
             assert_eq!(client_acks.ack_packets, vec![149.into()]);
         } else {
             panic!("Expected ClientAcks packet");
+        }
+    }
+
+    #[test]
+    pub fn rpc_packet_parse() {
+        // This is a real RPC packet sample with a bit-shifted terminator.
+        let data: [u8; 35] = [
+            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x03, 0x00, 0xdb, 0x49, 0x00, 0x00,
+            0x00, 0x02, 0x44, 0xb5, 0xb7, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x1c, 0x42, 0x86, 0xc2, 0xe5, 0x22, 0x07,
+        ];
+
+        let mut reader = Reader::new(Cursor::new(data));
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len())
+            .unwrap();
+        let replication_packet = frame.inner;
+
+        assert_eq!(replication_packet.packet_id, PacketId::Rpc);
+        if let Packet::Rpc(rpc) = replication_packet.data {
+            assert_eq!(rpc.network_id.0, 9435);
+            assert_eq!(rpc.blocked_by_network_id.0, 0);
+            assert_eq!(rpc.event_id, 0);
+            assert!(rpc.position.is_none());
+            assert_eq!(rpc.payload.len(), 18);
+        } else {
+            panic!("Expected Rpc packet");
         }
     }
 }
