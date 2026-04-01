@@ -1,6 +1,6 @@
 [package]
 name = "space_engineers_compat"
-version = "1.208015.9"
+version = "1.208015.10"
 edition.workspace = true
 rust-version.workspace = true
 description = "Compatibility types for Space Engineers data structures (DateTime, Guid, math, bitfields, etc.)"
