@@ -33,7 +33,8 @@ pub use bcl::{DateTime, DateTimeKind, Decimal, Guid, TimeSpan, TimeSpanScale};
 pub use bitfield::{BitField, BitFieldShadow};
 pub use collections::{VarMap, Tuple};
 pub use deku::{
-    BitAligned, BitAlignedShadow, BitBool, BitBoolShadow, VarBytes, VarBytesShadow, VarString, VarStringShadow,
+    BitAligned, BitAlignedShadow, BitBool, BitBoolShadow,
+    VarBytes, VarBytesShadow, VarString, VarStringShadow,
     VarVec, Varint, VarintShadow,
 };
 pub use nullable::{Nullable, NullableShadow};

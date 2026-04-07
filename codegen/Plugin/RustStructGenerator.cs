@@ -365,6 +365,13 @@ public class RustStructGenerator
     private class ExtraSerializationInfo
     {
         public MemberInfo Member;
+        
+        /// <summary>
+        /// True if this member is inherited from a base class.
+        /// Inherited members should be marked with #[proto(skip)] and #[serde(skip)]
+        /// since they're not used in protobuf or serde serialization directly.
+        /// </summary>
+        public bool IsInherited { get; set; }
 
         public ProtoMemberAttribute[] ProtoMemberAttributes =>
             (ProtoMemberAttribute[])Member.GetCustomAttributes(typeof(ProtoMemberAttribute), true);
@@ -381,6 +388,21 @@ public class RustStructGenerator
 
         public bool NoSerialize =>
             Member.GetCustomAttributes(typeof(NoSerializeAttribute), true).Length > 0;
+
+        /// <summary>
+        /// True if the member has [Serialize(MyObjectFlags.DefaultZero)] attribute.
+        /// DefaultZero means a 1-bit "has value" prefix is written before the field during network serialization.
+        /// In Rust, these fields should be wrapped in Nullable&lt;T&gt;.
+        /// </summary>
+        public bool IsSerializeDefaultZero
+        {
+            get
+            {
+                var serializeAttrs = Member.GetCustomAttributes(typeof(VRage.Serialization.SerializeAttribute), true)
+                    .OfType<VRage.Serialization.SerializeAttribute>();
+                return serializeAttrs.Any(attr => (attr.Flags & MyObjectFlags.DefaultZero) != 0);
+            }
+        }
 
         /// <summary>
         /// Returns the element name from [XmlArrayItem("...")] if present, otherwise null.
@@ -1010,6 +1032,61 @@ public class RustStructGenerator
     }
 
     /// <summary>
+    /// Gets all members (including inherited) sorted alphabetically by DeclaringType.Name + MemberName.
+    /// This matches C#'s MySerializer ordering via SortedDictionary in TypeExtensions.GetDataMembers.
+    /// Returns tuples of (MemberInfo, isInherited).
+    /// </summary>
+    static List<(MemberInfo member, bool isInherited)> GetMySerializerOrderedMembers(Type type)
+    {
+        var members = new SortedDictionary<string, (MemberInfo, bool)>();
+        
+        // Collect declared and inherited members
+        var currentType = type;
+        while (currentType != null && currentType != typeof(object))
+        {
+            var isInherited = currentType != type;
+            // Include NonPublic to find private properties with [Serialize] attribute
+            var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+            
+            foreach (var field in currentType.GetFields(bindingFlags))
+            {
+                // Only include public fields or fields with [Serialize] attribute
+                if (!field.IsPublic && !Attribute.IsDefined(field, typeof(VRage.Serialization.SerializeAttribute)))
+                    continue;
+                    
+                // Skip fields with [NoSerialize] attribute
+                if (Attribute.IsDefined(field, typeof(NoSerializeAttribute)))
+                    continue;
+                    
+                var key = field.DeclaringType!.Name + field.Name;
+                if (!members.ContainsKey(key))
+                    members[key] = (field, isInherited);
+            }
+            
+            foreach (var prop in currentType.GetProperties(bindingFlags))
+            {
+                // Skip properties with [NoSerialize] attribute unless they have [Serialize]
+                if (Attribute.IsDefined(prop, typeof(NoSerializeAttribute)) &&
+                    !Attribute.IsDefined(prop, typeof(VRage.Serialization.SerializeAttribute)))
+                    continue;
+                    
+                // Only include "member public" properties (public getter AND setter) or [Serialize] marked
+                if (!IsPropertyNetworkPublic(prop) && 
+                    !Attribute.IsDefined(prop, typeof(VRage.Serialization.SerializeAttribute)))
+                    continue;
+                    
+                var key = prop.DeclaringType!.Name + prop.Name;
+                if (!members.ContainsKey(key))
+                    members[key] = (prop, isInherited);
+            }
+            
+            currentType = currentType.BaseType;
+        }
+        
+        return members.Values.ToList();
+    }
+
+    /// <summary>
     /// Gets members that would actually be serialized over the network by the game's serializer.
     /// 
     /// The game's serialization rules (from VRage.Serialization.MySerializerObject):
@@ -1056,7 +1133,7 @@ public class RustStructGenerator
         return getter.IsPublic && setter.IsPublic;
     }
 
-    static Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo> BuildIntermediateMemberInfo(Type type, MemberInfo member)
+    static Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo> BuildIntermediateMemberInfo(Type type, MemberInfo member, bool isInherited = false)
     {
         var snakeName = StringToSnakeCase(member.Name);
         var sanitizedName = RustKeywords.Contains(snakeName) ? $"r#{snakeName}" : snakeName;
@@ -1067,6 +1144,7 @@ public class RustStructGenerator
             new ExtraSerializationInfo
             {
                 Member = member,
+                IsInherited = isInherited,
             }
         );
     }
@@ -1137,7 +1215,7 @@ public class RustStructGenerator
             var dekuType = underlyingType == typeof(byte) || underlyingType == typeof(sbyte) ? "u8" :
                            underlyingType == typeof(short) || underlyingType == typeof(ushort) ? "u16" :
                            underlyingType == typeof(int) || underlyingType == typeof(uint) ? "u32" : "u64";
-            writer.WriteLine($"#[deku(id_type = \"{dekuType}\", bits = {bitCount})]");
+            writer.WriteLine($"#[deku(id_type = \"{dekuType}\", bits = {bitCount}, bit_order = \"lsb\")]");
         }
         
         var qualifiedName = QualifiedRustName(type);
@@ -1457,74 +1535,75 @@ public class RustStructGenerator
             return WriteEnum(type, writer);
         }
 
-        var (fieldInfos, propertyInfos) = GetPublicTypeMembers(type);
         var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
         var isDekuOnly = NeedsDekuDerives(type) && !isProtobuf;
+        var needsDeku = NeedsDekuDerives(type);
         var members = new List<Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo>>();
-        foreach (var field in fieldInfos)
+        
+        // For Deku types, use MySerializer ordering (alphabetical by DeclaringType.Name + MemberName)
+        // which includes inherited fields. This matches the game's network serialization order.
+        if (needsDeku)
         {
-            // For Deku-only types (no protobuf), skip fields marked [NoSerialize]
-            if (isDekuOnly && field.GetCustomAttributes(typeof(NoSerializeAttribute), true).Length > 0)
-                continue;
-
-            if (!WriteRustStructAndDependents(field.FieldType, writer))
+            var orderedMembers = GetMySerializerOrderedMembers(type);
+            foreach (var (member, isInherited) in orderedMembers)
             {
-                Console.WriteLine(
-                    $"// Skipped field `{field.Name}` with no public members ({field.FieldType.FullName})");
-                continue;
-            }
-
-            members.Add(BuildIntermediateMemberInfo(field.FieldType, field));
-        }
-
-        foreach (var prop in propertyInfos)
-        {
-            var propSerInfo = new ExtraSerializationInfo { Member = prop };
-
-            // Skip computed / alias properties marked [NoSerialize] that have
-            // no explicit XML serialization attributes.  Properties with
-            // [XmlAttribute] or [XmlElement] are needed for XML deserialization
-            // even when [NoSerialize] suppresses protobuf serialization
-            // (e.g. SerializableDefinitionId.TypeIdStringAttribute).
-            // Properties with neither (e.g. MyObjectBuilder_Identity.PlayerId)
-            // are pure aliases that delegate to another field and should be
-            // omitted to avoid duplicate data.
-            if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute
-                && prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length == 0)
-                continue;
-            
-            // Skip properties that have no serialization attributes at all.
-            // These are typically computed properties or aliases (e.g. MaxPlayers).
-            // Exception: Deku-only types include all public properties since they
-            // use network replication via IMemberAccessor, not proto/XML attributes.
-            var hasXmlElement = prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
-            if (!isDekuOnly && !propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
-                continue;
-
-            // For Deku-only types (no protobuf), completely drop fields that would be:
-            // - serde(skip): XmlIgnore
-            // - deku(skip): not network-public (private setter) and no [Serialize]
-            // These fields exist only for local runtime state (e.g., Action delegates)
-            // and are never serialized in any format.
-            if (isDekuOnly && propSerInfo.IsXmlIgnore)
-            {
-                var isNetworkSerializable = IsPropertyNetworkPublic(prop) ||
-                    Attribute.IsDefined(prop, typeof(VRage.Serialization.SerializeAttribute));
-                if (!isNetworkSerializable)
+                var memberType = member switch
                 {
-                    Console.WriteLine($"// Dropped non-serialized property `{prop.Name}` (serde+deku skip)");
+                    FieldInfo f => f.FieldType,
+                    PropertyInfo p => p.PropertyType,
+                    _ => typeof(object)
+                };
+                
+                if (!WriteRustStructAndDependents(memberType, writer))
+                {
+                    Console.WriteLine(
+                        $"// Skipped member `{member.Name}` with no public members ({memberType.FullName})");
                     continue;
                 }
+                
+                members.Add(BuildIntermediateMemberInfo(memberType, member, isInherited));
             }
-
-            if (!WriteRustStructAndDependents(prop.PropertyType, writer))
+        }
+        else
+        {
+            // For non-Deku types, use the original logic (declared members only)
+            var (fieldInfos, propertyInfos) = GetPublicTypeMembers(type);
+            foreach (var field in fieldInfos)
             {
-                Console.WriteLine(
-                    $"// Skipped property `{prop.Name}` with no public members ({prop.PropertyType.FullName})");
-                continue;
+                if (!WriteRustStructAndDependents(field.FieldType, writer))
+                {
+                    Console.WriteLine(
+                        $"// Skipped field `{field.Name}` with no public members ({field.FieldType.FullName})");
+                    continue;
+                }
+
+                members.Add(BuildIntermediateMemberInfo(field.FieldType, field));
             }
 
-            members.Add(BuildIntermediateMemberInfo(prop.PropertyType, prop));
+            foreach (var prop in propertyInfos)
+            {
+                var propSerInfo = new ExtraSerializationInfo { Member = prop };
+
+                // Skip computed / alias properties marked [NoSerialize] that have
+                // no explicit XML serialization attributes.
+                if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute
+                    && prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length == 0)
+                    continue;
+                
+                // Skip properties that have no serialization attributes at all.
+                var hasXmlElement = prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
+                if (!propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
+                    continue;
+
+                if (!WriteRustStructAndDependents(prop.PropertyType, writer))
+                {
+                    Console.WriteLine(
+                        $"// Skipped property `{prop.Name}` with no public members ({prop.PropertyType.FullName})");
+                    continue;
+                }
+
+                members.Add(BuildIntermediateMemberInfo(prop.PropertyType, prop));
+            }
         }
 
         // Check if any member has a non-zero numeric default or enum default (needs serde_inline_default on struct)
@@ -1577,8 +1656,9 @@ public class RustStructGenerator
         foreach (var (memberName, sanitizedName, extraTypeInfo, memberInfo) in members)
         {
             // Determine if each serialization method would skip this field
-            var serdeWillSkip = memberInfo.IsXmlIgnore;
-            var protoWillSkip = !isProtobuf || !memberInfo.IsProtoMember || memberInfo.NoSerialize;
+            // Inherited fields are skipped for serde and proto (they're only used for Deku/network)
+            var serdeWillSkip = memberInfo.IsXmlIgnore || memberInfo.IsInherited;
+            var protoWillSkip = !isProtobuf || !memberInfo.IsProtoMember || memberInfo.NoSerialize || memberInfo.IsInherited;
             
             var dekuWillSkip = false;
             if (NeedsDekuDerives(type))
@@ -1605,13 +1685,18 @@ public class RustStructGenerator
             // If ALL three serialization methods skip this field, drop it entirely
             if (serdeWillSkip && protoWillSkip && dekuWillSkip)
             {
-                Console.WriteLine($"// Dropped field `{memberName}` (skipped by all serialization methods)");
                 continue;
             }
 
+            // Inherited fields get #[proto(skip)] regardless of other attributes
             if (isProtobuf)
             {
-                if (memberInfo.IsProtoMember && !memberInfo.NoSerialize)
+                if (memberInfo.IsInherited)
+                {
+                    writer.WriteLine($"    // Inherited from base class - not in protobuf");
+                    writer.WriteLine($"    #[proto(skip)]");
+                }
+                else if (memberInfo.IsProtoMember && !memberInfo.NoSerialize)
                 {
                     if (index != members.FindIndex((m) => m.Item4.ProtoTag == memberInfo.ProtoTag))
                     {
@@ -1630,7 +1715,13 @@ public class RustStructGenerator
                 }
             }
 
-            if (!memberInfo.IsXmlIgnore)
+            // Inherited fields get #[serde(skip)] - they're only used for Deku/network serialization
+            if (memberInfo.IsInherited)
+            {
+                writer.WriteLine($"    // Inherited from {memberInfo.Member.DeclaringType?.Name} - not in serde");
+                writer.WriteLine($"    #[serde(skip)]");
+            }
+            else if (!memberInfo.IsXmlIgnore)
             {
                 var serdeParts = new List<string>();
 
@@ -1716,6 +1807,19 @@ public class RustStructGenerator
                 : NeedsDekuDerives(type) 
                     ? extraTypeInfo.DekuSanitizedTypeName 
                     : extraTypeInfo.SanitizedTypeName;
+            
+            // Wrap Deku fields in Nullable<> when they have [Serialize(MyObjectFlags.DefaultZero)]
+            // DefaultZero means a 1-bit "has value" prefix is written before the field during network serialization.
+            // 
+            // Note: Even if the C# type is already Nullable<T>, we STILL wrap with Nullable<>!
+            // C# convention for Nullable<T> + [DefaultZero] is TWO has_value bits:
+            //   1. First bit: DefaultZero's has_value (is the field present at all?)
+            //   2. Second bit: Nullable<T>'s has_value (if present, does the nullable have a value?)
+            // Example: int? with [DefaultZero] becomes Nullable<Nullable<i32>> in Rust.
+            if (NeedsDekuDerives(type) && memberInfo.IsSerializeDefaultZero)
+            {
+                rustTypeName = $"crate::compat::Nullable<{rustTypeName}>";
+            }
 
             // If the field has an [XmlArrayItem("...")] attribute, emit a second
             // #[serde] line with serialize_with/deserialize_with pointing to

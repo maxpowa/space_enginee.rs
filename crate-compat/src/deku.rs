@@ -99,10 +99,137 @@ impl<'de, T: Copy + Deserialize<'de>> Deserialize<'de> for Varint<T> {
 
 // ---- Deku ----
 
+trait VarintValue: Copy {
+    fn read_varint<R: Read + Seek>(reader: &mut Reader<R>) -> Result<Self, DekuError>;
+    fn write_varint<W: Write + Seek>(self, writer: &mut Writer<W>) -> Result<(), DekuError>;
+}
+
+fn read_varint_byte<R: Read + Seek>(reader: &mut Reader<R>) -> Result<u8, DekuError> {
+    let bits = reader.read_bits(8, Order::Lsb0)?;
+    Ok(bits.unwrap().as_bitslice().load::<u8>())
+}
+
+fn write_varint_bytes<W: Write + Seek>(writer: &mut Writer<W>, bytes: &[u8]) -> Result<(), DekuError> {
+    let data = BitVec::from_iter(bytes.as_bits::<Lsb0>().iter());
+    writer.write_bits_order(&data, Order::Lsb0)
+}
+
+macro_rules! impl_unsigned_varint_value {
+    ($($t:ty),* $(,)?) => {
+        $(
+            impl VarintValue for $t {
+                fn read_varint<R: Read + Seek>(reader: &mut Reader<R>) -> Result<Self, DekuError> {
+                    let mut value: u128 = 0;
+                    let mut shift = 0u32;
+
+                    for _ in 0..10 {
+                        let byte = read_varint_byte(reader)?;
+                        value |= u128::from(byte & 0x7F) << shift;
+
+                        if (byte & 0x80) == 0 {
+                            return <$t>::try_from(value).map_err(|e| {
+                                DekuError::Parse(Cow::from(format!("VLQ conversion failed: {:?}", e)))
+                            });
+                        }
+
+                        shift += 7;
+                    }
+
+                    Err(DekuError::Parse(Cow::from(
+                        "VLQ overflow: more than 10 continuation bytes",
+                    )))
+                }
+
+                fn write_varint<W: Write + Seek>(self, writer: &mut Writer<W>) -> Result<(), DekuError> {
+                    let mut value = u128::from(self);
+                    let mut bytes = Vec::new();
+
+                    loop {
+                        let mut byte = (value & 0x7F) as u8;
+                        value >>= 7;
+
+                        if value != 0 {
+                            byte |= 0x80;
+                        }
+
+                        bytes.push(byte);
+
+                        if value == 0 {
+                            break;
+                        }
+                    }
+
+                    write_varint_bytes(writer, &bytes)
+                }
+            }
+        )*
+    };
+}
+
+macro_rules! impl_signed_varint_value {
+    ($($t:ty),* $(,)?) => {
+        $(
+            impl VarintValue for $t {
+                fn read_varint<R: Read + Seek>(reader: &mut Reader<R>) -> Result<Self, DekuError> {
+                    let mut value: i128 = 0;
+                    let mut shift = 0u32;
+
+                    for _ in 0..10 {
+                        let byte = read_varint_byte(reader)?;
+                        value |= i128::from(byte & 0x7F) << shift;
+                        shift += 7;
+
+                        if (byte & 0x80) == 0 {
+                            if shift < <$t>::BITS && (byte & 0x40) != 0 {
+                                value |= (!0i128) << shift;
+                            }
+
+                            return <$t>::try_from(value).map_err(|e| {
+                                DekuError::Parse(Cow::from(format!("VLQ conversion failed: {:?}", e)))
+                            });
+                        }
+                    }
+
+                    Err(DekuError::Parse(Cow::from(
+                        "VLQ overflow: more than 10 continuation bytes",
+                    )))
+                }
+
+                fn write_varint<W: Write + Seek>(self, writer: &mut Writer<W>) -> Result<(), DekuError> {
+                    let mut value = i128::from(self);
+                    let mut bytes = Vec::new();
+
+                    loop {
+                        let mut byte = (value as u8) & 0x7F;
+                        value >>= 7;
+
+                        let sign_bit_set = (byte & 0x40) != 0;
+                        let done = (value == 0 && !sign_bit_set) || (value == -1 && sign_bit_set);
+
+                        if !done {
+                            byte |= 0x80;
+                        }
+
+                        bytes.push(byte);
+
+                        if done {
+                            break;
+                        }
+                    }
+
+                    write_varint_bytes(writer, &bytes)
+                }
+            }
+        )*
+    };
+}
+
+impl_unsigned_varint_value!(u8, u16, u32, u64);
+impl_signed_varint_value!(i8, i16, i32, i64);
+
 impl<T> DekuReader<'_, ()> for Varint<T>
 where
-    T: Into<u64> + TryFrom<u64> + Copy,
-    <T as TryFrom<u64>>::Error: Debug,
+    T: VarintValue,
 {
     fn from_reader_with_ctx<R: Read + Seek>(
         reader: &mut Reader<R>,
@@ -111,57 +238,20 @@ where
     where
         Self: Sized,
     {
-        let mut value: u64 = 0;
-        let mut shift = 0;
-
-        for _ in 0..10 {
-            let vec = reader.read_bits(8, Order::Lsb0)?;
-            let byte = vec.unwrap().as_bitslice().load::<u8>();
-
-            value |= ((byte & 0x7F) as u64) << shift;
-
-            if (byte & 0x80) == 0 {
-                return Ok(Varint(T::try_from(value).expect("VLQ conversion failed")));
-            }
-
-            shift += 7;
-        }
-
-        Err(DekuError::Parse(Cow::from(
-            "VLQ overflow: more than 10 continuation bytes",
-        )))
+        T::read_varint(reader).map(Varint)
     }
 }
 
 impl<T> DekuWriter<()> for Varint<T>
 where
-    T: Into<u64> + Copy,
+    T: VarintValue,
 {
     fn to_writer<W: Write + Seek>(
         &self,
         writer: &mut Writer<W>,
         _ctx: (),
     ) -> Result<(), DekuError> {
-        let mut value = self.0.into();
-        let mut bytes = Vec::new();
-
-        loop {
-            let mut byte = (value & 0x7F) as u8;
-            value >>= 7;
-
-            if value != 0 {
-                byte |= 0x80;
-            }
-
-            bytes.push(byte);
-
-            if value == 0 {
-                break;
-            }
-        }
-        let data = BitVec::from_iter(bytes.as_bits::<Lsb0>().iter().rev());
-
-        writer.write_bits_order(&data, Order::Lsb0)
+        self.0.write_varint(writer)
     }
 }
 
@@ -1239,6 +1329,112 @@ impl<T: ProtoDecoder + ProtoDefault> ProtoDecoder for VarVec<T> {
     }
 }
 
+// ============================================================================
+// VarProtoObject - Protobuf-encoded object wrapper for Deku
+// ============================================================================
+
+/// A wrapper that encodes/decodes protobuf messages within Deku bit-streams.
+///
+/// On read: reads a VarInt length prefix, reads that many bytes, decodes T using protobuf.
+/// On write: encodes T using protobuf, writes VarInt length prefix, writes bytes.
+///
+/// This is used for types like `MyObjectBuilder_Player` that are serialized via protobuf
+/// within Space Engineers' binary network packets.
+#[derive(Clone, Debug, PartialEq, Default)]
+pub struct VarProtoObject<T>(pub T);
+
+impl<T> VarProtoObject<T> {
+    /// Create a new VarProtoObject wrapper around the given value.
+    pub fn new(value: T) -> Self {
+        VarProtoObject(value)
+    }
+
+    /// Unwrap the inner value.
+    pub fn into_inner(self) -> T {
+        self.0
+    }
+
+    /// Get a reference to the inner value.
+    pub fn inner(&self) -> &T {
+        &self.0
+    }
+
+    /// Get a mutable reference to the inner value.
+    pub fn inner_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
+impl<T> From<T> for VarProtoObject<T> {
+    fn from(value: T) -> Self {
+        VarProtoObject(value)
+    }
+}
+
+impl<T> std::ops::Deref for VarProtoObject<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+
+impl<T> std::ops::DerefMut for VarProtoObject<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
+impl<'a, T> DekuReader<'a, ()> for VarProtoObject<T>
+where
+    T: proto_rs::ProtoDecode + Default,
+{
+    fn from_reader_with_ctx<R: std::io::Read + std::io::Seek>(
+        reader: &mut Reader<R>,
+        _ctx: (),
+    ) -> Result<Self, DekuError>
+    where
+        Self: Sized,
+    {
+        // Read the protobuf-encoded length prefix
+        let proto_len = Varint::<u32>::from_reader_with_ctx(reader, ())?.0 as usize;
+
+        // Read the protobuf bytes
+        let mut proto_buffer = vec![0u8; proto_len];
+        for slot in proto_buffer.iter_mut() {
+            *slot = reader.read_bits(8, Order::Lsb0)?.unwrap().load_le();
+        }
+
+        // Decode using protobuf
+        let value = T::decode(proto_buffer.as_slice(), DecodeContext::default())
+            .map_err(|e| DekuError::Parse(Cow::from(format!("protobuf decode failed: {}", e))))?;
+
+        Ok(VarProtoObject(value))
+    }
+}
+
+impl<T> DekuWriter<()> for VarProtoObject<T>
+where
+    T: ProtoEncode + ProtoExt,
+{
+    fn to_writer<W: std::io::Write + std::io::Seek>(
+        &self,
+        writer: &mut Writer<W>,
+        _ctx: (),
+    ) -> Result<(), DekuError> {
+        // Encode using protobuf
+        let proto_bytes = self.0.encode_to_vec();
+
+        // Write length prefix
+        Varint::from(proto_bytes.len() as u32).to_writer(writer, ())?;
+
+        // Write protobuf bytes
+        let data = BitVec::from_iter(proto_bytes.as_bits::<Lsb0>().iter().rev());
+        writer.write_bits_order(&data, Order::Lsb0)?;
+
+        Ok(())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1253,6 +1449,12 @@ mod tests {
     fn test_varint_new() {
         let v = Varint::new(42u32);
         assert_eq!(v.0, 42);
+    }
+
+    #[test]
+    fn test_varint_signed_new() {
+        let v = Varint::new(-12345i32);
+        assert_eq!(v.0, -12345);
     }
 
     #[test]

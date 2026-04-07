@@ -77,6 +77,13 @@ impl<T> From<Option<T>> for Nullable<T> {
     }
 }
 
+// Convenience impl for &str -> Nullable<VarString> conversions in tests
+impl From<&str> for Nullable<crate::VarString> {
+    fn from(value: &str) -> Self {
+        Nullable(Some(crate::VarString::from(value)))
+    }
+}
+
 // ---- Serde ----
 
 impl<T: Serialize> Serialize for Nullable<T> {
@@ -113,6 +120,8 @@ impl<'de, T: Deserialize<'de>> Deserialize<'de> for Nullable<T> {
             where
                 A: de::MapAccess<'de2>,
             {
+                // For XML elements with xsi:nil="true" attribute, drain and return None.
+                // This handles the nullable/empty element case in XML.
                 while map.next_entry::<de::IgnoredAny, de::IgnoredAny>()?.is_some() {}
                 Ok(Nullable::none())
             }

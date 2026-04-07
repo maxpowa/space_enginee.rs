@@ -510,10 +510,13 @@ pub struct WorldPacket {
 
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 pub struct PlayerDataPacket {
+    /// Client Steam ID - 8-byte aligned (little-endian u64)
     pub client_steam_id: BitAligned<u64>,
-    pub player_serial_id: BitAligned<i32>,
     pub new_identity: BitBool,
+    /// PlayerBuilder - struct fields inline
     pub player_builder_data: MyObjectBuilder_Player,
+    /// Player serial ID - 4-byte aligned (little-endian i32)
+    pub player_serial_id: Varint<i32>,
 }
 
 /// Packet payload enum dispatched by packet ID.
@@ -725,6 +728,237 @@ mod tests {
             assert_eq!(rpc.payload.len(), 18);
         } else {
             panic!("Expected Rpc packet");
+        }
+    }
+
+    #[test]
+    pub fn rpc_packet_parse_2() {
+        let data: [u8; 25] = [
+            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00,
+            0xa7, 0x00, 0x18, 0x31, 0x92, 0x94, 0x00, 0x00, 0x00, 0x00, 0x72, 0x91,
+            0x67,
+        ];
+
+        let mut reader = Reader::new(Cursor::new(data));
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len())
+            .unwrap();
+        let replication_packet = frame.inner;
+
+        assert_eq!(replication_packet.packet_id, PacketId::Rpc);
+        if let Packet::Rpc(rpc) = replication_packet.data {
+            assert_eq!(rpc.network_id.0, 0);
+            assert_eq!(rpc.blocked_by_network_id.0, 0);
+            assert_eq!(rpc.event_id, 167);
+            assert!(rpc.position.is_none());
+            assert_eq!(rpc.payload.len(), 8);
+        } else {
+            panic!("Expected Rpc packet");
+        }
+    }
+
+    /// Test parsing a real PlayerData packet from network traffic.
+    #[test]
+    pub fn player_data_packet() {
+        // Real packet captured from Space Engineers network traffic
+        let data: [u8; 58] = [
+            0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x15, 0x00, 0x96, 0xf5,
+            0x03, 0x08, 0x01, 0x00, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x70, 0x05,
+            0x77, 0x40, 0xd8, 0xb6, 0x30, 0x3c, 0xb8, 0xb7, 0xbb, 0x30, 0x0b, 0x4c,
+            0x15, 0x59, 0xd6, 0x37, 0x96, 0xe5, 0x15, 0xcd, 0x09, 0x38, 0xe0, 0x0e,
+            0x08, 0xcb, 0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        ];
+
+        // First, just parse the frame header without the PlayerData content
+        let mut reader = Reader::new(Cursor::new(data));
+        let frame = PacketFrame::<ReplicationPacket>::from_reader_with_ctx(&mut reader, data.len());
+        
+        match frame {
+            Ok(frame) => {
+                let replication_packet = frame.inner;
+                println!("packet_id: {:?}", replication_packet.packet_id);
+                assert_eq!(replication_packet.packet_id, PacketId::PlayerData);
+                
+                if let Packet::PlayerData(player_data) = replication_packet.data {
+                    // Print all fields for debugging
+                    println!("=== PlayerDataPacket ===");
+                    println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
+                    println!("new_identity: {}", *player_data.new_identity);
+                    println!("=== MyObjectBuilder_Player ===");
+                    let pb = &player_data.player_builder_data;
+                    println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
+                    println!("build_armor_skin: {:?}", pb.build_armor_skin);
+                    println!("build_color_slot: {:?}", pb.build_color_slot);
+                    println!("build_color_slots: {:?}", pb.build_color_slots);
+                    println!("connected: {}", *pb.connected);
+                    println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
+                    println!("display_name: {:?}", pb.display_name);
+                    println!("entity_camera_data: {:?}", pb.entity_camera_data);
+                    println!("force_real_player: {}", *pb.force_real_player);
+                    println!("game_acronym: {:?}", pb.game_acronym);
+                    println!("identity_id: {}", pb.identity_id.0);
+                    println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
+                    println!("platform_icon: {:?}", pb.platform_icon);
+                    println!("promote_level: {:?}", pb.promote_level);
+                    println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
+                    println!("toolbar: {:?}", pb.toolbar);
+                    println!("=== End ===");
+                    println!("player_serial_id: {:?}", player_data.player_serial_id);
+                } else {
+                    panic!("Expected PlayerData packet");
+                }
+            }
+            Err(e) => {
+                // Debug: print raw bytes after frame header
+                println!("Parse error: {:?}", e);
+                println!("Raw PlayerDataPacket bytes (starting at byte 10):");
+                for (i, chunk) in data[10..].chunks(16).enumerate() {
+                    print!("  {:04X}: ", i * 16);
+                    for b in chunk {
+                        print!("{:02X} ", b);
+                    }
+                    println!();
+                }
+                panic!("Failed to parse packet: {:?}", e);
+            }
+        }
+    }
+
+    /// Test PlayerDataPacket parsing with C# generated data.
+    #[test]
+    pub fn player_data_standalone() {
+        let bytes: &[u8] = &[
+            0xFF, 0xFF, 0xFF, 0x0F, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0xC0, 0x04, 0xA3, 0xA7,
+            0x27, 0xA1, 0x20, 0xA9, 0x18, 0x99, 0x19, 0x0A, 0x4C, 0x15, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00
+        ];
+
+        let mut reader = Reader::new(Cursor::new(bytes));
+        let player_data = PlayerDataPacket::from_reader_with_ctx(&mut reader, ()).unwrap();
+
+        // Print all fields for debugging
+        println!("=== PlayerDataPacket ===");
+        println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
+        println!("new_identity: {}", *player_data.new_identity);
+        println!("=== MyObjectBuilder_Player ===");
+        let pb = &player_data.player_builder_data;
+        println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
+        println!("build_armor_skin: {:?}", pb.build_armor_skin);
+        println!("build_color_slot: {:?}", pb.build_color_slot);
+        println!("build_color_slots: {:?}", pb.build_color_slots);
+        println!("connected: {}", *pb.connected);
+        println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
+        println!("display_name: {:?}", pb.display_name);
+        println!("entity_camera_data: {:?}", pb.entity_camera_data);
+        println!("force_real_player: {}", *pb.force_real_player);
+        println!("game_acronym: {:?}", pb.game_acronym);
+        println!("identity_id: {}", pb.identity_id.0);
+        println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
+        println!("platform_icon: {:?}", pb.platform_icon);
+        println!("promote_level: {:?}", pb.promote_level);
+        println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
+        println!("toolbar: {:?}", pb.toolbar);
+        println!("=== End ===");
+        println!("player_serial_id: {:?}", player_data.player_serial_id);
+    }
+
+    /// Test parsing the same data that foo.rs uses (with assertions).
+    #[test]
+    pub fn player_data_foo_format() {
+        // Same test data as foo.rs test_parse_player_data_msg
+        let bytes: &[u8] = &[
+            0xFF, 0xFF, 0xFF, 0x0F, 0x00, 0x00, 0x00, 0x00, 0xDF, 0xC5, 0x72, 0x9D, 0x47, 0x10, 0x95, 0x99,
+            0x85, 0xD5, 0xB1, 0xD1, 0x7D, 0x05, 0xCD, 0xD1, 0xC9, 0xBD, 0xB9, 0x85, 0xD5, 0xD1, 0x1D, 0x00,
+            0x00, 0x00, 0xF0, 0x04, 0xA3, 0xA7, 0x27, 0xA1, 0x20, 0xA9, 0x18, 0x99, 0x19, 0x0B, 0x4C, 0x15,
+            0x55, 0x34, 0x6F, 0x1D, 0x00, 0x00, 0x00, 0x00, 0x58, 0x30, 0x47, 0x57, 0x16, 0xD6, 0x46, 0x15,
+            0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x06, 0xD0, 0x03, 0x8C, 0xD3, 0xDD, 0x13, 0x00, 0x00,
+            0x00, 0x00, 0x24, 0xD0, 0x95, 0xCD, 0xD1, 0x81, 0xA4, 0xD1, 0x95, 0xB5, 0x05, 0x00, 0x01, 0x00,
+            0x00, 0x80,
+        ];
+
+        let mut reader = Reader::new(Cursor::new(bytes));
+        match PlayerDataPacket::from_reader_with_ctx(&mut reader, ()) {
+            Ok(player_data) => {
+                let pb = &player_data.player_builder_data;
+                
+                // Print ALL fields for debugging
+                println!("=== PlayerDataPacket (foo format) ===");
+                println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
+                println!("new_identity: {}", *player_data.new_identity);
+                println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
+                println!("build_armor_skin: {:?}", pb.build_armor_skin);
+                println!("build_color_slot: {:?}", pb.build_color_slot);
+                println!("build_color_slots: {:?}", pb.build_color_slots);
+                println!("connected: {}", *pb.connected);
+                println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
+                println!("display_name: {:?}", pb.display_name);
+                println!("entity_camera_data: {:?}", pb.entity_camera_data);
+                println!("force_real_player: {}", *pb.force_real_player);
+                println!("game_acronym: {:?}", pb.game_acronym);
+                println!("identity_id: {}", pb.identity_id.0);
+                println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
+                println!("platform_icon: {:?}", pb.platform_icon);
+                println!("promote_level: {:?}", pb.promote_level);
+                println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
+                println!("toolbar: {:?}", pb.toolbar);
+                println!("player_serial_id: {:?}", player_data.player_serial_id);
+
+                // Assertions based on foo.rs expected values
+                assert_eq!(player_data.client_steam_id.0, 0x0FFFFFFF, "client_steam_id");
+                assert_eq!(*player_data.new_identity, true, "new_identity");
+                
+                // From foo.rs test assertions:
+                assert_eq!(pb.display_name.as_ref().map(|s| s.as_str()), Some("FOOBAR123"), "display_name");
+                assert_eq!(pb.identity_id.0, 123456789, "identity_id");
+                assert_eq!(*pb.connected, true, "connected");
+                
+                // These should fail if our parsing is off:
+                // foo.rs expects promote_level = 4 (Admin)
+                assert_eq!(pb.promote_level, space_engineers_sys::types::MyPromoteLevel::Admin, "promote_level should be Admin (4)");
+                assert_eq!(player_data.player_serial_id, Varint(2).into(), "player_serial_id");
+            }
+            Err(e) => {
+                panic!("Failed to parse foo format data: {:?}", e);
+            }
+        }
+    }
+
+    #[test]
+    pub fn player_data_empty_builder_maximum_serial_id() {
+        let bytes: &[u8] = &[
+            0xFF, 0xFF, 0xFF, 0x0F, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x7F
+        ];
+
+        let mut reader = Reader::new(Cursor::new(bytes));
+        match PlayerDataPacket::from_reader_with_ctx(&mut reader, ()) {
+            Ok(player_data) => {
+                let pb = &player_data.player_builder_data;
+                
+                // Print ALL fields for debugging
+                println!("=== PlayerDataPacket (foo format) ===");
+                println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
+                println!("new_identity: {}", *player_data.new_identity);
+                println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
+                println!("build_armor_skin: {:?}", pb.build_armor_skin);
+                println!("build_color_slot: {:?}", pb.build_color_slot);
+                println!("build_color_slots: {:?}", pb.build_color_slots);
+                println!("connected: {}", *pb.connected);
+                println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
+                println!("display_name: {:?}", pb.display_name);
+                println!("entity_camera_data: {:?}", pb.entity_camera_data);
+                println!("force_real_player: {}", *pb.force_real_player);
+                println!("game_acronym: {:?}", pb.game_acronym);
+                println!("identity_id: {}", pb.identity_id.0);
+                println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
+                println!("platform_icon: {:?}", pb.platform_icon);
+                println!("promote_level: {:?}", pb.promote_level);
+                println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
+                println!("toolbar: {:?}", pb.toolbar);
+                println!("player_serial_id: {:?}", player_data.player_serial_id);
+            }
+            Err(e) => {
+                panic!("Failed to parse foo format data: {:?}", e);
+            }
         }
     }
 }
