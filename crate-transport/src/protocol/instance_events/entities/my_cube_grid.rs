@@ -39,7 +39,7 @@ pub struct MyCubeGrid_CreateSplit_ImplementationPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_CreateSplits_ImplementationPayload {
     pub blocks: VarVec<space_engineers_sys::math::Vector3I>,
-    pub groups: VarVec<space_engineers_sys::types::MyDisconnectHelper_Group>,
+    pub groups: VarVec<space_engineers_sys::types::game::MyDisconnectHelper_Group>,
 }
 
 /// Payload for MyCubeGrid::UpdateTimeOnClients instance event.
@@ -59,8 +59,8 @@ pub struct MyCubeGrid_RemovedBlocksPayload {
 /// Payload for MyCubeGrid::RemovedBlocksWithIds instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_RemovedBlocksWithIdsPayload {
-    pub destroy_block_with_id_queue_without_generators: VarVec<space_engineers_sys::types::MyCubeGrid_BlockPositionId>,
-    pub remove_block_with_id_queue_without_generators: VarVec<space_engineers_sys::types::MyCubeGrid_BlockPositionId>,
+    pub destroy_block_with_id_queue_without_generators: VarVec<space_engineers_sys::types::game::MyCubeGrid_BlockPositionId>,
+    pub remove_block_with_id_queue_without_generators: VarVec<space_engineers_sys::types::game::MyCubeGrid_BlockPositionId>,
 }
 
 /// Payload for MyCubeGrid::RemoveBlocksBuiltByIDs instance event.
@@ -79,9 +79,9 @@ pub struct MyCubeGrid_TransferBlocksBuiltByIDPayload {
 /// Payload for MyCubeGrid::BuildBlockSucess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BuildBlockSucessPayload {
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
-    pub location: space_engineers_sys::types::MyCubeGrid_MyBlockLocation,
-    pub block_object_builder: space_engineers_sys::types::MyObjectBuilder_CubeBlock,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
+    pub location: space_engineers_sys::types::game::MyCubeGrid_MyBlockLocation,
+    pub block_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_CubeBlock,
     pub builder_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub owner_id: BitAligned<i64>,
@@ -90,8 +90,8 @@ pub struct MyCubeGrid_BuildBlockSucessPayload {
 /// Payload for MyCubeGrid::BuildBlocksRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BuildBlocksRequestPayload {
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
-    pub locations: VarVec<space_engineers_sys::types::MyCubeGrid_MyBlockLocation>,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
+    pub locations: VarVec<space_engineers_sys::types::game::MyCubeGrid_MyBlockLocation>,
     pub builder_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub owner_id: BitAligned<i64>,
@@ -100,8 +100,8 @@ pub struct MyCubeGrid_BuildBlocksRequestPayload {
 /// Payload for MyCubeGrid::BuildBlocksClient instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BuildBlocksClientPayload {
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
-    pub locations: VarVec<space_engineers_sys::types::MyCubeGrid_MyBlockLocation>,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
+    pub locations: VarVec<space_engineers_sys::types::game::MyCubeGrid_MyBlockLocation>,
     pub builder_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub owner_id: BitAligned<i64>,
@@ -110,7 +110,7 @@ pub struct MyCubeGrid_BuildBlocksClientPayload {
 /// Payload for MyCubeGrid::BuildBlocksAreaRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BuildBlocksAreaRequestPayload {
-    pub area: space_engineers_sys::types::MyCubeGrid_MyBlockBuildArea,
+    pub area: space_engineers_sys::types::game::MyCubeGrid_MyBlockBuildArea,
     pub builder_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub owner_id: BitAligned<i64>,
@@ -121,9 +121,9 @@ pub struct MyCubeGrid_BuildBlocksAreaRequestPayload {
 /// Payload for MyCubeGrid::BuildBlocksAreaClient instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BuildBlocksAreaClientPayload {
-    pub area: space_engineers_sys::types::MyCubeGrid_MyBlockBuildArea,
+    pub area: space_engineers_sys::types::game::MyCubeGrid_MyBlockBuildArea,
     pub entity_id_seed: BitAligned<i32>,
-    pub fail_list: VarVec<space_engineers_sys::types::Vector3UByte>,
+    pub fail_list: VarVec<space_engineers_sys::types::game::Vector3UByte>,
     pub builder_entity_id: BitAligned<i64>,
     pub is_admin: BitBool,
     pub owner_id: BitAligned<i64>,
@@ -133,7 +133,7 @@ pub struct MyCubeGrid_BuildBlocksAreaClientPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_RazeBlocksAreaRequestPayload {
     pub pos: space_engineers_sys::math::Vector3I,
-    pub size: space_engineers_sys::types::Vector3UByte,
+    pub size: space_engineers_sys::types::game::Vector3UByte,
     pub builder_entity_id: BitAligned<i64>,
     pub placing_player: BitAligned<u64>,
 }
@@ -142,8 +142,8 @@ pub struct MyCubeGrid_RazeBlocksAreaRequestPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_RazeBlocksAreaSuccessPayload {
     pub pos: space_engineers_sys::math::Vector3I,
-    pub size: space_engineers_sys::types::Vector3UByte,
-    pub result_fail_list: VarVec<space_engineers_sys::types::Vector3UByte>,
+    pub size: space_engineers_sys::types::game::Vector3UByte,
+    pub result_fail_list: VarVec<space_engineers_sys::types::game::Vector3UByte>,
 }
 
 /// Payload for MyCubeGrid::RazeBlocksRequest instance event.
@@ -195,14 +195,14 @@ pub struct MyCubeGrid_OnColorBlockPayload {
 /// Payload for MyCubeGrid::SkinGridFriendlyRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_SkinGridFriendlyRequestPayload {
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
     pub play_sound: BitBool,
 }
 
 /// Payload for MyCubeGrid::OnSkinGridFriendly instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_OnSkinGridFriendlyPayload {
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
     pub play_sound: BitBool,
 }
 
@@ -211,7 +211,7 @@ pub struct MyCubeGrid_OnSkinGridFriendlyPayload {
 pub struct MyCubeGrid_SkinBlockRequestPayload {
     pub min: space_engineers_sys::math::Vector3I,
     pub max: space_engineers_sys::math::Vector3I,
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
     pub play_sound: BitBool,
 }
 
@@ -220,7 +220,7 @@ pub struct MyCubeGrid_SkinBlockRequestPayload {
 pub struct MyCubeGrid_OnSkinBlockPayload {
     pub min: space_engineers_sys::math::Vector3I,
     pub max: space_engineers_sys::math::Vector3I,
-    pub visuals: space_engineers_sys::types::MyCubeGrid_MyBlockVisuals,
+    pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
     pub play_sound: BitBool,
 }
 
@@ -230,7 +230,7 @@ pub struct MyCubeGrid_BlockIntegrityChangedPayload {
     pub pos: space_engineers_sys::math::Vector3I,
     pub build_integrity: BitAligned<f32>,
     pub integrity: BitAligned<f32>,
-    pub integrity_change_type: space_engineers_sys::types::MyIntegrityChangeEnum,
+    pub integrity_change_type: space_engineers_sys::types::modapi::MyIntegrityChangeEnum,
     pub grinder_owner: BitAligned<i64>,
 }
 
@@ -238,13 +238,13 @@ pub struct MyCubeGrid_BlockIntegrityChangedPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_BlockStockpileChangedPayload {
     pub pos: space_engineers_sys::math::Vector3I,
-    pub items: VarVec<space_engineers_sys::types::MyStockpileItem>,
+    pub items: VarVec<space_engineers_sys::types::game::MyStockpileItem>,
 }
 
 /// Payload for MyCubeGrid::PasteBlocksToGridServer_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_PasteBlocksToGridServer_ImplementationPayload {
-    pub grids_to_merge: VarVec<space_engineers_sys::types::MyObjectBuilder_CubeGrid>,
+    pub grids_to_merge: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_CubeGrid>,
     pub inventory_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub client_dlcids: VarVec<BitAligned<u64>>,
@@ -253,8 +253,8 @@ pub struct MyCubeGrid_PasteBlocksToGridServer_ImplementationPayload {
 /// Payload for MyCubeGrid::PasteBlocksToGridClient_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_PasteBlocksToGridClient_ImplementationPayload {
-    pub grid_to_merge: space_engineers_sys::types::MyObjectBuilder_CubeGrid,
-    pub merge_transform: space_engineers_sys::types::MatrixI,
+    pub grid_to_merge: space_engineers_sys::types::object_builders::MyObjectBuilder_CubeGrid,
+    pub merge_transform: space_engineers_sys::types::game::MatrixI,
 }
 
 /// Payload for MyCubeGrid::OnBonesReceived instance event.
@@ -274,7 +274,7 @@ pub struct MyCubeGrid_OnBonesMultipliedPayload {
 /// Payload for MyCubeGrid::RelfectorStateRecived instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_RelfectorStateRecivedPayload {
-    pub value: space_engineers_sys::types::MyMultipleEnabledEnum,
+    pub value: space_engineers_sys::types::game::MyMultipleEnabledEnum,
 }
 
 /// Payload for MyCubeGrid::OnStockpileFillRequest instance event.
@@ -288,14 +288,14 @@ pub struct MyCubeGrid_OnStockpileFillRequestPayload {
 /// Payload for MyCubeGrid::OnPowerProducerStateRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_OnPowerProducerStateRequestPayload {
-    pub enabled_state: space_engineers_sys::types::MyMultipleEnabledEnum,
+    pub enabled_state: space_engineers_sys::types::game::MyMultipleEnabledEnum,
     pub local_grid_only: BitBool,
 }
 
 /// Payload for MyCubeGrid::OnConvertedToShipRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_OnConvertedToShipRequestPayload {
-    pub reason: space_engineers_sys::types::MyCubeGrid_MyTestDynamicReason,
+    pub reason: space_engineers_sys::types::game::MyCubeGrid_MyTestDynamicReason,
 }
 
 /// Payload for MyCubeGrid::OnChangeOwnerRequest instance event.
@@ -303,7 +303,7 @@ pub struct MyCubeGrid_OnConvertedToShipRequestPayload {
 pub struct MyCubeGrid_OnChangeOwnerRequestPayload {
     pub block_id: BitAligned<i64>,
     pub owner: BitAligned<i64>,
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
 }
 
 /// Payload for MyCubeGrid::OnChangeOwner instance event.
@@ -311,20 +311,20 @@ pub struct MyCubeGrid_OnChangeOwnerRequestPayload {
 pub struct MyCubeGrid_OnChangeOwnerPayload {
     pub block_id: BitAligned<i64>,
     pub owner: BitAligned<i64>,
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
 }
 
 /// Payload for MyCubeGrid::ReceiveHandbrakeRequestResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_ReceiveHandbrakeRequestResultPayload {
-    pub result: space_engineers_sys::types::MyCubeGrid_HandbrakeToggleResult,
+    pub result: space_engineers_sys::types::game::MyCubeGrid_HandbrakeToggleResult,
     pub message: VarString,
 }
 
 /// Payload for MyCubeGrid::ReceiveParkRequestResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_ReceiveParkRequestResultPayload {
-    pub result: space_engineers_sys::types::MyCubeGrid_HandbrakeToggleResult,
+    pub result: space_engineers_sys::types::game::MyCubeGrid_HandbrakeToggleResult,
     pub message: VarString,
 }
 
@@ -332,7 +332,7 @@ pub struct MyCubeGrid_ReceiveParkRequestResultPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_OnChangeGridOwnerPayload {
     pub player_id: BitAligned<i64>,
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
 }
 
 /// Payload for MyCubeGrid::OnRemoveSplit instance event.
@@ -409,7 +409,7 @@ pub struct MyCubeGrid_ContainerOpenedPayload {
 pub struct MyCubeGrid_CompetetiveContainerOpenedPayload {
     pub entity_id: BitAligned<i64>,
     pub time: BitAligned<i32>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyCubeGrid.

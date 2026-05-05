@@ -9,7 +9,7 @@ use space_engineers_compat::math::{Quaternion, Vector3D};
 use space_engineers_compat::{
     BitAligned, BitBool, Nullable, PacketCompressedXmlObject, VarBytes, VarString, Varint,
 };
-use space_engineers_sys::types::{MyObjectBuilder_Player, MyObjectBuilder_World};
+use space_engineers_sys::types::object_builders::{MyObjectBuilder_Player, MyObjectBuilder_World};
 
 use crate::packet::PacketFrame;
 use crate::rpc::RawRpcPacket;
@@ -913,7 +913,7 @@ mod tests {
                 
                 // These should fail if our parsing is off:
                 // foo.rs expects promote_level = 4 (Admin)
-                assert_eq!(pb.promote_level, space_engineers_sys::types::MyPromoteLevel::Admin, "promote_level should be Admin (4)");
+                assert_eq!(pb.promote_level, space_engineers_sys::types::modapi::MyPromoteLevel::Admin, "promote_level should be Admin (4)");
                 assert_eq!(player_data.player_serial_id, Varint(2).into(), "player_serial_id");
             }
             Err(e) => {

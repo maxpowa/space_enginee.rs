@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for RequestSpawnCreative_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RequestSpawnCreative_ImplementationPayload {
-    pub obj: space_engineers_sys::types::MyObjectBuilder_FloatingObject,
+    pub obj: space_engineers_sys::types::object_builders::MyObjectBuilder_FloatingObject,
 }
 

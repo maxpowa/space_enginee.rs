@@ -14,14 +14,14 @@ use space_engineers_sys::math::Vector3D;
 pub struct DoDamageSlimBlockBatchPayload {
     pub grid_id: BitAligned<i64>,
     pub blocks: VarVec<space_engineers_compat::Tuple<space_engineers_sys::math::Vector3I, BitAligned<f32>>>,
-    pub damage_type: space_engineers_sys::types::MyStringHash,
+    pub damage_type: space_engineers_sys::types::game::MyStringHash,
     pub attacker_id: BitAligned<i64>,
-    pub extra_info: Nullable<space_engineers_sys::types::MyStringHash>,
+    pub extra_info: Nullable<space_engineers_sys::types::game::MyStringHash>,
 }
 
 /// Payload for DoDamageSlimBlock event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct DoDamageSlimBlockPayload {
-    pub msg: space_engineers_sys::types::MySlimBlock_DoDamageSlimBlockMsg,
+    pub msg: space_engineers_sys::types::game::MySlimBlock_DoDamageSlimBlockMsg,
 }
 

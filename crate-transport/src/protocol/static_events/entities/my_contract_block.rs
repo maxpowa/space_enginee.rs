@@ -18,12 +18,12 @@ pub struct AbandonContractStaticPayload {
 /// Payload for ReceiveActiveContractsStatic event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ReceiveActiveContractsStaticPayload {
-    pub active_contracts: VarVec<space_engineers_sys::types::MyObjectBuilder_Contract>,
+    pub active_contracts: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_Contract>,
 }
 
 /// Payload for ReceiveAbandonContractStatic event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ReceiveAbandonContractStaticPayload {
-    pub result: space_engineers_sys::types::MyContractResults,
+    pub result: space_engineers_sys::types::game::MyContractResults,
 }
 

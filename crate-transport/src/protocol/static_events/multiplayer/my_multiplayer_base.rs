@@ -114,43 +114,43 @@ pub struct OnElapsedGameTimePayload {
 /// Payload for OnAllMembersReceived event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnAllMembersReceivedPayload {
-    pub msg: space_engineers_sys::types::AllMembersDataMsg,
+    pub msg: space_engineers_sys::types::game::AllMembersDataMsg,
 }
 
 /// Payload for OnChatMessageReceived_Server event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChatMessageReceived_ServerPayload {
-    pub msg: space_engineers_sys::types::ChatMsg,
+    pub msg: space_engineers_sys::types::game::ChatMsg,
 }
 
 /// Payload for OnBlockListReceived_Server event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnBlockListReceived_ServerPayload {
-    pub block_list: space_engineers_sys::types::BlockList,
+    pub block_list: space_engineers_sys::types::game::BlockList,
 }
 
 /// Payload for OnChatMessageReceived_SingleTarget event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChatMessageReceived_SingleTargetPayload {
-    pub msg: space_engineers_sys::types::ChatMsg,
+    pub msg: space_engineers_sys::types::game::ChatMsg,
 }
 
 /// Payload for OnChatMessageReceived_BroadcastExcept event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChatMessageReceived_BroadcastExceptPayload {
-    pub msg: space_engineers_sys::types::ChatMsg,
+    pub msg: space_engineers_sys::types::game::ChatMsg,
 }
 
 /// Payload for OnChatMessageReceived_ToPlayer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChatMessageReceived_ToPlayerPayload {
-    pub msg: space_engineers_sys::types::ChatMsg,
+    pub msg: space_engineers_sys::types::game::ChatMsg,
 }
 
 /// Payload for OnScriptedChatMessageReceived event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnScriptedChatMessageReceivedPayload {
-    pub msg: space_engineers_sys::types::ScriptedChatMsg,
+    pub msg: space_engineers_sys::types::game::ScriptedChatMsg,
 }
 
 /// Payload for InvalidateVoxelCache event.

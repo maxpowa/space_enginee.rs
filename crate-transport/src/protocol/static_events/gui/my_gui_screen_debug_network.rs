@@ -36,6 +36,6 @@ pub struct SendDataClientPayload {
 /// Payload for ReceiveLayersFromServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ReceiveLayersFromServerPayload {
-    pub layers: VarVec<space_engineers_sys::types::MyGuiScreenDebugNetwork_Layer>,
+    pub layers: VarVec<space_engineers_sys::types::game::MyGuiScreenDebugNetwork_Layer>,
 }
 

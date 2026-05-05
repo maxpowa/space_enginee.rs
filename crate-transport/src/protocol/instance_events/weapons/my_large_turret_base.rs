@@ -107,19 +107,19 @@ pub struct MyLargeTurretBase_RequestReleasePayload {
 /// Payload for MyLargeTurretBase::OnBeginShoot instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLargeTurretBase_OnBeginShootPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyLargeTurretBase::OnEndShoot instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLargeTurretBase_OnEndShootPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyLargeTurretBase::OnShootMissile instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLargeTurretBase_OnShootMissilePayload {
-    pub builder: space_engineers_sys::types::MyObjectBuilder_Missile,
+    pub builder: space_engineers_sys::types::object_builders::MyObjectBuilder_Missile,
 }
 
 /// Payload for MyLargeTurretBase::OnRemoveMissile instance event.
@@ -131,7 +131,7 @@ pub struct MyLargeTurretBase_OnRemoveMissilePayload {
 /// Payload for MyLargeTurretBase::OnTargetingResultKnown instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLargeTurretBase_OnTargetingResultKnownPayload {
-    pub target_result: space_engineers_sys::types::TargetFocusResult,
+    pub target_result: space_engineers_sys::types::game::TargetFocusResult,
 }
 
 /// Payload for MyLargeTurretBase::ReloadStartedOnServer instance event.

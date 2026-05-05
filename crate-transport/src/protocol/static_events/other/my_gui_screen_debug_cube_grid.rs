@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for LoadGrid event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct LoadGridPayload {
-    pub transform: space_engineers_sys::types::MyPositionAndOrientation,
+    pub transform: space_engineers_sys::types::game::MyPositionAndOrientation,
 }
 
 /// Payload for StoreGrid event.

@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for RequestUseMessageStatic event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RequestUseMessageStaticPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
     pub entity_id: BitAligned<i64>,
 }
@@ -20,18 +20,18 @@ pub struct RequestUseMessageStaticPayload {
 /// Payload for UseSuccessStatic event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UseSuccessStaticPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
     pub entity_id: BitAligned<i64>,
 }
 
 /// Payload for UseFailureStatic event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UseFailureStaticPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
     pub entity_id: BitAligned<i64>,
 }
 

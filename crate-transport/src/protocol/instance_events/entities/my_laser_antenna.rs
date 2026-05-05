@@ -91,7 +91,7 @@ pub struct MyLaserAntenna_ChangePermRequestPayload {
 /// Payload for MyLaserAntenna::OnChangeModeRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLaserAntenna_OnChangeModeRequestPayload {
-    pub mode: space_engineers_sys::types::MyLaserAntenna_StateEnum,
+    pub mode: space_engineers_sys::types::game::MyLaserAntenna_StateEnum,
     pub coords: Nullable<Vector3D>,
 }
 

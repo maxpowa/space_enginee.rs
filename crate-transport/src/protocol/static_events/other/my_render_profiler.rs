@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnCommandReceived event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnCommandReceivedPayload {
-    pub cmd: space_engineers_sys::types::RenderProfilerCommand,
+    pub cmd: space_engineers_sys::types::game::RenderProfilerCommand,
     pub payload: BitAligned<i32>,
 }
 

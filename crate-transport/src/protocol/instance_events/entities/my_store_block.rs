@@ -76,20 +76,27 @@ pub struct MyStoreBlock_OnChangeDescriptionPayload {
     pub is_public: BitBool,
 }
 
+/// Payload for MyStoreBlock::GetStoreItems instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyStoreBlock_GetStoreItemsPayload {
+    pub is_player_request: BitBool,
+}
+
 /// Payload for MyStoreBlock::OnGetStoreItemsResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnGetStoreItemsResultPayload {
-    pub store_items: VarVec<space_engineers_sys::types::MyStoreItem>,
-    pub last_economy_tick: BitAligned<i64>,
+    pub store_items: VarVec<space_engineers_sys::types::game::MyStoreItem>,
+    pub last_economy_tick: BitAligned<f64>,
     pub offers_bonus: BitAligned<f32>,
     pub orders_bonus: BitAligned<f32>,
+    pub is_npc: BitBool,
 }
 
-/// Payload for MyStoreBlock::OnPlayerStoreItemsChanged_Broacast instance event.
+/// Payload for MyStoreBlock::OnPlayerStoreItemsChanged_Broadcast instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyStoreBlock_OnPlayerStoreItemsChanged_BroacastPayload {
-    pub store_items: VarVec<space_engineers_sys::types::MyStoreItem>,
-    pub last_economy_tick: BitAligned<i64>,
+pub struct MyStoreBlock_OnPlayerStoreItemsChanged_BroadcastPayload {
+    pub store_items: VarVec<space_engineers_sys::types::game::MyStoreItem>,
+    pub last_economy_tick: BitAligned<f64>,
 }
 
 /// Payload for MyStoreBlock::BuyItem instance event.
@@ -98,13 +105,13 @@ pub struct MyStoreBlock_BuyItemPayload {
     pub id: BitAligned<i64>,
     pub amount: BitAligned<i32>,
     pub target_entity_id: BitAligned<i64>,
-    pub last_economy_tick: BitAligned<i64>,
+    pub last_economy_tick: BitAligned<f64>,
 }
 
 /// Payload for MyStoreBlock::OnBuyItemResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnBuyItemResultPayload {
-    pub result: space_engineers_sys::types::MyStoreBuyItemResult,
+    pub result: space_engineers_sys::types::game::MyStoreBuyItemResult,
 }
 
 /// Payload for MyStoreBlock::SellItem instance event.
@@ -113,13 +120,13 @@ pub struct MyStoreBlock_SellItemPayload {
     pub id: BitAligned<i64>,
     pub amount: BitAligned<i32>,
     pub source_entity_id: BitAligned<i64>,
-    pub last_economy_tick: BitAligned<i64>,
+    pub last_economy_tick: BitAligned<f64>,
 }
 
 /// Payload for MyStoreBlock::OnSellItemResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnSellItemResultPayload {
-    pub result: space_engineers_sys::types::MyStoreSellItemResult,
+    pub result: space_engineers_sys::types::game::MyStoreSellItemResult,
 }
 
 /// Payload for MyStoreBlock::OnGetConnectedGridInventoriesResult instance event.
@@ -134,24 +141,37 @@ pub struct MyStoreBlock_OnGetGridInventoriesResultPayload {
     pub inventories: VarVec<BitAligned<i64>>,
 }
 
+/// Payload for MyStoreBlock::GetGasTanks instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyStoreBlock_GetGasTanksPayload {
+    pub gas_id: space_engineers_sys::types::game::SerializableDefinitionId,
+}
+
+/// Payload for MyStoreBlock::OnGetGasTanksResult instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyStoreBlock_OnGetGasTanksResultPayload {
+    pub gas_tanks: VarVec<BitAligned<i64>>,
+}
+
 /// Payload for MyStoreBlock::CreateNewOffer instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_CreateNewOfferPayload {
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub amount: BitAligned<i32>,
     pub price_per_unit: BitAligned<i32>,
+    pub selected_gas_tanks: VarVec<BitAligned<i64>>,
 }
 
 /// Payload for MyStoreBlock::OnCreateNewOfferResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnCreateNewOfferResultPayload {
-    pub result: space_engineers_sys::types::MyStoreCreationResult,
+    pub result: space_engineers_sys::types::game::MyStoreCreationResult,
 }
 
 /// Payload for MyStoreBlock::CreateNewOrder instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_CreateNewOrderPayload {
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub amount: BitAligned<i32>,
     pub price_per_unit: BitAligned<i32>,
 }
@@ -159,7 +179,7 @@ pub struct MyStoreBlock_CreateNewOrderPayload {
 /// Payload for MyStoreBlock::OnCreateNewOrderResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnCreateNewOrderResultPayload {
-    pub result: space_engineers_sys::types::MyStoreCreationResult,
+    pub result: space_engineers_sys::types::game::MyStoreCreationResult,
 }
 
 /// Payload for MyStoreBlock::CancelStoreItemServer instance event.
@@ -184,7 +204,7 @@ pub struct MyStoreBlock_ChangeBalancePayload {
 /// Payload for MyStoreBlock::OnChangeBalanceResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyStoreBlock_OnChangeBalanceResultPayload {
-    pub result: space_engineers_sys::types::MyStoreBuyItemResults,
+    pub result: space_engineers_sys::types::game::MyStoreBuyItemResults,
 }
 
 /// Payload for MyStoreBlock::ShowPreviewImplementation instance event.
@@ -218,17 +238,17 @@ pub enum MyStoreBlockInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
-    /// Hash: 620557266
+    /// Hash: -840477478
     GetStoreItems,
-    /// Hash: 1573178102
+    /// Hash: -201854344
     OnGetStoreItemsResult,
-    /// Hash: -1001180266
-    OnPlayerStoreItemsChanged_Broacast,
-    /// Hash: -1013975700
+    /// Hash: 1968784630
+    OnPlayerStoreItemsChanged_Broadcast,
+    /// Hash: 1633126732
     BuyItem,
     /// Hash: -468107841
     OnBuyItemResult,
-    /// Hash: -1124822076
+    /// Hash: 1756930613
     SellItem,
     /// Hash: -230294525
     OnSellItemResult,
@@ -240,7 +260,11 @@ pub enum MyStoreBlockInstanceEvent {
     GetGridInventories,
     /// Hash: -128722630
     OnGetGridInventoriesResult,
-    /// Hash: 1500836146
+    /// Hash: -255872477
+    GetGasTanks,
+    /// Hash: 1748754516
+    OnGetGasTanksResult,
+    /// Hash: 59291427
     CreateNewOffer,
     /// Hash: -749413575
     OnCreateNewOfferResult,
@@ -274,18 +298,20 @@ impl MyStoreBlockInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
-            Self::GetStoreItems => 620557266,
-            Self::OnGetStoreItemsResult => 1573178102,
-            Self::OnPlayerStoreItemsChanged_Broacast => -1001180266,
-            Self::BuyItem => -1013975700,
+            Self::GetStoreItems => -840477478,
+            Self::OnGetStoreItemsResult => -201854344,
+            Self::OnPlayerStoreItemsChanged_Broadcast => 1968784630,
+            Self::BuyItem => 1633126732,
             Self::OnBuyItemResult => -468107841,
-            Self::SellItem => -1124822076,
+            Self::SellItem => 1756930613,
             Self::OnSellItemResult => -230294525,
             Self::GetConnectedGridInventories => -874137854,
             Self::OnGetConnectedGridInventoriesResult => 32502610,
             Self::GetGridInventories => 545663401,
             Self::OnGetGridInventoriesResult => -128722630,
-            Self::CreateNewOffer => 1500836146,
+            Self::GetGasTanks => -255872477,
+            Self::OnGetGasTanksResult => 1748754516,
+            Self::CreateNewOffer => 59291427,
             Self::OnCreateNewOfferResult => -749413575,
             Self::CreateNewOrder => 379281956,
             Self::OnCreateNewOrderResult => 1552626135,
@@ -310,18 +336,20 @@ impl MyStoreBlockInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
-            620557266 => Some(Self::GetStoreItems),
-            1573178102 => Some(Self::OnGetStoreItemsResult),
-            -1001180266 => Some(Self::OnPlayerStoreItemsChanged_Broacast),
-            -1013975700 => Some(Self::BuyItem),
+            -840477478 => Some(Self::GetStoreItems),
+            -201854344 => Some(Self::OnGetStoreItemsResult),
+            1968784630 => Some(Self::OnPlayerStoreItemsChanged_Broadcast),
+            1633126732 => Some(Self::BuyItem),
             -468107841 => Some(Self::OnBuyItemResult),
-            -1124822076 => Some(Self::SellItem),
+            1756930613 => Some(Self::SellItem),
             -230294525 => Some(Self::OnSellItemResult),
             -874137854 => Some(Self::GetConnectedGridInventories),
             32502610 => Some(Self::OnGetConnectedGridInventoriesResult),
             545663401 => Some(Self::GetGridInventories),
             -128722630 => Some(Self::OnGetGridInventoriesResult),
-            1500836146 => Some(Self::CreateNewOffer),
+            -255872477 => Some(Self::GetGasTanks),
+            1748754516 => Some(Self::OnGetGasTanksResult),
+            59291427 => Some(Self::CreateNewOffer),
             -749413575 => Some(Self::OnCreateNewOfferResult),
             379281956 => Some(Self::CreateNewOrder),
             1552626135 => Some(Self::OnCreateNewOrderResult),
@@ -360,12 +388,12 @@ pub enum MyStoreBlockInstanceEventPayload {
     OnChangeOpenRequest_8(MyStoreBlock_OnChangeOpenRequest_8Payload),
     /// OnChangeDescription event payload
     OnChangeDescription(MyStoreBlock_OnChangeDescriptionPayload),
-    /// GetStoreItems event (no payload)
-    GetStoreItems,
+    /// GetStoreItems event payload
+    GetStoreItems(MyStoreBlock_GetStoreItemsPayload),
     /// OnGetStoreItemsResult event payload
     OnGetStoreItemsResult(MyStoreBlock_OnGetStoreItemsResultPayload),
-    /// OnPlayerStoreItemsChanged_Broacast event payload
-    OnPlayerStoreItemsChanged_Broacast(MyStoreBlock_OnPlayerStoreItemsChanged_BroacastPayload),
+    /// OnPlayerStoreItemsChanged_Broadcast event payload
+    OnPlayerStoreItemsChanged_Broadcast(MyStoreBlock_OnPlayerStoreItemsChanged_BroadcastPayload),
     /// BuyItem event payload
     BuyItem(MyStoreBlock_BuyItemPayload),
     /// OnBuyItemResult event payload
@@ -382,6 +410,10 @@ pub enum MyStoreBlockInstanceEventPayload {
     GetGridInventories,
     /// OnGetGridInventoriesResult event payload
     OnGetGridInventoriesResult(MyStoreBlock_OnGetGridInventoriesResultPayload),
+    /// GetGasTanks event payload
+    GetGasTanks(MyStoreBlock_GetGasTanksPayload),
+    /// OnGetGasTanksResult event payload
+    OnGetGasTanksResult(MyStoreBlock_OnGetGasTanksResultPayload),
     /// CreateNewOffer event payload
     CreateNewOffer(MyStoreBlock_CreateNewOfferPayload),
     /// OnCreateNewOfferResult event payload
@@ -450,14 +482,17 @@ impl MyStoreBlockInstanceEvent {
                 let (_, payload) = MyStoreBlock_OnChangeDescriptionPayload::from_bytes((bytes, 0))?;
                 Ok(MyStoreBlockInstanceEventPayload::OnChangeDescription(payload))
             }
-            Self::GetStoreItems => Ok(MyStoreBlockInstanceEventPayload::GetStoreItems),
+            Self::GetStoreItems => {
+                let (_, payload) = MyStoreBlock_GetStoreItemsPayload::from_bytes((bytes, 0))?;
+                Ok(MyStoreBlockInstanceEventPayload::GetStoreItems(payload))
+            }
             Self::OnGetStoreItemsResult => {
                 let (_, payload) = MyStoreBlock_OnGetStoreItemsResultPayload::from_bytes((bytes, 0))?;
                 Ok(MyStoreBlockInstanceEventPayload::OnGetStoreItemsResult(payload))
             }
-            Self::OnPlayerStoreItemsChanged_Broacast => {
-                let (_, payload) = MyStoreBlock_OnPlayerStoreItemsChanged_BroacastPayload::from_bytes((bytes, 0))?;
-                Ok(MyStoreBlockInstanceEventPayload::OnPlayerStoreItemsChanged_Broacast(payload))
+            Self::OnPlayerStoreItemsChanged_Broadcast => {
+                let (_, payload) = MyStoreBlock_OnPlayerStoreItemsChanged_BroadcastPayload::from_bytes((bytes, 0))?;
+                Ok(MyStoreBlockInstanceEventPayload::OnPlayerStoreItemsChanged_Broadcast(payload))
             }
             Self::BuyItem => {
                 let (_, payload) = MyStoreBlock_BuyItemPayload::from_bytes((bytes, 0))?;
@@ -484,6 +519,14 @@ impl MyStoreBlockInstanceEvent {
             Self::OnGetGridInventoriesResult => {
                 let (_, payload) = MyStoreBlock_OnGetGridInventoriesResultPayload::from_bytes((bytes, 0))?;
                 Ok(MyStoreBlockInstanceEventPayload::OnGetGridInventoriesResult(payload))
+            }
+            Self::GetGasTanks => {
+                let (_, payload) = MyStoreBlock_GetGasTanksPayload::from_bytes((bytes, 0))?;
+                Ok(MyStoreBlockInstanceEventPayload::GetGasTanks(payload))
+            }
+            Self::OnGetGasTanksResult => {
+                let (_, payload) = MyStoreBlock_OnGetGasTanksResultPayload::from_bytes((bytes, 0))?;
+                Ok(MyStoreBlockInstanceEventPayload::OnGetGasTanksResult(payload))
             }
             Self::CreateNewOffer => {
                 let (_, payload) = MyStoreBlock_CreateNewOfferPayload::from_bytes((bytes, 0))?;
@@ -561,12 +604,12 @@ pub trait MyStoreBlockInstanceEventVisitor {
     fn visit_on_change_open_request_8(&mut self, payload: &MyStoreBlock_OnChangeOpenRequest_8Payload) {}
     /// Called when visiting OnChangeDescription event.
     fn visit_on_change_description(&mut self, payload: &MyStoreBlock_OnChangeDescriptionPayload) {}
-    /// Called when visiting GetStoreItems event (no payload).
-    fn visit_get_store_items(&mut self) {}
+    /// Called when visiting GetStoreItems event.
+    fn visit_get_store_items(&mut self, payload: &MyStoreBlock_GetStoreItemsPayload) {}
     /// Called when visiting OnGetStoreItemsResult event.
     fn visit_on_get_store_items_result(&mut self, payload: &MyStoreBlock_OnGetStoreItemsResultPayload) {}
-    /// Called when visiting OnPlayerStoreItemsChanged_Broacast event.
-    fn visit_on_player_store_items_changed_broacast(&mut self, payload: &MyStoreBlock_OnPlayerStoreItemsChanged_BroacastPayload) {}
+    /// Called when visiting OnPlayerStoreItemsChanged_Broadcast event.
+    fn visit_on_player_store_items_changed_broadcast(&mut self, payload: &MyStoreBlock_OnPlayerStoreItemsChanged_BroadcastPayload) {}
     /// Called when visiting BuyItem event.
     fn visit_buy_item(&mut self, payload: &MyStoreBlock_BuyItemPayload) {}
     /// Called when visiting OnBuyItemResult event.
@@ -583,6 +626,10 @@ pub trait MyStoreBlockInstanceEventVisitor {
     fn visit_get_grid_inventories(&mut self) {}
     /// Called when visiting OnGetGridInventoriesResult event.
     fn visit_on_get_grid_inventories_result(&mut self, payload: &MyStoreBlock_OnGetGridInventoriesResultPayload) {}
+    /// Called when visiting GetGasTanks event.
+    fn visit_get_gas_tanks(&mut self, payload: &MyStoreBlock_GetGasTanksPayload) {}
+    /// Called when visiting OnGetGasTanksResult event.
+    fn visit_on_get_gas_tanks_result(&mut self, payload: &MyStoreBlock_OnGetGasTanksResultPayload) {}
     /// Called when visiting CreateNewOffer event.
     fn visit_create_new_offer(&mut self, payload: &MyStoreBlock_CreateNewOfferPayload) {}
     /// Called when visiting OnCreateNewOfferResult event.
@@ -620,9 +667,9 @@ impl MyStoreBlockInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(payload) => visitor.visit_on_change_open_success_7(payload),
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
-            Self::GetStoreItems => visitor.visit_get_store_items(),
+            Self::GetStoreItems(payload) => visitor.visit_get_store_items(payload),
             Self::OnGetStoreItemsResult(payload) => visitor.visit_on_get_store_items_result(payload),
-            Self::OnPlayerStoreItemsChanged_Broacast(payload) => visitor.visit_on_player_store_items_changed_broacast(payload),
+            Self::OnPlayerStoreItemsChanged_Broadcast(payload) => visitor.visit_on_player_store_items_changed_broadcast(payload),
             Self::BuyItem(payload) => visitor.visit_buy_item(payload),
             Self::OnBuyItemResult(payload) => visitor.visit_on_buy_item_result(payload),
             Self::SellItem(payload) => visitor.visit_sell_item(payload),
@@ -631,6 +678,8 @@ impl MyStoreBlockInstanceEventPayload {
             Self::OnGetConnectedGridInventoriesResult(payload) => visitor.visit_on_get_connected_grid_inventories_result(payload),
             Self::GetGridInventories => visitor.visit_get_grid_inventories(),
             Self::OnGetGridInventoriesResult(payload) => visitor.visit_on_get_grid_inventories_result(payload),
+            Self::GetGasTanks(payload) => visitor.visit_get_gas_tanks(payload),
+            Self::OnGetGasTanksResult(payload) => visitor.visit_on_get_gas_tanks_result(payload),
             Self::CreateNewOffer(payload) => visitor.visit_create_new_offer(payload),
             Self::OnCreateNewOfferResult(payload) => visitor.visit_on_create_new_offer_result(payload),
             Self::CreateNewOrder(payload) => visitor.visit_create_new_order(payload),
@@ -657,9 +706,9 @@ impl MyStoreBlockInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(_) => Some(MyStoreBlockInstanceEvent::OnChangeOpenSuccess_7),
             Self::OnChangeOpenRequest_8(_) => Some(MyStoreBlockInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MyStoreBlockInstanceEvent::OnChangeDescription),
-            Self::GetStoreItems => Some(MyStoreBlockInstanceEvent::GetStoreItems),
+            Self::GetStoreItems(_) => Some(MyStoreBlockInstanceEvent::GetStoreItems),
             Self::OnGetStoreItemsResult(_) => Some(MyStoreBlockInstanceEvent::OnGetStoreItemsResult),
-            Self::OnPlayerStoreItemsChanged_Broacast(_) => Some(MyStoreBlockInstanceEvent::OnPlayerStoreItemsChanged_Broacast),
+            Self::OnPlayerStoreItemsChanged_Broadcast(_) => Some(MyStoreBlockInstanceEvent::OnPlayerStoreItemsChanged_Broadcast),
             Self::BuyItem(_) => Some(MyStoreBlockInstanceEvent::BuyItem),
             Self::OnBuyItemResult(_) => Some(MyStoreBlockInstanceEvent::OnBuyItemResult),
             Self::SellItem(_) => Some(MyStoreBlockInstanceEvent::SellItem),
@@ -668,6 +717,8 @@ impl MyStoreBlockInstanceEventPayload {
             Self::OnGetConnectedGridInventoriesResult(_) => Some(MyStoreBlockInstanceEvent::OnGetConnectedGridInventoriesResult),
             Self::GetGridInventories => Some(MyStoreBlockInstanceEvent::GetGridInventories),
             Self::OnGetGridInventoriesResult(_) => Some(MyStoreBlockInstanceEvent::OnGetGridInventoriesResult),
+            Self::GetGasTanks(_) => Some(MyStoreBlockInstanceEvent::GetGasTanks),
+            Self::OnGetGasTanksResult(_) => Some(MyStoreBlockInstanceEvent::OnGetGasTanksResult),
             Self::CreateNewOffer(_) => Some(MyStoreBlockInstanceEvent::CreateNewOffer),
             Self::OnCreateNewOfferResult(_) => Some(MyStoreBlockInstanceEvent::OnCreateNewOfferResult),
             Self::CreateNewOrder(_) => Some(MyStoreBlockInstanceEvent::CreateNewOrder),

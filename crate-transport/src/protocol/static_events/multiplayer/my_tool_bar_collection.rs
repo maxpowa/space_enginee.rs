@@ -21,7 +21,7 @@ pub struct OnClearSlotRequestPayload {
 pub struct OnChangeSlotItemRequestPayload {
     pub player_serial_id: BitAligned<i32>,
     pub index: BitAligned<i32>,
-    pub def_id: space_engineers_sys::types::DefinitionIdBlit,
+    pub def_id: space_engineers_sys::types::game::DefinitionIdBlit,
 }
 
 /// Payload for OnChangeSlotBuilderItemRequest event.
@@ -29,7 +29,7 @@ pub struct OnChangeSlotItemRequestPayload {
 pub struct OnChangeSlotBuilderItemRequestPayload {
     pub player_serial_id: BitAligned<i32>,
     pub index: BitAligned<i32>,
-    pub item_builder: space_engineers_sys::types::MyObjectBuilder_ToolbarItem,
+    pub item_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
 }
 
 /// Payload for OnNewToolbarRequest event.

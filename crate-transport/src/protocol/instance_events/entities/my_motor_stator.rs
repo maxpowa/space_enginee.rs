@@ -80,20 +80,20 @@ pub struct MyMotorStator_OnChangeDescriptionPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyMotorStator_DoRecreateTopPayload {
     pub builder_id: BitAligned<i64>,
-    pub top_size: space_engineers_sys::types::MyMechanicalConnectionBlockBase_MyTopBlockSize,
+    pub top_size: space_engineers_sys::types::game::MyMechanicalConnectionBlockBase_MyTopBlockSize,
     pub instant_build: BitBool,
 }
 
 /// Payload for MyMotorStator::NotifyTopPartFailed instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyMotorStator_NotifyTopPartFailedPayload {
-    pub result: space_engineers_sys::types::MySession_LimitResult,
+    pub result: space_engineers_sys::types::game::MySession_LimitResult,
 }
 
 /// Payload for MyMotorStator::RequestRotation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyMotorStator_RequestRotationPayload {
-    pub dir: space_engineers_sys::types::MyRotationDirection,
+    pub dir: space_engineers_sys::types::modapi::MyRotationDirection,
     pub desired_ang: BitAligned<f32>,
     pub vel_abs_rpm: BitAligned<f32>,
 }

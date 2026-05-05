@@ -12,18 +12,18 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnHighlightOnClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnHighlightOnClientPayload {
-    pub msg: space_engineers_sys::types::MyHighlightSystem_HighlightMsg,
+    pub msg: space_engineers_sys::types::game::MyHighlightSystem_HighlightMsg,
 }
 
 /// Payload for OnRequestRejected event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnRequestRejectedPayload {
-    pub msg: space_engineers_sys::types::MyHighlightSystem_HighlightMsg,
+    pub msg: space_engineers_sys::types::game::MyHighlightSystem_HighlightMsg,
 }
 
 /// Payload for OnRequestAccepted event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnRequestAcceptedPayload {
-    pub msg: space_engineers_sys::types::MyHighlightSystem_HighlightMsg,
+    pub msg: space_engineers_sys::types::game::MyHighlightSystem_HighlightMsg,
 }
 

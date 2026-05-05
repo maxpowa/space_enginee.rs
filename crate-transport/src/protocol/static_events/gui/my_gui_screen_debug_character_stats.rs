@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for ChangeStat event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangeStatPayload {
-    pub r#type: space_engineers_sys::types::MyGuiScreenDebugCharacterStats_StatType,
+    pub r#type: space_engineers_sys::types::game::MyGuiScreenDebugCharacterStats_StatType,
     pub value: BitAligned<f32>,
 }
 

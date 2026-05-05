@@ -12,14 +12,14 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for SendTransferRequestMessage event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SendTransferRequestMessagePayload {
-    pub grid_data: space_engineers_sys::types::MyBlockLimits_MyGridLimitData,
+    pub grid_data: space_engineers_sys::types::game::MyBlockLimits_MyGridLimitData,
     pub new_owner: BitAligned<i64>,
 }
 
 /// Payload for ReceiveTransferRequestMessage event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ReceiveTransferRequestMessagePayload {
-    pub grid_data: space_engineers_sys::types::MyBlockLimits_TransferMessageData,
+    pub grid_data: space_engineers_sys::types::game::MyBlockLimits_TransferMessageData,
     pub old_owner: BitAligned<i64>,
     pub new_owner: BitAligned<i64>,
     pub blocks_count: BitAligned<i32>,

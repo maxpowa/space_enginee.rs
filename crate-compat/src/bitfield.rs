@@ -9,8 +9,8 @@ use proto_rs::bytes::Buf;
 use proto_rs::encoding::{DecodeContext, WireType};
 use proto_rs::DecodeError;
 use proto_rs::{
-    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind, ProtoShadowDecode,
-    ProtoShadowEncode, RevWriter,
+    ProtoDecode, ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind,
+    ProtoShadowDecode, ProtoShadowEncode, RevWriter,
 };
 use serde::{Deserialize, Serialize};
 use std::convert::TryInto;
@@ -233,4 +233,13 @@ where
         self.0 = BitFlags::from_bits_truncate(numeric);
         Ok(())
     }
+}
+
+impl<T: BitFlag> ProtoDecode for BitField<T>
+where
+    T::Numeric: Into<u32>,
+    u32: TryInto<T::Numeric>,
+    <u32 as TryInto<T::Numeric>>::Error: Debug,
+{
+    type ShadowDecoded = BitField<T>;
 }

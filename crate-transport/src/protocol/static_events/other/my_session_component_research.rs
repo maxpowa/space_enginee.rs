@@ -13,7 +13,7 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UnlockResearchSuccessPayload {
     pub identity_id: BitAligned<i64>,
-    pub id: space_engineers_sys::types::SerializableDefinitionId,
+    pub id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub unlocker_id: BitAligned<i64>,
 }
 
@@ -39,27 +39,27 @@ pub struct DebugUnlockAllResearchSyncPayload {
 /// Payload for AddRequiredResearchSync event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddRequiredResearchSyncPayload {
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for RemoveRequiredResearchSync event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RemoveRequiredResearchSyncPayload {
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for LockResearchSync event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct LockResearchSyncPayload {
     pub character_id: BitAligned<i64>,
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for UnlockResearchDirectSync event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UnlockResearchDirectSyncPayload {
     pub character_id: BitAligned<i64>,
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for ResetResearchSync event.

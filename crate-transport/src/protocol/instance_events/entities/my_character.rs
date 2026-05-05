@@ -9,24 +9,10 @@ use space_engineers_compat::{BitAligned, BitBool, Nullable, VarMap, VarVec, VarB
 use space_engineers_compat::math::Vector3F;
 use space_engineers_sys::math::Vector3D;
 
-/// Payload for MyCharacter::GetOnLadder_Request instance event.
-#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCharacter_GetOnLadder_RequestPayload {
-    pub ladder_id: BitAligned<i64>,
-}
-
-/// Payload for MyCharacter::GetOnLadder_Implementation instance event.
-#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCharacter_GetOnLadder_ImplementationPayload {
-    pub ladder_id: BitAligned<i64>,
-    pub reset_position: BitBool,
-    pub new_ladder_info: Nullable<space_engineers_sys::types::MyObjectBuilder_Character_LadderInfo>,
-}
-
 /// Payload for MyCharacter::SynchronizeBuildPlanner_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_SynchronizeBuildPlanner_ImplementationPayload {
-    pub build_planner: VarVec<space_engineers_sys::types::MyObjectBuilder_Character_BuildPlanItem>,
+    pub build_planner: VarVec<space_engineers_sys::types::game::MyObjectBuilder_Character_BuildPlanItem>,
 }
 
 /// Payload for MyCharacter::ActivateSnap instance event.
@@ -110,7 +96,7 @@ pub struct MyCharacter_ChangeModel_ImplementationPayload {
 /// Payload for MyCharacter::UpdateStoredGas_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_UpdateStoredGas_ImplementationPayload {
-    pub gas_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub gas_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub fill_level: BitAligned<f32>,
 }
 
@@ -123,13 +109,13 @@ pub struct MyCharacter_OnUpdateOxygenPayload {
 /// Payload for MyCharacter::OnRefillFromBottle instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_OnRefillFromBottlePayload {
-    pub gas_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub gas_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for MyCharacter::OnSecondarySoundPlay instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_OnSecondarySoundPlayPayload {
-    pub sound_id: space_engineers_sys::types::MyCueId,
+    pub sound_id: space_engineers_sys::types::game::MyCueId,
 }
 
 /// Payload for MyCharacter::EnablePhysics instance event.
@@ -141,7 +127,7 @@ pub struct MyCharacter_EnablePhysicsPayload {
 /// Payload for MyCharacter::OnKillCharacter instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_OnKillCharacterPayload {
-    pub damage_info: space_engineers_sys::types::MyDamageInformation,
+    pub damage_info: space_engineers_sys::types::modapi::MyDamageInformation,
     pub last_linear_velocity: Vector3F,
 }
 
@@ -156,20 +142,20 @@ pub struct MyCharacter_SpawnCharacterRelativePayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_ShootBeginCallbackPayload {
     pub direction: Vector3F,
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
     pub double_click: BitBool,
 }
 
 /// Payload for MyCharacter::ShootEndCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_ShootEndCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyCharacter::GunDoubleClickedCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_GunDoubleClickedCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyCharacter::ShootDirectionChangeCallback instance event.
@@ -181,14 +167,14 @@ pub struct MyCharacter_ShootDirectionChangeCallbackPayload {
 /// Payload for MyCharacter::SwitchToWeaponMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_SwitchToWeaponMessagePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
     pub inventory_item_id: Nullable<BitAligned<u32>>,
 }
 
 /// Payload for MyCharacter::OnSwitchToWeaponSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_OnSwitchToWeaponSuccessPayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
     pub inventory_item_id: Nullable<BitAligned<u32>>,
     pub weapon_entity_id: BitAligned<i64>,
 }
@@ -196,7 +182,7 @@ pub struct MyCharacter_OnSwitchToWeaponSuccessPayload {
 /// Payload for MyCharacter::OnAnimationCommand instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_OnAnimationCommandPayload {
-    pub command: space_engineers_sys::types::MyAnimationCommand,
+    pub command: space_engineers_sys::types::game::MyAnimationCommand,
 }
 
 /// Payload for MyCharacter::OnAnimationEvent instance event.
@@ -233,16 +219,8 @@ pub struct MyCharacter_IsDrillingAnObjectSyncPayload {
 /// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCharacterInstanceEvent {
-    /// Hash: 628673205
-    GetOnLadder_Request,
-    /// Hash: -1531810071
-    GetOnLadder_Failed,
-    /// Hash: 922071191
-    GetOnLadder_Implementation,
     /// Hash: -680409121
     SynchronizeBuildPlanner_Implementation,
-    /// Hash: 1594263107
-    GetOffLadder_Implementation,
     /// Hash: -141492815
     ActivateSnap,
     /// Hash: -1738066643
@@ -325,11 +303,7 @@ impl MyCharacterInstanceEvent {
     /// Get the stable hash of this instance event.
     pub const fn event_hash(&self) -> i32 {
         match self {
-            Self::GetOnLadder_Request => 628673205,
-            Self::GetOnLadder_Failed => -1531810071,
-            Self::GetOnLadder_Implementation => 922071191,
             Self::SynchronizeBuildPlanner_Implementation => -680409121,
-            Self::GetOffLadder_Implementation => 1594263107,
             Self::ActivateSnap => -141492815,
             Self::ReloadServer => -1738066643,
             Self::CreateBurrowingParticleFX_Client => -266920387,
@@ -374,11 +348,7 @@ impl MyCharacterInstanceEvent {
     /// Look up from event hash. Returns None for unknown events.
     pub fn from_hash(hash: i32) -> Option<Self> {
         match hash {
-            628673205 => Some(Self::GetOnLadder_Request),
-            -1531810071 => Some(Self::GetOnLadder_Failed),
-            922071191 => Some(Self::GetOnLadder_Implementation),
             -680409121 => Some(Self::SynchronizeBuildPlanner_Implementation),
-            1594263107 => Some(Self::GetOffLadder_Implementation),
             -141492815 => Some(Self::ActivateSnap),
             -1738066643 => Some(Self::ReloadServer),
             -266920387 => Some(Self::CreateBurrowingParticleFX_Client),
@@ -427,16 +397,8 @@ impl MyCharacterInstanceEvent {
 /// Use `MyCharacterInstanceEvent::parse_payload()` to parse raw bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub enum MyCharacterInstanceEventPayload {
-    /// GetOnLadder_Request event payload
-    GetOnLadder_Request(MyCharacter_GetOnLadder_RequestPayload),
-    /// GetOnLadder_Failed event (no payload)
-    GetOnLadder_Failed,
-    /// GetOnLadder_Implementation event payload
-    GetOnLadder_Implementation(MyCharacter_GetOnLadder_ImplementationPayload),
     /// SynchronizeBuildPlanner_Implementation event payload
     SynchronizeBuildPlanner_Implementation(MyCharacter_SynchronizeBuildPlanner_ImplementationPayload),
-    /// GetOffLadder_Implementation event (no payload)
-    GetOffLadder_Implementation,
     /// ActivateSnap event payload
     ActivateSnap(MyCharacter_ActivateSnapPayload),
     /// ReloadServer event (no payload)
@@ -526,20 +488,10 @@ impl MyCharacterInstanceEvent {
     /// Returns `Err` if the payload bytes don't match the expected format.
     pub fn parse_payload(&self, bytes: &[u8]) -> Result<MyCharacterInstanceEventPayload, deku::DekuError> {
         match self {
-            Self::GetOnLadder_Request => {
-                let (_, payload) = MyCharacter_GetOnLadder_RequestPayload::from_bytes((bytes, 0))?;
-                Ok(MyCharacterInstanceEventPayload::GetOnLadder_Request(payload))
-            }
-            Self::GetOnLadder_Failed => Ok(MyCharacterInstanceEventPayload::GetOnLadder_Failed),
-            Self::GetOnLadder_Implementation => {
-                let (_, payload) = MyCharacter_GetOnLadder_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(MyCharacterInstanceEventPayload::GetOnLadder_Implementation(payload))
-            }
             Self::SynchronizeBuildPlanner_Implementation => {
                 let (_, payload) = MyCharacter_SynchronizeBuildPlanner_ImplementationPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::SynchronizeBuildPlanner_Implementation(payload))
             }
-            Self::GetOffLadder_Implementation => Ok(MyCharacterInstanceEventPayload::GetOffLadder_Implementation),
             Self::ActivateSnap => {
                 let (_, payload) = MyCharacter_ActivateSnapPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::ActivateSnap(payload))
@@ -688,16 +640,8 @@ pub fn parse_my_character_instance_event(event_hash: i32, payload_bytes: &[u8]) 
 /// Implement only the methods you care about - all have default empty implementations.
 #[allow(unused_variables)]
 pub trait MyCharacterInstanceEventVisitor {
-    /// Called when visiting GetOnLadder_Request event.
-    fn visit_get_on_ladder_request(&mut self, payload: &MyCharacter_GetOnLadder_RequestPayload) {}
-    /// Called when visiting GetOnLadder_Failed event (no payload).
-    fn visit_get_on_ladder_failed(&mut self) {}
-    /// Called when visiting GetOnLadder_Implementation event.
-    fn visit_get_on_ladder_implementation(&mut self, payload: &MyCharacter_GetOnLadder_ImplementationPayload) {}
     /// Called when visiting SynchronizeBuildPlanner_Implementation event.
     fn visit_synchronize_build_planner_implementation(&mut self, payload: &MyCharacter_SynchronizeBuildPlanner_ImplementationPayload) {}
-    /// Called when visiting GetOffLadder_Implementation event (no payload).
-    fn visit_get_off_ladder_implementation(&mut self) {}
     /// Called when visiting ActivateSnap event.
     fn visit_activate_snap(&mut self, payload: &MyCharacter_ActivateSnapPayload) {}
     /// Called when visiting ReloadServer event (no payload).
@@ -783,11 +727,7 @@ impl MyCharacterInstanceEventPayload {
     /// Accept a visitor, dispatching to the appropriate visit method.
     pub fn accept<V: MyCharacterInstanceEventVisitor>(&self, visitor: &mut V) {
         match self {
-            Self::GetOnLadder_Request(payload) => visitor.visit_get_on_ladder_request(payload),
-            Self::GetOnLadder_Failed => visitor.visit_get_on_ladder_failed(),
-            Self::GetOnLadder_Implementation(payload) => visitor.visit_get_on_ladder_implementation(payload),
             Self::SynchronizeBuildPlanner_Implementation(payload) => visitor.visit_synchronize_build_planner_implementation(payload),
-            Self::GetOffLadder_Implementation => visitor.visit_get_off_ladder_implementation(),
             Self::ActivateSnap(payload) => visitor.visit_activate_snap(payload),
             Self::ReloadServer => visitor.visit_reload_server(),
             Self::CreateBurrowingParticleFX_Client(payload) => visitor.visit_create_burrowing_particle_fx_client(payload),
@@ -833,11 +773,7 @@ impl MyCharacterInstanceEventPayload {
     /// Get the instance event type for this payload.
     pub fn event_type(&self) -> Option<MyCharacterInstanceEvent> {
         match self {
-            Self::GetOnLadder_Request(_) => Some(MyCharacterInstanceEvent::GetOnLadder_Request),
-            Self::GetOnLadder_Failed => Some(MyCharacterInstanceEvent::GetOnLadder_Failed),
-            Self::GetOnLadder_Implementation(_) => Some(MyCharacterInstanceEvent::GetOnLadder_Implementation),
             Self::SynchronizeBuildPlanner_Implementation(_) => Some(MyCharacterInstanceEvent::SynchronizeBuildPlanner_Implementation),
-            Self::GetOffLadder_Implementation => Some(MyCharacterInstanceEvent::GetOffLadder_Implementation),
             Self::ActivateSnap(_) => Some(MyCharacterInstanceEvent::ActivateSnap),
             Self::ReloadServer => Some(MyCharacterInstanceEvent::ReloadServer),
             Self::CreateBurrowingParticleFX_Client(_) => Some(MyCharacterInstanceEvent::CreateBurrowingParticleFX_Client),

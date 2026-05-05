@@ -48,7 +48,7 @@ pub struct MyMultiTextPanelComponent_OnChangeTextRequestPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyMultiTextPanelComponent_OnUpdateSpriteCollectionPayload {
     pub panel_index: BitAligned<i32>,
-    pub sprites: space_engineers_sys::types::MySerializableSpriteCollection,
+    pub sprites: space_engineers_sys::types::game::MySerializableSpriteCollection,
 }
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyMultiTextPanelComponent.

@@ -12,12 +12,12 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for PersistEncounterClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct PersistEncounterClientPayload {
-    pub encounter_id: space_engineers_sys::types::MyEncounterId,
+    pub encounter_id: space_engineers_sys::types::game::MyEncounterId,
 }
 
 /// Payload for EncounterSpawned event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct EncounterSpawnedPayload {
-    pub id: space_engineers_sys::types::MyEncounterId,
+    pub id: space_engineers_sys::types::game::MyEncounterId,
 }
 

@@ -24,26 +24,26 @@ pub struct TradeRequest_StartTradePayload {
 /// Payload for TradeRequest_StartTrade_Server event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct TradeRequest_StartTrade_ServerPayload {
-    pub reason: space_engineers_sys::types::MyTradeResponseReason,
+    pub reason: space_engineers_sys::types::game::MyTradeResponseReason,
 }
 
 /// Payload for TradeRequest_Response event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct TradeRequest_ResponsePayload {
     pub other_player_id: BitAligned<u64>,
-    pub reason: space_engineers_sys::types::MyTradeResponseReason,
+    pub reason: space_engineers_sys::types::game::MyTradeResponseReason,
 }
 
 /// Payload for SubmitTradingOffer_Server event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SubmitTradingOffer_ServerPayload {
-    pub ob_offer: space_engineers_sys::types::MyObjectBuilder_SubmitOffer,
+    pub ob_offer: space_engineers_sys::types::object_builders::MyObjectBuilder_SubmitOffer,
 }
 
 /// Payload for SubmitTradingOffer_ClientRecieve event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SubmitTradingOffer_ClientRecievePayload {
-    pub ob_offer: space_engineers_sys::types::MyObjectBuilder_SubmitOffer,
+    pub ob_offer: space_engineers_sys::types::object_builders::MyObjectBuilder_SubmitOffer,
 }
 
 /// Payload for AcceptOffer_Server event.

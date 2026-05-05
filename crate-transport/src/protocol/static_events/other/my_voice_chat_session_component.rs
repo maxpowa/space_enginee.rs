@@ -12,13 +12,13 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for SendVoice event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SendVoicePayload {
-    pub data: space_engineers_sys::types::BitReaderWriter,
+    pub data: space_engineers_sys::types::game::BitReaderWriter,
 }
 
 /// Payload for SendVoicePlayer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SendVoicePlayerPayload {
     pub user: BitAligned<u64>,
-    pub data: space_engineers_sys::types::BitReaderWriter,
+    pub data: space_engineers_sys::types::game::BitReaderWriter,
 }
 

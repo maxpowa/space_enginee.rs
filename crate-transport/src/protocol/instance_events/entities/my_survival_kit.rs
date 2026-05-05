@@ -80,16 +80,16 @@ pub struct MySurvivalKit_OnChangeDescriptionPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySurvivalKit_OnAddQueueItemRequestPayload {
     pub idx: BitAligned<i32>,
-    pub def_id: space_engineers_sys::types::SerializableDefinitionId,
-    pub ammount: space_engineers_sys::types::MyFixedPoint,
+    pub def_id: space_engineers_sys::types::game::SerializableDefinitionId,
+    pub ammount: space_engineers_sys::types::game::MyFixedPoint,
 }
 
 /// Payload for MySurvivalKit::OnAddQueueItemSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySurvivalKit_OnAddQueueItemSuccessPayload {
     pub idx: BitAligned<i32>,
-    pub def_id: space_engineers_sys::types::SerializableDefinitionId,
-    pub ammount: space_engineers_sys::types::MyFixedPoint,
+    pub def_id: space_engineers_sys::types::game::SerializableDefinitionId,
+    pub ammount: space_engineers_sys::types::game::MyFixedPoint,
 }
 
 /// Payload for MySurvivalKit::OnMoveQueueItemCallback instance event.
@@ -103,7 +103,7 @@ pub struct MySurvivalKit_OnMoveQueueItemCallbackPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySurvivalKit_OnRemoveQueueItemRequestPayload {
     pub idx: BitAligned<i32>,
-    pub amount: space_engineers_sys::types::MyFixedPoint,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
     pub progress: BitAligned<f32>,
 }
 
@@ -111,7 +111,7 @@ pub struct MySurvivalKit_OnRemoveQueueItemRequestPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySurvivalKit_OnRemoveQueueItemPayload {
     pub idx: BitAligned<i32>,
-    pub amount: space_engineers_sys::types::MyFixedPoint,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
     pub progress: BitAligned<f32>,
 }
 

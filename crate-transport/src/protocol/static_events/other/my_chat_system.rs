@@ -12,12 +12,12 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnFactionMessageRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnFactionMessageRequestPayload {
-    pub item: space_engineers_sys::types::MyUnifiedChatItem,
+    pub item: space_engineers_sys::types::game::MyUnifiedChatItem,
 }
 
 /// Payload for OnFactionMessageSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnFactionMessageSuccessPayload {
-    pub item: space_engineers_sys::types::MyUnifiedChatItem,
+    pub item: space_engineers_sys::types::game::MyUnifiedChatItem,
 }
 

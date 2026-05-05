@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for CoordSysCreated_Client event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CoordSysCreated_ClientPayload {
-    pub create_buffer: space_engineers_sys::types::MyCoordinateSystem_MyCreateCoordSysBuffer,
+    pub create_buffer: space_engineers_sys::types::game::MyCoordinateSystem_MyCreateCoordSysBuffer,
 }
 
 /// Payload for CoorSysRemoved_Client event.

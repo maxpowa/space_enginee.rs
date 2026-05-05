@@ -13,7 +13,7 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SpawnIntoContainer_ImplementationPayload {
     pub amount: BitAligned<i64>,
-    pub item: space_engineers_sys::types::SerializableDefinitionId,
+    pub item: space_engineers_sys::types::game::SerializableDefinitionId,
     pub entity_id: BitAligned<i64>,
     pub player_id: BitAligned<i64>,
 }
@@ -21,7 +21,7 @@ pub struct SpawnIntoContainer_ImplementationPayload {
 /// Payload for SpawnAsteroid event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SpawnAsteroidPayload {
-    pub asteroid_info: space_engineers_sys::types::MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo,
+    pub asteroid_info: space_engineers_sys::types::game::MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo,
 }
 
 /// Payload for SpawnPlanet_Server event.

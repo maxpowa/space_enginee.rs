@@ -12,19 +12,19 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for AddGpsOnClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddGpsOnClientPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_AddMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_AddMsg,
 }
 
 /// Payload for AddGpsOnAllClients event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddGpsOnAllClientsPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_AddMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_AddMsg,
 }
 
 /// Payload for AddGpsOnServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddGpsOnServerPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_AddMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_AddMsg,
 }
 
 /// Payload for DeleteGpsOnClient event.
@@ -54,19 +54,19 @@ pub struct DeleteContainerGpsOnClientPayload {
 /// Payload for ModifyGpsOnServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ModifyGpsOnServerPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_ModifyMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_ModifyMsg,
 }
 
 /// Payload for ModifyGpsOnClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ModifyGpsOnClientPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_ModifyMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_ModifyMsg,
 }
 
 /// Payload for ModifyGpsOnAllClients event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ModifyGpsOnAllClientsPayload {
-    pub msg: space_engineers_sys::types::MyGpsCollection_ModifyMsg,
+    pub msg: space_engineers_sys::types::game::MyGpsCollection_ModifyMsg,
 }
 
 /// Payload for ChangeShowOnHudOnServer event.
@@ -115,27 +115,27 @@ pub struct ChangeAlwaysVisibleOnClientPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangeColorOnClientPayload {
     pub gps_hash: BitAligned<i32>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Payload for ChangeColorOnServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangeColorOnServerPayload {
     pub gps_hash: BitAligned<i32>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Payload for ChangeContainerColorOnAllClients event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangeContainerColorOnAllClientsPayload {
     pub entity_id: BitAligned<i64>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Payload for ChangeContainerColorOnServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangeContainerColorOnServerPayload {
     pub grid_entity_id: BitAligned<i64>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 

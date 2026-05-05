@@ -14,7 +14,8 @@ pub mod types;
 
 #[cfg(test)]
 mod tests {
-    use super::types::*;
+    use super::types::game::*;
+    use super::types::object_builders::*;
 
     /// Verifies that a single `MyObjectBuilder_Faction` round-trips through XML,
     /// including self-closing empty elements for Vec fields like `<Stations />`,

@@ -343,6 +343,8 @@ pub enum StaticEventType {
     RewardNewsletterBlockOwnerSignal,
     /// Hash: 385690912
     RequestUpdateClientDLC,
+    /// Hash: 475477616
+    EconomyTickInformBroadcast,
     /// Hash: -1806606243
     RequestUpdateClientGameInventory,
     /// Hash: 349037339
@@ -409,6 +411,8 @@ pub enum StaticEventType {
     OnSaveEntityCameraSettings,
     /// Hash: 178558592
     CreateFactionByDefinition,
+    /// Hash: -12797923
+    OnAddPlayerToFaction,
     /// Hash: 1181698866
     MyFactionCollection_UnlockAchievementForClient,
     /// Hash: 1314936769
@@ -569,6 +573,8 @@ pub enum StaticEventType {
     ShareBlueprintRequest,
     /// Hash: 102854626
     ShareBlueprintRequestClient,
+    /// Hash: 102852439
+    VisitAllShopsInternal,
     /// Hash: -1115567051
     ResetEconomyShopsRequest,
     /// Hash: -1616197732
@@ -691,6 +697,8 @@ pub enum StaticEventType {
     Cycle_Implementation,
     /// Hash: -250968004
     DownloadSettingFromServer,
+    /// Hash: -577957213
+    RegenerateStations,
     /// Hash: -563911145
     CompileProgramServer,
     /// Hash: -366268659
@@ -770,9 +778,9 @@ pub enum StaticEventType {
     /// Hash: 1717925206
     ResetAssetModifierSync,
     /// Hash: 244971711
-    MyAssetModifierComponent_ApplyAssetModifierSync_373,
+    MyAssetModifierComponent_ApplyAssetModifierSync_377,
     /// Hash: -1468025778
-    MyAssetModifierComponent_ApplyAssetModifierSync_374,
+    MyAssetModifierComponent_ApplyAssetModifierSync_378,
     /// Hash: 410358905
     OnTargetRequestServer,
     /// Hash: 1398335973
@@ -817,6 +825,10 @@ pub enum StaticEventType {
     SpawnEventInit,
     /// Hash: -1640232824
     SpawnGroup,
+    /// Hash: 1126596262
+    RequestMarketWatchItemsServer,
+    /// Hash: -308562336
+    ReceiveMarketWatchItemsClient,
     /// Hash: 849424381
     OnCreativeToolsEnabled,
     /// Hash: -121532033
@@ -874,9 +886,9 @@ pub enum StaticEventType {
     /// Hash: -2102062020
     CancelPendingTransferRequestsServerSide,
     /// Hash: -2018398609
-    MyCubeGrid_CancelPendingTransferRequests_425,
+    MyCubeGrid_CancelPendingTransferRequests_431,
     /// Hash: -1021133171
-    MyCubeGrid_CancelPendingTransferRequests_426,
+    MyCubeGrid_CancelPendingTransferRequests_432,
     /// Hash: -744210607
     AddChangeOwnersRequestClientside,
     /// Hash: -452010520
@@ -983,6 +995,14 @@ pub enum StaticEventType {
     ShowMotD,
     /// Hash: -1703749710
     MyGlobalEncountersGenerator_UpdateGPSRemainingTime,
+    /// Hash: 564199813
+    MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification,
+    /// Hash: -868665565
+    MySessionComponentGridTriggeredContracts_SendMaxContractsNotification,
+    /// Hash: 1228327712
+    MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification,
+    /// Hash: 1323655142
+    MySessionComponentItemTriggeredContracts_SendMaxContractsNotification,
     /// Hash: 482570430
     RefreshRespawnPointsRequest,
     /// Hash: 1216041884
@@ -1005,6 +1025,10 @@ pub enum StaticEventType {
     RequestSpawnInstallationAtCrosshair,
     /// Hash: -531016194
     RequestSpawnInstallationAtCam,
+    /// Hash: -100638308
+    RequestCreateStationGps,
+    /// Hash: -1231143597
+    ShowAlreadyCollectedNotification,
     /// Hash: -115341791
     PlayAttackAnimation,
 }
@@ -1173,6 +1197,7 @@ impl StaticEventType {
             Self::DisplayNotificationToPlayer => -1124670174,
             Self::RewardNewsletterBlockOwnerSignal => 645113876,
             Self::RequestUpdateClientDLC => 385690912,
+            Self::EconomyTickInformBroadcast => 475477616,
             Self::RequestUpdateClientGameInventory => -1806606243,
             Self::UpdateClientGameInventoryResult => 349037339,
             Self::CreateScoreScreenSync => -1298583317,
@@ -1206,6 +1231,7 @@ impl StaticEventType {
             Self::OnUpdateWarnings => -1565777428,
             Self::OnSaveEntityCameraSettings => -104420739,
             Self::CreateFactionByDefinition => 178558592,
+            Self::OnAddPlayerToFaction => -12797923,
             Self::MyFactionCollection_UnlockAchievementForClient => 1181698866,
             Self::Invoke_AddRep_DEBUG => 1314936769,
             Self::AddFactionPlayerReputationSuccess => 2076297485,
@@ -1286,6 +1312,7 @@ impl StaticEventType {
             Self::StopEntities_Implementation => 1548218257,
             Self::ShareBlueprintRequest => 1692034881,
             Self::ShareBlueprintRequestClient => 102854626,
+            Self::VisitAllShopsInternal => 102852439,
             Self::ResetEconomyShopsRequest => -1115567051,
             Self::UpdateEconomyRequest => -1616197732,
             Self::RequestStationPositions => 1932140952,
@@ -1347,6 +1374,7 @@ impl StaticEventType {
             Self::MyGuiScreenAdminMenu_EntityListResponse => 852753071,
             Self::Cycle_Implementation => 67434386,
             Self::DownloadSettingFromServer => -250968004,
+            Self::RegenerateStations => -577957213,
             Self::CompileProgramServer => -563911145,
             Self::ReportCompilationResults => -366268659,
             Self::Promote => -2145190109,
@@ -1386,8 +1414,8 @@ impl StaticEventType {
             Self::RequestDeposit_Server => -3481990,
             Self::RequestTransfer_BroadcastToClients => 1728664726,
             Self::ResetAssetModifierSync => 1717925206,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_373 => 244971711,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_374 => -1468025778,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377 => 244971711,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378 => -1468025778,
             Self::OnTargetRequestServer => 410358905,
             Self::RequestReleaseTargetLock => 1398335973,
             Self::LooseLockOnClient => -1045581498,
@@ -1410,6 +1438,8 @@ impl StaticEventType {
             Self::SetGridNameFromServer => 52512643,
             Self::SpawnEventInit => -1343692117,
             Self::SpawnGroup => -1640232824,
+            Self::RequestMarketWatchItemsServer => 1126596262,
+            Self::ReceiveMarketWatchItemsClient => -308562336,
             Self::OnCreativeToolsEnabled => 849424381,
             Self::OnCrash => -121532033,
             Self::HitIndicatorActivationInternal => 1716892082,
@@ -1438,8 +1468,8 @@ impl StaticEventType {
             Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
             Self::OnChangeOwnersRequestConfirmation => -698781606,
             Self::CancelPendingTransferRequestsServerSide => -2102062020,
-            Self::MyCubeGrid_CancelPendingTransferRequests_425 => -2018398609,
-            Self::MyCubeGrid_CancelPendingTransferRequests_426 => -1021133171,
+            Self::MyCubeGrid_CancelPendingTransferRequests_431 => -2018398609,
+            Self::MyCubeGrid_CancelPendingTransferRequests_432 => -1021133171,
             Self::AddChangeOwnersRequestClientside => -744210607,
             Self::RemoveOwnershipChangeRequests => -452010520,
             Self::OnChangeOwnersSuccess => -158472076,
@@ -1493,6 +1523,10 @@ impl StaticEventType {
             Self::ShowMedicalScreen_Implementation => 1756570335,
             Self::ShowMotD => -326424210,
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime => -1703749710,
+            Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => 564199813,
+            Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => -868665565,
+            Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => 1228327712,
+            Self::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification => 1323655142,
             Self::RefreshRespawnPointsRequest => 482570430,
             Self::RequestRespawnPointsResponse => 1216041884,
             Self::ChangeStat => 1696845478,
@@ -1504,6 +1538,8 @@ impl StaticEventType {
             Self::RequestGlobalEncounterDespawn => 346544685,
             Self::RequestSpawnInstallationAtCrosshair => -2102810046,
             Self::RequestSpawnInstallationAtCam => -531016194,
+            Self::RequestCreateStationGps => -100638308,
+            Self::ShowAlreadyCollectedNotification => -1231143597,
             Self::PlayAttackAnimation => -115341791,
         }
     }
@@ -1671,6 +1707,7 @@ impl StaticEventType {
             -1124670174 => Some(Self::DisplayNotificationToPlayer),
             645113876 => Some(Self::RewardNewsletterBlockOwnerSignal),
             385690912 => Some(Self::RequestUpdateClientDLC),
+            475477616 => Some(Self::EconomyTickInformBroadcast),
             -1806606243 => Some(Self::RequestUpdateClientGameInventory),
             349037339 => Some(Self::UpdateClientGameInventoryResult),
             -1298583317 => Some(Self::CreateScoreScreenSync),
@@ -1704,6 +1741,7 @@ impl StaticEventType {
             -1565777428 => Some(Self::OnUpdateWarnings),
             -104420739 => Some(Self::OnSaveEntityCameraSettings),
             178558592 => Some(Self::CreateFactionByDefinition),
+            -12797923 => Some(Self::OnAddPlayerToFaction),
             1181698866 => Some(Self::MyFactionCollection_UnlockAchievementForClient),
             1314936769 => Some(Self::Invoke_AddRep_DEBUG),
             2076297485 => Some(Self::AddFactionPlayerReputationSuccess),
@@ -1784,6 +1822,7 @@ impl StaticEventType {
             1548218257 => Some(Self::StopEntities_Implementation),
             1692034881 => Some(Self::ShareBlueprintRequest),
             102854626 => Some(Self::ShareBlueprintRequestClient),
+            102852439 => Some(Self::VisitAllShopsInternal),
             -1115567051 => Some(Self::ResetEconomyShopsRequest),
             -1616197732 => Some(Self::UpdateEconomyRequest),
             1932140952 => Some(Self::RequestStationPositions),
@@ -1845,6 +1884,7 @@ impl StaticEventType {
             852753071 => Some(Self::MyGuiScreenAdminMenu_EntityListResponse),
             67434386 => Some(Self::Cycle_Implementation),
             -250968004 => Some(Self::DownloadSettingFromServer),
+            -577957213 => Some(Self::RegenerateStations),
             -563911145 => Some(Self::CompileProgramServer),
             -366268659 => Some(Self::ReportCompilationResults),
             -2145190109 => Some(Self::Promote),
@@ -1884,8 +1924,8 @@ impl StaticEventType {
             -3481990 => Some(Self::RequestDeposit_Server),
             1728664726 => Some(Self::RequestTransfer_BroadcastToClients),
             1717925206 => Some(Self::ResetAssetModifierSync),
-            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_373),
-            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_374),
+            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_377),
+            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_378),
             410358905 => Some(Self::OnTargetRequestServer),
             1398335973 => Some(Self::RequestReleaseTargetLock),
             -1045581498 => Some(Self::LooseLockOnClient),
@@ -1908,6 +1948,8 @@ impl StaticEventType {
             52512643 => Some(Self::SetGridNameFromServer),
             -1343692117 => Some(Self::SpawnEventInit),
             -1640232824 => Some(Self::SpawnGroup),
+            1126596262 => Some(Self::RequestMarketWatchItemsServer),
+            -308562336 => Some(Self::ReceiveMarketWatchItemsClient),
             849424381 => Some(Self::OnCreativeToolsEnabled),
             -121532033 => Some(Self::OnCrash),
             1716892082 => Some(Self::HitIndicatorActivationInternal),
@@ -1936,8 +1978,8 @@ impl StaticEventType {
             -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
             -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
             -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
-            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_425),
-            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_426),
+            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_431),
+            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_432),
             -744210607 => Some(Self::AddChangeOwnersRequestClientside),
             -452010520 => Some(Self::RemoveOwnershipChangeRequests),
             -158472076 => Some(Self::OnChangeOwnersSuccess),
@@ -1991,6 +2033,10 @@ impl StaticEventType {
             1756570335 => Some(Self::ShowMedicalScreen_Implementation),
             -326424210 => Some(Self::ShowMotD),
             -1703749710 => Some(Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime),
+            564199813 => Some(Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
+            -868665565 => Some(Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
+            1228327712 => Some(Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
+            1323655142 => Some(Self::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification),
             482570430 => Some(Self::RefreshRespawnPointsRequest),
             1216041884 => Some(Self::RequestRespawnPointsResponse),
             1696845478 => Some(Self::ChangeStat),
@@ -2002,6 +2048,8 @@ impl StaticEventType {
             346544685 => Some(Self::RequestGlobalEncounterDespawn),
             -2102810046 => Some(Self::RequestSpawnInstallationAtCrosshair),
             -531016194 => Some(Self::RequestSpawnInstallationAtCam),
+            -100638308 => Some(Self::RequestCreateStationGps),
+            -1231143597 => Some(Self::ShowAlreadyCollectedNotification),
             -115341791 => Some(Self::PlayAttackAnimation),
             _ => None,
         }
@@ -2333,6 +2381,8 @@ pub enum StaticEventPayload {
     RewardNewsletterBlockOwnerSignal,
     /// RequestUpdateClientDLC event (no payload)
     RequestUpdateClientDLC,
+    /// EconomyTickInformBroadcast event (no payload)
+    EconomyTickInformBroadcast,
     /// RequestUpdateClientGameInventory event payload
     RequestUpdateClientGameInventory(RequestUpdateClientGameInventoryPayload),
     /// UpdateClientGameInventoryResult event payload
@@ -2399,6 +2449,8 @@ pub enum StaticEventPayload {
     OnSaveEntityCameraSettings(OnSaveEntityCameraSettingsPayload),
     /// CreateFactionByDefinition event payload
     CreateFactionByDefinition(CreateFactionByDefinitionPayload),
+    /// OnAddPlayerToFaction event payload
+    OnAddPlayerToFaction(OnAddPlayerToFactionPayload),
     /// MyFactionCollection_UnlockAchievementForClient event payload
     MyFactionCollection_UnlockAchievementForClient(MyFactionCollection_UnlockAchievementForClientPayload),
     /// Invoke_AddRep_DEBUG event payload
@@ -2559,6 +2611,8 @@ pub enum StaticEventPayload {
     ShareBlueprintRequest(ShareBlueprintRequestPayload),
     /// ShareBlueprintRequestClient event payload
     ShareBlueprintRequestClient(ShareBlueprintRequestClientPayload),
+    /// VisitAllShopsInternal event (no payload)
+    VisitAllShopsInternal,
     /// ResetEconomyShopsRequest event (no payload)
     ResetEconomyShopsRequest,
     /// UpdateEconomyRequest event (no payload)
@@ -2681,6 +2735,8 @@ pub enum StaticEventPayload {
     Cycle_Implementation(Cycle_ImplementationPayload),
     /// DownloadSettingFromServer event payload
     DownloadSettingFromServer(DownloadSettingFromServerPayload),
+    /// RegenerateStations event (no payload)
+    RegenerateStations,
     /// CompileProgramServer event payload
     CompileProgramServer(CompileProgramServerPayload),
     /// ReportCompilationResults event payload
@@ -2759,10 +2815,10 @@ pub enum StaticEventPayload {
     RequestTransfer_BroadcastToClients(RequestTransfer_BroadcastToClientsPayload),
     /// ResetAssetModifierSync event payload
     ResetAssetModifierSync(ResetAssetModifierSyncPayload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_373 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_373(MyAssetModifierComponent_ApplyAssetModifierSync_373Payload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_374 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_374(MyAssetModifierComponent_ApplyAssetModifierSync_374Payload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_377 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_377(MyAssetModifierComponent_ApplyAssetModifierSync_377Payload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_378 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_378(MyAssetModifierComponent_ApplyAssetModifierSync_378Payload),
     /// OnTargetRequestServer event payload
     OnTargetRequestServer(OnTargetRequestServerPayload),
     /// RequestReleaseTargetLock event (no payload)
@@ -2807,6 +2863,10 @@ pub enum StaticEventPayload {
     SpawnEventInit,
     /// SpawnGroup event payload
     SpawnGroup(SpawnGroupPayload),
+    /// RequestMarketWatchItemsServer event payload
+    RequestMarketWatchItemsServer(RequestMarketWatchItemsServerPayload),
+    /// ReceiveMarketWatchItemsClient event payload
+    ReceiveMarketWatchItemsClient(ReceiveMarketWatchItemsClientPayload),
     /// OnCreativeToolsEnabled event payload
     OnCreativeToolsEnabled(OnCreativeToolsEnabledPayload),
     /// OnCrash event (no payload)
@@ -2863,10 +2923,10 @@ pub enum StaticEventPayload {
     OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
     /// CancelPendingTransferRequestsServerSide event payload
     CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
-    /// MyCubeGrid_CancelPendingTransferRequests_425 event payload
-    MyCubeGrid_CancelPendingTransferRequests_425(MyCubeGrid_CancelPendingTransferRequests_425Payload),
-    /// MyCubeGrid_CancelPendingTransferRequests_426 event payload
-    MyCubeGrid_CancelPendingTransferRequests_426(MyCubeGrid_CancelPendingTransferRequests_426Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_431 event payload
+    MyCubeGrid_CancelPendingTransferRequests_431(MyCubeGrid_CancelPendingTransferRequests_431Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_432 event payload
+    MyCubeGrid_CancelPendingTransferRequests_432(MyCubeGrid_CancelPendingTransferRequests_432Payload),
     /// AddChangeOwnersRequestClientside event payload
     AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
     /// RemoveOwnershipChangeRequests event payload
@@ -2973,6 +3033,14 @@ pub enum StaticEventPayload {
     ShowMotD(ShowMotDPayload),
     /// MyGlobalEncountersGenerator_UpdateGPSRemainingTime event payload
     MyGlobalEncountersGenerator_UpdateGPSRemainingTime(MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload),
+    /// MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification event (no payload)
+    MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification,
+    /// MySessionComponentGridTriggeredContracts_SendMaxContractsNotification event (no payload)
+    MySessionComponentGridTriggeredContracts_SendMaxContractsNotification,
+    /// MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification event (no payload)
+    MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification,
+    /// MySessionComponentItemTriggeredContracts_SendMaxContractsNotification event (no payload)
+    MySessionComponentItemTriggeredContracts_SendMaxContractsNotification,
     /// RefreshRespawnPointsRequest event (no payload)
     RefreshRespawnPointsRequest,
     /// RequestRespawnPointsResponse event payload
@@ -2995,6 +3063,10 @@ pub enum StaticEventPayload {
     RequestSpawnInstallationAtCrosshair(RequestSpawnInstallationAtCrosshairPayload),
     /// RequestSpawnInstallationAtCam event payload
     RequestSpawnInstallationAtCam(RequestSpawnInstallationAtCamPayload),
+    /// RequestCreateStationGps event payload
+    RequestCreateStationGps(RequestCreateStationGpsPayload),
+    /// ShowAlreadyCollectedNotification event (no payload)
+    ShowAlreadyCollectedNotification,
     /// PlayAttackAnimation event payload
     PlayAttackAnimation(PlayAttackAnimationPayload),
     /// Unknown event (raw bytes preserved)
@@ -3617,6 +3689,7 @@ impl StaticEventType {
             }
             Self::RewardNewsletterBlockOwnerSignal => Ok(StaticEventPayload::RewardNewsletterBlockOwnerSignal),
             Self::RequestUpdateClientDLC => Ok(StaticEventPayload::RequestUpdateClientDLC),
+            Self::EconomyTickInformBroadcast => Ok(StaticEventPayload::EconomyTickInformBroadcast),
             Self::RequestUpdateClientGameInventory => {
                 let (_, payload) = RequestUpdateClientGameInventoryPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::RequestUpdateClientGameInventory(payload))
@@ -3721,6 +3794,10 @@ impl StaticEventType {
             Self::CreateFactionByDefinition => {
                 let (_, payload) = CreateFactionByDefinitionPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CreateFactionByDefinition(payload))
+            }
+            Self::OnAddPlayerToFaction => {
+                let (_, payload) = OnAddPlayerToFactionPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnAddPlayerToFaction(payload))
             }
             Self::MyFactionCollection_UnlockAchievementForClient => {
                 let (_, payload) = MyFactionCollection_UnlockAchievementForClientPayload::from_bytes((bytes, 0))?;
@@ -4024,6 +4101,7 @@ impl StaticEventType {
                 let (_, payload) = ShareBlueprintRequestClientPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ShareBlueprintRequestClient(payload))
             }
+            Self::VisitAllShopsInternal => Ok(StaticEventPayload::VisitAllShopsInternal),
             Self::ResetEconomyShopsRequest => Ok(StaticEventPayload::ResetEconomyShopsRequest),
             Self::UpdateEconomyRequest => Ok(StaticEventPayload::UpdateEconomyRequest),
             Self::RequestStationPositions => Ok(StaticEventPayload::RequestStationPositions),
@@ -4220,6 +4298,7 @@ impl StaticEventType {
                 let (_, payload) = DownloadSettingFromServerPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::DownloadSettingFromServer(payload))
             }
+            Self::RegenerateStations => Ok(StaticEventPayload::RegenerateStations),
             Self::CompileProgramServer => {
                 let (_, payload) = CompileProgramServerPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CompileProgramServer(payload))
@@ -4355,13 +4434,13 @@ impl StaticEventType {
                 let (_, payload) = ResetAssetModifierSyncPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ResetAssetModifierSync(payload))
             }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_373 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_373Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_373(payload))
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_377Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_377(payload))
             }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_374 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_374Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_374(payload))
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_378Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_378(payload))
             }
             Self::OnTargetRequestServer => {
                 let (_, payload) = OnTargetRequestServerPayload::from_bytes((bytes, 0))?;
@@ -4435,6 +4514,14 @@ impl StaticEventType {
             Self::SpawnGroup => {
                 let (_, payload) = SpawnGroupPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::SpawnGroup(payload))
+            }
+            Self::RequestMarketWatchItemsServer => {
+                let (_, payload) = RequestMarketWatchItemsServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestMarketWatchItemsServer(payload))
+            }
+            Self::ReceiveMarketWatchItemsClient => {
+                let (_, payload) = ReceiveMarketWatchItemsClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveMarketWatchItemsClient(payload))
             }
             Self::OnCreativeToolsEnabled => {
                 let (_, payload) = OnCreativeToolsEnabledPayload::from_bytes((bytes, 0))?;
@@ -4533,13 +4620,13 @@ impl StaticEventType {
                 let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_425 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_425Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_425(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_431 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_431Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_431(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_426 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_426Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_426(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_432 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_432Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_432(payload))
             }
             Self::AddChangeOwnersRequestClientside => {
                 let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
@@ -4741,6 +4828,10 @@ impl StaticEventType {
                 let (_, payload) = MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(payload))
             }
+            Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => Ok(StaticEventPayload::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
+            Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => Ok(StaticEventPayload::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
+            Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => Ok(StaticEventPayload::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
+            Self::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification => Ok(StaticEventPayload::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification),
             Self::RefreshRespawnPointsRequest => Ok(StaticEventPayload::RefreshRespawnPointsRequest),
             Self::RequestRespawnPointsResponse => {
                 let (_, payload) = RequestRespawnPointsResponsePayload::from_bytes((bytes, 0))?;
@@ -4773,6 +4864,11 @@ impl StaticEventType {
                 let (_, payload) = RequestSpawnInstallationAtCamPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::RequestSpawnInstallationAtCam(payload))
             }
+            Self::RequestCreateStationGps => {
+                let (_, payload) = RequestCreateStationGpsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestCreateStationGps(payload))
+            }
+            Self::ShowAlreadyCollectedNotification => Ok(StaticEventPayload::ShowAlreadyCollectedNotification),
             Self::PlayAttackAnimation => {
                 let (_, payload) = PlayAttackAnimationPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::PlayAttackAnimation(payload))
@@ -5123,6 +5219,8 @@ pub trait StaticEventVisitor {
     fn visit_reward_newsletter_block_owner_signal(&mut self) {}
     /// Called when visiting RequestUpdateClientDLC event (no payload).
     fn visit_request_update_client_dlc(&mut self) {}
+    /// Called when visiting EconomyTickInformBroadcast event (no payload).
+    fn visit_economy_tick_inform_broadcast(&mut self) {}
     /// Called when visiting RequestUpdateClientGameInventory event.
     fn visit_request_update_client_game_inventory(&mut self, payload: &RequestUpdateClientGameInventoryPayload) {}
     /// Called when visiting UpdateClientGameInventoryResult event.
@@ -5189,6 +5287,8 @@ pub trait StaticEventVisitor {
     fn visit_on_save_entity_camera_settings(&mut self, payload: &OnSaveEntityCameraSettingsPayload) {}
     /// Called when visiting CreateFactionByDefinition event.
     fn visit_create_faction_by_definition(&mut self, payload: &CreateFactionByDefinitionPayload) {}
+    /// Called when visiting OnAddPlayerToFaction event.
+    fn visit_on_add_player_to_faction(&mut self, payload: &OnAddPlayerToFactionPayload) {}
     /// Called when visiting MyFactionCollection_UnlockAchievementForClient event.
     fn visit_my_faction_collection_unlock_achievement_for_client(&mut self, payload: &MyFactionCollection_UnlockAchievementForClientPayload) {}
     /// Called when visiting Invoke_AddRep_DEBUG event.
@@ -5349,6 +5449,8 @@ pub trait StaticEventVisitor {
     fn visit_share_blueprint_request(&mut self, payload: &ShareBlueprintRequestPayload) {}
     /// Called when visiting ShareBlueprintRequestClient event.
     fn visit_share_blueprint_request_client(&mut self, payload: &ShareBlueprintRequestClientPayload) {}
+    /// Called when visiting VisitAllShopsInternal event (no payload).
+    fn visit_visit_all_shops_internal(&mut self) {}
     /// Called when visiting ResetEconomyShopsRequest event (no payload).
     fn visit_reset_economy_shops_request(&mut self) {}
     /// Called when visiting UpdateEconomyRequest event (no payload).
@@ -5471,6 +5573,8 @@ pub trait StaticEventVisitor {
     fn visit_cycle_implementation(&mut self, payload: &Cycle_ImplementationPayload) {}
     /// Called when visiting DownloadSettingFromServer event.
     fn visit_download_setting_from_server(&mut self, payload: &DownloadSettingFromServerPayload) {}
+    /// Called when visiting RegenerateStations event (no payload).
+    fn visit_regenerate_stations(&mut self) {}
     /// Called when visiting CompileProgramServer event.
     fn visit_compile_program_server(&mut self, payload: &CompileProgramServerPayload) {}
     /// Called when visiting ReportCompilationResults event.
@@ -5549,10 +5653,10 @@ pub trait StaticEventVisitor {
     fn visit_request_transfer_broadcast_to_clients(&mut self, payload: &RequestTransfer_BroadcastToClientsPayload) {}
     /// Called when visiting ResetAssetModifierSync event.
     fn visit_reset_asset_modifier_sync(&mut self, payload: &ResetAssetModifierSyncPayload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_373 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_373(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_373Payload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_374 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_374(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_374Payload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_377 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_377(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_377Payload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_378 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_378(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_378Payload) {}
     /// Called when visiting OnTargetRequestServer event.
     fn visit_on_target_request_server(&mut self, payload: &OnTargetRequestServerPayload) {}
     /// Called when visiting RequestReleaseTargetLock event (no payload).
@@ -5597,6 +5701,10 @@ pub trait StaticEventVisitor {
     fn visit_spawn_event_init(&mut self) {}
     /// Called when visiting SpawnGroup event.
     fn visit_spawn_group(&mut self, payload: &SpawnGroupPayload) {}
+    /// Called when visiting RequestMarketWatchItemsServer event.
+    fn visit_request_market_watch_items_server(&mut self, payload: &RequestMarketWatchItemsServerPayload) {}
+    /// Called when visiting ReceiveMarketWatchItemsClient event.
+    fn visit_receive_market_watch_items_client(&mut self, payload: &ReceiveMarketWatchItemsClientPayload) {}
     /// Called when visiting OnCreativeToolsEnabled event.
     fn visit_on_creative_tools_enabled(&mut self, payload: &OnCreativeToolsEnabledPayload) {}
     /// Called when visiting OnCrash event (no payload).
@@ -5653,10 +5761,10 @@ pub trait StaticEventVisitor {
     fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
     /// Called when visiting CancelPendingTransferRequestsServerSide event.
     fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_425 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_425(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_425Payload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_426 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_426(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_426Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_431 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_431(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_431Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_432 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_432(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_432Payload) {}
     /// Called when visiting AddChangeOwnersRequestClientside event.
     fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
     /// Called when visiting RemoveOwnershipChangeRequests event.
@@ -5763,6 +5871,14 @@ pub trait StaticEventVisitor {
     fn visit_show_mot_d(&mut self, payload: &ShowMotDPayload) {}
     /// Called when visiting MyGlobalEncountersGenerator_UpdateGPSRemainingTime event.
     fn visit_my_global_encounters_generator_update_gpsremaining_time(&mut self, payload: &MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload) {}
+    /// Called when visiting MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification event (no payload).
+    fn visit_my_session_component_grid_triggered_contracts_send_contract_accepted_notification(&mut self) {}
+    /// Called when visiting MySessionComponentGridTriggeredContracts_SendMaxContractsNotification event (no payload).
+    fn visit_my_session_component_grid_triggered_contracts_send_max_contracts_notification(&mut self) {}
+    /// Called when visiting MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification event (no payload).
+    fn visit_my_session_component_item_triggered_contracts_send_contract_accepted_notification(&mut self) {}
+    /// Called when visiting MySessionComponentItemTriggeredContracts_SendMaxContractsNotification event (no payload).
+    fn visit_my_session_component_item_triggered_contracts_send_max_contracts_notification(&mut self) {}
     /// Called when visiting RefreshRespawnPointsRequest event (no payload).
     fn visit_refresh_respawn_points_request(&mut self) {}
     /// Called when visiting RequestRespawnPointsResponse event.
@@ -5785,6 +5901,10 @@ pub trait StaticEventVisitor {
     fn visit_request_spawn_installation_at_crosshair(&mut self, payload: &RequestSpawnInstallationAtCrosshairPayload) {}
     /// Called when visiting RequestSpawnInstallationAtCam event.
     fn visit_request_spawn_installation_at_cam(&mut self, payload: &RequestSpawnInstallationAtCamPayload) {}
+    /// Called when visiting RequestCreateStationGps event.
+    fn visit_request_create_station_gps(&mut self, payload: &RequestCreateStationGpsPayload) {}
+    /// Called when visiting ShowAlreadyCollectedNotification event (no payload).
+    fn visit_show_already_collected_notification(&mut self) {}
     /// Called when visiting PlayAttackAnimation event.
     fn visit_play_attack_animation(&mut self, payload: &PlayAttackAnimationPayload) {}
 
@@ -5956,6 +6076,7 @@ impl StaticEventPayload {
             Self::DisplayNotificationToPlayer(payload) => visitor.visit_display_notification_to_player(payload),
             Self::RewardNewsletterBlockOwnerSignal => visitor.visit_reward_newsletter_block_owner_signal(),
             Self::RequestUpdateClientDLC => visitor.visit_request_update_client_dlc(),
+            Self::EconomyTickInformBroadcast => visitor.visit_economy_tick_inform_broadcast(),
             Self::RequestUpdateClientGameInventory(payload) => visitor.visit_request_update_client_game_inventory(payload),
             Self::UpdateClientGameInventoryResult(payload) => visitor.visit_update_client_game_inventory_result(payload),
             Self::CreateScoreScreenSync => visitor.visit_create_score_screen_sync(),
@@ -5989,6 +6110,7 @@ impl StaticEventPayload {
             Self::OnUpdateWarnings(payload) => visitor.visit_on_update_warnings(payload),
             Self::OnSaveEntityCameraSettings(payload) => visitor.visit_on_save_entity_camera_settings(payload),
             Self::CreateFactionByDefinition(payload) => visitor.visit_create_faction_by_definition(payload),
+            Self::OnAddPlayerToFaction(payload) => visitor.visit_on_add_player_to_faction(payload),
             Self::MyFactionCollection_UnlockAchievementForClient(payload) => visitor.visit_my_faction_collection_unlock_achievement_for_client(payload),
             Self::Invoke_AddRep_DEBUG(payload) => visitor.visit_invoke_add_rep_debug(payload),
             Self::AddFactionPlayerReputationSuccess(payload) => visitor.visit_add_faction_player_reputation_success(payload),
@@ -6069,6 +6191,7 @@ impl StaticEventPayload {
             Self::StopEntities_Implementation => visitor.visit_stop_entities_implementation(),
             Self::ShareBlueprintRequest(payload) => visitor.visit_share_blueprint_request(payload),
             Self::ShareBlueprintRequestClient(payload) => visitor.visit_share_blueprint_request_client(payload),
+            Self::VisitAllShopsInternal => visitor.visit_visit_all_shops_internal(),
             Self::ResetEconomyShopsRequest => visitor.visit_reset_economy_shops_request(),
             Self::UpdateEconomyRequest => visitor.visit_update_economy_request(),
             Self::RequestStationPositions => visitor.visit_request_station_positions(),
@@ -6130,6 +6253,7 @@ impl StaticEventPayload {
             Self::MyGuiScreenAdminMenu_EntityListResponse(payload) => visitor.visit_my_gui_screen_admin_menu_entity_list_response(payload),
             Self::Cycle_Implementation(payload) => visitor.visit_cycle_implementation(payload),
             Self::DownloadSettingFromServer(payload) => visitor.visit_download_setting_from_server(payload),
+            Self::RegenerateStations => visitor.visit_regenerate_stations(),
             Self::CompileProgramServer(payload) => visitor.visit_compile_program_server(payload),
             Self::ReportCompilationResults(payload) => visitor.visit_report_compilation_results(payload),
             Self::Promote(payload) => visitor.visit_promote(payload),
@@ -6169,8 +6293,8 @@ impl StaticEventPayload {
             Self::RequestDeposit_Server(payload) => visitor.visit_request_deposit_server(payload),
             Self::RequestTransfer_BroadcastToClients(payload) => visitor.visit_request_transfer_broadcast_to_clients(payload),
             Self::ResetAssetModifierSync(payload) => visitor.visit_reset_asset_modifier_sync(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_373(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_373(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_374(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_374(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_377(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_378(payload),
             Self::OnTargetRequestServer(payload) => visitor.visit_on_target_request_server(payload),
             Self::RequestReleaseTargetLock => visitor.visit_request_release_target_lock(),
             Self::LooseLockOnClient => visitor.visit_loose_lock_on_client(),
@@ -6193,6 +6317,8 @@ impl StaticEventPayload {
             Self::SetGridNameFromServer(payload) => visitor.visit_set_grid_name_from_server(payload),
             Self::SpawnEventInit => visitor.visit_spawn_event_init(),
             Self::SpawnGroup(payload) => visitor.visit_spawn_group(payload),
+            Self::RequestMarketWatchItemsServer(payload) => visitor.visit_request_market_watch_items_server(payload),
+            Self::ReceiveMarketWatchItemsClient(payload) => visitor.visit_receive_market_watch_items_client(payload),
             Self::OnCreativeToolsEnabled(payload) => visitor.visit_on_creative_tools_enabled(payload),
             Self::OnCrash => visitor.visit_on_crash(),
             Self::HitIndicatorActivationInternal(payload) => visitor.visit_hit_indicator_activation_internal(payload),
@@ -6221,8 +6347,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
             Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
             Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_425(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_425(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_426(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_426(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_431(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_431(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_432(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_432(payload),
             Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
             Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
             Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
@@ -6276,6 +6402,10 @@ impl StaticEventPayload {
             Self::ShowMedicalScreen_Implementation(payload) => visitor.visit_show_medical_screen_implementation(payload),
             Self::ShowMotD(payload) => visitor.visit_show_mot_d(payload),
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(payload) => visitor.visit_my_global_encounters_generator_update_gpsremaining_time(payload),
+            Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => visitor.visit_my_session_component_grid_triggered_contracts_send_contract_accepted_notification(),
+            Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => visitor.visit_my_session_component_grid_triggered_contracts_send_max_contracts_notification(),
+            Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => visitor.visit_my_session_component_item_triggered_contracts_send_contract_accepted_notification(),
+            Self::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification => visitor.visit_my_session_component_item_triggered_contracts_send_max_contracts_notification(),
             Self::RefreshRespawnPointsRequest => visitor.visit_refresh_respawn_points_request(),
             Self::RequestRespawnPointsResponse(payload) => visitor.visit_request_respawn_points_response(payload),
             Self::ChangeStat(payload) => visitor.visit_change_stat(payload),
@@ -6287,6 +6417,8 @@ impl StaticEventPayload {
             Self::RequestGlobalEncounterDespawn => visitor.visit_request_global_encounter_despawn(),
             Self::RequestSpawnInstallationAtCrosshair(payload) => visitor.visit_request_spawn_installation_at_crosshair(payload),
             Self::RequestSpawnInstallationAtCam(payload) => visitor.visit_request_spawn_installation_at_cam(payload),
+            Self::RequestCreateStationGps(payload) => visitor.visit_request_create_station_gps(payload),
+            Self::ShowAlreadyCollectedNotification => visitor.visit_show_already_collected_notification(),
             Self::PlayAttackAnimation(payload) => visitor.visit_play_attack_animation(payload),
             Self::Unknown { event_hash, payload } => visitor.visit_unknown(*event_hash, payload),
         }
@@ -6455,6 +6587,7 @@ impl StaticEventPayload {
             Self::DisplayNotificationToPlayer(_) => Some(StaticEventType::DisplayNotificationToPlayer),
             Self::RewardNewsletterBlockOwnerSignal => Some(StaticEventType::RewardNewsletterBlockOwnerSignal),
             Self::RequestUpdateClientDLC => Some(StaticEventType::RequestUpdateClientDLC),
+            Self::EconomyTickInformBroadcast => Some(StaticEventType::EconomyTickInformBroadcast),
             Self::RequestUpdateClientGameInventory(_) => Some(StaticEventType::RequestUpdateClientGameInventory),
             Self::UpdateClientGameInventoryResult(_) => Some(StaticEventType::UpdateClientGameInventoryResult),
             Self::CreateScoreScreenSync => Some(StaticEventType::CreateScoreScreenSync),
@@ -6488,6 +6621,7 @@ impl StaticEventPayload {
             Self::OnUpdateWarnings(_) => Some(StaticEventType::OnUpdateWarnings),
             Self::OnSaveEntityCameraSettings(_) => Some(StaticEventType::OnSaveEntityCameraSettings),
             Self::CreateFactionByDefinition(_) => Some(StaticEventType::CreateFactionByDefinition),
+            Self::OnAddPlayerToFaction(_) => Some(StaticEventType::OnAddPlayerToFaction),
             Self::MyFactionCollection_UnlockAchievementForClient(_) => Some(StaticEventType::MyFactionCollection_UnlockAchievementForClient),
             Self::Invoke_AddRep_DEBUG(_) => Some(StaticEventType::Invoke_AddRep_DEBUG),
             Self::AddFactionPlayerReputationSuccess(_) => Some(StaticEventType::AddFactionPlayerReputationSuccess),
@@ -6568,6 +6702,7 @@ impl StaticEventPayload {
             Self::StopEntities_Implementation => Some(StaticEventType::StopEntities_Implementation),
             Self::ShareBlueprintRequest(_) => Some(StaticEventType::ShareBlueprintRequest),
             Self::ShareBlueprintRequestClient(_) => Some(StaticEventType::ShareBlueprintRequestClient),
+            Self::VisitAllShopsInternal => Some(StaticEventType::VisitAllShopsInternal),
             Self::ResetEconomyShopsRequest => Some(StaticEventType::ResetEconomyShopsRequest),
             Self::UpdateEconomyRequest => Some(StaticEventType::UpdateEconomyRequest),
             Self::RequestStationPositions => Some(StaticEventType::RequestStationPositions),
@@ -6629,6 +6764,7 @@ impl StaticEventPayload {
             Self::MyGuiScreenAdminMenu_EntityListResponse(_) => Some(StaticEventType::MyGuiScreenAdminMenu_EntityListResponse),
             Self::Cycle_Implementation(_) => Some(StaticEventType::Cycle_Implementation),
             Self::DownloadSettingFromServer(_) => Some(StaticEventType::DownloadSettingFromServer),
+            Self::RegenerateStations => Some(StaticEventType::RegenerateStations),
             Self::CompileProgramServer(_) => Some(StaticEventType::CompileProgramServer),
             Self::ReportCompilationResults(_) => Some(StaticEventType::ReportCompilationResults),
             Self::Promote(_) => Some(StaticEventType::Promote),
@@ -6668,8 +6804,8 @@ impl StaticEventPayload {
             Self::RequestDeposit_Server(_) => Some(StaticEventType::RequestDeposit_Server),
             Self::RequestTransfer_BroadcastToClients(_) => Some(StaticEventType::RequestTransfer_BroadcastToClients),
             Self::ResetAssetModifierSync(_) => Some(StaticEventType::ResetAssetModifierSync),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_373(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_373),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_374(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_374),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_377),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_378),
             Self::OnTargetRequestServer(_) => Some(StaticEventType::OnTargetRequestServer),
             Self::RequestReleaseTargetLock => Some(StaticEventType::RequestReleaseTargetLock),
             Self::LooseLockOnClient => Some(StaticEventType::LooseLockOnClient),
@@ -6692,6 +6828,8 @@ impl StaticEventPayload {
             Self::SetGridNameFromServer(_) => Some(StaticEventType::SetGridNameFromServer),
             Self::SpawnEventInit => Some(StaticEventType::SpawnEventInit),
             Self::SpawnGroup(_) => Some(StaticEventType::SpawnGroup),
+            Self::RequestMarketWatchItemsServer(_) => Some(StaticEventType::RequestMarketWatchItemsServer),
+            Self::ReceiveMarketWatchItemsClient(_) => Some(StaticEventType::ReceiveMarketWatchItemsClient),
             Self::OnCreativeToolsEnabled(_) => Some(StaticEventType::OnCreativeToolsEnabled),
             Self::OnCrash => Some(StaticEventType::OnCrash),
             Self::HitIndicatorActivationInternal(_) => Some(StaticEventType::HitIndicatorActivationInternal),
@@ -6720,8 +6858,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
             Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
             Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
-            Self::MyCubeGrid_CancelPendingTransferRequests_425(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_425),
-            Self::MyCubeGrid_CancelPendingTransferRequests_426(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_426),
+            Self::MyCubeGrid_CancelPendingTransferRequests_431(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_431),
+            Self::MyCubeGrid_CancelPendingTransferRequests_432(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_432),
             Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
             Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
             Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),
@@ -6775,6 +6913,10 @@ impl StaticEventPayload {
             Self::ShowMedicalScreen_Implementation(_) => Some(StaticEventType::ShowMedicalScreen_Implementation),
             Self::ShowMotD(_) => Some(StaticEventType::ShowMotD),
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(_) => Some(StaticEventType::MyGlobalEncountersGenerator_UpdateGPSRemainingTime),
+            Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => Some(StaticEventType::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
+            Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => Some(StaticEventType::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
+            Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => Some(StaticEventType::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
+            Self::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification => Some(StaticEventType::MySessionComponentItemTriggeredContracts_SendMaxContractsNotification),
             Self::RefreshRespawnPointsRequest => Some(StaticEventType::RefreshRespawnPointsRequest),
             Self::RequestRespawnPointsResponse(_) => Some(StaticEventType::RequestRespawnPointsResponse),
             Self::ChangeStat(_) => Some(StaticEventType::ChangeStat),
@@ -6786,6 +6928,8 @@ impl StaticEventPayload {
             Self::RequestGlobalEncounterDespawn => Some(StaticEventType::RequestGlobalEncounterDespawn),
             Self::RequestSpawnInstallationAtCrosshair(_) => Some(StaticEventType::RequestSpawnInstallationAtCrosshair),
             Self::RequestSpawnInstallationAtCam(_) => Some(StaticEventType::RequestSpawnInstallationAtCam),
+            Self::RequestCreateStationGps(_) => Some(StaticEventType::RequestCreateStationGps),
+            Self::ShowAlreadyCollectedNotification => Some(StaticEventType::ShowAlreadyCollectedNotification),
             Self::PlayAttackAnimation(_) => Some(StaticEventType::PlayAttackAnimation),
             Self::Unknown { .. } => None,
         }

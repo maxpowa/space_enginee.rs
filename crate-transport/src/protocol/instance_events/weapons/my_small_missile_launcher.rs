@@ -79,7 +79,7 @@ pub struct MySmallMissileLauncher_OnChangeDescriptionPayload {
 /// Payload for MySmallMissileLauncher::OnShootMissile instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySmallMissileLauncher_OnShootMissilePayload {
-    pub builder: space_engineers_sys::types::MyObjectBuilder_Missile,
+    pub builder: space_engineers_sys::types::object_builders::MyObjectBuilder_Missile,
 }
 
 /// Payload for MySmallMissileLauncher::OnRemoveMissile instance event.

@@ -66,7 +66,7 @@ pub struct OnSetPlayerDeadSuccessPayload {
 /// Payload for OnNewPlayerRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnNewPlayerRequestPayload {
-    pub parameters: space_engineers_sys::types::MyPlayerCollection_NewPlayerRequestParameters,
+    pub parameters: space_engineers_sys::types::game::MyPlayerCollection_NewPlayerRequestParameters,
 }
 
 /// Payload for OnNewPlayerSuccess event.
@@ -88,7 +88,7 @@ pub struct OnNewPlayerFailurePayload {
 pub struct OnPlayerCreatedPayload {
     pub client_steam_id: BitAligned<u64>,
     pub player_serial_id: BitAligned<i32>,
-    pub player_builder: space_engineers_sys::types::MyObjectBuilder_Player,
+    pub player_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_Player,
 }
 
 /// Payload for OnPlayerRemoved event.
@@ -128,13 +128,13 @@ pub struct OnIdentityFirstSpawnPayload {
 /// Payload for SetIdentityBlockTypesBuilt event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SetIdentityBlockTypesBuiltPayload {
-    pub limits: space_engineers_sys::types::MyBlockLimits_MyTypeLimitData,
+    pub limits: space_engineers_sys::types::game::MyBlockLimits_MyTypeLimitData,
 }
 
 /// Payload for SetIdentityGridBlocksBuilt event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SetIdentityGridBlocksBuiltPayload {
-    pub limits: space_engineers_sys::types::MyBlockLimits_MyGridLimitData,
+    pub limits: space_engineers_sys::types::game::MyBlockLimits_MyGridLimitData,
     pub pcu: BitAligned<i32>,
     pub pcu_built: BitAligned<i32>,
     pub blocks_built: BitAligned<i32>,
@@ -170,6 +170,6 @@ pub struct SetDampeningEntityClientPayload {
 /// Payload for OnRespawnRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnRespawnRequestPayload {
-    pub msg: space_engineers_sys::types::MyPlayerCollection_RespawnMsg,
+    pub msg: space_engineers_sys::types::game::MyPlayerCollection_RespawnMsg,
 }
 

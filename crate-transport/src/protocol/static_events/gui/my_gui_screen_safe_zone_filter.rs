@@ -12,13 +12,13 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyGuiScreenSafeZoneFilter_EntityListRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyGuiScreenSafeZoneFilter_EntityListRequestPayload {
-    pub selected_type: space_engineers_sys::types::MyEntityList_MyEntityTypeEnum,
+    pub selected_type: space_engineers_sys::types::game::MyEntityList_MyEntityTypeEnum,
     pub safezone_id: BitAligned<i64>,
 }
 
 /// Payload for MyGuiScreenSafeZoneFilter_EntityListResponse event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyGuiScreenSafeZoneFilter_EntityListResponsePayload {
-    pub entities: VarVec<space_engineers_sys::types::MyEntityList_MyEntityListShortInfoItem>,
+    pub entities: VarVec<space_engineers_sys::types::game::MyEntityList_MyEntityListShortInfoItem>,
 }
 

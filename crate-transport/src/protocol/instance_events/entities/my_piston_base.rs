@@ -80,14 +80,14 @@ pub struct MyPistonBase_OnChangeDescriptionPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyPistonBase_DoRecreateTopPayload {
     pub builder_id: BitAligned<i64>,
-    pub top_size: space_engineers_sys::types::MyMechanicalConnectionBlockBase_MyTopBlockSize,
+    pub top_size: space_engineers_sys::types::game::MyMechanicalConnectionBlockBase_MyTopBlockSize,
     pub instant_build: BitBool,
 }
 
 /// Payload for MyPistonBase::NotifyTopPartFailed instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyPistonBase_NotifyTopPartFailedPayload {
-    pub result: space_engineers_sys::types::MySession_LimitResult,
+    pub result: space_engineers_sys::types::game::MySession_LimitResult,
 }
 
 /// Payload for MyPistonBase::RequestMoveToPosition instance event.

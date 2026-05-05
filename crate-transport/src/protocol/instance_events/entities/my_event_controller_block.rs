@@ -97,7 +97,7 @@ pub struct MyEventControllerBlock_SendToolbarItemsRemoveddPayload {
 /// Payload for MyEventControllerBlock::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyEventControllerBlock_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::ToolbarItem,
+    pub sent_item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
 }
 

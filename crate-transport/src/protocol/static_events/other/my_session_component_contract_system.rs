@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for DisplayNotificationToPlayer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct DisplayNotificationToPlayerPayload {
-    pub notif_type: space_engineers_sys::types::MyContractNotificationTypes,
+    pub notif_type: space_engineers_sys::types::game::MyContractNotificationTypes,
 }
 

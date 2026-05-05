@@ -13,8 +13,8 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct VoxelOperationCapsule_ImplementationPayload {
     pub entity_id: BitAligned<i64>,
-    pub capsule_params: space_engineers_sys::types::MyVoxelBase_MyCapsuleShapeParams,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub capsule_params: space_engineers_sys::types::game::MyVoxelBase_MyCapsuleShapeParams,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for VoxelOperationSphere_Implementation event.
@@ -24,7 +24,7 @@ pub struct VoxelOperationSphere_ImplementationPayload {
     pub center: Vector3D,
     pub radius: BitAligned<f32>,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for VoxelOperationBox_Implementation event.
@@ -34,15 +34,15 @@ pub struct VoxelOperationBox_ImplementationPayload {
     pub r#box: space_engineers_sys::math::BoundingBoxD,
     pub transformation: space_engineers_sys::math::MatrixD,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for VoxelOperationRamp_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct VoxelOperationRamp_ImplementationPayload {
     pub entity_id: BitAligned<i64>,
-    pub shape_params: space_engineers_sys::types::MyVoxelBase_MyRampShapeParams,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub shape_params: space_engineers_sys::types::game::MyVoxelBase_MyRampShapeParams,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for VoxelOperationElipsoid_Implementation event.
@@ -52,6 +52,6 @@ pub struct VoxelOperationElipsoid_ImplementationPayload {
     pub radius: Vector3F,
     pub transformation: space_engineers_sys::math::MatrixD,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 

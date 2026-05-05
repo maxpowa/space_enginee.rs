@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for RequestGridSpawn event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RequestGridSpawnPayload {
-    pub data: space_engineers_sys::types::MyCubeBuilder_GridSpawnRequestData,
+    pub data: space_engineers_sys::types::game::MyCubeBuilder_GridSpawnRequestData,
 }
 
 /// Payload for SpawnGridReply event.

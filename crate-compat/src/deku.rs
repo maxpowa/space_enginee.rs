@@ -12,8 +12,8 @@ use proto_rs::bytes::Buf;
 use proto_rs::encoding::{DecodeContext, WireType};
 use proto_rs::DecodeError;
 use proto_rs::{
-    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind, ProtoShadowDecode,
-    ProtoShadowEncode, RevWriter,
+    ProtoDecode, ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind,
+    ProtoShadowDecode, ProtoShadowEncode, RevWriter,
 };
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
@@ -713,6 +713,10 @@ impl<T: ProtoDecoder + Copy> ProtoDecoder for Varint<T> {
     }
 }
 
+impl<T: ProtoDecoder + ProtoDefault + Copy> ProtoDecode for Varint<T> {
+    type ShadowDecoded = Varint<T>;
+}
+
 // ---- BitAligned<T> ----
 
 #[doc(hidden)]
@@ -804,6 +808,10 @@ impl<T: ProtoDecoder + Copy> ProtoDecoder for BitAligned<T> {
     }
 }
 
+impl<T: ProtoDecoder + ProtoDefault + Copy> ProtoDecode for BitAligned<T> {
+    type ShadowDecoded = BitAligned<T>;
+}
+
 // ---- VarBytes ----
 
 #[doc(hidden)]
@@ -876,6 +884,10 @@ impl ProtoDecoder for VarBytes {
     }
 }
 
+impl ProtoDecode for VarBytes {
+    type ShadowDecoded = VarBytes;
+}
+
 // ---- VarString ----
 
 #[doc(hidden)]
@@ -946,6 +958,10 @@ impl ProtoDecoder for VarString {
     ) -> Result<(), DecodeError> {
         String::merge(&mut self.0, wire_type, buf, ctx)
     }
+}
+
+impl ProtoDecode for VarString {
+    type ShadowDecoded = VarString;
 }
 
 // ============================================================================
@@ -1142,6 +1158,10 @@ impl ProtoDecoder for BitBool {
     }
 }
 
+impl ProtoDecode for BitBool {
+    type ShadowDecoded = BitBool;
+}
+
 // ============================================================================
 // VarVec<T> - Variable-length array with VarInt length prefix
 // ============================================================================
@@ -1327,6 +1347,10 @@ impl<T: ProtoDecoder + ProtoDefault> ProtoDecoder for VarVec<T> {
     ) -> Result<(), DecodeError> {
         Vec::<T>::merge(&mut self.0, wire_type, buf, ctx)
     }
+}
+
+impl<T: ProtoDecoder + ProtoDefault> ProtoDecode for VarVec<T> {
+    type ShadowDecoded = VarVec<T>;
 }
 
 // ============================================================================

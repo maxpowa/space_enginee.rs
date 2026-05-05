@@ -21,8 +21,8 @@ pub struct MyVoxelBase_VoxelCutoutSphere_ImplementationPayload {
 /// Payload for MyVoxelBase::PerformVoxelOperationCapsule_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyVoxelBase_PerformVoxelOperationCapsule_ImplementationPayload {
-    pub capsule_params: space_engineers_sys::types::MyVoxelBase_MyCapsuleShapeParams,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub capsule_params: space_engineers_sys::types::game::MyVoxelBase_MyCapsuleShapeParams,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for MyVoxelBase::PerformVoxelOperationSphere_Implementation instance event.
@@ -31,7 +31,7 @@ pub struct MyVoxelBase_PerformVoxelOperationSphere_ImplementationPayload {
     pub center: Vector3D,
     pub radius: BitAligned<f32>,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for MyVoxelBase::PerformVoxelOperationBox_Implementation instance event.
@@ -40,14 +40,14 @@ pub struct MyVoxelBase_PerformVoxelOperationBox_ImplementationPayload {
     pub r#box: space_engineers_sys::math::BoundingBoxD,
     pub transformation: space_engineers_sys::math::MatrixD,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for MyVoxelBase::PerformVoxelOperationRamp_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyVoxelBase_PerformVoxelOperationRamp_ImplementationPayload {
-    pub shape_params: space_engineers_sys::types::MyVoxelBase_MyRampShapeParams,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub shape_params: space_engineers_sys::types::game::MyVoxelBase_MyRampShapeParams,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for MyVoxelBase::PerformVoxelOperationElipsoid_Implementation instance event.
@@ -56,14 +56,14 @@ pub struct MyVoxelBase_PerformVoxelOperationElipsoid_ImplementationPayload {
     pub radius: Vector3F,
     pub transformation: space_engineers_sys::math::MatrixD,
     pub material: BitAligned<u8>,
-    pub r#type: space_engineers_sys::types::MyVoxelBase_OperationType,
+    pub r#type: space_engineers_sys::types::game::MyVoxelBase_OperationType,
 }
 
 /// Payload for MyVoxelBase::RevertVoxelAccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyVoxelBase_RevertVoxelAccessPayload {
     pub key: space_engineers_sys::math::Vector3I,
-    pub flags: space_engineers_compat::BitField<space_engineers_sys::types::MyStorageDataTypeFlags>,
+    pub flags: space_engineers_compat::BitField<space_engineers_sys::types::game::MyStorageDataTypeFlags>,
 }
 
 /// Payload for MyVoxelBase::PerformCutOutSphereFast instance event.
@@ -77,7 +77,7 @@ pub struct MyVoxelBase_PerformCutOutSphereFastPayload {
 /// Payload for MyVoxelBase::PerformShipCutout instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyVoxelBase_PerformShipCutoutPayload {
-    pub data: space_engineers_sys::types::MyShipMiningSystem_NetworkCutoutData,
+    pub data: space_engineers_sys::types::game::MyShipMiningSystem_NetworkCutoutData,
 }
 
 /// Payload for MyVoxelBase::CreateVoxelMeteorCrater_Implementation instance event.

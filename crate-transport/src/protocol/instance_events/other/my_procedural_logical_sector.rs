@@ -13,7 +13,7 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyProceduralLogicalSector_HandleItemEventServerPayload {
     pub logical_item: BitAligned<i32>,
-    pub def: space_engineers_sys::types::SerializableDefinitionId,
+    pub def: space_engineers_sys::types::game::SerializableDefinitionId,
     pub data: VarBytes,
 }
 
@@ -21,7 +21,7 @@ pub struct MyProceduralLogicalSector_HandleItemEventServerPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyProceduralLogicalSector_HandleItemEventClientPayload {
     pub logical_item: BitAligned<i32>,
-    pub def: space_engineers_sys::types::SerializableDefinitionId,
+    pub def: space_engineers_sys::types::game::SerializableDefinitionId,
     pub data: VarBytes,
 }
 

@@ -12,8 +12,8 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyInventoryAggregate::InventoryConsumeItem_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventoryAggregate_InventoryConsumeItem_ImplementationPayload {
-    pub amount: space_engineers_sys::types::MyFixedPoint,
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub consumer_entity_id: BitAligned<i64>,
 }
 

@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for ServerLimitInfo_Received event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ServerLimitInfo_ReceivedPayload {
-    pub grids_with_built_by_id: VarVec<space_engineers_sys::types::MyTerminalInfoController_GridBuiltByIdInfo>,
+    pub grids_with_built_by_id: VarVec<space_engineers_sys::types::game::MyTerminalInfoController_GridBuiltByIdInfo>,
 }
 

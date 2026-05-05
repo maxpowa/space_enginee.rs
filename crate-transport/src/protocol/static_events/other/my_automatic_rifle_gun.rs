@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnShootMissile event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnShootMissilePayload {
-    pub builder: space_engineers_sys::types::MyObjectBuilder_Missile,
+    pub builder: space_engineers_sys::types::object_builders::MyObjectBuilder_Missile,
     pub entity_id: BitAligned<i64>,
 }
 

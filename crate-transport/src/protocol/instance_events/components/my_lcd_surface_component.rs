@@ -54,7 +54,7 @@ pub struct MyLcdSurfaceComponent_OnChangeTextRequestPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLcdSurfaceComponent_OnUpdateSpriteCollectionPayload {
     pub panel_index: BitAligned<i32>,
-    pub sprites: space_engineers_sys::types::MySerializableSpriteCollection,
+    pub sprites: space_engineers_sys::types::game::MySerializableSpriteCollection,
 }
 
 /// Stable instance event identities for SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent.

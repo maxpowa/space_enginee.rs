@@ -24,7 +24,7 @@ pub struct EntityPositionRequestPayload {
 /// Payload for ChangePlayerResponse event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ChangePlayerResponsePayload {
-    pub entities: VarVec<space_engineers_sys::types::MyEntityList_MyEntityListInfoItem>,
+    pub entities: VarVec<space_engineers_sys::types::game::MyEntityList_MyEntityListInfoItem>,
     pub direction: BitAligned<i32>,
 }
 

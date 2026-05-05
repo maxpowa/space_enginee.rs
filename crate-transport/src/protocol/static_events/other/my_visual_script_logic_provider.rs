@@ -46,7 +46,7 @@ pub struct PlaySingleSoundAtEntitySyncPayload {
 /// Payload for PlayHudSoundSync event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct PlayHudSoundSyncPayload {
-    pub sound: space_engineers_sys::types::MyGuiSounds,
+    pub sound: space_engineers_sys::types::game::MyGuiSounds,
     pub player_id: BitAligned<i64>,
 }
 
@@ -177,13 +177,13 @@ pub struct ScreenColorFadingStartInternalAllPayload {
 /// Payload for ScreenColorFadingSetColorInternal event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ScreenColorFadingSetColorInternalPayload {
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Payload for ScreenColorFadingSetColorInternalAll event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ScreenColorFadingSetColorInternalAllPayload {
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
 }
 
 /// Payload for ScreenColorFadingStartSwitchInternal event.
@@ -269,7 +269,7 @@ pub struct SetHighlightSyncPayload {
     pub entity_name: VarString,
     pub thickness: BitAligned<i32>,
     pub pulse_time_in_frames: BitAligned<i32>,
-    pub color: space_engineers_sys::types::Color,
+    pub color: space_engineers_sys::types::game::Color,
     pub player_id: BitAligned<i64>,
     pub sub_part_names: VarString,
 }
@@ -440,7 +440,7 @@ pub struct EnableHighlightSyncPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SetToolbarSlotToItemSyncPayload {
     pub slot: BitAligned<i32>,
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub player_id: BitAligned<i64>,
 }
 
@@ -493,7 +493,7 @@ pub struct UnlockAchievementInternalAllPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CreateUIStringSyncPayload {
     pub id: BitAligned<i64>,
-    pub uistring: space_engineers_sys::types::MyUIString,
+    pub uistring: space_engineers_sys::types::game::MyUIString,
     pub player_id: BitAligned<i64>,
 }
 
@@ -527,7 +527,7 @@ pub struct RemoveBoardScreenSyncPayload {
 pub struct AddColumnSyncPayload {
     pub board_id: VarString,
     pub column_id: VarString,
-    pub column: space_engineers_sys::types::MyGuiScreenBoard_MyColumn,
+    pub column: space_engineers_sys::types::game::MyGuiScreenBoard_MyColumn,
     pub player_id: BitAligned<i64>,
 }
 

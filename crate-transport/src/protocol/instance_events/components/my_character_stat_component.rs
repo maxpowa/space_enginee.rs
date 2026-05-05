@@ -12,13 +12,13 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyCharacterStatComponent::OnStatChangedMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacterStatComponent_OnStatChangedMessagePayload {
-    pub changed_stats: VarVec<space_engineers_sys::types::MyEntityStat_MyStatSyncData>,
+    pub changed_stats: VarVec<space_engineers_sys::types::game::MyEntityStat_MyStatSyncData>,
 }
 
 /// Payload for MyCharacterStatComponent::OnStatActionMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacterStatComponent_OnStatActionMessagePayload {
-    pub stat_actions: VarMap<VarString, space_engineers_sys::types::MyStatLogic_MyStatAction>,
+    pub stat_actions: VarMap<VarString, space_engineers_sys::types::game::MyStatLogic_MyStatAction>,
 }
 
 /// Payload for MyCharacterStatComponent::ShowStatChangeNotificationClient instance event.

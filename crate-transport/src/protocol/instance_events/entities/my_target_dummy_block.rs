@@ -79,7 +79,7 @@ pub struct MyTargetDummyBlock_OnChangeDescriptionPayload {
 /// Payload for MyTargetDummyBlock::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyTargetDummyBlock_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::ToolbarItem,
+    pub sent_item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
 }
 

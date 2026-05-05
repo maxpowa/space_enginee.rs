@@ -12,17 +12,17 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyTurretController::UseSuccessCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyTurretController_UseSuccessCallbackPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
 }
 
 /// Payload for MyTurretController::UseFailureCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyTurretController_UseFailureCallbackPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
 }
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyTurretController.

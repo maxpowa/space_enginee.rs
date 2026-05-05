@@ -95,7 +95,7 @@ pub struct MyProjectorBase_BuildInternalPayload {
 /// Payload for MyProjectorBase::OnNewBlueprintSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyProjectorBase_OnNewBlueprintSuccessPayload {
-    pub projected_grids: VarVec<space_engineers_sys::types::MyObjectBuilder_CubeGrid>,
+    pub projected_grids: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_CubeGrid>,
 }
 
 /// Payload for MyProjectorBase::OnOffsetChangedSuccess instance event.

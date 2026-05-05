@@ -85,7 +85,7 @@ pub struct MyOffensiveCombatBlock_SetDetailedInfoDirtyIfCurrentlyOpenInTerminalB
 /// Payload for MyOffensiveCombatBlock::ChangeActions instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyOffensiveCombatBlock_ChangeActionsPayload {
-    pub toolbar: space_engineers_sys::types::MyObjectBuilder_Toolbar,
+    pub toolbar: space_engineers_sys::types::object_builders::MyObjectBuilder_Toolbar,
 }
 
 /// Stable instance event identities for SpaceEngineers.Game.Entities.Blocks.MyOffensiveCombatBlock.

@@ -19,6 +19,6 @@ pub struct MySessionComponentMatch_RecieveTimeSyncPayload {
 /// Payload for SyncState event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct SyncStatePayload {
-    pub state: space_engineers_sys::types::MyMatchState,
+    pub state: space_engineers_sys::types::game::MyMatchState,
 }
 

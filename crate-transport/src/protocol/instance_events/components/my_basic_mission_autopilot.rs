@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyBasicMissionAutopilot::OnPasteAutopilotSetupStatic instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyBasicMissionAutopilot_OnPasteAutopilotSetupStaticPayload {
-    pub clipboard: space_engineers_sys::types::MyObjectBuilder_AutopilotClipboard,
+    pub clipboard: space_engineers_sys::types::object_builders::MyObjectBuilder_AutopilotClipboard,
 }
 
 /// Payload for MyBasicMissionAutopilot::RemoveWaypoints instance event.
@@ -32,7 +32,7 @@ pub struct MyBasicMissionAutopilot_MoveWaypointsIndexPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyBasicMissionAutopilot_ChangeActionsPayload {
     pub waypoint_index: BitAligned<i32>,
-    pub actions: VarVec<space_engineers_sys::types::ToolbarItem>,
+    pub actions: VarVec<space_engineers_sys::types::game::ToolbarItem>,
 }
 
 /// Payload for MyBasicMissionAutopilot::AddWaypoints instance event.

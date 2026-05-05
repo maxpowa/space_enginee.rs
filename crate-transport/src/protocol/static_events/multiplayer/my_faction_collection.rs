@@ -15,6 +15,13 @@ pub struct CreateFactionByDefinitionPayload {
     pub tag: VarString,
 }
 
+/// Payload for OnAddPlayerToFaction event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct OnAddPlayerToFactionPayload {
+    pub player_id: BitAligned<i64>,
+    pub faction_id: BitAligned<i64>,
+}
+
 /// Payload for MyFactionCollection_UnlockAchievementForClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyFactionCollection_UnlockAchievementForClientPayload {
@@ -33,14 +40,14 @@ pub struct Invoke_AddRep_DEBUGPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddFactionPlayerReputationSuccessPayload {
     pub player_id: BitAligned<i64>,
-    pub changes: VarVec<space_engineers_sys::types::MyFactionCollection_MyReputationChangeWrapper>,
-    pub reason: space_engineers_sys::types::ReputationChangeReason,
+    pub changes: VarVec<space_engineers_sys::types::game::MyFactionCollection_MyReputationChangeWrapper>,
+    pub reason: space_engineers_sys::types::modapi::ReputationChangeReason,
 }
 
 /// Payload for FactionStateChangeRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct FactionStateChangeRequestPayload {
-    pub action: space_engineers_sys::types::MyFactionStateChange,
+    pub action: space_engineers_sys::types::modapi::MyFactionStateChange,
     pub from_faction_id: BitAligned<i64>,
     pub to_faction_id: BitAligned<i64>,
     pub player_id: BitAligned<i64>,
@@ -49,7 +56,7 @@ pub struct FactionStateChangeRequestPayload {
 /// Payload for FactionStateChangeSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct FactionStateChangeSuccessPayload {
-    pub action: space_engineers_sys::types::MyFactionStateChange,
+    pub action: space_engineers_sys::types::modapi::MyFactionStateChange,
     pub from_faction_id: BitAligned<i64>,
     pub to_faction_id: BitAligned<i64>,
     pub player_id: BitAligned<i64>,
@@ -75,7 +82,7 @@ pub struct ChangeAutoAcceptSuccessPayload {
 /// Payload for EditFactionRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct EditFactionRequestPayload {
-    pub msg_edit: space_engineers_sys::types::MyFactionCollection_AddFactionMsg,
+    pub msg_edit: space_engineers_sys::types::game::MyFactionCollection_AddFactionMsg,
 }
 
 /// Payload for EditFactionSuccess_AcceptHumans event.
@@ -88,7 +95,7 @@ pub struct EditFactionSuccess_AcceptHumansPayload {
 /// Payload for EditFactionSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct EditFactionSuccessPayload {
-    pub msg_edit: space_engineers_sys::types::MyFactionCollection_AddFactionMsg,
+    pub msg_edit: space_engineers_sys::types::game::MyFactionCollection_AddFactionMsg,
     pub sender_id: BitAligned<i64>,
 }
 
@@ -109,13 +116,13 @@ pub struct RecieveFactionScoreAndPercentagePayload {
 /// Payload for CreateFactionRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CreateFactionRequestPayload {
-    pub msg: space_engineers_sys::types::MyFactionCollection_AddFactionMsg,
+    pub msg: space_engineers_sys::types::game::MyFactionCollection_AddFactionMsg,
 }
 
 /// Payload for CreateFactionSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CreateFactionSuccessPayload {
-    pub msg: space_engineers_sys::types::MyFactionCollection_AddFactionMsg,
+    pub msg: space_engineers_sys::types::game::MyFactionCollection_AddFactionMsg,
 }
 
 /// Payload for SetDefaultFactionStates event.
@@ -143,6 +150,6 @@ pub struct RemoveDiscoveredFaction_ClientsPayload {
 /// Payload for RemovePlayerFromVisibility_Broadcast event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RemovePlayerFromVisibility_BroadcastPayload {
-    pub player_id: space_engineers_sys::types::MyPlayer_PlayerId,
+    pub player_id: space_engineers_sys::types::game::MyPlayer_PlayerId,
 }
 

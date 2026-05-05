@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnUpdateWarnings event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnUpdateWarningsPayload {
-    pub warnings: VarVec<space_engineers_sys::types::MySessionComponentWarningSystem_WarningData>,
+    pub warnings: VarVec<space_engineers_sys::types::game::MySessionComponentWarningSystem_WarningData>,
 }
 

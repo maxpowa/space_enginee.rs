@@ -19,14 +19,14 @@ pub struct MyPathRecorderComponent_DeleteWaypointsPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyPathRecorderComponent_DeleteActionsPayload {
     pub waypoint_index: BitAligned<i32>,
-    pub actions: VarVec<space_engineers_sys::types::ToolbarItem>,
+    pub actions: VarVec<space_engineers_sys::types::game::ToolbarItem>,
 }
 
 /// Payload for MyPathRecorderComponent::ChangeActions instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyPathRecorderComponent_ChangeActionsPayload {
     pub waypoint_index: BitAligned<i32>,
-    pub toolbar_ob: space_engineers_sys::types::MyObjectBuilder_Toolbar,
+    pub toolbar_ob: space_engineers_sys::types::object_builders::MyObjectBuilder_Toolbar,
 }
 
 /// Payload for MyPathRecorderComponent::AddWaypointBroadcast_5 instance event.
@@ -47,7 +47,7 @@ pub struct MyPathRecorderComponent_AddWaypointBroadcast_6Payload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyPathRecorderComponent_AddWaypointBroadcast_7Payload {
     pub position: space_engineers_sys::math::MatrixD,
-    pub item: space_engineers_sys::types::ToolbarItem,
+    pub item: space_engineers_sys::types::game::ToolbarItem,
 }
 
 /// Stable instance event identities for Sandbox.Game.EntityComponents.MyPathRecorderComponent.

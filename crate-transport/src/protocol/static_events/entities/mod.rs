@@ -14,6 +14,7 @@ mod my_programmable_block;
 mod my_projector_base;
 mod my_session_component_safe_zones;
 mod my_slim_block;
+mod my_use_object_billboard;
 mod my_voxel_base;
 
 pub use my_contract_block::*;
@@ -28,4 +29,5 @@ pub use my_programmable_block::*;
 pub use my_projector_base::*;
 pub use my_session_component_safe_zones::*;
 pub use my_slim_block::*;
+pub use my_use_object_billboard::*;
 pub use my_voxel_base::*;

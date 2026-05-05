@@ -125,25 +125,25 @@ pub struct MyContractBlock_GetConnectedEntitiesPayload {
 /// Payload for MyContractBlock::CreateCustomContractDeliver instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_CreateCustomContractDeliverPayload {
-    pub data: space_engineers_sys::types::MyContractBlock_MyContractCreationDataWrapper_Deliver,
+    pub data: space_engineers_sys::types::game::MyContractBlock_MyContractCreationDataWrapper_Deliver,
 }
 
 /// Payload for MyContractBlock::CreateCustomContractObtainAndDeliver instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_CreateCustomContractObtainAndDeliverPayload {
-    pub data: space_engineers_sys::types::MyContractBlock_MyContractCreationDataWrapper_ObtainAndDeliver,
+    pub data: space_engineers_sys::types::game::MyContractBlock_MyContractCreationDataWrapper_ObtainAndDeliver,
 }
 
 /// Payload for MyContractBlock::CreateCustomContractRepair instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_CreateCustomContractRepairPayload {
-    pub data: space_engineers_sys::types::MyContractBlock_MyContractCreationDataWrapper_Repair,
+    pub data: space_engineers_sys::types::game::MyContractBlock_MyContractCreationDataWrapper_Repair,
 }
 
 /// Payload for MyContractBlock::CreateCustomContractFind instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_CreateCustomContractFindPayload {
-    pub data: space_engineers_sys::types::MyContractBlock_MyContractCreationDataWrapper_Find,
+    pub data: space_engineers_sys::types::game::MyContractBlock_MyContractCreationDataWrapper_Find,
 }
 
 /// Payload for MyContractBlock::DeleteCustomContract instance event.
@@ -161,70 +161,72 @@ pub struct MyContractBlock_ReceiveContractBlockStatusPayload {
 /// Payload for MyContractBlock::ReceiveAvailableContracts instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAvailableContractsPayload {
-    pub available_contracts: VarVec<space_engineers_sys::types::MyObjectBuilder_Contract>,
+    pub available_contracts: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_Contract>,
+    pub last_economy_tick: BitAligned<f64>,
 }
 
 /// Payload for MyContractBlock::ReceiveAdministrableContracts instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAdministrableContractsPayload {
-    pub administrable_contracts: VarVec<space_engineers_sys::types::MyObjectBuilder_Contract>,
+    pub administrable_contracts: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_Contract>,
 }
 
 /// Payload for MyContractBlock::ReceiveActiveContracts instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveActiveContractsPayload {
-    pub active_contracts: VarVec<space_engineers_sys::types::MyObjectBuilder_Contract>,
+    pub active_contracts: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_Contract>,
     pub station_id: BitAligned<i64>,
     pub block_id: BitAligned<i64>,
+    pub last_economy_tick: BitAligned<f64>,
 }
 
 /// Payload for MyContractBlock::ReceiveAllOwnedContractBlocks instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAllOwnedContractBlocksPayload {
-    pub data: VarVec<space_engineers_sys::types::MyContractBlock_MyEntityInfoWrapper>,
+    pub data: VarVec<space_engineers_sys::types::game::MyContractBlock_MyEntityInfoWrapper>,
 }
 
 /// Payload for MyContractBlock::ReceiveAllOwnedGrids instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAllOwnedGridsPayload {
-    pub data: VarVec<space_engineers_sys::types::MyContractBlock_MyEntityInfoWrapper>,
+    pub data: VarVec<space_engineers_sys::types::game::MyContractBlock_MyEntityInfoWrapper>,
 }
 
 /// Payload for MyContractBlock::ReceiveActiveConditions instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveActiveConditionsPayload {
-    pub active_conditions: VarVec<space_engineers_sys::types::MyObjectBuilder_ContractCondition>,
+    pub active_conditions: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_ContractCondition>,
 }
 
 /// Payload for MyContractBlock::ReceiveAcceptContract instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAcceptContractPayload {
-    pub result: space_engineers_sys::types::MyContractResults,
+    pub result: space_engineers_sys::types::game::MyContractResults,
 }
 
 /// Payload for MyContractBlock::ReceiveFinishContract instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveFinishContractPayload {
-    pub result: space_engineers_sys::types::MyContractResults,
+    pub result: space_engineers_sys::types::game::MyContractResults,
 }
 
 /// Payload for MyContractBlock::ReceiveAbandonContract instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveAbandonContractPayload {
-    pub result: space_engineers_sys::types::MyContractResults,
+    pub result: space_engineers_sys::types::game::MyContractResults,
 }
 
 /// Payload for MyContractBlock::ReceiveGetConnectedGrids instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveGetConnectedGridsPayload {
     pub is_successful: BitBool,
-    pub connected_grids: VarVec<space_engineers_sys::types::MyContractBlock_MyTargetEntityInfoWrapper>,
+    pub connected_grids: VarVec<space_engineers_sys::types::game::MyContractBlock_MyTargetEntityInfoWrapper>,
 }
 
 /// Payload for MyContractBlock::ReceiveCreateContractResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyContractBlock_ReceiveCreateContractResultPayload {
-    pub result: space_engineers_sys::types::MyContractCreationResults,
+    pub result: space_engineers_sys::types::game::MyContractCreationResults,
 }
 
 /// Payload for MyContractBlock::ReceiveDeleteCustomContractResult instance event.
@@ -260,8 +262,8 @@ pub enum MyContractBlockInstanceEvent {
     OnChangeDescription,
     /// Hash: 1821062350
     GetContractBlockStatus,
-    /// Hash: 1074322992
-    GetAvailibleContracts,
+    /// Hash: -1379527528
+    GetAvailableContracts,
     /// Hash: 1937009057
     GetAdministrableContracts,
     /// Hash: 1105711404
@@ -290,11 +292,11 @@ pub enum MyContractBlockInstanceEvent {
     DeleteCustomContract,
     /// Hash: -1354275916
     ReceiveContractBlockStatus,
-    /// Hash: 570009653
+    /// Hash: -341936508
     ReceiveAvailableContracts,
     /// Hash: -617095000
     ReceiveAdministrableContracts,
-    /// Hash: 665433949
+    /// Hash: -1475567628
     ReceiveActiveContracts,
     /// Hash: -1224222802
     ReceiveAllOwnedContractBlocks,
@@ -331,7 +333,7 @@ impl MyContractBlockInstanceEvent {
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
             Self::GetContractBlockStatus => 1821062350,
-            Self::GetAvailibleContracts => 1074322992,
+            Self::GetAvailableContracts => -1379527528,
             Self::GetAdministrableContracts => 1937009057,
             Self::GetActiveContracts => 1105711404,
             Self::GetAllOwnedContractBlocks => 1538383333,
@@ -346,9 +348,9 @@ impl MyContractBlockInstanceEvent {
             Self::CreateCustomContractFind => 216386857,
             Self::DeleteCustomContract => -678622773,
             Self::ReceiveContractBlockStatus => -1354275916,
-            Self::ReceiveAvailableContracts => 570009653,
+            Self::ReceiveAvailableContracts => -341936508,
             Self::ReceiveAdministrableContracts => -617095000,
-            Self::ReceiveActiveContracts => 665433949,
+            Self::ReceiveActiveContracts => -1475567628,
             Self::ReceiveAllOwnedContractBlocks => -1224222802,
             Self::ReceiveAllOwnedGrids => -2047994961,
             Self::ReceiveActiveConditions => -383924616,
@@ -375,7 +377,7 @@ impl MyContractBlockInstanceEvent {
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
             1821062350 => Some(Self::GetContractBlockStatus),
-            1074322992 => Some(Self::GetAvailibleContracts),
+            -1379527528 => Some(Self::GetAvailableContracts),
             1937009057 => Some(Self::GetAdministrableContracts),
             1105711404 => Some(Self::GetActiveContracts),
             1538383333 => Some(Self::GetAllOwnedContractBlocks),
@@ -390,9 +392,9 @@ impl MyContractBlockInstanceEvent {
             216386857 => Some(Self::CreateCustomContractFind),
             -678622773 => Some(Self::DeleteCustomContract),
             -1354275916 => Some(Self::ReceiveContractBlockStatus),
-            570009653 => Some(Self::ReceiveAvailableContracts),
+            -341936508 => Some(Self::ReceiveAvailableContracts),
             -617095000 => Some(Self::ReceiveAdministrableContracts),
-            665433949 => Some(Self::ReceiveActiveContracts),
+            -1475567628 => Some(Self::ReceiveActiveContracts),
             -1224222802 => Some(Self::ReceiveAllOwnedContractBlocks),
             -2047994961 => Some(Self::ReceiveAllOwnedGrids),
             -383924616 => Some(Self::ReceiveActiveConditions),
@@ -434,8 +436,8 @@ pub enum MyContractBlockInstanceEventPayload {
     OnChangeDescription(MyContractBlock_OnChangeDescriptionPayload),
     /// GetContractBlockStatus event (no payload)
     GetContractBlockStatus,
-    /// GetAvailibleContracts event (no payload)
-    GetAvailibleContracts,
+    /// GetAvailableContracts event (no payload)
+    GetAvailableContracts,
     /// GetAdministrableContracts event (no payload)
     GetAdministrableContracts,
     /// GetActiveContracts event payload
@@ -539,7 +541,7 @@ impl MyContractBlockInstanceEvent {
                 Ok(MyContractBlockInstanceEventPayload::OnChangeDescription(payload))
             }
             Self::GetContractBlockStatus => Ok(MyContractBlockInstanceEventPayload::GetContractBlockStatus),
-            Self::GetAvailibleContracts => Ok(MyContractBlockInstanceEventPayload::GetAvailibleContracts),
+            Self::GetAvailableContracts => Ok(MyContractBlockInstanceEventPayload::GetAvailableContracts),
             Self::GetAdministrableContracts => Ok(MyContractBlockInstanceEventPayload::GetAdministrableContracts),
             Self::GetActiveContracts => {
                 let (_, payload) = MyContractBlock_GetActiveContractsPayload::from_bytes((bytes, 0))?;
@@ -683,8 +685,8 @@ pub trait MyContractBlockInstanceEventVisitor {
     fn visit_on_change_description(&mut self, payload: &MyContractBlock_OnChangeDescriptionPayload) {}
     /// Called when visiting GetContractBlockStatus event (no payload).
     fn visit_get_contract_block_status(&mut self) {}
-    /// Called when visiting GetAvailibleContracts event (no payload).
-    fn visit_get_availible_contracts(&mut self) {}
+    /// Called when visiting GetAvailableContracts event (no payload).
+    fn visit_get_available_contracts(&mut self) {}
     /// Called when visiting GetAdministrableContracts event (no payload).
     fn visit_get_administrable_contracts(&mut self) {}
     /// Called when visiting GetActiveContracts event.
@@ -757,7 +759,7 @@ impl MyContractBlockInstanceEventPayload {
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
             Self::GetContractBlockStatus => visitor.visit_get_contract_block_status(),
-            Self::GetAvailibleContracts => visitor.visit_get_availible_contracts(),
+            Self::GetAvailableContracts => visitor.visit_get_available_contracts(),
             Self::GetAdministrableContracts => visitor.visit_get_administrable_contracts(),
             Self::GetActiveContracts(payload) => visitor.visit_get_active_contracts(payload),
             Self::GetAllOwnedContractBlocks(payload) => visitor.visit_get_all_owned_contract_blocks(payload),
@@ -802,7 +804,7 @@ impl MyContractBlockInstanceEventPayload {
             Self::OnChangeOpenRequest_8(_) => Some(MyContractBlockInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MyContractBlockInstanceEvent::OnChangeDescription),
             Self::GetContractBlockStatus => Some(MyContractBlockInstanceEvent::GetContractBlockStatus),
-            Self::GetAvailibleContracts => Some(MyContractBlockInstanceEvent::GetAvailibleContracts),
+            Self::GetAvailableContracts => Some(MyContractBlockInstanceEvent::GetAvailableContracts),
             Self::GetAdministrableContracts => Some(MyContractBlockInstanceEvent::GetAdministrableContracts),
             Self::GetActiveContracts(_) => Some(MyContractBlockInstanceEvent::GetActiveContracts),
             Self::GetAllOwnedContractBlocks(_) => Some(MyContractBlockInstanceEvent::GetAllOwnedContractBlocks),

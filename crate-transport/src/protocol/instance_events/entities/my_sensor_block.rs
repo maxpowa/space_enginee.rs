@@ -79,7 +79,7 @@ pub struct MySensorBlock_OnChangeDescriptionPayload {
 /// Payload for MySensorBlock::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySensorBlock_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::ToolbarItem,
+    pub sent_item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
 }
 

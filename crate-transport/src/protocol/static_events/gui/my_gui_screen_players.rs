@@ -19,7 +19,7 @@ pub struct PromotePayload {
 /// Payload for ShowPromoteMessage event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ShowPromoteMessagePayload {
-    pub promote_level: space_engineers_sys::types::MyPromoteLevel,
+    pub promote_level: space_engineers_sys::types::modapi::MyPromoteLevel,
     pub promote: BitBool,
 }
 

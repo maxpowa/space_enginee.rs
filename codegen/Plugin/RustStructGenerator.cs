@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text;
@@ -180,7 +180,58 @@ public class RustStructGenerator
         var name = type.DeclaringType != null ? $"{type.DeclaringType.Name}_{type.Name}" : type.Name;
         // Strip backtick+arity from generic names
         if (name.Contains('`')) name = name.Split('`')[0];
-        return RustKeywords.Contains(name) ? $"r#{name}" : name;
+        var rustName = RustKeywords.Contains(name) ? $"r#{name}" : name;
+        // Qualify cross-category references so each module can compile without wildcard sibling imports
+        if (_currentCategory != null)
+        {
+            var typeCategory = _typeToCategory.TryGetValue(type, out var mappedCategory)
+                ? mappedCategory
+                : CategorizeType(type);
+            if (typeCategory != _currentCategory)
+                return $"super::{typeCategory}::{rustName}";
+        }
+        return rustName;
+    }
+
+    /// Returns the category-qualified name for use from outside the types module (e.g. crate-transport).
+    /// Always includes the category segment: "game::MyType", "object_builders::MyObjectBuilder_Foo", etc.
+    private static string CategoryQualifiedRustName(Type type)
+    {
+        var name = type.DeclaringType != null ? $"{type.DeclaringType.Name}_{type.Name}" : type.Name;
+        if (name.Contains('`')) name = name.Split('`')[0];
+        var rustName = RustKeywords.Contains(name) ? $"r#{name}" : name;
+        var category = _typeToCategory.TryGetValue(type, out var mappedCategory)
+            ? mappedCategory
+            : CategorizeType(type);
+        return $"{category}::{rustName}";
+    }
+
+    private static string CategorizeType(Type type)
+    {
+        if (type == typeof(Vector2)
+            || type == typeof(SerializableVector2)
+            || type == typeof(Vector3D)
+            || type == typeof(SerializableVector3D)
+            || type == typeof(Vector3)
+            || type == typeof(SerializableVector3)
+            || type == typeof(Vector3I)
+            || type == typeof(SerializableVector3I)
+            || type == typeof(Quaternion)
+            || type == typeof(Matrix3x3)
+            || type == typeof(MatrixD)
+            || type == typeof(SerializableBoundingBoxD)
+            || type == typeof(BoundingBoxD))
+            return "math";
+
+        if (type.Name.StartsWith("MyObjectBuilder_", StringComparison.Ordinal))
+            return "object_builders";
+
+        var fullName = type.FullName ?? type.Name;
+        if (fullName.Contains("ModAPI", StringComparison.Ordinal)
+            || fullName.Contains("Ingame", StringComparison.Ordinal))
+            return "modapi";
+
+        return "game";
     }
 
     private static string RecursiveTypeName(Type type)
@@ -350,15 +401,15 @@ public class RustStructGenerator
                 $"VarVec<{DekuTypeNameForTransport(type.GetElementType() ?? type.GenericTypeArguments[0])}>",
             // Flags enums - wrap with BitField (same as RustStructGenerator does for fields)
             _ when type.IsEnum && type.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 =>
-                $"space_engineers_compat::BitField<space_engineers_sys::types::{QualifiedRustName(type)}>",
+                $"space_engineers_compat::BitField<space_engineers_sys::types::{CategoryQualifiedRustName(type)}>",
             // Non-flags enums in types module
             _ when type.IsEnum =>
-                $"space_engineers_sys::types::{QualifiedRustName(type)}",
+                $"space_engineers_sys::types::{CategoryQualifiedRustName(type)}",
             // Complex types - check if Deku compatible
             _ when !IsDekuCompatible(type, []) =>
                 $"/* {type.FullName} - not Deku-compatible */ VarBytes",
             // Complex types (structs/classes) in types module
-            _ => $"space_engineers_sys::types::{QualifiedRustName(type)}"
+            _ => $"space_engineers_sys::types::{CategoryQualifiedRustName(type)}"
         };
     }
 
@@ -384,10 +435,35 @@ public class RustStructGenerator
         public int ProtoTag => IsProtoMember ? ProtoMemberAttributes.Last().Tag : int.MinValue;
         public bool IsXmlAttribute => XmlAttributeAttributes.Length > 0;
 
+        public bool HasXmlElement => Member.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
+
+        public bool HasXmlArray => Member.GetCustomAttributes(typeof(XmlArrayAttribute), true).Length > 0;
+
+        public bool HasXmlText => Member.GetCustomAttributes(typeof(XmlTextAttribute), true).Length > 0;
+
         public bool IsXmlIgnore => Member.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Length > 0;
 
         public bool NoSerialize =>
             Member.GetCustomAttributes(typeof(NoSerializeAttribute), true).Length > 0;
+
+        public bool IsSerdeSerializable
+        {
+            get
+            {
+                if (IsXmlIgnore || IsInherited)
+                    return false;
+
+                if (IsXmlAttribute || HasXmlElement || HasXmlArray || HasXmlText || XmlArrayItemName != null)
+                    return true;
+
+                return Member switch
+                {
+                    FieldInfo fieldInfo => fieldInfo.IsPublic,
+                    PropertyInfo prop => prop.GetMethod?.IsPublic == true,
+                    _ => false,
+                };
+            }
+        }
 
         /// <summary>
         /// True if the member has [Serialize(MyObjectFlags.DefaultZero)] attribute.
@@ -742,8 +818,18 @@ public class RustStructGenerator
     static HashSet<Type> _processedTypes = [];
     /// Tracks XmlArrayItem wrapper type names already emitted, to avoid duplicates.
     static HashSet<string> _emittedXmlArrayItemWrappers = [];
+    /// Tracks Rust type names already emitted per category, to allow the same name in different categories.
+    static HashSet<string> _emittedRustTypeNames = [];
     /// Types that need Deku derives (replication event argument types and their dependencies).
     static HashSet<Type> _dekuTypes = [];
+    /// Maps each base type to its category, for cross-category reference qualification.
+    static Dictionary<Type, string> _typeToCategory = [];
+    /// The category currently being written, used to qualify cross-category type references.
+    static string? _currentCategory = null;
+    /// All base types passed to GenerateRustStructs, to skip writing them inline if they belong to another category.
+    static HashSet<Type> _allBaseTypes = [];
+        /// Categories that have already been fully processed (used to detect orphaned dep types).
+        static HashSet<string> _processedCategories = [];
 
     private static bool NeedsDekuDerives(Type type) => _dekuTypes.Contains(type);
 
@@ -777,11 +863,12 @@ public class RustStructGenerator
             return WillHaveDekuSupport(elementType);
         }
         
-        // SerializableDictionary - supported via VarMap if key/value types are supported
+        // SerializableDictionary (VarMap) - NOT supported in Deku as a field type because
+        // VarMap's proto shadow requires key/value types to implement Ord and other traits
+        // that Deku wrappers don't satisfy. Use #[deku(skip)] for these fields.
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(SerializableDictionary<,>))
         {
-            return WillHaveDekuSupport(type.GenericTypeArguments[0]) &&
-                   WillHaveDekuSupport(type.GenericTypeArguments[1]);
+            return false;
         }
         
         // Raw Dictionary - supported via VarMap if key/value types are supported
@@ -1425,16 +1512,51 @@ public class RustStructGenerator
         if (!_processedTypes.Add(type))
             return true;
 
-        if (IsTypeEmpty(type))
+        // Base types: skip if they belong to a different category.
+        // They will be written by their own category file.
+        if (_currentCategory != null
+            && _allBaseTypes.Contains(type)
+            && _typeToCategory.TryGetValue(type, out var foreignCategory)
+            && foreignCategory != _currentCategory)
+            return true;
+
+        // Dependency types (not in _allBaseTypes): assign to their natural category via CategorizeType.
+        // Defer to the natural category if it hasn't run yet; fall back to current if it already ran
+        // without claiming this type (avoids orphaned types).
+        if (_currentCategory != null && !_allBaseTypes.Contains(type))
         {
-            // Array types and generics with a known Rust mapping don't need stubs for the container,
-            // but we still need to process the element/generic argument types
+            var naturalCategory = CategorizeType(type);
+            if (_typeToCategory.TryGetValue(type, out var existingDepCat))
+            {
+                if (existingDepCat != _currentCategory)
+                    return true; // Already claimed/written by another category
+            }
+            else if (naturalCategory != _currentCategory)
+            {
+                if (_processedCategories.Contains(naturalCategory))
+                    _typeToCategory[type] = _currentCategory; // Natural cat already ran — write here
+                else
+                {
+                    _typeToCategory[type] = naturalCategory; // Defer to natural category
+                    return true;
+                }
+            }
+            else
+            {
+                _typeToCategory[type] = _currentCategory;
+            }
+        }
+
+        var (fieldInfos, propertyInfos) = GetPublicTypeMembers(type);
+        if (fieldInfos.Length == 0 && propertyInfos.Length == 0)
+        {
             if (type.IsArray)
             {
                 var elemType = type.GetElementType()!;
                 WriteRustStructAndDependents(elemType, writer);
                 return true;
             }
+
             if (type.IsGenericType && new ExtraTypeInfo { Type = type }.HasRustType)
             {
                 foreach (var typeArg in type.GenericTypeArguments)
@@ -1442,28 +1564,29 @@ public class RustStructGenerator
                 return true;
             }
 
-            // Emit a stub for empty types so they can be referenced by other types
-            // But skip types that have built-in Rust mappings (object, string, primitives, etc.)
             var emptyTypeInfo = new ExtraTypeInfo { Type = type };
             if (emptyTypeInfo.HasRustType)
                 return true;
-            
+
             if (!type.IsPrimitive && !type.IsValueType && !type.IsEnum)
             {
-
-                var isStubProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0 
+                var isStubProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0
                     || type.GetCustomAttributes(typeof(XmlSerializerAssemblyAttribute), true).Length > 0;
-                // Sanitize name: strip backtick+arity from generic type names (e.g. MyList`1 -> MyList)
                 var sanitizedName = QualifiedRustName(type);
                 var serializeName = type.Name.Contains('`') ? type.Name.Split('`')[0] : type.Name;
                 writer.WriteLine($"// Stub for empty/abstract type: {type.FullName}");
                 if (isStubProtobuf) writer.WriteLine("#[::proto_rs::proto_message]");
                 var stubTraits = new List<string> { "Debug", "Default", "Clone", "PartialEq", "::serde::Serialize", "::serde::Deserialize" };
-                if (NeedsDekuDerives(type)) { stubTraits.Add("::deku::DekuRead"); stubTraits.Add("::deku::DekuWrite"); }
+                if (NeedsDekuDerives(type))
+                {
+                    stubTraits.Add("::deku::DekuRead");
+                    stubTraits.Add("::deku::DekuWrite");
+                }
                 writer.WriteLine($"#[derive({string.Join(", ", stubTraits)})]");
                 writer.WriteLine($"#[serde(rename = \"{serializeName}\")]");
                 writer.WriteLine($"pub struct {sanitizedName} {{}}");
             }
+
             return true;
         }
 
@@ -1567,8 +1690,8 @@ public class RustStructGenerator
         else
         {
             // For non-Deku types, use the original logic (declared members only)
-            var (fieldInfos, propertyInfos) = GetPublicTypeMembers(type);
-            foreach (var field in fieldInfos)
+            var (publicFieldInfos, publicPropertyInfos) = GetPublicTypeMembers(type);
+            foreach (var field in publicFieldInfos)
             {
                 if (!WriteRustStructAndDependents(field.FieldType, writer))
                 {
@@ -1580,19 +1703,17 @@ public class RustStructGenerator
                 members.Add(BuildIntermediateMemberInfo(field.FieldType, field));
             }
 
-            foreach (var prop in propertyInfos)
+            foreach (var prop in publicPropertyInfos)
             {
                 var propSerInfo = new ExtraSerializationInfo { Member = prop };
 
                 // Skip computed / alias properties marked [NoSerialize] that have
                 // no explicit XML serialization attributes.
-                if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute
-                    && prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length == 0)
+                if (propSerInfo.NoSerialize && !propSerInfo.IsXmlAttribute && !propSerInfo.HasXmlElement)
                     continue;
                 
                 // Skip properties that have no serialization attributes at all.
-                var hasXmlElement = prop.GetCustomAttributes(typeof(XmlElementAttribute), true).Length > 0;
-                if (!propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !hasXmlElement)
+                if (!propSerInfo.IsProtoMember && !propSerInfo.IsXmlAttribute && !propSerInfo.HasXmlElement)
                     continue;
 
                 if (!WriteRustStructAndDependents(prop.PropertyType, writer))
@@ -1657,7 +1778,7 @@ public class RustStructGenerator
         {
             // Determine if each serialization method would skip this field
             // Inherited fields are skipped for serde and proto (they're only used for Deku/network)
-            var serdeWillSkip = memberInfo.IsXmlIgnore || memberInfo.IsInherited;
+            var serdeWillSkip = !memberInfo.IsSerdeSerializable;
             var protoWillSkip = !isProtobuf || !memberInfo.IsProtoMember || memberInfo.NoSerialize || memberInfo.IsInherited;
             
             var dekuWillSkip = false;
@@ -1721,7 +1842,7 @@ public class RustStructGenerator
                 writer.WriteLine($"    // Inherited from {memberInfo.Member.DeclaringType?.Name} - not in serde");
                 writer.WriteLine($"    #[serde(skip)]");
             }
-            else if (!memberInfo.IsXmlIgnore)
+            else if (memberInfo.IsSerdeSerializable)
             {
                 var serdeParts = new List<string>();
 
@@ -1838,8 +1959,8 @@ public class RustStructGenerator
                 if (xmlArrayItemName != elementTypeInfo.Name)
                 {
                     _emittedXmlArrayItemWrappers.Add(xmlArrayItemName);
-                    writer.WriteLine($"    #[serde(serialize_with = \"xml_array_item::{xmlArrayItemName}::serialize\",");
-                    writer.WriteLine($"            deserialize_with = \"xml_array_item::{xmlArrayItemName}::deserialize\")]");
+                    writer.WriteLine($"    #[serde(serialize_with = \"super::xml_array_item::{xmlArrayItemName}::serialize\",");
+                    writer.WriteLine($"            deserialize_with = \"super::xml_array_item::{xmlArrayItemName}::deserialize\")]");
                 }
             }
             writer.WriteLine($"    pub {sanitizedName}: {rustTypeName},");
@@ -1872,42 +1993,79 @@ public class RustStructGenerator
 
     public static void GenerateRustStructs(List<Type> baseTypes, string outputPath, string filename = "game_data.rs", HashSet<Type>? dekuTypes = null)
     {
+        var moduleOutputPath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(filename));
+        Directory.CreateDirectory(moduleOutputPath);
+
         _processedTypes.Clear();
+        _processedCategories.Clear();
         _floatCheckVisited.Clear();
         _emittedXmlArrayItemWrappers.Clear();
+        _emittedRustTypeNames.Clear();
+        _typeToCategory.Clear();
         // Expand dekuTypes to include all transitive dependencies
         _dekuTypes = dekuTypes != null ? ExpandWithDependencies(dekuTypes) : [];
+        _allBaseTypes = [.. baseTypes];
 
-        var eventListFilename = Path.Combine(outputPath, filename);
-        using var writer = new StreamWriter(eventListFilename);
-        writer.WriteLine("// Auto-generated by StandaloneExtractor — do not edit manually");
-        writer.WriteLine("#![cfg_attr(rustfmt, rustfmt_skip)]");
-        writer.WriteLine("#![allow(non_camel_case_types, non_snake_case, unused_imports, clippy::all, clippy::pedantic, clippy::suspicious)]");
-        writer.WriteLine();
-        writer.WriteLine("use crate::*;");
-        writer.WriteLine();
         foreach (var type in baseTypes)
         {
-            if (!WriteRustStructAndDependents(type, writer))
-            {
-                writer.WriteLine("// Skipped type with no public members: " + type.FullName);
-            }
+            _typeToCategory[type] = CategorizeType(type);
         }
-        
-        // Emit a single namespace module containing all XmlArrayItem helpers.
-        // This prevents the generated modules from conflicting with real type names.
+
+        string[] categories = ["game", "object_builders", "modapi", "math"];
+        foreach (var category in categories)
+        {
+            _emittedRustTypeNames.Clear();
+            _processedTypes.Clear();
+            _currentCategory = category;
+            var categoryRoots = _typeToCategory
+                .Where(entry => entry.Value == category)
+                .Select(entry => entry.Key)
+                .Distinct()
+                .ToList();
+
+            var categoryPath = Path.Combine(moduleOutputPath, $"{category}.rs");
+            using var writer = new StreamWriter(categoryPath);
+            writer.WriteLine("// Auto-generated by StandaloneExtractor — do not edit manually");
+            writer.WriteLine("#![cfg_attr(rustfmt, rustfmt_skip)]");
+            writer.WriteLine("#![allow(non_camel_case_types, non_snake_case, unused_imports, clippy::all, clippy::pedantic, clippy::suspicious)]");
+            writer.WriteLine();
+            writer.WriteLine("use crate::*;");
+            writer.WriteLine();
+
+            foreach (var type in categoryRoots)
+            {
+                if (!WriteRustStructAndDependents(type, writer))
+                {
+                    writer.WriteLine("// Skipped type with no public members: " + type.FullName);
+                }
+            }
+
+            _processedCategories.Add(category);
+        }
+
+        _currentCategory = null;
+
+        var modPath = Path.Combine(moduleOutputPath, "mod.rs");
+        using var modWriter = new StreamWriter(modPath);
+        modWriter.WriteLine("// Auto-generated by StandaloneExtractor — do not edit manually");
+        modWriter.WriteLine();
+        foreach (var category in categories)
+        {
+            modWriter.WriteLine($"pub mod {category};");
+        }
+
         if (_emittedXmlArrayItemWrappers.Count > 0)
         {
-            writer.WriteLine();
-            writer.WriteLine("/// Namespace for XmlArrayItem serialize/deserialize helpers.");
-            writer.WriteLine("/// Each sub-module is generated by `define_xml_array_item!` and provides");
-            writer.WriteLine("/// `serialize` / `deserialize` functions for a specific XML element name.");
-            writer.WriteLine("pub mod xml_array_item {");
+            modWriter.WriteLine();
+            modWriter.WriteLine("/// Namespace for XmlArrayItem serialize/deserialize helpers.");
+            modWriter.WriteLine("/// Each sub-module is generated by `define_xml_array_item!` and provides");
+            modWriter.WriteLine("/// `serialize` / `deserialize` functions for a specific XML element name.");
+            modWriter.WriteLine("pub mod xml_array_item {");
             foreach (var name in _emittedXmlArrayItemWrappers)
             {
-                writer.WriteLine($"    crate::compat::define_xml_array_item!({name});");
+                modWriter.WriteLine($"    crate::compat::define_xml_array_item!({name});");
             }
-            writer.WriteLine("}");
+            modWriter.WriteLine("}");
         }
     }
 }

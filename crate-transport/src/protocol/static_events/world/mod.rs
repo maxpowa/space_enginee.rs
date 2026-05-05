@@ -5,6 +5,7 @@
 mod my_block_limits;
 mod my_encounter_generator;
 mod my_neutral_ship_spawner;
+mod my_player;
 mod my_procedural_world_generator;
 mod my_session;
 mod my_space_respawn_component;
@@ -12,6 +13,7 @@ mod my_space_respawn_component;
 pub use my_block_limits::*;
 pub use my_encounter_generator::*;
 pub use my_neutral_ship_spawner::*;
+pub use my_player::*;
 pub use my_procedural_world_generator::*;
 pub use my_session::*;
 pub use my_space_respawn_component::*;

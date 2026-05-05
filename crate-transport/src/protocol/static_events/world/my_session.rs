@@ -18,14 +18,14 @@ pub struct OnCreativeToolsEnabledPayload {
 /// Payload for HitIndicatorActivationInternal event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct HitIndicatorActivationInternalPayload {
-    pub r#type: space_engineers_sys::types::MySession_MyHitIndicatorTarget,
+    pub r#type: space_engineers_sys::types::game::MySession_MyHitIndicatorTarget,
 }
 
 /// Payload for OnPromoteLevelSet event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnPromoteLevelSetPayload {
     pub steam_id: BitAligned<u64>,
-    pub level: space_engineers_sys::types::MyPromoteLevel,
+    pub level: space_engineers_sys::types::modapi::MyPromoteLevel,
 }
 
 /// Payload for OnServerSaving event.
@@ -38,7 +38,7 @@ pub struct OnServerSavingPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnServerPerformanceWarningPayload {
     pub key: VarString,
-    pub r#type: space_engineers_sys::types::MySimpleProfiler_ProfilingBlockType,
+    pub r#type: space_engineers_sys::types::game::MySimpleProfiler_ProfilingBlockType,
 }
 
 /// Payload for SetSpectatorPositionFromServer event.
@@ -50,7 +50,7 @@ pub struct SetSpectatorPositionFromServerPayload {
 /// Payload for CameraControllerSet event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CameraControllerSetPayload {
-    pub r#type: space_engineers_sys::types::MyCameraControllerEnum,
+    pub r#type: space_engineers_sys::types::game::MyCameraControllerEnum,
     pub entity_id: BitAligned<i64>,
 }
 

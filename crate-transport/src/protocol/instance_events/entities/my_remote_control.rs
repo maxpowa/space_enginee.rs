@@ -46,37 +46,37 @@ pub struct MyRemoteControl_SyncMoveIndicatorPayload {
 /// Payload for MyRemoteControl::SwitchToWeaponMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_SwitchToWeaponMessagePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyRemoteControl::OnSwitchToWeaponFailure instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_OnSwitchToWeaponFailurePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyRemoteControl::OnSwitchToWeaponSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_OnSwitchToWeaponSuccessPayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyRemoteControl::ShootBeginCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_ShootBeginCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyRemoteControl::ShootEndCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_ShootEndCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyRemoteControl::SendToolbarItemRemoved instance event.
@@ -90,7 +90,7 @@ pub struct MyRemoteControl_SendToolbarItemRemovedPayload {
 /// Payload for MyRemoteControl::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::MyObjectBuilder_ToolbarItem,
+    pub sent_item: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
     pub index: BitAligned<i32>,
     pub is_gamepad: BitBool,
     pub toolbar_index: BitAligned<i32>,
@@ -99,24 +99,24 @@ pub struct MyRemoteControl_SendToolbarItemChangedPayload {
 /// Payload for MyRemoteControl::RequestUseMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_RequestUseMessagePayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
 }
 
 /// Payload for MyRemoteControl::UseSuccessCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_UseSuccessCallbackPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
 }
 
 /// Payload for MyRemoteControl::UseFailureCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRemoteControl_UseFailureCallbackPayload {
-    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub use_action: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub used_by_id: BitAligned<i64>,
-    pub use_result: space_engineers_sys::types::UseActionResult,
+    pub use_result: space_engineers_sys::types::game::UseActionResult,
 }
 
 /// Payload for MyRemoteControl::RequestRelease instance event.

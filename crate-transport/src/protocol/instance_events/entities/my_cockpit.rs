@@ -46,37 +46,37 @@ pub struct MyCockpit_SyncMoveIndicatorPayload {
 /// Payload for MyCockpit::SwitchToWeaponMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SwitchToWeaponMessagePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyCockpit::OnSwitchToWeaponFailure instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_OnSwitchToWeaponFailurePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyCockpit::OnSwitchToWeaponSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_OnSwitchToWeaponSuccessPayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyCockpit::ShootBeginCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_ShootBeginCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyCockpit::ShootEndCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_ShootEndCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyCockpit::SendToolbarItemRemoved instance event.
@@ -90,7 +90,7 @@ pub struct MyCockpit_SendToolbarItemRemovedPayload {
 /// Payload for MyCockpit::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::MyObjectBuilder_ToolbarItem,
+    pub sent_item: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
     pub index: BitAligned<i32>,
     pub is_gamepad: BitBool,
     pub toolbar_index: BitAligned<i32>,
@@ -130,7 +130,7 @@ pub struct MyCockpit_OnChangeDescriptionPayload {
 /// Payload for MyCockpit::AttachPilotEvent instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_AttachPilotEventPayload {
-    pub action_enum: space_engineers_compat::BitField<space_engineers_sys::types::UseActionEnum>,
+    pub action_enum: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
     pub character_id: BitAligned<i64>,
     pub animation: BitAligned<i32>,
 }
@@ -138,14 +138,14 @@ pub struct MyCockpit_AttachPilotEventPayload {
 /// Payload for MyCockpit::SetAutopilot_Client instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SetAutopilot_ClientPayload {
-    pub autopilot: space_engineers_sys::types::MyObjectBuilder_AutopilotBase,
+    pub autopilot: space_engineers_sys::types::object_builders::MyObjectBuilder_AutopilotBase,
 }
 
 /// Payload for MyCockpit::NotifyClientPilotChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_NotifyClientPilotChangedPayload {
     pub pilot_entity_id: BitAligned<i64>,
-    pub pilot_relative_world: Nullable<space_engineers_sys::types::Matrix>,
+    pub pilot_relative_world: Nullable<space_engineers_sys::types::game::Matrix>,
     pub seed: BitAligned<i32>,
 }
 

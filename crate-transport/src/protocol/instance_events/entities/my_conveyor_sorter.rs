@@ -85,7 +85,7 @@ pub struct MyConveyorSorter_DoChangeBlWlPayload {
 /// Payload for MyConveyorSorter::DoChangeListId instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyConveyorSorter_DoChangeListIdPayload {
-    pub id: space_engineers_sys::types::SerializableDefinitionId,
+    pub id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub add: BitBool,
 }
 
@@ -99,8 +99,8 @@ pub struct MyConveyorSorter_DoChangeListTypePayload {
 /// Payload for MyConveyorSorter::DoSetupFilter instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyConveyorSorter_DoSetupFilterPayload {
-    pub mode: space_engineers_sys::types::MyConveyorSorterMode,
-    pub filters: VarVec<space_engineers_compat::Tuple<space_engineers_sys::types::SerializableDefinitionId, BitBool>>,
+    pub mode: space_engineers_sys::types::modapi::MyConveyorSorterMode,
+    pub filters: VarVec<space_engineers_compat::Tuple<space_engineers_sys::types::game::SerializableDefinitionId, BitBool>>,
 }
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyConveyorSorter.

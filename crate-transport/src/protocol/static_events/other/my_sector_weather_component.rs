@@ -19,18 +19,18 @@ pub struct RequestLightningServerPayload {
 /// Payload for UpdateWeathersOnClients event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateWeathersOnClientsPayload {
-    pub planet_data: VarVec<space_engineers_sys::types::MyObjectBuilder_WeatherPlanetData>,
+    pub planet_data: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_WeatherPlanetData>,
 }
 
 /// Payload for UpdateLightningsOnClients event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateLightningsOnClientsPayload {
-    pub lightnings: VarVec<space_engineers_sys::types::MyObjectBuilder_WeatherLightning>,
+    pub lightnings: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_WeatherLightning>,
 }
 
 /// Payload for UpdateWeathersOnClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateWeathersOnClientPayload {
-    pub planet_data: VarVec<space_engineers_sys::types::MyObjectBuilder_WeatherPlanetData>,
+    pub planet_data: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_WeatherPlanetData>,
 }
 

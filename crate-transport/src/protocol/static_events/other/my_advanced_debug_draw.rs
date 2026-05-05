@@ -14,7 +14,7 @@ use space_engineers_sys::math::Vector3D;
 pub struct DebugDrawLine3DSyncInternalPayload {
     pub start: Vector3D,
     pub end: Vector3D,
-    pub color: space_engineers_sys::types::Color,
-    pub key: Nullable<space_engineers_sys::types::MyKeys>,
+    pub color: space_engineers_sys::types::game::Color,
+    pub key: Nullable<space_engineers_sys::types::game::MyKeys>,
 }
 

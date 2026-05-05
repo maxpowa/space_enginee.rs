@@ -79,7 +79,7 @@ pub struct MyTurretControlBlock_OnChangeDescriptionPayload {
 /// Payload for MyTurretControlBlock::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyTurretControlBlock_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::ToolbarItem,
+    pub sent_item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
 }
 
@@ -104,7 +104,7 @@ pub struct MyTurretControlBlock_RequestReleasePayload {
 /// Payload for MyTurretControlBlock::OnTargetingResultKnown instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyTurretControlBlock_OnTargetingResultKnownPayload {
-    pub target_result: space_engineers_sys::types::TargetFocusResult,
+    pub target_result: space_engineers_sys::types::game::TargetFocusResult,
 }
 
 /// Payload for MyTurretControlBlock::CopyTargetServer instance event.

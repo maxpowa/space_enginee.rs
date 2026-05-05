@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for AddExistingObjectsSeed event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddExistingObjectsSeedPayload {
-    pub seed: space_engineers_sys::types::MyObjectSeedParams,
+    pub seed: space_engineers_sys::types::game::MyObjectSeedParams,
 }
 

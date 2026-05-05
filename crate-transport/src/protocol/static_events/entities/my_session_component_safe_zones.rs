@@ -24,27 +24,27 @@ pub struct DeleteSafeZone_ImplementationPayload {
 /// Payload for UpdateSafeZone_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateSafeZone_ImplementationPayload {
-    pub ob: space_engineers_sys::types::MyObjectBuilder_SafeZone,
+    pub ob: space_engineers_sys::types::object_builders::MyObjectBuilder_SafeZone,
 }
 
 /// Payload for UpdateSafeZonePlayer_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateSafeZonePlayer_ImplementationPayload {
     pub safe_zone_block_id: BitAligned<i64>,
-    pub ob: space_engineers_sys::types::MyObjectBuilder_SafeZone,
+    pub ob: space_engineers_sys::types::object_builders::MyObjectBuilder_SafeZone,
 }
 
 /// Payload for UpdateSafeZone_Broadcast event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateSafeZone_BroadcastPayload {
-    pub ob: space_engineers_sys::types::MyObjectBuilder_SafeZone,
+    pub ob: space_engineers_sys::types::object_builders::MyObjectBuilder_SafeZone,
 }
 
 /// Payload for UpdateSafeZone_ImplementationPlayer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateSafeZone_ImplementationPlayerPayload {
     pub safezone_block_id: BitAligned<i64>,
-    pub ob: space_engineers_sys::types::MyObjectBuilder_SafeZone,
+    pub ob: space_engineers_sys::types::object_builders::MyObjectBuilder_SafeZone,
 }
 
 /// Payload for UpdateSafeZoneRadius_ImplementationPlayer event.
@@ -58,6 +58,6 @@ pub struct UpdateSafeZoneRadius_ImplementationPlayerPayload {
 /// Payload for UpdateGlobalSafeZone_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UpdateGlobalSafeZone_ImplementationPayload {
-    pub allowed_actions: space_engineers_compat::BitField<space_engineers_sys::types::MySafeZoneAction>,
+    pub allowed_actions: space_engineers_compat::BitField<space_engineers_sys::types::game::MySafeZoneAction>,
 }
 

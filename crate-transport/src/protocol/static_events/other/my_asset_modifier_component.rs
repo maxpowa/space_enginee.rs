@@ -13,20 +13,20 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ResetAssetModifierSyncPayload {
     pub entity_id: BitAligned<i64>,
-    pub slot: space_engineers_sys::types::MyGameInventoryItemSlot,
+    pub slot: space_engineers_sys::types::game::MyGameInventoryItemSlot,
 }
 
-/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_373 event.
+/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_377 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyAssetModifierComponent_ApplyAssetModifierSync_373Payload {
+pub struct MyAssetModifierComponent_ApplyAssetModifierSync_377Payload {
     pub entity_id: BitAligned<i64>,
     pub check_data: VarBytes,
     pub add_to_list: BitBool,
 }
 
-/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_374 event.
+/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_378 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyAssetModifierComponent_ApplyAssetModifierSync_374Payload {
+pub struct MyAssetModifierComponent_ApplyAssetModifierSync_378Payload {
     pub entity_id: BitAligned<i64>,
     pub asset_modifier_id: VarString,
     pub add_to_list: BitBool,

@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MySignalReceiverEntityComponent::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySignalReceiverEntityComponent_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::ToolbarItem,
+    pub sent_item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
 }
 

@@ -12,13 +12,13 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for ResponseFailedValidations event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ResponseFailedValidationsPayload {
-    pub list: VarVec<space_engineers_sys::types::ValidationFailedRecord>,
+    pub list: VarVec<space_engineers_sys::types::game::ValidationFailedRecord>,
 }
 
 /// Payload for ReciveClientData event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ReciveClientDataPayload {
-    pub state: space_engineers_sys::types::MyMatchState,
+    pub state: space_engineers_sys::types::game::MyMatchState,
     pub remaining_time: BitAligned<f32>,
     pub is_running: BitBool,
     pub is_enabled: BitBool,
@@ -148,18 +148,18 @@ pub struct AskIsValidForEdit_ReponsePayload {
 /// Payload for MyGuiScreenAdminMenu_EntityListRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyGuiScreenAdminMenu_EntityListRequestPayload {
-    pub selected_type: space_engineers_sys::types::MyEntityList_MyEntityTypeEnum,
+    pub selected_type: space_engineers_sys::types::game::MyEntityList_MyEntityTypeEnum,
 }
 
 /// Payload for CycleRequest_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct CycleRequest_ImplementationPayload {
-    pub order: space_engineers_sys::types::MyEntityCyclingOrder,
+    pub order: space_engineers_sys::types::game::MyEntityCyclingOrder,
     pub reset: BitBool,
     pub find_larger: BitBool,
     pub metric_value: BitAligned<f32>,
     pub current_entity_id: BitAligned<i64>,
-    pub options: space_engineers_sys::types::CyclingOptions,
+    pub options: space_engineers_sys::types::game::CyclingOptions,
 }
 
 /// Payload for RemoveOwner_Implementation event.
@@ -173,39 +173,39 @@ pub struct RemoveOwner_ImplementationPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ProceedEntitiesAction_ImplementationPayload {
     pub entity_ids: VarVec<BitAligned<i64>>,
-    pub action: space_engineers_sys::types::MyEntityList_EntityListAction,
+    pub action: space_engineers_sys::types::game::MyEntityList_EntityListAction,
 }
 
 /// Payload for UploadSettingsToServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct UploadSettingsToServerPayload {
-    pub settings: space_engineers_sys::types::MyGuiScreenAdminMenu_AdminSettings,
+    pub settings: space_engineers_sys::types::game::MyGuiScreenAdminMenu_AdminSettings,
 }
 
 /// Payload for ProceedEntity_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ProceedEntity_ImplementationPayload {
     pub entity_id: BitAligned<i64>,
-    pub action: space_engineers_sys::types::MyEntityList_EntityListAction,
+    pub action: space_engineers_sys::types::game::MyEntityList_EntityListAction,
 }
 
 /// Payload for AdminSettingsChanged event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AdminSettingsChangedPayload {
-    pub settings: space_engineers_compat::BitField<space_engineers_sys::types::AdminSettingsEnum>,
+    pub settings: space_engineers_compat::BitField<space_engineers_sys::types::game::AdminSettingsEnum>,
 }
 
 /// Payload for AdminSettingsChangedClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AdminSettingsChangedClientPayload {
-    pub settings: space_engineers_compat::BitField<space_engineers_sys::types::AdminSettingsEnum>,
+    pub settings: space_engineers_compat::BitField<space_engineers_sys::types::game::AdminSettingsEnum>,
     pub steam_id: BitAligned<u64>,
 }
 
 /// Payload for MyGuiScreenAdminMenu_EntityListResponse event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyGuiScreenAdminMenu_EntityListResponsePayload {
-    pub entities: VarVec<space_engineers_sys::types::MyEntityList_MyEntityListInfoItem>,
+    pub entities: VarVec<space_engineers_sys::types::game::MyEntityList_MyEntityListInfoItem>,
 }
 
 /// Payload for Cycle_Implementation event.
@@ -220,6 +220,6 @@ pub struct Cycle_ImplementationPayload {
 /// Payload for DownloadSettingFromServer event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct DownloadSettingFromServerPayload {
-    pub settings: space_engineers_sys::types::MyGuiScreenAdminMenu_AdminSettings,
+    pub settings: space_engineers_sys::types::game::MyGuiScreenAdminMenu_AdminSettings,
 }
 

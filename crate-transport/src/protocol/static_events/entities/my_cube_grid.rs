@@ -12,28 +12,28 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for TryPasteGrid_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct TryPasteGrid_ImplementationPayload {
-    pub parameters: space_engineers_sys::types::MyCubeGrid_MyPasteGridParameters,
+    pub parameters: space_engineers_sys::types::game::MyCubeGrid_MyPasteGridParameters,
 }
 
 /// Payload for OnChangeShareRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChangeShareRequestPayload {
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
-    pub requests: VarVec<space_engineers_sys::types::MyCubeGrid_MySingleOwnershipRequest>,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
+    pub requests: VarVec<space_engineers_sys::types::game::MyCubeGrid_MySingleOwnershipRequest>,
 }
 
 /// Payload for AddChangeOwnersRequestServerside event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddChangeOwnersRequestServersidePayload {
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
-    pub requests: VarVec<space_engineers_sys::types::MyCubeGrid_MySingleOwnershipRequest>,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
+    pub requests: VarVec<space_engineers_sys::types::game::MyCubeGrid_MySingleOwnershipRequest>,
 }
 
 /// Payload for OnChangeShareModeSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChangeShareModeSuccessPayload {
-    pub share_mode: space_engineers_sys::types::MyOwnershipShareModeEnum,
-    pub requests: VarVec<space_engineers_sys::types::MyCubeGrid_MySingleOwnershipRequest>,
+    pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
+    pub requests: VarVec<space_engineers_sys::types::game::MyCubeGrid_MySingleOwnershipRequest>,
 }
 
 /// Payload for RemoveAllOwnershipChangeRequests event.
@@ -65,17 +65,17 @@ pub struct CancelPendingTransferRequestsServerSidePayload {
     pub owner_id: BitAligned<i64>,
 }
 
-/// Payload for MyCubeGrid_CancelPendingTransferRequests_425 event.
+/// Payload for MyCubeGrid_CancelPendingTransferRequests_431 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCubeGrid_CancelPendingTransferRequests_425Payload {
+pub struct MyCubeGrid_CancelPendingTransferRequests_431Payload {
     pub request_batch_guid: space_engineers_compat::Guid,
     pub grid_id: BitAligned<i64>,
     pub owner: BitAligned<i64>,
 }
 
-/// Payload for MyCubeGrid_CancelPendingTransferRequests_426 event.
+/// Payload for MyCubeGrid_CancelPendingTransferRequests_432 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCubeGrid_CancelPendingTransferRequests_426Payload {
+pub struct MyCubeGrid_CancelPendingTransferRequests_432Payload {
     pub request_batch_guid: space_engineers_compat::Guid,
     pub grid_id: BitAligned<i64>,
     pub sender: BitAligned<u64>,
@@ -84,7 +84,7 @@ pub struct MyCubeGrid_CancelPendingTransferRequests_426Payload {
 /// Payload for AddChangeOwnersRequestClientside event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct AddChangeOwnersRequestClientsidePayload {
-    pub requests: VarVec<space_engineers_sys::types::MyCubeGrid_MySingleOwnershipRequest>,
+    pub requests: VarVec<space_engineers_sys::types::game::MyCubeGrid_MySingleOwnershipRequest>,
 }
 
 /// Payload for RemoveOwnershipChangeRequests event.
@@ -97,6 +97,6 @@ pub struct RemoveOwnershipChangeRequestsPayload {
 /// Payload for OnChangeOwnersSuccess event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnChangeOwnersSuccessPayload {
-    pub requests: VarVec<space_engineers_sys::types::MyCubeGrid_MySingleOwnershipRequest>,
+    pub requests: VarVec<space_engineers_sys::types::game::MyCubeGrid_MySingleOwnershipRequest>,
 }
 

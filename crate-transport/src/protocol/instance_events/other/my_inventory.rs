@@ -13,14 +13,14 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_PickupItem_ImplementationPayload {
     pub entity_id: BitAligned<i64>,
-    pub amount: space_engineers_sys::types::MyFixedPoint,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
 }
 
 /// Payload for MyInventory::RemoveItemsAt_Request instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_RemoveItemsAt_RequestPayload {
     pub item_index: BitAligned<i32>,
-    pub amount: Nullable<space_engineers_sys::types::MyFixedPoint>,
+    pub amount: Nullable<space_engineers_sys::types::game::MyFixedPoint>,
     pub send_event: BitBool,
     pub spawn: BitBool,
 }
@@ -47,16 +47,16 @@ pub struct MyInventory_ModifyDatapad_BroadcastPayload {
 pub struct MyInventory_InventoryTransferItemPlanner_ImplementationPayload {
     pub destination_owner_id: BitAligned<i64>,
     pub dest_inventory_index: BitAligned<i32>,
-    pub content_id: space_engineers_sys::types::SerializableDefinitionId,
-    pub flags: space_engineers_compat::BitField<space_engineers_sys::types::MyItemFlags>,
-    pub amount: Nullable<space_engineers_sys::types::MyFixedPoint>,
+    pub content_id: space_engineers_sys::types::game::SerializableDefinitionId,
+    pub flags: space_engineers_compat::BitField<space_engineers_sys::types::game::MyItemFlags>,
+    pub amount: Nullable<space_engineers_sys::types::game::MyFixedPoint>,
     pub spawn: BitBool,
 }
 
 /// Payload for MyInventory::InventoryTransferItem_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_InventoryTransferItem_ImplementationPayload {
-    pub amount: space_engineers_sys::types::MyFixedPoint,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
     pub item_id: BitAligned<u32>,
     pub destination_owner_id: BitAligned<i64>,
     pub dest_inventory_index: BitAligned<u8>,
@@ -66,22 +66,22 @@ pub struct MyInventory_InventoryTransferItem_ImplementationPayload {
 /// Payload for MyInventory::DebugAddItems_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_DebugAddItems_ImplementationPayload {
-    pub amount: space_engineers_sys::types::MyFixedPoint,
-    pub object_builder: space_engineers_sys::types::MyObjectBuilder_Base,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
+    pub object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_Base,
 }
 
 /// Payload for MyInventory::DropItem_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_DropItem_ImplementationPayload {
-    pub amount: space_engineers_sys::types::MyFixedPoint,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
     pub item_index: BitAligned<u32>,
 }
 
 /// Payload for MyInventory::InventoryConsumeItem_Implementation instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyInventory_InventoryConsumeItem_ImplementationPayload {
-    pub amount: space_engineers_sys::types::MyFixedPoint,
-    pub item_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub amount: space_engineers_sys::types::game::MyFixedPoint,
+    pub item_id: space_engineers_sys::types::game::SerializableDefinitionId,
     pub consumer_entity_id: BitAligned<i64>,
 }
 

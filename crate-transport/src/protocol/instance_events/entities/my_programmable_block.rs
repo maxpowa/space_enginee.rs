@@ -110,7 +110,7 @@ pub struct MyProgrammableBlock_UpdateProgramPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyProgrammableBlock_RunProgramRequestPayload {
     pub argument: VarBytes,
-    pub update_type: space_engineers_compat::BitField<space_engineers_sys::types::UpdateType>,
+    pub update_type: space_engineers_compat::BitField<space_engineers_sys::types::modapi::UpdateType>,
 }
 
 /// Stable instance event identities for Sandbox.Game.Entities.Blocks.MyProgrammableBlock.

@@ -13,8 +13,8 @@ use proto_rs::bytes::Buf;
 use proto_rs::encoding::{DecodeContext, WireType};
 use proto_rs::DecodeError;
 use proto_rs::{
-    ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind, ProtoShadowDecode,
-    ProtoShadowEncode, RevWriter,
+    ProtoDecode, ProtoArchive, ProtoDecoder, ProtoDefault, ProtoEncode, ProtoExt, ProtoKind,
+    ProtoShadowDecode, ProtoShadowEncode, RevWriter,
 };
 use serde::{Deserialize, Serialize};
 use std::io::{Read, Seek, Write};
@@ -120,9 +120,36 @@ impl<'de, T: Deserialize<'de>> Deserialize<'de> for Nullable<T> {
             where
                 A: de::MapAccess<'de2>,
             {
-                // For XML elements with xsi:nil="true" attribute, drain and return None.
-                // This handles the nullable/empty element case in XML.
-                while map.next_entry::<de::IgnoredAny, de::IgnoredAny>()?.is_some() {}
+                let mut typed_value: Option<U> = None;
+                let mut is_nil = false;
+
+                while let Some(key) = map.next_key::<String>()? {
+                    if key.starts_with('@') {
+                        if key.ends_with(":nil") || key == "@xsi:nil" || key == "@nil" {
+                            let value = map.next_value::<String>()?;
+                            is_nil = value.eq_ignore_ascii_case("true") || value == "1";
+                        } else {
+                            let _: de::IgnoredAny = map.next_value()?;
+                        }
+                        continue;
+                    }
+
+                    if key == "$text" || key == "$value" || key == "#text" {
+                        typed_value = Some(map.next_value::<U>()?);
+                        continue;
+                    }
+
+                    typed_value = Some(map.next_value::<U>()?);
+                }
+
+                if is_nil {
+                    return Ok(Nullable::none());
+                }
+
+                if let Some(value) = typed_value {
+                    return Ok(Nullable::some(value));
+                }
+
                 Ok(Nullable::none())
             }
 
@@ -321,6 +348,13 @@ where
         let inner = self.0.get_or_insert_with(T::default);
         T::merge(inner, wire_type, buf, ctx)
     }
+}
+
+impl<T> ProtoDecode for Nullable<T>
+where
+    T: ProtoDecoder + ProtoDefault + Default,
+{
+    type ShadowDecoded = Nullable<T>;
 }
 
 #[cfg(test)]

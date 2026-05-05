@@ -37,7 +37,7 @@ pub struct MyAutopilotComponent_OnRemoveWaypointsPayload {
 /// Payload for MyAutopilotComponent::OnPasteAutopilotSetup instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyAutopilotComponent_OnPasteAutopilotSetupPayload {
-    pub clipboard: space_engineers_sys::types::MyObjectBuilder_AutopilotClipboard,
+    pub clipboard: space_engineers_sys::types::object_builders::MyObjectBuilder_AutopilotClipboard,
 }
 
 /// Payload for MyAutopilotComponent::OnClearWaypoints instance event.
@@ -72,7 +72,7 @@ pub struct MyAutopilotComponent_AddWaypointBroadcastPayload {
 /// Payload for MyAutopilotComponent::OnToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyAutopilotComponent_OnToolbarItemChangedPayload {
-    pub item: space_engineers_sys::types::ToolbarItem,
+    pub item: space_engineers_sys::types::game::ToolbarItem,
     pub index: BitAligned<i32>,
     pub waypoint_index: BitAligned<i32>,
 }

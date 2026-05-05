@@ -14,8 +14,8 @@ use space_engineers_sys::math::Vector3D;
 pub struct OnDoDamagePayload {
     pub destroyable_id: BitAligned<i64>,
     pub damage: BitAligned<f32>,
-    pub r#type: space_engineers_sys::types::MyStringHash,
+    pub r#type: space_engineers_sys::types::game::MyStringHash,
     pub attacker_id: BitAligned<i64>,
-    pub extra_info: Nullable<space_engineers_sys::types::MyStringHash>,
+    pub extra_info: Nullable<space_engineers_sys::types::game::MyStringHash>,
 }
 

@@ -13,7 +13,7 @@ use std::collections::HashMap;
 use std::fmt;
 
 use space_engineers_compat::compression;
-use space_engineers_sys::types::MyCachedServerItem_MyServerData;
+use space_engineers_sys::types::game::MyCachedServerItem_MyServerData;
 
 /// Maximum bytes per rule chunk (matches C# `RULE_LENGTH = 93`).
 const RULE_CHUNK_SIZE: usize = 93;

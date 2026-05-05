@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for DrawStationsClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct DrawStationsClientPayload {
-    pub stations: VarVec<space_engineers_sys::types::MyGuiScreenDebugEconomy_MyStationDebugDrawStructure>,
+    pub stations: VarVec<space_engineers_sys::types::game::MyGuiScreenDebugEconomy_MyStationDebugDrawStructure>,
 }
 

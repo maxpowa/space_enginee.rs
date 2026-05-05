@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyFarmPlotLogic::PlantSeed_Server_0 instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyFarmPlotLogic_PlantSeed_Server_0Payload {
-    pub item_definition_id: space_engineers_sys::types::SerializableDefinitionId,
+    pub item_definition_id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Payload for MyFarmPlotLogic::PlantSeed_Server_1 instance event.

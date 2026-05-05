@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for OnSyncCooldownResponse event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnSyncCooldownResponsePayload {
-    pub entries: VarVec<space_engineers_sys::types::MySpaceRespawnComponent_RespawnCooldownEntry>,
+    pub entries: VarVec<space_engineers_sys::types::game::MySpaceRespawnComponent_RespawnCooldownEntry>,
 }
 
 /// Payload for RespawnRequest_Implementation event.
@@ -30,7 +30,7 @@ pub struct RequestRespawnAtSpawnPointPayload {
 /// Payload for ShowMedicalScreen_Implementation event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ShowMedicalScreen_ImplementationPayload {
-    pub motd: space_engineers_sys::types::MySpaceRespawnComponent_MOTDData,
+    pub motd: space_engineers_sys::types::game::MySpaceRespawnComponent_MOTDData,
     pub restricted_respawn: BitAligned<i64>,
     pub show_died_in_cryo_message: BitBool,
 }
@@ -38,6 +38,6 @@ pub struct ShowMedicalScreen_ImplementationPayload {
 /// Payload for ShowMotD event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ShowMotDPayload {
-    pub motd: space_engineers_sys::types::MySpaceRespawnComponent_MOTDData,
+    pub motd: space_engineers_sys::types::game::MySpaceRespawnComponent_MOTDData,
 }
 

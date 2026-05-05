@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for MyModifiableEntity::AddAssetModifierSync instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyModifiableEntity_AddAssetModifierSyncPayload {
-    pub id: space_engineers_sys::types::SerializableDefinitionId,
+    pub id: space_engineers_sys::types::game::SerializableDefinitionId,
 }
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyModifiableEntity.

@@ -14,7 +14,7 @@ use space_engineers_sys::math::Vector3D;
 pub struct MyPropertySyncStateGroup_SyncPropertyChanged_ImplementationPayload {
     pub property_index: BitAligned<u8>,
     pub property_timestamp_ms: BitAligned<f64>,
-    pub reader: space_engineers_sys::types::BitReaderWriter,
+    pub reader: space_engineers_sys::types::game::BitReaderWriter,
 }
 
 /// Stable instance event identities for Sandbox.Game.Replication.StateGroups.MyPropertySyncStateGroup.

@@ -12,6 +12,6 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for ProxyExplosionRequest event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct ProxyExplosionRequestPayload {
-    pub explosion_info: space_engineers_sys::types::MyExplosionInfoSimplified,
+    pub explosion_info: space_engineers_sys::types::game::MyExplosionInfoSimplified,
 }
 

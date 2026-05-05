@@ -46,37 +46,37 @@ pub struct MyShipController_SyncMoveIndicatorPayload {
 /// Payload for MyShipController::SwitchToWeaponMessage instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_SwitchToWeaponMessagePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyShipController::OnSwitchToWeaponFailure instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_OnSwitchToWeaponFailurePayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyShipController::OnSwitchToWeaponSuccess instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_OnSwitchToWeaponSuccessPayload {
-    pub weapon: Nullable<space_engineers_sys::types::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::MyObjectBuilder_EntityBase,
+    pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
+    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
 /// Payload for MyShipController::ShootBeginCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_ShootBeginCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyShipController::ShootEndCallback instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_ShootEndCallbackPayload {
-    pub action: space_engineers_sys::types::MyShootActionEnum,
+    pub action: space_engineers_sys::types::modapi::MyShootActionEnum,
 }
 
 /// Payload for MyShipController::SendToolbarItemRemoved instance event.
@@ -90,7 +90,7 @@ pub struct MyShipController_SendToolbarItemRemovedPayload {
 /// Payload for MyShipController::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyShipController_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::MyObjectBuilder_ToolbarItem,
+    pub sent_item: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
     pub index: BitAligned<i32>,
     pub is_gamepad: BitBool,
     pub toolbar_index: BitAligned<i32>,

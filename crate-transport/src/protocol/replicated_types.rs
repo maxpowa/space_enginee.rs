@@ -103,6 +103,8 @@ pub enum ReplicatedType {
     MyInventoryAggregate,
     /// Sandbox.Game.Entities.Character.MyCharacter
     MyCharacter,
+    /// Sandbox.Game.Entities.Character.Components.MyCharacterLadderComponent
+    MyCharacterLadderComponent,
     /// Sandbox.Game.Entities.Cube.MyProductionBlock
     MyProductionBlock,
     /// Sandbox.Game.Entities.Cube.MyAssembler
@@ -163,16 +165,22 @@ pub enum ReplicatedType {
     MyBasicMissionFollowPlayer,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyChatBroadcastEntityComponent
     MyChatBroadcastEntityComponent,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.MyGridsStorageEntityComponent
+    MyGridsStorageEntityComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent
     MyLcdSurfaceComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyMaintenancePanelComponent
     MyMaintenancePanelComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyOffensiveWithWeaponsCombatComponent
     MyOffensiveWithWeaponsCombatComponent,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.MyRepairServiceComponent
+    MyRepairServiceComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyResourceStorageComponent
     MyResourceStorageComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MySafeZoneComponent
     MySafeZoneComponent,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.MySalvageServiceComponent
+    MySalvageServiceComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MySignalChannelEntityComponent
     MySignalChannelEntityComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MySignalReceiverEntityComponent
@@ -307,6 +315,7 @@ impl ReplicatedType {
             Self::MyPlanet => 1796709029,
             Self::MyInventoryAggregate => 898271788,
             Self::MyCharacter => 576439823,
+            Self::MyCharacterLadderComponent => -1606826856,
             Self::MyProductionBlock => 1380006328,
             Self::MyAssembler => 1106993304,
             Self::MyBeacon => -1892928405,
@@ -337,11 +346,14 @@ impl ReplicatedType {
             Self::MyBasicMissionFollowHome => -535760899,
             Self::MyBasicMissionFollowPlayer => 1275716648,
             Self::MyChatBroadcastEntityComponent => -891318932,
+            Self::MyGridsStorageEntityComponent => -1786901579,
             Self::MyLcdSurfaceComponent => 1840486061,
             Self::MyMaintenancePanelComponent => -1399606377,
             Self::MyOffensiveWithWeaponsCombatComponent => -909118625,
+            Self::MyRepairServiceComponent => 509817054,
             Self::MyResourceStorageComponent => 342380454,
             Self::MySafeZoneComponent => 1094708793,
+            Self::MySalvageServiceComponent => 331461986,
             Self::MySignalChannelEntityComponent => 1769983505,
             Self::MySignalReceiverEntityComponent => 1613082868,
             Self::MySignalSenderEntityComponent => 648759005,
@@ -436,6 +448,7 @@ impl ReplicatedType {
             1796709029 => Some(Self::MyPlanet),
             898271788 => Some(Self::MyInventoryAggregate),
             576439823 => Some(Self::MyCharacter),
+            -1606826856 => Some(Self::MyCharacterLadderComponent),
             1380006328 => Some(Self::MyProductionBlock),
             1106993304 => Some(Self::MyAssembler),
             -1892928405 => Some(Self::MyBeacon),
@@ -466,11 +479,14 @@ impl ReplicatedType {
             -535760899 => Some(Self::MyBasicMissionFollowHome),
             1275716648 => Some(Self::MyBasicMissionFollowPlayer),
             -891318932 => Some(Self::MyChatBroadcastEntityComponent),
+            -1786901579 => Some(Self::MyGridsStorageEntityComponent),
             1840486061 => Some(Self::MyLcdSurfaceComponent),
             -1399606377 => Some(Self::MyMaintenancePanelComponent),
             -909118625 => Some(Self::MyOffensiveWithWeaponsCombatComponent),
+            509817054 => Some(Self::MyRepairServiceComponent),
             342380454 => Some(Self::MyResourceStorageComponent),
             1094708793 => Some(Self::MySafeZoneComponent),
+            331461986 => Some(Self::MySalvageServiceComponent),
             1769983505 => Some(Self::MySignalChannelEntityComponent),
             1613082868 => Some(Self::MySignalReceiverEntityComponent),
             648759005 => Some(Self::MySignalSenderEntityComponent),
@@ -566,6 +582,7 @@ impl ReplicatedType {
             Self::MyPlanet => "Sandbox.Game.Entities.MyPlanet",
             Self::MyInventoryAggregate => "Sandbox.Game.Entities.Inventory.MyInventoryAggregate",
             Self::MyCharacter => "Sandbox.Game.Entities.Character.MyCharacter",
+            Self::MyCharacterLadderComponent => "Sandbox.Game.Entities.Character.Components.MyCharacterLadderComponent",
             Self::MyProductionBlock => "Sandbox.Game.Entities.Cube.MyProductionBlock",
             Self::MyAssembler => "Sandbox.Game.Entities.Cube.MyAssembler",
             Self::MyBeacon => "Sandbox.Game.Entities.Cube.MyBeacon",
@@ -596,11 +613,14 @@ impl ReplicatedType {
             Self::MyBasicMissionFollowHome => "SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowHome",
             Self::MyBasicMissionFollowPlayer => "SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowPlayer",
             Self::MyChatBroadcastEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyChatBroadcastEntityComponent",
+            Self::MyGridsStorageEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyGridsStorageEntityComponent",
             Self::MyLcdSurfaceComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent",
             Self::MyMaintenancePanelComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyMaintenancePanelComponent",
             Self::MyOffensiveWithWeaponsCombatComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyOffensiveWithWeaponsCombatComponent",
+            Self::MyRepairServiceComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyRepairServiceComponent",
             Self::MyResourceStorageComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyResourceStorageComponent",
             Self::MySafeZoneComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MySafeZoneComponent",
+            Self::MySalvageServiceComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MySalvageServiceComponent",
             Self::MySignalChannelEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MySignalChannelEntityComponent",
             Self::MySignalReceiverEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MySignalReceiverEntityComponent",
             Self::MySignalSenderEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MySignalSenderEntityComponent",

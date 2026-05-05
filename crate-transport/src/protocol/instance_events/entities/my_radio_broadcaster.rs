@@ -13,7 +13,7 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRadioBroadcaster_OnOwnerChangedPayload {
     pub new_owner: BitAligned<i64>,
-    pub new_share: space_engineers_sys::types::MyOwnershipShareModeEnum,
+    pub new_share: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
 }
 
 /// Payload for MyRadioBroadcaster::OnNameChanged instance event.
@@ -27,14 +27,14 @@ pub struct MyRadioBroadcaster_OnNameChangedPayload {
 pub struct MyRadioBroadcaster_UpdateRemoteControlStatePayload {
     pub has_remote: BitBool,
     pub owner: Nullable<BitAligned<i64>>,
-    pub sharing: space_engineers_sys::types::MyOwnershipShareModeEnum,
+    pub sharing: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
     pub remote_id: Nullable<BitAligned<i64>>,
 }
 
 /// Payload for MyRadioBroadcaster::OnUpdateHudParams instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyRadioBroadcaster_OnUpdateHudParamsPayload {
-    pub new_hud_params: VarVec<space_engineers_sys::types::MyObjectBuilder_HudEntityParams>,
+    pub new_hud_params: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_HudEntityParams>,
 }
 
 /// Payload for MyRadioBroadcaster::ChangeBroadcastRadius instance event.

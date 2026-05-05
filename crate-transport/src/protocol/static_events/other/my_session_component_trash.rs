@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for RevertForageableItem event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RevertForageableItemPayload {
-    pub item: space_engineers_sys::types::MySessionComponentTrash_ForageableItemInfo,
+    pub item: space_engineers_sys::types::game::MySessionComponentTrash_ForageableItemInfo,
 }
 
 /// Payload for SetPlayerAFKTimeout_Server event.

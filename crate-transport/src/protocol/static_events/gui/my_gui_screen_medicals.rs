@@ -12,7 +12,7 @@ use space_engineers_sys::math::Vector3D;
 /// Payload for RequestRespawnPointsResponse event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct RequestRespawnPointsResponsePayload {
-    pub medical_rooms: VarVec<space_engineers_sys::types::MySpaceRespawnComponent_MyRespawnPointInfo>,
-    pub planet_infos: VarVec<space_engineers_sys::types::MyGuiScreenMedicals_MyPlanetInfo>,
+    pub medical_rooms: VarVec<space_engineers_sys::types::game::MySpaceRespawnComponent_MyRespawnPointInfo>,
+    pub planet_infos: VarVec<space_engineers_sys::types::game::MyGuiScreenMedicals_MyPlanetInfo>,
 }
 
