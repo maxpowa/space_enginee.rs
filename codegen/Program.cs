@@ -6,9 +6,15 @@ using Game = StandaloneExtractor.Launcher.Game;
 
 namespace StandaloneExtractor;
 
+/// <summary>Exception thrown when code generation completes successfully</summary>
+public class CodegenCompleteException : Exception { }
+
 public static class Program
 {
-    public static void Main(string[] args)
+    // Track whether codegen succeeded
+    public static bool CodegenSucceeded { get; set; } = false;
+
+    public static int Main(string[] args)
     {
         // Parse custom arguments, separating them from game arguments
         string? bin64Arg = null;
@@ -59,12 +65,20 @@ public static class Program
             SetupGame(bin64Dir);
             Game.StartSpaceEngineers(gameArgs.ToArray());
         }
+        catch (CodegenCompleteException)
+        {
+            // Expected - codegen finished successfully
+            CodegenSucceeded = true;
+        }
         finally
         {
             // Clean up if we created it
             if (!steamAppIdExisted && File.Exists(steamAppIdFile))
                 File.Delete(steamAppIdFile);
         }
+
+        // Return exit code based on codegen success
+        return CodegenSucceeded ? 0 : 1;
     }
     
     private static void SetupGame(string bin64Dir)

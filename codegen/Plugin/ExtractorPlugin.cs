@@ -64,13 +64,21 @@ public class ExtractorPlugin : IPlugin
             RustStructGenerator.GenerateRustStructs(allTypes, rsOutputPath, "types.rs", dekuTypes);
 
             Console.WriteLine("Code generation complete!");
+            
+            // Signal successful completion by throwing an exception that Main will catch
+            throw new CodegenCompleteException();
+        }
+        catch (CodegenCompleteException)
+        {
+            // Re-throw so Main() can catch it and properly exit
+            throw;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Codegen error: {ex}");
+            // Propagate so Main() exits with error
+            throw;
         }
-
-        Environment.Exit(0);
     }
 
     public void Update()
