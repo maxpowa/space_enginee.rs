@@ -46,15 +46,9 @@ if (!(Test-Path $ddExe)) {
     Write-Host "Using existing DepotDownloader at $ddPath" -ForegroundColor Green
 }
 
-# Step 2: Record existing IsolatedStorage folders
 $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
-$beforeFolders = @()
-if (Test-Path $isolatedStoragePath) {
-    $beforeFolders = Get-ChildItem -Path $isolatedStoragePath -Directory | Select-Object -ExpandProperty FullName
-    Write-Host "Found $($beforeFolders.Count) existing IsolatedStorage folders" -ForegroundColor Gray
-}
 
-# Step 3: Run DepotDownloader to authenticate
+# Step 2: Run DepotDownloader to authenticate
 Write-Host ""
 Write-Host "Running DepotDownloader to authenticate..." -ForegroundColor Yellow
 Write-Host "You will be prompted for your password and possibly a 2FA code." -ForegroundColor Yellow
@@ -83,50 +77,41 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host ""
 Write-Host "Authentication successful!" -ForegroundColor Green
 
-# Step 4: Find the new IsolatedStorage folder
+# Step 3: Find the AssemFiles folder with the config
 Write-Host ""
-Write-Host "Finding DepotDownloader's IsolatedStorage folder..." -ForegroundColor Yellow
+Write-Host "Finding DepotDownloader's config folder..." -ForegroundColor Yellow
 
 if (!(Test-Path $isolatedStoragePath)) {
     Write-Error "No IsolatedStorage directory found after authentication"
     exit 1
 }
 
-$currentFolders = Get-ChildItem -Path $isolatedStoragePath -Directory
-$newFolders = $currentFolders | Where-Object { $_.FullName -notin $beforeFolders }
-
-if ($newFolders.Count -gt 0) {
-    $ddFolder = $newFolders | Select-Object -First 1
-    Write-Host "Found new IsolatedStorage folder: $($ddFolder.Name)" -ForegroundColor Green
-} else {
-    # Fall back to most recently modified
-    $ddFolder = $currentFolders | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    Write-Host "Using most recently modified folder: $($ddFolder.Name)" -ForegroundColor Green
-}
-
-if (-not $ddFolder) {
-    Write-Error "Could not find DepotDownloader's IsolatedStorage folder"
-    exit 1
-}
-
-# Step 5: Create zip with correct structure
+# Step 4: Create zip with just the config files (not the folder structure)
 Write-Host ""
 Write-Host "Creating config archive..." -ForegroundColor Yellow
 
-$tempDir = "$ddPath\config-temp"
-$targetPath = "$tempDir\IsolatedStorage\$($ddFolder.Name)"
-New-Item -ItemType Directory -Force -Path $targetPath | Out-Null
-Copy-Item -Path "$($ddFolder.FullName)\*" -Destination $targetPath -Recurse
+# Find the AssemFiles folder (contains the actual config)
+$assemFiles = Get-ChildItem -Path $isolatedStoragePath -Recurse -Directory -Filter "AssemFiles" |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+
+if (-not $assemFiles) {
+    Write-Error "Could not find AssemFiles folder"
+    exit 1
+}
+
+Write-Host "Found config at: $($assemFiles.FullName)" -ForegroundColor Green
 
 $zipPath = "$ddPath\dd-config.zip"
 if (Test-Path $zipPath) { Remove-Item $zipPath }
-Compress-Archive -Path "$tempDir\IsolatedStorage" -DestinationPath $zipPath
 
-# Step 6: Base64 encode
+# Zip just the contents of AssemFiles (not the folder structure)
+Compress-Archive -Path "$($assemFiles.FullName)\*" -DestinationPath $zipPath
+
+# Step 5: Base64 encode
 Write-Host "Base64 encoding..." -ForegroundColor Yellow
 $base64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes($zipPath))
 
-# Step 7: Save to file
+# Step 6: Save to file
 $base64 | Out-File -FilePath $OutputFile -Encoding utf8 -NoNewline
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
@@ -144,8 +129,7 @@ Write-Host "4. Paste the base64 content as the value" -ForegroundColor White
 Write-Host ""
 
 # Cleanup
-Remove-Item $tempDir -Recurse -Force
-Remove-Item $zipPath
+Remove-Item $zipPath -ErrorAction SilentlyContinue
 Remove-Item "$ddPath\temp-download" -Recurse -Force -ErrorAction SilentlyContinue
 
 # Optionally copy to clipboard

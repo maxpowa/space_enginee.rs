@@ -107,26 +107,57 @@ runs:
     - name: Restore DepotDownloader config from secret
       if: steps.should-download.outputs.skip != 'true' && inputs.depot_downloader_config != ''
       shell: pwsh
+      env:
+        STEAM_USERNAME: ${{ inputs.steam_username }}
       run: |
         Write-Output "Restoring DepotDownloader config from secret..."
         
-        # Decode base64 to zip file
+        # First, download DepotDownloader
+        $ddPath = "$PWD\depotdownloader"
+        New-Item -ItemType Directory -Force -Path $ddPath | Out-Null
+        
+        $ProgressPreference = 'SilentlyContinue'
+        $releasesUrl = "https://api.github.com/repos/SteamRE/DepotDownloader/releases/latest"
+        $releaseInfo = Invoke-RestMethod -Uri $releasesUrl
+        $assetUrl = $releaseInfo.assets | Where-Object { $_.name -like "*windows-x64*" } | Select-Object -First 1 -ExpandProperty browser_download_url
+        
+        Write-Output "Downloading DepotDownloader..."
+        Invoke-WebRequest -Uri $assetUrl -OutFile "$ddPath\depotdownloader.zip"
+        Expand-Archive -Path "$ddPath\depotdownloader.zip" -DestinationPath $ddPath -Force
+        Remove-Item "$ddPath\depotdownloader.zip"
+        
+        # Run DepotDownloader briefly to create its IsolatedStorage folder structure
+        # Use an invalid password so it fails immediately but still creates the folder
+        Write-Output "Initializing IsolatedStorage..."
+        $initArgs = @("-app", "244850", "-username", $env:STEAM_USERNAME, "-password", "init")
+        & "$ddPath\DepotDownloader.exe" @initArgs 2>&1 | Out-Null
+        
+        # Find the newly created IsolatedStorage folder
+        $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
+        if (!(Test-Path $isolatedStoragePath)) {
+          Write-Error "IsolatedStorage was not created"
+          exit 1
+        }
+        
+        # Find the deepest AssemFiles folder (that's where the config goes)
+        $assemFiles = Get-ChildItem -Path $isolatedStoragePath -Recurse -Directory -Filter "AssemFiles" | Select-Object -First 1
+        if (!$assemFiles) {
+          Write-Error "Could not find AssemFiles folder in IsolatedStorage"
+          exit 1
+        }
+        
+        Write-Output "Found IsolatedStorage at: $($assemFiles.FullName)"
+        
+        # Decode and extract our config into the AssemFiles folder
         $zipBytes = [System.Convert]::FromBase64String("${{ inputs.depot_downloader_config }}")
         $zipPath = "dd-config.zip"
         [System.IO.File]::WriteAllBytes($zipPath, $zipBytes)
         
-        # Extract to LOCALAPPDATA (zip should contain IsolatedStorage/<hash>/... structure)
-        Expand-Archive -Path $zipPath -DestinationPath "$env:LOCALAPPDATA" -Force
+        Expand-Archive -Path $zipPath -DestinationPath $assemFiles.FullName -Force
         Remove-Item $zipPath
         
-        $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
-        if (Test-Path $isolatedStoragePath) {
-          $fileCount = (Get-ChildItem -Path $isolatedStoragePath -Recurse -File).Count
-          Write-Output "Config restored: $fileCount files in IsolatedStorage"
-        } else {
-          Write-Error "Failed to restore IsolatedStorage directory"
-          exit 1
-        }
+        $fileCount = (Get-ChildItem -Path $assemFiles.FullName -File).Count
+        Write-Output "Config restored: $fileCount files in $($assemFiles.FullName)"
 
     - name: Download game via DepotDownloader
       if: steps.should-download.outputs.skip != 'true'
