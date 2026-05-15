@@ -1,5 +1,5 @@
 name: 'Download Space Engineers'
-description: 'Downloads Space Engineers binaries via SteamCMD, with caching support'
+description: 'Downloads Space Engineers binaries via DepotDownloader, with caching support'
 
 inputs:
   force_download:
@@ -8,18 +8,13 @@ inputs:
     default: 'false'
   steam_username:
     description: 'Steam username'
-    required: false
-    default: ''
+    required: true
   steam_password:
-    description: 'Steam password'
+    description: 'Steam password (required if depot_downloader_config is not provided)'
     required: false
     default: ''
-  steam_totp:
-    description: 'Steam Guard TOTP code'
-    required: false
-    default: ''
-  steam_vdf:
-    description: 'Base64-encoded Steam config.vdf'
+  depot_downloader_config:
+    description: 'Base64-encoded zip of DepotDownloader IsolatedStorage folder (use generate-config.ps1 to create)'
     required: false
     default: ''
 
@@ -47,7 +42,6 @@ runs:
       id: paths
       shell: pwsh
       run: |
-        # force_install_dir installs the game directly to the specified path
         $gamePath = "${{ github.workspace }}/steam"
         $bin64Path = "$gamePath/Bin64"
         Write-Output "game_path=$gamePath" >> $env:GITHUB_OUTPUT
@@ -110,18 +104,41 @@ runs:
           Write-Output "skip=false" >> $env:GITHUB_OUTPUT
         }
 
-    - name: Download game via SteamCMD
+    - name: Restore DepotDownloader config from secret
+      if: steps.should-download.outputs.skip != 'true' && inputs.depot_downloader_config != ''
+      shell: pwsh
+      run: |
+        Write-Output "Restoring DepotDownloader config from secret..."
+        
+        # Decode base64 to zip file
+        $zipBytes = [System.Convert]::FromBase64String("${{ inputs.depot_downloader_config }}")
+        $zipPath = "dd-config.zip"
+        [System.IO.File]::WriteAllBytes($zipPath, $zipBytes)
+        
+        # Extract to LOCALAPPDATA (zip should contain IsolatedStorage/<hash>/... structure)
+        Expand-Archive -Path $zipPath -DestinationPath "$env:LOCALAPPDATA" -Force
+        Remove-Item $zipPath
+        
+        $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
+        if (Test-Path $isolatedStoragePath) {
+          $fileCount = (Get-ChildItem -Path $isolatedStoragePath -Recurse -File).Count
+          Write-Output "Config restored: $fileCount files in IsolatedStorage"
+        } else {
+          Write-Error "Failed to restore IsolatedStorage directory"
+          exit 1
+        }
+
+    - name: Download game via DepotDownloader
       if: steps.should-download.outputs.skip != 'true'
       shell: pwsh
       env:
+        STEAM_APP_ID: '244850'
+        STEAM_DEPOT_ID: '244851'
         STEAM_USERNAME: ${{ inputs.steam_username }}
         STEAM_PASSWORD: ${{ inputs.steam_password }}
-        STEAM_TOTP: ${{ inputs.steam_totp }}
-        STEAM_VDF: ${{ inputs.steam_vdf }}
-        STEAM_APP_ID: '244850'
         STEAM_GAME_PATH: ${{ steps.paths.outputs.game_path }}
       run: |
-        ${{ github.action_path }}/steamcmd.ps1
+        ${{ github.action_path }}/depotdownloader.ps1
 
     - name: Output summary
       shell: pwsh
@@ -142,4 +159,3 @@ runs:
         } else {
           Write-Output "| Status | ✅ Downloaded and processed |" >> $env:GITHUB_STEP_SUMMARY
         }
-
