@@ -131,6 +131,8 @@ runs:
         Write-Output "Initializing IsolatedStorage..."
         $initArgs = @("-app", "244850", "-username", $env:STEAM_USERNAME, "-password", "init")
         & "$ddPath\DepotDownloader.exe" @initArgs 2>&1 | Out-Null
+        # Ignore the exit code from the init run (it will fail with invalid password, but that's expected)
+        $null = $LASTEXITCODE
         
         # Find the newly created IsolatedStorage folder
         $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
@@ -158,6 +160,9 @@ runs:
         
         $fileCount = (Get-ChildItem -Path $assemFiles.FullName -File).Count
         Write-Output "Config restored: $fileCount files in $($assemFiles.FullName)"
+        
+        # Ensure we exit successfully
+        exit 0
 
     - name: Download game via DepotDownloader
       if: steps.should-download.outputs.skip != 'true'
