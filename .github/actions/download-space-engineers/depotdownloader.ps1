@@ -30,6 +30,8 @@ if (!(Test-Path "$DepotDownloaderPath\DepotDownloader.exe")) {
 
 $DepotDownloaderExe = "$DepotDownloaderPath\DepotDownloader.exe"
 
+Write-Output "DepotDownloader path: $DepotDownloaderExe"
+
 Write-Output ""
 Write-Output "#################################"
 Write-Output "#       Downloading Game        #"
@@ -56,12 +58,14 @@ if (-not $SteamUsername) {
 # Check if login tokens are available (restored from DEPOT_DOWNLOADER_CONFIG secret)
 $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
 if (Test-Path $isolatedStoragePath) {
-    $fileCount = (Get-ChildItem -Path $isolatedStoragePath -Recurse -File -ErrorAction SilentlyContinue).Count
-    if ($fileCount -gt 0) {
-        Write-Output "Found login tokens in IsolatedStorage ($fileCount files)"
+    # List all config files for debugging
+    $configFiles = Get-ChildItem -Path $isolatedStoragePath -Recurse -File -ErrorAction SilentlyContinue
+    Write-Output "IsolatedStorage contents:"
+    foreach ($file in $configFiles) {
+        Write-Output "  - $($file.FullName) ($($file.Length) bytes)"
     }
 } else {
-    Write-Output "No login tokens found - password required"
+    Write-Output "No IsolatedStorage found - password required"
 }
 
 # Create filelist to download only Bin64 folder (contains game binaries needed for extraction)
@@ -94,9 +98,18 @@ if ($SteamPassword) {
 }
 
 Write-Output "Running: DepotDownloader.exe -app $SteamAppId -depot $SteamDepotId -username *** -remember-password -filelist $FilelistPath -dir $SteamGamePath"
-& $DepotDownloaderExe @DepotDownloaderArgs
+Write-Output ""
 
-if ($LASTEXITCODE -eq 0) {
+# Run and capture all output
+$output = & $DepotDownloaderExe @DepotDownloaderArgs 2>&1
+$exitCode = $LASTEXITCODE
+
+# Display output
+foreach ($line in $output) {
+    Write-Output $line
+}
+
+if ($exitCode -eq 0) {
     Write-Output ""
     Write-Output "#################################"
     Write-Output "#       Download Success        #"
@@ -115,8 +128,8 @@ if ($LASTEXITCODE -eq 0) {
     Write-Output "#       Download Failed         #"
     Write-Output "#################################"
     Write-Output ""
-    Write-Output "Exit code: $LASTEXITCODE"
-    exit $LASTEXITCODE
+    Write-Output "Exit code: $exitCode"
+    exit $exitCode
 }
 
 
