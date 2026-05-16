@@ -31,7 +31,8 @@ jobs:
           force_download: ${{ inputs.force_download || false }}
           steam_username: ${{ secrets.STEAM_USERNAME }}
           steam_password: ${{ secrets.STEAM_PASSWORD }}
-          depot_downloader_config: ${{ secrets.DEPOT_DOWNLOADER_CONFIG }}
+          steam_totp: ${{ secrets.STEAM_TOTP }}
+          steam_vdf: ${{ secrets.STEAM_VDF }}
 
       # All remaining steps are skipped when the version was already processed
       - name: Setup .NET

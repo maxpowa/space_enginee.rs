@@ -1,5 +1,5 @@
 name: 'Download Space Engineers'
-description: 'Downloads Space Engineers binaries via DepotDownloader, with caching support'
+description: 'Downloads Space Engineers binaries via SteamCMD, with caching support'
 
 inputs:
   force_download:
@@ -8,13 +8,18 @@ inputs:
     default: 'false'
   steam_username:
     description: 'Steam username'
-    required: true
-  steam_password:
-    description: 'Steam password (required if depot_downloader_config is not provided)'
     required: false
     default: ''
-  depot_downloader_config:
-    description: 'Base64-encoded zip of DepotDownloader IsolatedStorage folder (use generate-config.ps1 to create)'
+  steam_password:
+    description: 'Steam password'
+    required: false
+    default: ''
+  steam_totp:
+    description: 'Steam Guard TOTP code'
+    required: false
+    default: ''
+  steam_vdf:
+    description: 'Base64-encoded Steam config.vdf'
     required: false
     default: ''
 
@@ -42,6 +47,7 @@ runs:
       id: paths
       shell: pwsh
       run: |
+        # force_install_dir installs the game directly to the specified path
         $gamePath = "${{ github.workspace }}/steam"
         $bin64Path = "$gamePath/Bin64"
         Write-Output "game_path=$gamePath" >> $env:GITHUB_OUTPUT
@@ -104,77 +110,18 @@ runs:
           Write-Output "skip=false" >> $env:GITHUB_OUTPUT
         }
 
-    - name: Restore DepotDownloader config from secret
-      if: steps.should-download.outputs.skip != 'true' && inputs.depot_downloader_config != ''
-      shell: pwsh
-      env:
-        STEAM_USERNAME: ${{ inputs.steam_username }}
-      run: |
-        Write-Output "Restoring DepotDownloader config from secret..."
-        
-        # First, download DepotDownloader
-        $ddPath = "$PWD\depotdownloader"
-        New-Item -ItemType Directory -Force -Path $ddPath | Out-Null
-        
-        $ProgressPreference = 'SilentlyContinue'
-        $releasesUrl = "https://api.github.com/repos/SteamRE/DepotDownloader/releases/latest"
-        $releaseInfo = Invoke-RestMethod -Uri $releasesUrl
-        $assetUrl = $releaseInfo.assets | Where-Object { $_.name -like "*windows-x64*" } | Select-Object -First 1 -ExpandProperty browser_download_url
-        
-        Write-Output "Downloading DepotDownloader..."
-        Invoke-WebRequest -Uri $assetUrl -OutFile "$ddPath\depotdownloader.zip"
-        Expand-Archive -Path "$ddPath\depotdownloader.zip" -DestinationPath $ddPath -Force
-        Remove-Item "$ddPath\depotdownloader.zip"
-        
-        # Run DepotDownloader briefly to create its IsolatedStorage folder structure
-        # Use an invalid password so it fails immediately but still creates the folder
-        Write-Output "Initializing IsolatedStorage..."
-        $initArgs = @("-app", "244850", "-username", $env:STEAM_USERNAME, "-password", "init")
-        & "$ddPath\DepotDownloader.exe" @initArgs 2>&1 | Out-Null
-        # Ignore the exit code from the init run (it will fail with invalid password, but that's expected)
-        $null = $LASTEXITCODE
-        
-        # Find the newly created IsolatedStorage folder
-        $isolatedStoragePath = "$env:LOCALAPPDATA\IsolatedStorage"
-        if (!(Test-Path $isolatedStoragePath)) {
-          Write-Error "IsolatedStorage was not created"
-          exit 1
-        }
-        
-        # Find the deepest AssemFiles folder (that's where the config goes)
-        $assemFiles = Get-ChildItem -Path $isolatedStoragePath -Recurse -Directory -Filter "AssemFiles" | Select-Object -First 1
-        if (!$assemFiles) {
-          Write-Error "Could not find AssemFiles folder in IsolatedStorage"
-          exit 1
-        }
-        
-        Write-Output "Found IsolatedStorage at: $($assemFiles.FullName)"
-        
-        # Decode and extract our config into the AssemFiles folder
-        $zipBytes = [System.Convert]::FromBase64String("${{ inputs.depot_downloader_config }}")
-        $zipPath = "dd-config.zip"
-        [System.IO.File]::WriteAllBytes($zipPath, $zipBytes)
-        
-        Expand-Archive -Path $zipPath -DestinationPath $assemFiles.FullName -Force
-        Remove-Item $zipPath
-        
-        $fileCount = (Get-ChildItem -Path $assemFiles.FullName -File).Count
-        Write-Output "Config restored: $fileCount files in $($assemFiles.FullName)"
-        
-        # Ensure we exit successfully
-        exit 0
-
-    - name: Download game via DepotDownloader
+    - name: Download game via SteamCMD
       if: steps.should-download.outputs.skip != 'true'
       shell: pwsh
       env:
-        STEAM_APP_ID: '244850'
-        STEAM_DEPOT_ID: '244851'
         STEAM_USERNAME: ${{ inputs.steam_username }}
         STEAM_PASSWORD: ${{ inputs.steam_password }}
+        STEAM_TOTP: ${{ inputs.steam_totp }}
+        STEAM_VDF: ${{ inputs.steam_vdf }}
+        STEAM_APP_ID: '244850'
         STEAM_GAME_PATH: ${{ steps.paths.outputs.game_path }}
       run: |
-        ${{ github.action_path }}/depotdownloader.ps1
+        ${{ github.action_path }}/steamcmd.ps1
 
     - name: Output summary
       shell: pwsh
@@ -195,3 +142,4 @@ runs:
         } else {
           Write-Output "| Status | ✅ Downloaded and processed |" >> $env:GITHUB_STEP_SUMMARY
         }
+
