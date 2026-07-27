@@ -225,7 +225,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add crate-sys/src/types.rs crate-transport/src/protocol/ crate-compat/Cargo.toml crate-sys/Cargo.toml crate-transport/Cargo.toml crate/Cargo.toml
+          git add crate-sys/ crate-transport/ crate-compat/ crate/Cargo.toml
           git commit -m "chore: update generated types for SE v$seVersion (crate v$crateVersion)"
           git push
 
