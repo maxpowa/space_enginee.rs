@@ -622,9 +622,9 @@ pub enum StaticEventType {
     /// Hash: 1717925206
     ResetAssetModifierSync,
     /// Hash: 244971711
-    MyAssetModifierComponent_ApplyAssetModifierSync_299,
+    MyAssetModifierComponent_ApplyAssetModifierSync_258,
     /// Hash: -1468025778
-    MyAssetModifierComponent_ApplyAssetModifierSync_300,
+    MyAssetModifierComponent_ApplyAssetModifierSync_293,
     /// Hash: 410358905
     OnTargetRequestServer,
     /// Hash: 1398335973
@@ -730,9 +730,9 @@ pub enum StaticEventType {
     /// Hash: -2102062020
     CancelPendingTransferRequestsServerSide,
     /// Hash: -2018398609
-    MyCubeGrid_CancelPendingTransferRequests_353,
+    MyCubeGrid_CancelPendingTransferRequests_10778,
     /// Hash: -1021133171
-    MyCubeGrid_CancelPendingTransferRequests_354,
+    MyCubeGrid_CancelPendingTransferRequests_10795,
     /// Hash: -744210607
     AddChangeOwnersRequestClientside,
     /// Hash: -452010520
@@ -1342,8 +1342,8 @@ impl StaticEventType {
             Self::RequestDeposit_Server => -3481990,
             Self::RequestTransfer_BroadcastToClients => 1728664726,
             Self::ResetAssetModifierSync => 1717925206,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299 => 244971711,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300 => -1468025778,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_258 => 244971711,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_293 => -1468025778,
             Self::OnTargetRequestServer => 410358905,
             Self::RequestReleaseTargetLock => 1398335973,
             Self::LooseLockOnClient => -1045581498,
@@ -1396,8 +1396,8 @@ impl StaticEventType {
             Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
             Self::OnChangeOwnersRequestConfirmation => -698781606,
             Self::CancelPendingTransferRequestsServerSide => -2102062020,
-            Self::MyCubeGrid_CancelPendingTransferRequests_353 => -2018398609,
-            Self::MyCubeGrid_CancelPendingTransferRequests_354 => -1021133171,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10778 => -2018398609,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10795 => -1021133171,
             Self::AddChangeOwnersRequestClientside => -744210607,
             Self::RemoveOwnershipChangeRequests => -452010520,
             Self::OnChangeOwnersSuccess => -158472076,
@@ -1855,8 +1855,8 @@ impl StaticEventType {
             -3481990 => Some(Self::RequestDeposit_Server),
             1728664726 => Some(Self::RequestTransfer_BroadcastToClients),
             1717925206 => Some(Self::ResetAssetModifierSync),
-            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_299),
-            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_300),
+            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_258),
+            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_293),
             410358905 => Some(Self::OnTargetRequestServer),
             1398335973 => Some(Self::RequestReleaseTargetLock),
             -1045581498 => Some(Self::LooseLockOnClient),
@@ -1909,8 +1909,8 @@ impl StaticEventType {
             -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
             -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
             -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
-            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_353),
-            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_354),
+            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10778),
+            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10795),
             -744210607 => Some(Self::AddChangeOwnersRequestClientside),
             -452010520 => Some(Self::RemoveOwnershipChangeRequests),
             -158472076 => Some(Self::OnChangeOwnersSuccess),
@@ -2671,10 +2671,10 @@ pub enum StaticEventPayload {
     RequestTransfer_BroadcastToClients(RequestTransfer_BroadcastToClientsPayload),
     /// ResetAssetModifierSync event payload
     ResetAssetModifierSync(ResetAssetModifierSyncPayload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_299 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_299(MyAssetModifierComponent_ApplyAssetModifierSync_299Payload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_300 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_300(MyAssetModifierComponent_ApplyAssetModifierSync_300Payload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_258 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_258(MyAssetModifierComponent_ApplyAssetModifierSync_258Payload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_293 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_293(MyAssetModifierComponent_ApplyAssetModifierSync_293Payload),
     /// OnTargetRequestServer event payload
     OnTargetRequestServer(OnTargetRequestServerPayload),
     /// RequestReleaseTargetLock event (no payload)
@@ -2779,10 +2779,10 @@ pub enum StaticEventPayload {
     OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
     /// CancelPendingTransferRequestsServerSide event payload
     CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
-    /// MyCubeGrid_CancelPendingTransferRequests_353 event payload
-    MyCubeGrid_CancelPendingTransferRequests_353(MyCubeGrid_CancelPendingTransferRequests_353Payload),
-    /// MyCubeGrid_CancelPendingTransferRequests_354 event payload
-    MyCubeGrid_CancelPendingTransferRequests_354(MyCubeGrid_CancelPendingTransferRequests_354Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10778 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10778(MyCubeGrid_CancelPendingTransferRequests_10778Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10795 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10795(MyCubeGrid_CancelPendingTransferRequests_10795Payload),
     /// AddChangeOwnersRequestClientside event payload
     AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
     /// RemoveOwnershipChangeRequests event payload
@@ -4203,13 +4203,13 @@ impl StaticEventType {
                 let (_, payload) = ResetAssetModifierSyncPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ResetAssetModifierSync(payload))
             }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_299Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_299(payload))
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_258 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_258Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_258(payload))
             }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_300Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_300(payload))
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_293 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_293Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_293(payload))
             }
             Self::OnTargetRequestServer => {
                 let (_, payload) = OnTargetRequestServerPayload::from_bytes((bytes, 0))?;
@@ -4389,13 +4389,13 @@ impl StaticEventType {
                 let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_353 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_353Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_353(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10778 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10778Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10778(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_354 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_354Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_354(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10795 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10795Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10795(payload))
             }
             Self::AddChangeOwnersRequestClientside => {
                 let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
@@ -5521,10 +5521,10 @@ pub trait StaticEventVisitor {
     fn visit_request_transfer_broadcast_to_clients(&mut self, payload: &RequestTransfer_BroadcastToClientsPayload) {}
     /// Called when visiting ResetAssetModifierSync event.
     fn visit_reset_asset_modifier_sync(&mut self, payload: &ResetAssetModifierSyncPayload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_299 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_299(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_299Payload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_300 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_300(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_300Payload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_258 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_258(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_258Payload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_293 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_293(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_293Payload) {}
     /// Called when visiting OnTargetRequestServer event.
     fn visit_on_target_request_server(&mut self, payload: &OnTargetRequestServerPayload) {}
     /// Called when visiting RequestReleaseTargetLock event (no payload).
@@ -5629,10 +5629,10 @@ pub trait StaticEventVisitor {
     fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
     /// Called when visiting CancelPendingTransferRequestsServerSide event.
     fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_353 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_353(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_353Payload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_354 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_354(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_354Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10778 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10778(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10778Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10795 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10795(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10795Payload) {}
     /// Called when visiting AddChangeOwnersRequestClientside event.
     fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
     /// Called when visiting RemoveOwnershipChangeRequests event.
@@ -6245,8 +6245,8 @@ impl StaticEventPayload {
             Self::RequestDeposit_Server(payload) => visitor.visit_request_deposit_server(payload),
             Self::RequestTransfer_BroadcastToClients(payload) => visitor.visit_request_transfer_broadcast_to_clients(payload),
             Self::ResetAssetModifierSync(payload) => visitor.visit_reset_asset_modifier_sync(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_299(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_300(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_258(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_258(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_293(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_293(payload),
             Self::OnTargetRequestServer(payload) => visitor.visit_on_target_request_server(payload),
             Self::RequestReleaseTargetLock => visitor.visit_request_release_target_lock(),
             Self::LooseLockOnClient => visitor.visit_loose_lock_on_client(),
@@ -6299,8 +6299,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
             Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
             Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_353(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_353(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_354(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_354(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10778(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10778(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10795(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10795(payload),
             Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
             Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
             Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
@@ -6759,8 +6759,8 @@ impl StaticEventPayload {
             Self::RequestDeposit_Server(_) => Some(StaticEventType::RequestDeposit_Server),
             Self::RequestTransfer_BroadcastToClients(_) => Some(StaticEventType::RequestTransfer_BroadcastToClients),
             Self::ResetAssetModifierSync(_) => Some(StaticEventType::ResetAssetModifierSync),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_299),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_300),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_258(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_258),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_293(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_293),
             Self::OnTargetRequestServer(_) => Some(StaticEventType::OnTargetRequestServer),
             Self::RequestReleaseTargetLock => Some(StaticEventType::RequestReleaseTargetLock),
             Self::LooseLockOnClient => Some(StaticEventType::LooseLockOnClient),
@@ -6813,8 +6813,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
             Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
             Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
-            Self::MyCubeGrid_CancelPendingTransferRequests_353(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_353),
-            Self::MyCubeGrid_CancelPendingTransferRequests_354(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_354),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10778(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10778),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10795(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10795),
             Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
             Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
             Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),

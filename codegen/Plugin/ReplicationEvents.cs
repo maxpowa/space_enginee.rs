@@ -457,7 +457,22 @@ public class ReplicationEvents
         string GetUniqueEventName(uint id, MethodInfo method)
         {
             var qualifiedName = GetQualifiedEventName(method);
-            return qualifiedNameCounts[qualifiedName] > 1 ? $"{qualifiedName}_{id}" : qualifiedName;
+            if (qualifiedNameCounts[qualifiedName] <= 1) return qualifiedName;
+            
+            if (Attribute.IsDefined(method, typeof(EventAttribute)))
+            {
+                var eventAttr = method.GetCustomAttribute<EventAttribute>();
+                if (eventAttr != null)
+                {
+                    return $"{qualifiedName}_{eventAttr.Order}";
+                }
+            }
+            else
+            {
+                return $"{qualifiedName}_{id}";
+            }
+
+            return qualifiedName;
         }
         
         // Group events by declaring type

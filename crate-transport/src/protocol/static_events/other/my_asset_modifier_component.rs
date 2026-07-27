@@ -16,17 +16,17 @@ pub struct ResetAssetModifierSyncPayload {
     pub slot: space_engineers_sys::types::game::MyGameInventoryItemSlot,
 }
 
-/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_299 event.
+/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_258 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyAssetModifierComponent_ApplyAssetModifierSync_299Payload {
+pub struct MyAssetModifierComponent_ApplyAssetModifierSync_258Payload {
     pub entity_id: BitAligned<i64>,
     pub check_data: VarBytes,
     pub add_to_list: BitBool,
 }
 
-/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_300 event.
+/// Payload for MyAssetModifierComponent_ApplyAssetModifierSync_293 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyAssetModifierComponent_ApplyAssetModifierSync_300Payload {
+pub struct MyAssetModifierComponent_ApplyAssetModifierSync_293Payload {
     pub entity_id: BitAligned<i64>,
     pub asset_modifier_id: VarString,
     pub add_to_list: BitBool,
