@@ -22,5 +22,6 @@ pub struct RequestMarketWatchItemsServerPayload {
 pub struct ReceiveMarketWatchItemsClientPayload {
     pub filtered_best_items: VarVec<space_engineers_sys::types::game::MyMarketWatchItem>,
     pub last_economy_tick: BitAligned<f64>,
+    pub throttled: BitBool,
 }
 

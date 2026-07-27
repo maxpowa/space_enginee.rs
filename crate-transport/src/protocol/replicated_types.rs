@@ -49,6 +49,8 @@ pub enum ReplicatedType {
     MyAutopilotComponent,
     /// Sandbox.Game.EntityComponents.MyMultiTextPanelComponent
     MyMultiTextPanelComponent,
+    /// Sandbox.Game.EntityComponents.MyNpcAssetModifierComponent
+    MyNpcAssetModifierComponent,
     /// Sandbox.Game.EntityComponents.MyPathRecorderComponent
     MyPathRecorderComponent,
     /// Sandbox.Game.EntityComponents.MyTurretController
@@ -288,6 +290,7 @@ impl ReplicatedType {
             Self::MyPropertySyncStateGroup => -1800457354,
             Self::MyAutopilotComponent => -131537402,
             Self::MyMultiTextPanelComponent => 1507401836,
+            Self::MyNpcAssetModifierComponent => -457280954,
             Self::MyPathRecorderComponent => -604498162,
             Self::MyTurretController => -814969721,
             Self::MyEntityStatComponent => -1250445830,
@@ -421,6 +424,7 @@ impl ReplicatedType {
             -1800457354 => Some(Self::MyPropertySyncStateGroup),
             -131537402 => Some(Self::MyAutopilotComponent),
             1507401836 => Some(Self::MyMultiTextPanelComponent),
+            -457280954 => Some(Self::MyNpcAssetModifierComponent),
             -604498162 => Some(Self::MyPathRecorderComponent),
             -814969721 => Some(Self::MyTurretController),
             -1250445830 => Some(Self::MyEntityStatComponent),
@@ -555,6 +559,7 @@ impl ReplicatedType {
             Self::MyPropertySyncStateGroup => "Sandbox.Game.Replication.StateGroups.MyPropertySyncStateGroup",
             Self::MyAutopilotComponent => "Sandbox.Game.EntityComponents.MyAutopilotComponent",
             Self::MyMultiTextPanelComponent => "Sandbox.Game.EntityComponents.MyMultiTextPanelComponent",
+            Self::MyNpcAssetModifierComponent => "Sandbox.Game.EntityComponents.MyNpcAssetModifierComponent",
             Self::MyPathRecorderComponent => "Sandbox.Game.EntityComponents.MyPathRecorderComponent",
             Self::MyTurretController => "Sandbox.Game.EntityComponents.MyTurretController",
             Self::MyEntityStatComponent => "Sandbox.Game.Components.MyEntityStatComponent",

@@ -1346,7 +1346,7 @@ pub struct MyStoredGridData {
     #[serde(rename = "RelativePosition")]
     pub relative_position: crate::math::Vector3F,
     #[proto(skip)]
-    #[serde(rename = "SavedGridDetails", default)]
+    #[serde(skip)]
     pub saved_grid_details: super::object_builders::MyObjectBuilder_SavedGridDetails,
     #[proto(tag = 4)]
     #[serde(rename = "StorageEntityPosition")]
@@ -1388,6 +1388,9 @@ pub struct MyActiveGridsDataTuple {
     #[proto(tag = 2)]
     #[serde(rename = "BlocksCount", default)]
     pub blocks_count: crate::compat::BitAligned<i32>,
+    #[proto(tag = 7)]
+    #[serde(rename = "CombatCooldownRemainingMs", default)]
+    pub combat_cooldown_remaining_ms: crate::compat::BitAligned<i64>,
     #[proto(tag = 5)]
     #[serde(rename = "DisplayName", default)]
     pub display_name: crate::compat::VarString,
@@ -2516,318 +2519,6 @@ pub struct MyPlayerCollection_RespawnMsg {
     pub respawn_ship_id: crate::compat::Nullable<crate::compat::VarString>,
 }
 // Note: Type mapping applied from System.Nullable`1[[VRage.Utils.MyStringHash, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<MyStringHash>
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugEconomy_MyStationDebugDrawStructure>
-// Original type: Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "MyStationDebugDrawStructure")]
-pub struct MyGuiScreenDebugEconomy_MyStationDebugDrawStructure {
-    #[serde(rename = "End")]
-    pub end: crate::math::SerializableVector3D,
-    #[serde(rename = "Start")]
-    pub start: crate::math::SerializableVector3D,
-    #[serde(rename = "TypeId", default)]
-    pub type_id: crate::compat::BitAligned<i32>,
-}
-// Original type: Sandbox.Game.Gui.MyGuiScreenDebugSpawnMenu+SpawnAsteroidInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "SpawnAsteroidInfo")]
-pub struct MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo {
-    #[serde(rename = "Asteroid", default)]
-    pub asteroid: crate::compat::Nullable<crate::compat::VarString>,
-    #[serde(rename = "GeneratorSeed", default)]
-    pub generator_seed: crate::compat::BitAligned<i32>,
-    #[serde(rename = "IsProcedural", default)]
-    pub is_procedural: crate::compat::BitBool,
-    #[serde(rename = "ProceduralRadius", default)]
-    pub procedural_radius: crate::compat::BitAligned<f32>,
-    #[serde(rename = "RandomSeed", default)]
-    pub random_seed: crate::compat::BitAligned<i32>,
-    #[serde(rename = "VoxelMaterial", default)]
-    pub voxel_material: crate::compat::Nullable<crate::compat::VarString>,
-    #[serde(rename = "WorldMatrix")]
-    pub world_matrix: crate::math::MatrixD,
-}
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugNetwork_Layer>
-// Original type: VRageMath.BoxCornerEnumerator
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "BoxCornerEnumerator")]
-pub struct BoxCornerEnumerator {
-}
-// Original type: VRageMath.BoundingBox
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "BoundingBox")]
-pub struct BoundingBox {
-    #[proto(skip)]
-    #[serde(rename = "Corners")]
-    pub corners: BoxCornerEnumerator,
-    #[proto(tag = 4)]
-    #[serde(rename = "Max")]
-    pub max: crate::math::Vector3F,
-    #[proto(tag = 1)]
-    #[serde(rename = "Min")]
-    pub min: crate::math::Vector3F,
-}
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<Layer_Entity>
-// Note: Type mapping applied from System.Nullable`1[[VRageMath.BoundingBoxD, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::BoundingBoxD>
-// Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "Entity")]
-pub struct Layer_Entity {
-    #[serde(rename = "Bounds", default)]
-    pub bounds: crate::compat::Nullable<crate::math::BoundingBoxD>,
-    #[serde(rename = "Id", default)]
-    pub id: crate::compat::BitAligned<i64>,
-}
-// Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "Layer")]
-pub struct MyGuiScreenDebugNetwork_Layer {
-    #[serde(rename = "Bounds")]
-    pub bounds: BoundingBox,
-    #[serde(rename = "Enabled", default)]
-    pub enabled: crate::compat::BitBool,
-    #[serde(rename = "Entities", default)]
-    pub entities: crate::compat::VarVec<Layer_Entity>,
-    #[serde(rename = "PCU", default)]
-    pub PCU: crate::compat::BitAligned<i32>,
-}
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Engine.Multiplayer.ValidationFailedRecord, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ValidationFailedRecord>
-// Original type: Sandbox.Engine.Multiplayer.ValidationFailedRecord
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "ValidationFailedRecord")]
-pub struct ValidationFailedRecord {
-    #[proto(tag = 7)]
-    #[serde(rename = "Explanation", default)]
-    pub explanation: crate::compat::Nullable<crate::compat::VarString>,
-    #[proto(tag = 11)]
-    #[serde(rename = "Id", default)]
-    pub id: crate::compat::BitAligned<u32>,
-    #[proto(tag = 1)]
-    #[serde(rename = "PlayerId", default)]
-    pub player_id: crate::compat::BitAligned<u64>,
-    #[proto(tag = 4)]
-    #[serde(rename = "TimeAgo", default)]
-    pub time_ago: crate::compat::BitAligned<u32>,
-}
-// Note: Type mapping applied from System.Collections.Generic.List`1[[System.UInt32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u32>
-// Original enum: Sandbox.Game.Entities.MyEntityList+MyEntityTypeEnum
-#[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[deku(id_type = "u32", bits = 4, bit_order = "lsb")]
-#[serde(rename = "MyEntityTypeEnum")]
-pub enum MyEntityList_MyEntityTypeEnum {
-    #[default]
-    #[deku(id = "0")]
-    Grids,
-    #[deku(id = "1")]
-    SmallGrids,
-    #[deku(id = "2")]
-    LargeGrids,
-    #[deku(id = "3")]
-    Characters,
-    #[deku(id = "4")]
-    FloatingObjects,
-    #[deku(id = "5")]
-    Planets,
-    #[deku(id = "6")]
-    Asteroids,
-    #[deku(id = "7")]
-    Replicated,
-    #[deku(id = "8")]
-    NotReplicated,
-}
-// Original enum: Sandbox.Game.Entities.MyEntityCyclingOrder
-#[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[deku(id_type = "u32", bits = 4, bit_order = "lsb")]
-#[serde(rename = "MyEntityCyclingOrder")]
-pub enum MyEntityCyclingOrder {
-    #[default]
-    #[deku(id = "0")]
-    Characters,
-    #[deku(id = "1")]
-    BiggestGrids,
-    #[deku(id = "2")]
-    Fastest,
-    #[deku(id = "3")]
-    BiggestDistanceFromPlayers,
-    #[deku(id = "4")]
-    MostActiveDrills,
-    #[deku(id = "5")]
-    MostActiveReactors,
-    #[deku(id = "6")]
-    MostActiveProductionBuildings,
-    #[deku(id = "7")]
-    MostActiveSensors,
-    #[deku(id = "8")]
-    MostActiveThrusters,
-    #[deku(id = "9")]
-    MostWheels,
-    #[deku(id = "10")]
-    StaticObjects,
-    #[deku(id = "11")]
-    FloatingObjects,
-    #[deku(id = "12")]
-    Gps,
-    #[deku(id = "13")]
-    Planets,
-    #[deku(id = "14")]
-    OwnerLoginTime,
-}
-// Original type: Sandbox.Game.Entities.CyclingOptions
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "CyclingOptions")]
-pub struct CyclingOptions {
-    #[serde(rename = "Enabled", default)]
-    pub enabled: crate::compat::BitBool,
-    #[serde(rename = "OnlyLargeGrids", default)]
-    pub only_large_grids: crate::compat::BitBool,
-    #[serde(rename = "OnlySmallGrids", default)]
-    pub only_small_grids: crate::compat::BitBool,
-}
-// Original enum: Sandbox.Game.Entities.MyEntityList+EntityListAction
-#[::proto_rs::proto_message]
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
-#[serde(rename = "EntityListAction")]
-pub enum MyEntityList_EntityListAction {
-    #[default]
-    #[deku(id = "0")]
-    Remove,
-    #[deku(id = "1")]
-    Stop,
-    #[deku(id = "2")]
-    Depower,
-    #[deku(id = "3")]
-    Power,
-}
-// Original enum: Sandbox.Game.World.AdminSettingsEnum
-#[::enumflags2::bitflags]
-#[repr(u32)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "AdminSettingsEnum")]
-pub enum AdminSettingsEnum {
-    // Skipping 0 value in flags enum (None)
-    Invulnerable = 1,
-    ShowPlayers = 2,
-    UseTerminals = 4,
-    Untargetable = 8,
-    KeepOriginalOwnershipOnPaste = 16,
-    IgnoreSafeZones = 32,
-    IgnorePcu = 64,
-    // Skipping composite value in flags enum (ModeratorAccess = 18)
-    // Skipping composite value in flags enum (SpaceMasterAccess = 4)
-    // Skipping composite value in flags enum (AdminOnly = 105)
-}
-impl AdminSettingsEnum {
-    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
-    pub const MODERATOR_ACCESS: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{ShowPlayers | KeepOriginalOwnershipOnPaste});
-    pub const SPACE_MASTER_ACCESS: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{UseTerminals});
-    pub const ADMIN_ONLY: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{Invulnerable | Untargetable | IgnoreSafeZones | IgnorePcu});
-}
-// Original enum: VRage.Game.MyTrashRemovalFlags
-#[::enumflags2::bitflags(default = Stationary | Linear | Accelerating | WithBlockCount | DistanceFromPlayer | RevertMaterials | RevertAsteroids)]
-#[repr(u32)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "MyTrashRemovalFlags")]
-pub enum MyTrashRemovalFlags {
-    // Skipping 0 value in flags enum (None)
-    // Skipping composite value in flags enum (Default = 7706)
-    Fixed = 1,
-    Stationary = 2,
-    Linear = 8,
-    Accelerating = 16,
-    Powered = 32,
-    Controlled = 64,
-    WithProduction = 128,
-    WithMedBay = 256,
-    WithBlockCount = 512,
-    DistanceFromPlayer = 1024,
-    RevertMaterials = 2048,
-    RevertAsteroids = 4096,
-    RevertWithFloatingsPresent = 8192,
-    Indestructible = 16384,
-    RevertBoulders = 32768,
-    RevertCloseToNPCGrids = 65536,
-}
-impl MyTrashRemovalFlags {
-    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
-    pub const DEFAULT: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{Stationary | Linear | Accelerating | WithBlockCount | DistanceFromPlayer | RevertMaterials | RevertAsteroids});
-}
-// Original type: Sandbox.Game.Gui.MyGuiScreenAdminMenu+AdminSettings
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "AdminSettings")]
-pub struct MyGuiScreenAdminMenu_AdminSettings {
-    #[serde(rename = "AdminSettingsFlags")]
-    pub admin_settings_flags: crate::compat::BitField<AdminSettingsEnum>,
-    #[serde(rename = "AfkTimeout", default)]
-    pub afk_timeout: crate::compat::BitAligned<i32>,
-    #[serde(rename = "BlockCount", default)]
-    pub block_count: crate::compat::BitAligned<i32>,
-    #[serde(rename = "CharacterRemovalThreshold", default)]
-    pub character_removal_threshold: crate::compat::BitAligned<i32>,
-    #[serde(rename = "Enable", default)]
-    pub enable: crate::compat::BitBool,
-    #[serde(rename = "Flags")]
-    pub flags: crate::compat::BitField<MyTrashRemovalFlags>,
-    #[serde(rename = "GridCount", default)]
-    pub grid_count: crate::compat::BitAligned<i32>,
-    #[serde(rename = "MaxCargoBags", default)]
-    pub max_cargo_bags: crate::compat::BitAligned<i32>,
-    #[serde(rename = "PlayerDistance", default)]
-    pub player_distance: crate::compat::BitAligned<f32>,
-    #[serde(rename = "PlayerInactivity", default)]
-    pub player_inactivity: crate::compat::BitAligned<f32>,
-    #[serde(rename = "RemoveOldIdentities", default)]
-    pub remove_old_identities: crate::compat::BitAligned<i32>,
-    #[serde(rename = "ResetForageableItems", default)]
-    pub reset_forageable_items: crate::compat::BitBool,
-    #[serde(rename = "ResetForageableItemsDistance", default)]
-    pub reset_forageable_items_distance: crate::compat::BitAligned<i32>,
-    #[serde(rename = "ResetForageableItemsTimeM", default)]
-    pub reset_forageable_items_time_m: crate::compat::BitAligned<i32>,
-    #[serde(rename = "StopGridsPeriod", default)]
-    pub stop_grids_period: crate::compat::BitAligned<i32>,
-    #[serde(rename = "TrashCleanerCargoBagsMaxLiveTime", default)]
-    pub trash_cleaner_cargo_bags_max_live_time: crate::compat::BitAligned<i32>,
-    #[serde(rename = "VoxelAge", default)]
-    pub voxel_age: crate::compat::BitAligned<i32>,
-    #[serde(rename = "VoxelDistanceFromGrid", default)]
-    pub voxel_distance_from_grid: crate::compat::BitAligned<f32>,
-    #[serde(rename = "VoxelDistanceFromPlayer", default)]
-    pub voxel_distance_from_player: crate::compat::BitAligned<f32>,
-    #[serde(rename = "VoxelEnable", default)]
-    pub voxel_enable: crate::compat::BitBool,
-}
-// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,i32>
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEntityList_MyEntityListShortInfoItem>
-// Original type: Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "MyEntityListShortInfoItem")]
-pub struct MyEntityList_MyEntityListShortInfoItem {
-    #[serde(rename = "DisplayName", default)]
-    pub display_name: crate::compat::VarString,
-    #[serde(rename = "EntityId", default)]
-    pub entity_id: crate::compat::BitAligned<i64>,
-}
-// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyTerminalInfoController_GridBuiltByIdInfo>
-// Original type: Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
-#[serde(rename = "GridBuiltByIdInfo")]
-pub struct MyTerminalInfoController_GridBuiltByIdInfo {
-    #[serde(rename = "BlockCount", default)]
-    pub block_count: crate::compat::BitAligned<i32>,
-    #[serde(rename = "EntityId", default)]
-    pub entity_id: crate::compat::BitAligned<i64>,
-    #[serde(rename = "GridName", default)]
-    pub grid_name: crate::compat::VarString,
-    #[serde(rename = "PCUBuilt", default)]
-    pub pcu_built: crate::compat::BitAligned<i32>,
-    #[serde(rename = "UnsafeBlocks", default)]
-    pub unsafe_blocks: crate::compat::VarVec<crate::compat::VarString>,
-}
 // Original enum: Sandbox.Game.GameSystems.Trading.MyTradeResponseReason
 #[::proto_rs::proto_message]
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
@@ -3248,6 +2939,320 @@ pub struct MySlimBlock_DoDamageSlimBlockMsg {
     #[proto(tag = 10)]
     #[serde(rename = "Type")]
     pub r#type: MyStringHash,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugEconomy_MyStationDebugDrawStructure>
+// Original type: Sandbox.Game.Gui.MyGuiScreenDebugEconomy+MyStationDebugDrawStructure
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyStationDebugDrawStructure")]
+pub struct MyGuiScreenDebugEconomy_MyStationDebugDrawStructure {
+    #[serde(rename = "End")]
+    pub end: crate::math::SerializableVector3D,
+    #[serde(rename = "Start")]
+    pub start: crate::math::SerializableVector3D,
+    #[serde(rename = "TypeId", default)]
+    pub type_id: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Game.Gui.MyGuiScreenDebugSpawnMenu+SpawnAsteroidInfo
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SpawnAsteroidInfo")]
+pub struct MyGuiScreenDebugSpawnMenu_SpawnAsteroidInfo {
+    #[serde(rename = "Asteroid", default)]
+    pub asteroid: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "GeneratorSeed", default)]
+    pub generator_seed: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsProcedural", default)]
+    pub is_procedural: crate::compat::BitBool,
+    #[serde(rename = "ProceduralRadius", default)]
+    pub procedural_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RandomSeed", default)]
+    pub random_seed: crate::compat::BitAligned<i32>,
+    #[serde(rename = "VoxelMaterial", default)]
+    pub voxel_material: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "WorldMatrix")]
+    pub world_matrix: crate::math::MatrixD,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyGuiScreenDebugNetwork_Layer>
+// Original type: VRageMath.BoxCornerEnumerator
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "BoxCornerEnumerator")]
+pub struct BoxCornerEnumerator {
+}
+// Original type: VRageMath.BoundingBox
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "BoundingBox")]
+pub struct BoundingBox {
+    #[proto(skip)]
+    #[serde(rename = "Corners")]
+    pub corners: BoxCornerEnumerator,
+    #[proto(tag = 4)]
+    #[serde(rename = "Max")]
+    pub max: crate::math::Vector3F,
+    #[proto(tag = 1)]
+    #[serde(rename = "Min")]
+    pub min: crate::math::Vector3F,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<Layer_Entity>
+// Note: Type mapping applied from System.Nullable`1[[VRageMath.BoundingBoxD, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::BoundingBoxD>
+// Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer+Entity
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "Entity")]
+pub struct Layer_Entity {
+    #[serde(rename = "Bounds", default)]
+    pub bounds: crate::compat::Nullable<crate::math::BoundingBoxD>,
+    #[serde(rename = "Id", default)]
+    pub id: crate::compat::BitAligned<i64>,
+}
+// Original type: Sandbox.Game.Gui.MyGuiScreenDebugNetwork+Layer
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "Layer")]
+pub struct MyGuiScreenDebugNetwork_Layer {
+    #[serde(rename = "Bounds")]
+    pub bounds: BoundingBox,
+    #[serde(rename = "Enabled", default)]
+    pub enabled: crate::compat::BitBool,
+    #[serde(rename = "Entities", default)]
+    pub entities: crate::compat::VarVec<Layer_Entity>,
+    #[serde(rename = "PCU", default)]
+    pub PCU: crate::compat::BitAligned<i32>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Engine.Multiplayer.ValidationFailedRecord, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ValidationFailedRecord>
+// Original type: Sandbox.Engine.Multiplayer.ValidationFailedRecord
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "ValidationFailedRecord")]
+pub struct ValidationFailedRecord {
+    #[proto(tag = 7)]
+    #[serde(rename = "Explanation", default)]
+    pub explanation: crate::compat::Nullable<crate::compat::VarString>,
+    #[proto(tag = 11)]
+    #[serde(rename = "Id", default)]
+    pub id: crate::compat::BitAligned<u32>,
+    #[proto(tag = 1)]
+    #[serde(rename = "PlayerId", default)]
+    pub player_id: crate::compat::BitAligned<u64>,
+    #[proto(tag = 4)]
+    #[serde(rename = "TimeAgo", default)]
+    pub time_ago: crate::compat::BitAligned<u32>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[System.UInt32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u32>
+// Original enum: Sandbox.Game.Entities.MyEntityList+MyEntityTypeEnum
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4, bit_order = "lsb")]
+#[serde(rename = "MyEntityTypeEnum")]
+pub enum MyEntityList_MyEntityTypeEnum {
+    #[default]
+    #[deku(id = "0")]
+    Grids,
+    #[deku(id = "1")]
+    SmallGrids,
+    #[deku(id = "2")]
+    LargeGrids,
+    #[deku(id = "3")]
+    Characters,
+    #[deku(id = "4")]
+    FloatingObjects,
+    #[deku(id = "5")]
+    Planets,
+    #[deku(id = "6")]
+    Asteroids,
+    #[deku(id = "7")]
+    Replicated,
+    #[deku(id = "8")]
+    NotReplicated,
+}
+// Original enum: Sandbox.Game.Entities.MyEntityCyclingOrder
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4, bit_order = "lsb")]
+#[serde(rename = "MyEntityCyclingOrder")]
+pub enum MyEntityCyclingOrder {
+    #[default]
+    #[deku(id = "0")]
+    Characters,
+    #[deku(id = "1")]
+    BiggestGrids,
+    #[deku(id = "2")]
+    Fastest,
+    #[deku(id = "3")]
+    BiggestDistanceFromPlayers,
+    #[deku(id = "4")]
+    MostActiveDrills,
+    #[deku(id = "5")]
+    MostActiveReactors,
+    #[deku(id = "6")]
+    MostActiveProductionBuildings,
+    #[deku(id = "7")]
+    MostActiveSensors,
+    #[deku(id = "8")]
+    MostActiveThrusters,
+    #[deku(id = "9")]
+    MostWheels,
+    #[deku(id = "10")]
+    StaticObjects,
+    #[deku(id = "11")]
+    FloatingObjects,
+    #[deku(id = "12")]
+    Gps,
+    #[deku(id = "13")]
+    Planets,
+    #[deku(id = "14")]
+    OwnerLoginTime,
+}
+// Original type: Sandbox.Game.Entities.CyclingOptions
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "CyclingOptions")]
+pub struct CyclingOptions {
+    #[serde(rename = "Enabled", default)]
+    pub enabled: crate::compat::BitBool,
+    #[serde(rename = "OnlyLargeGrids", default)]
+    pub only_large_grids: crate::compat::BitBool,
+    #[serde(rename = "OnlySmallGrids", default)]
+    pub only_small_grids: crate::compat::BitBool,
+}
+// Original enum: Sandbox.Game.Entities.MyEntityList+EntityListAction
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "EntityListAction")]
+pub enum MyEntityList_EntityListAction {
+    #[default]
+    #[deku(id = "0")]
+    Remove,
+    #[deku(id = "1")]
+    Stop,
+    #[deku(id = "2")]
+    Depower,
+    #[deku(id = "3")]
+    Power,
+}
+// Original enum: Sandbox.Game.World.AdminSettingsEnum
+#[::enumflags2::bitflags]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "AdminSettingsEnum")]
+pub enum AdminSettingsEnum {
+    // Skipping 0 value in flags enum (None)
+    Invulnerable = 1,
+    ShowPlayers = 2,
+    UseTerminals = 4,
+    Untargetable = 8,
+    KeepOriginalOwnershipOnPaste = 16,
+    IgnoreSafeZones = 32,
+    IgnorePcu = 64,
+    // Skipping composite value in flags enum (ModeratorAccess = 18)
+    // Skipping composite value in flags enum (SpaceMasterAccess = 4)
+    // Skipping composite value in flags enum (AdminOnly = 105)
+}
+impl AdminSettingsEnum {
+    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
+    pub const MODERATOR_ACCESS: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{ShowPlayers | KeepOriginalOwnershipOnPaste});
+    pub const SPACE_MASTER_ACCESS: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{UseTerminals});
+    pub const ADMIN_ONLY: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{Invulnerable | Untargetable | IgnoreSafeZones | IgnorePcu});
+}
+// Original enum: VRage.Game.MyTrashRemovalFlags
+#[::enumflags2::bitflags(default = Stationary | Linear | Accelerating | WithBlockCount | DistanceFromPlayer | RevertMaterials | RevertAsteroids)]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "MyTrashRemovalFlags")]
+pub enum MyTrashRemovalFlags {
+    // Skipping 0 value in flags enum (None)
+    // Skipping composite value in flags enum (Default = 7706)
+    Fixed = 1,
+    Stationary = 2,
+    Linear = 8,
+    Accelerating = 16,
+    Powered = 32,
+    Controlled = 64,
+    WithProduction = 128,
+    WithMedBay = 256,
+    WithBlockCount = 512,
+    DistanceFromPlayer = 1024,
+    RevertMaterials = 2048,
+    RevertAsteroids = 4096,
+    RevertWithFloatingsPresent = 8192,
+    Indestructible = 16384,
+    RevertBoulders = 32768,
+    RevertCloseToNPCGrids = 65536,
+}
+impl MyTrashRemovalFlags {
+    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
+    pub const DEFAULT: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{Stationary | Linear | Accelerating | WithBlockCount | DistanceFromPlayer | RevertMaterials | RevertAsteroids});
+}
+// Original type: Sandbox.Game.Gui.MyGuiScreenAdminMenu+AdminSettings
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "AdminSettings")]
+pub struct MyGuiScreenAdminMenu_AdminSettings {
+    #[serde(rename = "AdminSettingsFlags")]
+    pub admin_settings_flags: crate::compat::BitField<AdminSettingsEnum>,
+    #[serde(rename = "AfkTimeout", default)]
+    pub afk_timeout: crate::compat::BitAligned<i32>,
+    #[serde(rename = "BlockCount", default)]
+    pub block_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "CharacterRemovalThreshold", default)]
+    pub character_removal_threshold: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Enable", default)]
+    pub enable: crate::compat::BitBool,
+    #[serde(rename = "Flags")]
+    pub flags: crate::compat::BitField<MyTrashRemovalFlags>,
+    #[serde(rename = "GridCount", default)]
+    pub grid_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "MaxCargoBags", default)]
+    pub max_cargo_bags: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PlayerDistance", default)]
+    pub player_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "PlayerInactivity", default)]
+    pub player_inactivity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RemoveOldIdentities", default)]
+    pub remove_old_identities: crate::compat::BitAligned<i32>,
+    #[serde(rename = "ResetForageableItems", default)]
+    pub reset_forageable_items: crate::compat::BitBool,
+    #[serde(rename = "ResetForageableItemsDistance", default)]
+    pub reset_forageable_items_distance: crate::compat::BitAligned<i32>,
+    #[serde(rename = "ResetForageableItemsTimeM", default)]
+    pub reset_forageable_items_time_m: crate::compat::BitAligned<i32>,
+    #[serde(rename = "StopGridsPeriod", default)]
+    pub stop_grids_period: crate::compat::BitAligned<i32>,
+    #[serde(rename = "TrashCleanerCargoBagsMaxLiveTime", default)]
+    pub trash_cleaner_cargo_bags_max_live_time: crate::compat::BitAligned<i32>,
+    #[serde(rename = "VoxelAge", default)]
+    pub voxel_age: crate::compat::BitAligned<i32>,
+    #[serde(rename = "VoxelDistanceFromGrid", default)]
+    pub voxel_distance_from_grid: crate::compat::BitAligned<f32>,
+    #[serde(rename = "VoxelDistanceFromPlayer", default)]
+    pub voxel_distance_from_player: crate::compat::BitAligned<f32>,
+    #[serde(rename = "VoxelEnable", default)]
+    pub voxel_enable: crate::compat::BitBool,
+}
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<u64,i32>
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyEntityList_MyEntityListShortInfoItem>
+// Original type: Sandbox.Game.Entities.MyEntityList+MyEntityListShortInfoItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyEntityListShortInfoItem")]
+pub struct MyEntityList_MyEntityListShortInfoItem {
+    #[serde(rename = "DisplayName", default)]
+    pub display_name: crate::compat::VarString,
+    #[serde(rename = "EntityId", default)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyTerminalInfoController_GridBuiltByIdInfo>
+// Original type: Sandbox.Game.Gui.MyTerminalInfoController+GridBuiltByIdInfo
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "GridBuiltByIdInfo")]
+pub struct MyTerminalInfoController_GridBuiltByIdInfo {
+    #[serde(rename = "BlockCount", default)]
+    pub block_count: crate::compat::BitAligned<i32>,
+    #[serde(rename = "EntityId", default)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "GridName", default)]
+    pub grid_name: crate::compat::VarString,
+    #[serde(rename = "IsBigOwner", default)]
+    pub is_big_owner: crate::compat::BitBool,
+    #[serde(rename = "PCUBuilt", default)]
+    pub pcu_built: crate::compat::BitAligned<i32>,
+    #[serde(rename = "UnsafeBlocks", default)]
+    pub unsafe_blocks: crate::compat::VarVec<crate::compat::VarString>,
 }
 // Original enum: VRage.Profiler.RenderProfilerCommand
 #[::proto_rs::proto_message]

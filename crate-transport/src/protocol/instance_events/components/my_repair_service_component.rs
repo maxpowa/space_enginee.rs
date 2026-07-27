@@ -9,9 +9,9 @@ use space_engineers_compat::{BitAligned, BitBool, Nullable, VarMap, VarVec, VarB
 use space_engineers_compat::math::Vector3F;
 use space_engineers_sys::math::Vector3D;
 
-/// Payload for MyRepairServiceComponent::GetGridsInSafeZoneReply instance event.
+/// Payload for MyRepairServiceComponent::GetGridsReply instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyRepairServiceComponent_GetGridsInSafeZoneReplyPayload {
+pub struct MyRepairServiceComponent_GetGridsReplyPayload {
     pub cube_grids: VarVec<space_engineers_sys::types::object_builders::MyObjectBuilder_ServiceGridData>,
     pub is_station_grid: BitBool,
 }
@@ -45,10 +45,10 @@ pub struct MyRepairServiceComponent_RepairPayload {
 /// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyRepairServiceComponentInstanceEvent {
-    /// Hash: -2116809567
-    GetGridsInSafeZoneReply,
-    /// Hash: 1612221336
-    GetGridsInSafeZoneRequest,
+    /// Hash: 82730687
+    GetGridsReply,
+    /// Hash: -62944202
+    GetGridsRequest,
     /// Hash: 537161824
     RepairQuoteReply,
     /// Hash: -1410394351
@@ -63,8 +63,8 @@ impl MyRepairServiceComponentInstanceEvent {
     /// Get the stable hash of this instance event.
     pub const fn event_hash(&self) -> i32 {
         match self {
-            Self::GetGridsInSafeZoneReply => -2116809567,
-            Self::GetGridsInSafeZoneRequest => 1612221336,
+            Self::GetGridsReply => 82730687,
+            Self::GetGridsRequest => -62944202,
             Self::RepairQuoteReply => 537161824,
             Self::GetRapairQuote => -1410394351,
             Self::RepairReply => 1787016915,
@@ -75,8 +75,8 @@ impl MyRepairServiceComponentInstanceEvent {
     /// Look up from event hash. Returns None for unknown events.
     pub fn from_hash(hash: i32) -> Option<Self> {
         match hash {
-            -2116809567 => Some(Self::GetGridsInSafeZoneReply),
-            1612221336 => Some(Self::GetGridsInSafeZoneRequest),
+            82730687 => Some(Self::GetGridsReply),
+            -62944202 => Some(Self::GetGridsRequest),
             537161824 => Some(Self::RepairQuoteReply),
             -1410394351 => Some(Self::GetRapairQuote),
             1787016915 => Some(Self::RepairReply),
@@ -91,10 +91,10 @@ impl MyRepairServiceComponentInstanceEvent {
 /// Use `MyRepairServiceComponentInstanceEvent::parse_payload()` to parse raw bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub enum MyRepairServiceComponentInstanceEventPayload {
-    /// GetGridsInSafeZoneReply event payload
-    GetGridsInSafeZoneReply(MyRepairServiceComponent_GetGridsInSafeZoneReplyPayload),
-    /// GetGridsInSafeZoneRequest event (no payload)
-    GetGridsInSafeZoneRequest,
+    /// GetGridsReply event payload
+    GetGridsReply(MyRepairServiceComponent_GetGridsReplyPayload),
+    /// GetGridsRequest event (no payload)
+    GetGridsRequest,
     /// RepairQuoteReply event payload
     RepairQuoteReply(MyRepairServiceComponent_RepairQuoteReplyPayload),
     /// GetRapairQuote event payload
@@ -116,11 +116,11 @@ impl MyRepairServiceComponentInstanceEvent {
     /// Returns `Err` if the payload bytes don't match the expected format.
     pub fn parse_payload(&self, bytes: &[u8]) -> Result<MyRepairServiceComponentInstanceEventPayload, deku::DekuError> {
         match self {
-            Self::GetGridsInSafeZoneReply => {
-                let (_, payload) = MyRepairServiceComponent_GetGridsInSafeZoneReplyPayload::from_bytes((bytes, 0))?;
-                Ok(MyRepairServiceComponentInstanceEventPayload::GetGridsInSafeZoneReply(payload))
+            Self::GetGridsReply => {
+                let (_, payload) = MyRepairServiceComponent_GetGridsReplyPayload::from_bytes((bytes, 0))?;
+                Ok(MyRepairServiceComponentInstanceEventPayload::GetGridsReply(payload))
             }
-            Self::GetGridsInSafeZoneRequest => Ok(MyRepairServiceComponentInstanceEventPayload::GetGridsInSafeZoneRequest),
+            Self::GetGridsRequest => Ok(MyRepairServiceComponentInstanceEventPayload::GetGridsRequest),
             Self::RepairQuoteReply => {
                 let (_, payload) = MyRepairServiceComponent_RepairQuoteReplyPayload::from_bytes((bytes, 0))?;
                 Ok(MyRepairServiceComponentInstanceEventPayload::RepairQuoteReply(payload))
@@ -157,10 +157,10 @@ pub fn parse_my_repair_service_component_instance_event(event_hash: i32, payload
 /// Implement only the methods you care about - all have default empty implementations.
 #[allow(unused_variables)]
 pub trait MyRepairServiceComponentInstanceEventVisitor {
-    /// Called when visiting GetGridsInSafeZoneReply event.
-    fn visit_get_grids_in_safe_zone_reply(&mut self, payload: &MyRepairServiceComponent_GetGridsInSafeZoneReplyPayload) {}
-    /// Called when visiting GetGridsInSafeZoneRequest event (no payload).
-    fn visit_get_grids_in_safe_zone_request(&mut self) {}
+    /// Called when visiting GetGridsReply event.
+    fn visit_get_grids_reply(&mut self, payload: &MyRepairServiceComponent_GetGridsReplyPayload) {}
+    /// Called when visiting GetGridsRequest event (no payload).
+    fn visit_get_grids_request(&mut self) {}
     /// Called when visiting RepairQuoteReply event.
     fn visit_repair_quote_reply(&mut self, payload: &MyRepairServiceComponent_RepairQuoteReplyPayload) {}
     /// Called when visiting GetRapairQuote event.
@@ -178,8 +178,8 @@ impl MyRepairServiceComponentInstanceEventPayload {
     /// Accept a visitor, dispatching to the appropriate visit method.
     pub fn accept<V: MyRepairServiceComponentInstanceEventVisitor>(&self, visitor: &mut V) {
         match self {
-            Self::GetGridsInSafeZoneReply(payload) => visitor.visit_get_grids_in_safe_zone_reply(payload),
-            Self::GetGridsInSafeZoneRequest => visitor.visit_get_grids_in_safe_zone_request(),
+            Self::GetGridsReply(payload) => visitor.visit_get_grids_reply(payload),
+            Self::GetGridsRequest => visitor.visit_get_grids_request(),
             Self::RepairQuoteReply(payload) => visitor.visit_repair_quote_reply(payload),
             Self::GetRapairQuote(payload) => visitor.visit_get_rapair_quote(payload),
             Self::RepairReply(payload) => visitor.visit_repair_reply(payload),
@@ -191,8 +191,8 @@ impl MyRepairServiceComponentInstanceEventPayload {
     /// Get the instance event type for this payload.
     pub fn event_type(&self) -> Option<MyRepairServiceComponentInstanceEvent> {
         match self {
-            Self::GetGridsInSafeZoneReply(_) => Some(MyRepairServiceComponentInstanceEvent::GetGridsInSafeZoneReply),
-            Self::GetGridsInSafeZoneRequest => Some(MyRepairServiceComponentInstanceEvent::GetGridsInSafeZoneRequest),
+            Self::GetGridsReply(_) => Some(MyRepairServiceComponentInstanceEvent::GetGridsReply),
+            Self::GetGridsRequest => Some(MyRepairServiceComponentInstanceEvent::GetGridsRequest),
             Self::RepairQuoteReply(_) => Some(MyRepairServiceComponentInstanceEvent::RepairQuoteReply),
             Self::GetRapairQuote(_) => Some(MyRepairServiceComponentInstanceEvent::GetRapairQuote),
             Self::RepairReply(_) => Some(MyRepairServiceComponentInstanceEvent::RepairReply),

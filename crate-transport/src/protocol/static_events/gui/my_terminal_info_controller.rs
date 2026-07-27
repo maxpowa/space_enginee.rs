@@ -15,3 +15,9 @@ pub struct ServerLimitInfo_ReceivedPayload {
     pub grids_with_built_by_id: VarVec<space_engineers_sys::types::game::MyTerminalInfoController_GridBuiltByIdInfo>,
 }
 
+/// Payload for RequestPingGrid event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct RequestPingGridPayload {
+    pub grid_entity_id: BitAligned<i64>,
+}
+

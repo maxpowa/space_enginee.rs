@@ -798,9 +798,13 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde(rename = "GridStorageRetrievalTimeMultiplier")]
     pub grid_storage_retrieval_time_multiplier: f32,
     #[proto(tag = 379)]
-    #[serde_inline_default(0.001f32)]
+    #[serde_inline_default(0.0005f32)]
     #[serde(rename = "GridStorageMinutesPerPCU")]
     pub grid_storage_minutes_per_pc_u: f32,
+    #[proto(tag = 380)]
+    #[serde_inline_default(0.004f32)]
+    #[serde(rename = "GridStorageMinutesPerKm")]
+    pub grid_storage_minutes_per_km: f32,
     #[proto(tag = 382)]
     #[serde_inline_default(0.5f32)]
     #[serde(rename = "GridStorageExpediteFactor")]
@@ -809,6 +813,13 @@ pub struct MyObjectBuilder_SessionSettings {
     #[serde_inline_default(1000f32)]
     #[serde(rename = "GridStorageExpediteCostPerSecond")]
     pub grid_storage_expedite_cost_per_second: f32,
+    #[proto(tag = 388)]
+    #[serde_inline_default(60)]
+    #[serde(rename = "GridStorageCombatCooldown")]
+    pub grid_storage_combat_cooldown: i32,
+    #[proto(tag = 391)]
+    #[serde(rename = "GridStorageMaxDistance", default)]
+    pub grid_storage_max_distance: f64,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,Vec<u8>>
 // Original type: VRage.Game.MyObjectBuilder_ScriptManager
@@ -2511,6 +2522,12 @@ pub struct MyObjectBuilder_ServiceQuoteData {
     #[proto(skip)]
     #[serde(rename = "GridName", default)]
     pub grid_name: crate::compat::VarString,
+    #[proto(tag = 11)]
+    #[serde(rename = "HostileBlocks", default)]
+    pub hostile_blocks: crate::compat::BitAligned<i32>,
+    #[proto(tag = 10)]
+    #[serde(rename = "IrreparableBlocks", default)]
+    pub irreparable_blocks: crate::compat::BitAligned<i32>,
     #[proto(tag = 2)]
     #[serde(rename = "IsLargeGrid", default)]
     pub is_large_grid: crate::compat::BitBool,
@@ -2549,6 +2566,9 @@ pub struct MyObjectBuilder_SalvageServiceQuote {
     #[proto(skip)]
     #[serde(rename = "GridName", default)]
     pub grid_name: crate::compat::Nullable<crate::compat::VarString>,
+    #[proto(tag = 17)]
+    #[serde(rename = "HostileBlocks", default)]
+    pub hostile_blocks: crate::compat::BitAligned<i32>,
     #[proto(tag = 7)]
     #[serde(rename = "IsInventoryEmpty", default)]
     pub is_inventory_empty: crate::compat::BitBool,
@@ -3496,4 +3516,7 @@ pub struct MyObjectBuilder_Identity {
     #[proto(tag = 35)]
     #[serde(rename = "TransferedPCUDelta", default)]
     pub transfered_pcu_delta: crate::compat::BitAligned<i32>,
+    #[proto(tag = 41)]
+    #[serde(rename = "VisitedStationIds", default)]
+    pub visited_station_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
 }

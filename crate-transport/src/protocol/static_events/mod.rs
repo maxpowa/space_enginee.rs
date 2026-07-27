@@ -569,6 +569,258 @@ pub enum StaticEventType {
     RemoveCargoBags_Implementation,
     /// Hash: 1548218257
     StopEntities_Implementation,
+    /// Hash: -1656160698
+    OnPerformJump,
+    /// Hash: 1153176581
+    TradeRequest_Server,
+    /// Hash: -333822725
+    TradeRequest_StartTrade,
+    /// Hash: -1032588706
+    TradeRequest_StartTrade_Server,
+    /// Hash: -1965914489
+    TradeRequest_Response,
+    /// Hash: -165914431
+    TradeRequest_Cancel,
+    /// Hash: -851153255
+    SubmitTradingOffer_Server,
+    /// Hash: -371826021
+    SubmitTradingOffer_ClientRecieve,
+    /// Hash: 1154862430
+    SubmitTradingOffer_Abort,
+    /// Hash: -2007445446
+    SubmitTradingOffer_Cancel,
+    /// Hash: 635899077
+    AcceptOffer_Server,
+    /// Hash: 270409597
+    AcceptOffer_ClientRecieve,
+    /// Hash: -601403384
+    CoordSysCreated_Client,
+    /// Hash: 329590679
+    CoorSysRemoved_Client,
+    /// Hash: 1944425919
+    Save,
+    /// Hash: -251830069
+    Stop,
+    /// Hash: -70290348
+    OnFactionMessageRequest,
+    /// Hash: -6878122
+    OnFactionMessageSuccess,
+    /// Hash: 574487107
+    CreateAccount_Clients,
+    /// Hash: -525270557
+    RemoveAccount_Clients,
+    /// Hash: -560556835
+    MyBankingSystem_UnlockAchievementForClient,
+    /// Hash: 1394955793
+    ChangeBalanceBroadcastToClients,
+    /// Hash: -110205594
+    RequestWithdraw_Server,
+    /// Hash: -3481990
+    RequestDeposit_Server,
+    /// Hash: 1728664726
+    RequestTransfer_BroadcastToClients,
+    /// Hash: 1717925206
+    ResetAssetModifierSync,
+    /// Hash: 244971711
+    MyAssetModifierComponent_ApplyAssetModifierSync_299,
+    /// Hash: -1468025778
+    MyAssetModifierComponent_ApplyAssetModifierSync_300,
+    /// Hash: 410358905
+    OnTargetRequestServer,
+    /// Hash: 1398335973
+    RequestReleaseTargetLock,
+    /// Hash: -1045581498
+    LooseLockOnClient,
+    /// Hash: 993936260
+    OnTargetLostClient,
+    /// Hash: 1848625239
+    RequestUseMessageStatic,
+    /// Hash: -786878073
+    UseSuccessStatic,
+    /// Hash: 1270596991
+    UseFailureStatic,
+    /// Hash: -1252531882
+    OnInventoryFilled,
+    /// Hash: -1120937279
+    OnShootMissile,
+    /// Hash: 1465334920
+    OnRemoveMissile,
+    /// Hash: 864020922
+    DrawTrajectoryOnClient,
+    /// Hash: -1603112534
+    OnChangeTrajectory,
+    /// Hash: -814227222
+    SendTransferRequestMessage,
+    /// Hash: 495107682
+    ReceiveTransferRequestMessage,
+    /// Hash: -1470579651
+    ReceiveTransferNotPossibleMessage,
+    /// Hash: -1311402453
+    ClaimNPCGrid,
+    /// Hash: 61299407
+    TransferBlocksBuiltByID,
+    /// Hash: 1118961820
+    TransferBlocksBuiltByIDClient,
+    /// Hash: 207776612
+    RemoveBlocksBuiltByID,
+    /// Hash: 52512643
+    SetGridNameFromServer,
+    /// Hash: -1343692117
+    SpawnEventInit,
+    /// Hash: -1640232824
+    SpawnGroup,
+    /// Hash: 1126596262
+    RequestMarketWatchItemsServer,
+    /// Hash: -1781283463
+    ReceiveMarketWatchItemsClient,
+    /// Hash: 849424381
+    OnCreativeToolsEnabled,
+    /// Hash: -121532033
+    OnCrash,
+    /// Hash: 1716892082
+    HitIndicatorActivationInternal,
+    /// Hash: -1023606420
+    OnPromoteLevelSet,
+    /// Hash: 474247999
+    OnServerSaving,
+    /// Hash: -884346230
+    OnServerPerformanceWarning,
+    /// Hash: -2041568845
+    SetSpectatorPositionFromServer,
+    /// Hash: -1624982073
+    SetSpectatorFromServer,
+    /// Hash: -488908749
+    CameraControllerSet,
+    /// Hash: 1479392230
+    OnRequestVicinityInformation,
+    /// Hash: 1679563312
+    OnVicinityInformation,
+    /// Hash: 1173577328
+    PersistEncounterClient,
+    /// Hash: -1461126129
+    EncounterSpawned,
+    /// Hash: 1406797685
+    AddExistingObjectsSeed,
+    /// Hash: -579833526
+    CreateParticleEffectOnEntityEvent,
+    /// Hash: -91760840
+    RequestGridSpawn,
+    /// Hash: 1482780683
+    SpawnGridReply,
+    /// Hash: 622100888
+    ShowMessageGridsRemovedWhilePasting,
+    /// Hash: -1771071010
+    TryPasteGrid_Implementation,
+    /// Hash: -2140073272
+    ShowPasteFailedOperation,
+    /// Hash: -1828815329
+    SendHudNotificationAfterPaste,
+    /// Hash: 656420721
+    OnChangeShareRequest,
+    /// Hash: 2098567998
+    AddChangeOwnersRequestServerside,
+    /// Hash: 1343840543
+    OnChangeShareModeSuccess,
+    /// Hash: 565793947
+    RemoveAllOwnershipChangeRequests,
+    /// Hash: -1302339488
+    RemoveSpecificOwnershipChangeRequests,
+    /// Hash: -698781606
+    OnChangeOwnersRequestConfirmation,
+    /// Hash: -2102062020
+    CancelPendingTransferRequestsServerSide,
+    /// Hash: -2018398609
+    MyCubeGrid_CancelPendingTransferRequests_353,
+    /// Hash: -1021133171
+    MyCubeGrid_CancelPendingTransferRequests_354,
+    /// Hash: -744210607
+    AddChangeOwnersRequestClientside,
+    /// Hash: -452010520
+    RemoveOwnershipChangeRequests,
+    /// Hash: -158472076
+    OnChangeOwnersSuccess,
+    /// Hash: -1604327235
+    OnEntityCloseRequest,
+    /// Hash: 398695025
+    ForceCloseEntityOnClients,
+    /// Hash: -721357215
+    RequestSpawnCreative_Implementation,
+    /// Hash: 1418502850
+    StopShootingRequest,
+    /// Hash: 372297727
+    VoxelOperationCapsule_Implementation,
+    /// Hash: 486421894
+    VoxelOperationSphere_Implementation,
+    /// Hash: 142835008
+    VoxelOperationBox_Implementation,
+    /// Hash: -1486016308
+    VoxelOperationRamp_Implementation,
+    /// Hash: -1630165803
+    VoxelOperationElipsoid_Implementation,
+    /// Hash: -412678223
+    RevertBoulderBroadcast,
+    /// Hash: 1902899611
+    CreateSafeZone_Implementation,
+    /// Hash: 1216932006
+    DeleteSafeZone_Implementation,
+    /// Hash: -544729304
+    UpdateSafeZone_Implementation,
+    /// Hash: -1023231828
+    UpdateSafeZonePlayer_Implementation,
+    /// Hash: -970785659
+    UpdateSafeZone_Broadcast,
+    /// Hash: -1586833151
+    UpdateSafeZone_ImplementationPlayer,
+    /// Hash: 1750881658
+    UpdateSafeZoneRadius_ImplementationPlayer,
+    /// Hash: -1061102768
+    UpdateGlobalSafeZone_Implementation,
+    /// Hash: 1584080916
+    DisableItemsInSector,
+    /// Hash: 1053876014
+    DoDamageSlimBlockBatch,
+    /// Hash: -1175225013
+    DoDamageSlimBlock,
+    /// Hash: 784628154
+    GetActiveContractsStatic,
+    /// Hash: -1153568468
+    AbandonContractStatic,
+    /// Hash: 86514478
+    ReceiveActiveContractsStatic,
+    /// Hash: 1257854501
+    ReceiveAbandonContractStatic,
+    /// Hash: 985434609
+    OpenEditorFailure,
+    /// Hash: 1541414554
+    NotifyAboutMissingDLC,
+    /// Hash: -2119543385
+    OnReserveEntityRequest,
+    /// Hash: -763290443
+    OnReserveEntitySuccess,
+    /// Hash: 1822107534
+    OnReserveEntityFailure,
+    /// Hash: 942940255
+    OnReserveEnvironmentItemRequest,
+    /// Hash: -557903
+    OnReserveEnvironmentItemSuccess,
+    /// Hash: 2103708345
+    OnReserveEnvironmentItemFailure,
+    /// Hash: 79104601
+    OnReserveVoxelPositionRequest,
+    /// Hash: -1951293053
+    OnReserveVoxelPositionSuccess,
+    /// Hash: 506755351
+    OnReserveVoxelPositionFailure,
+    /// Hash: -2067915046
+    OnReserveAreaRequest,
+    /// Hash: -24361819
+    OnReserveAreaSuccess,
+    /// Hash: 86262018
+    OnReserveAreaFailure,
+    /// Hash: 2105765683
+    OnReserveAreaAllSuccess,
+    /// Hash: 874984563
+    OnReserveAreaCancel,
     /// Hash: 1692034881
     ShareBlueprintRequest,
     /// Hash: 102854626
@@ -725,258 +977,12 @@ pub enum StaticEventType {
     ServerLimitInfo_Implementation,
     /// Hash: -285101732
     ServerLimitInfo_Received,
-    /// Hash: -1656160698
-    OnPerformJump,
-    /// Hash: 1153176581
-    TradeRequest_Server,
-    /// Hash: -333822725
-    TradeRequest_StartTrade,
-    /// Hash: -1032588706
-    TradeRequest_StartTrade_Server,
-    /// Hash: -1965914489
-    TradeRequest_Response,
-    /// Hash: -165914431
-    TradeRequest_Cancel,
-    /// Hash: -851153255
-    SubmitTradingOffer_Server,
-    /// Hash: -371826021
-    SubmitTradingOffer_ClientRecieve,
-    /// Hash: 1154862430
-    SubmitTradingOffer_Abort,
-    /// Hash: -2007445446
-    SubmitTradingOffer_Cancel,
-    /// Hash: 635899077
-    AcceptOffer_Server,
-    /// Hash: 270409597
-    AcceptOffer_ClientRecieve,
-    /// Hash: -601403384
-    CoordSysCreated_Client,
-    /// Hash: 329590679
-    CoorSysRemoved_Client,
-    /// Hash: 1944425919
-    Save,
-    /// Hash: -251830069
-    Stop,
-    /// Hash: -70290348
-    OnFactionMessageRequest,
-    /// Hash: -6878122
-    OnFactionMessageSuccess,
-    /// Hash: 574487107
-    CreateAccount_Clients,
-    /// Hash: -525270557
-    RemoveAccount_Clients,
-    /// Hash: -560556835
-    MyBankingSystem_UnlockAchievementForClient,
-    /// Hash: 1394955793
-    ChangeBalanceBroadcastToClients,
-    /// Hash: -110205594
-    RequestWithdraw_Server,
-    /// Hash: -3481990
-    RequestDeposit_Server,
-    /// Hash: 1728664726
-    RequestTransfer_BroadcastToClients,
-    /// Hash: 1717925206
-    ResetAssetModifierSync,
-    /// Hash: 244971711
-    MyAssetModifierComponent_ApplyAssetModifierSync_377,
-    /// Hash: -1468025778
-    MyAssetModifierComponent_ApplyAssetModifierSync_378,
-    /// Hash: 410358905
-    OnTargetRequestServer,
-    /// Hash: 1398335973
-    RequestReleaseTargetLock,
-    /// Hash: -1045581498
-    LooseLockOnClient,
-    /// Hash: 993936260
-    OnTargetLostClient,
-    /// Hash: 1848625239
-    RequestUseMessageStatic,
-    /// Hash: -786878073
-    UseSuccessStatic,
-    /// Hash: 1270596991
-    UseFailureStatic,
-    /// Hash: -1252531882
-    OnInventoryFilled,
-    /// Hash: -1120937279
-    OnShootMissile,
-    /// Hash: 1465334920
-    OnRemoveMissile,
-    /// Hash: 864020922
-    DrawTrajectoryOnClient,
-    /// Hash: -1603112534
-    OnChangeTrajectory,
-    /// Hash: -814227222
-    SendTransferRequestMessage,
-    /// Hash: 495107682
-    ReceiveTransferRequestMessage,
-    /// Hash: -1470579651
-    ReceiveTransferNotPossibleMessage,
-    /// Hash: -1311402453
-    ClaimNPCGrid,
-    /// Hash: 61299407
-    TransferBlocksBuiltByID,
-    /// Hash: 1118961820
-    TransferBlocksBuiltByIDClient,
-    /// Hash: 207776612
-    RemoveBlocksBuiltByID,
-    /// Hash: 52512643
-    SetGridNameFromServer,
-    /// Hash: -1343692117
-    SpawnEventInit,
-    /// Hash: -1640232824
-    SpawnGroup,
-    /// Hash: 1126596262
-    RequestMarketWatchItemsServer,
-    /// Hash: -308562336
-    ReceiveMarketWatchItemsClient,
-    /// Hash: 849424381
-    OnCreativeToolsEnabled,
-    /// Hash: -121532033
-    OnCrash,
-    /// Hash: 1716892082
-    HitIndicatorActivationInternal,
-    /// Hash: -1023606420
-    OnPromoteLevelSet,
-    /// Hash: 474247999
-    OnServerSaving,
-    /// Hash: -884346230
-    OnServerPerformanceWarning,
-    /// Hash: -2041568845
-    SetSpectatorPositionFromServer,
-    /// Hash: -1624982073
-    SetSpectatorFromServer,
-    /// Hash: -488908749
-    CameraControllerSet,
-    /// Hash: 1479392230
-    OnRequestVicinityInformation,
-    /// Hash: 1679563312
-    OnVicinityInformation,
-    /// Hash: 1173577328
-    PersistEncounterClient,
-    /// Hash: -1461126129
-    EncounterSpawned,
-    /// Hash: 1406797685
-    AddExistingObjectsSeed,
-    /// Hash: -579833526
-    CreateParticleEffectOnEntityEvent,
-    /// Hash: -91760840
-    RequestGridSpawn,
-    /// Hash: 1482780683
-    SpawnGridReply,
-    /// Hash: 622100888
-    ShowMessageGridsRemovedWhilePasting,
-    /// Hash: -1771071010
-    TryPasteGrid_Implementation,
-    /// Hash: -2140073272
-    ShowPasteFailedOperation,
-    /// Hash: -1828815329
-    SendHudNotificationAfterPaste,
-    /// Hash: 656420721
-    OnChangeShareRequest,
-    /// Hash: 2098567998
-    AddChangeOwnersRequestServerside,
-    /// Hash: 1343840543
-    OnChangeShareModeSuccess,
-    /// Hash: 565793947
-    RemoveAllOwnershipChangeRequests,
-    /// Hash: -1302339488
-    RemoveSpecificOwnershipChangeRequests,
-    /// Hash: -698781606
-    OnChangeOwnersRequestConfirmation,
-    /// Hash: -2102062020
-    CancelPendingTransferRequestsServerSide,
-    /// Hash: -2018398609
-    MyCubeGrid_CancelPendingTransferRequests_431,
-    /// Hash: -1021133171
-    MyCubeGrid_CancelPendingTransferRequests_432,
-    /// Hash: -744210607
-    AddChangeOwnersRequestClientside,
-    /// Hash: -452010520
-    RemoveOwnershipChangeRequests,
-    /// Hash: -158472076
-    OnChangeOwnersSuccess,
-    /// Hash: -1604327235
-    OnEntityCloseRequest,
-    /// Hash: 398695025
-    ForceCloseEntityOnClients,
-    /// Hash: -721357215
-    RequestSpawnCreative_Implementation,
-    /// Hash: 1418502850
-    StopShootingRequest,
-    /// Hash: 372297727
-    VoxelOperationCapsule_Implementation,
-    /// Hash: 486421894
-    VoxelOperationSphere_Implementation,
-    /// Hash: 142835008
-    VoxelOperationBox_Implementation,
-    /// Hash: -1486016308
-    VoxelOperationRamp_Implementation,
-    /// Hash: -1630165803
-    VoxelOperationElipsoid_Implementation,
-    /// Hash: -412678223
-    RevertBoulderBroadcast,
-    /// Hash: 1902899611
-    CreateSafeZone_Implementation,
-    /// Hash: 1216932006
-    DeleteSafeZone_Implementation,
-    /// Hash: -544729304
-    UpdateSafeZone_Implementation,
-    /// Hash: -1023231828
-    UpdateSafeZonePlayer_Implementation,
-    /// Hash: -970785659
-    UpdateSafeZone_Broadcast,
-    /// Hash: -1586833151
-    UpdateSafeZone_ImplementationPlayer,
-    /// Hash: 1750881658
-    UpdateSafeZoneRadius_ImplementationPlayer,
-    /// Hash: -1061102768
-    UpdateGlobalSafeZone_Implementation,
-    /// Hash: 1584080916
-    DisableItemsInSector,
-    /// Hash: 1053876014
-    DoDamageSlimBlockBatch,
-    /// Hash: -1175225013
-    DoDamageSlimBlock,
-    /// Hash: 784628154
-    GetActiveContractsStatic,
-    /// Hash: -1153568468
-    AbandonContractStatic,
-    /// Hash: 86514478
-    ReceiveActiveContractsStatic,
-    /// Hash: 1257854501
-    ReceiveAbandonContractStatic,
-    /// Hash: 985434609
-    OpenEditorFailure,
-    /// Hash: 1541414554
-    NotifyAboutMissingDLC,
-    /// Hash: -2119543385
-    OnReserveEntityRequest,
-    /// Hash: -763290443
-    OnReserveEntitySuccess,
-    /// Hash: 1822107534
-    OnReserveEntityFailure,
-    /// Hash: 942940255
-    OnReserveEnvironmentItemRequest,
-    /// Hash: -557903
-    OnReserveEnvironmentItemSuccess,
-    /// Hash: 2103708345
-    OnReserveEnvironmentItemFailure,
-    /// Hash: 79104601
-    OnReserveVoxelPositionRequest,
-    /// Hash: -1951293053
-    OnReserveVoxelPositionSuccess,
-    /// Hash: 506755351
-    OnReserveVoxelPositionFailure,
-    /// Hash: -2067915046
-    OnReserveAreaRequest,
-    /// Hash: -24361819
-    OnReserveAreaSuccess,
-    /// Hash: 86262018
-    OnReserveAreaFailure,
-    /// Hash: 2105765683
-    OnReserveAreaAllSuccess,
-    /// Hash: 874984563
-    OnReserveAreaCancel,
+    /// Hash: -334294952
+    RequestPingGrid,
+    /// Hash: 1109102035
+    NotifyPingGridFailed_NotBigOwner,
+    /// Hash: 822260556
+    NotifyPingGridFailed_ConnectedToHostile,
     /// Hash: -1378373925
     OnCommandReceived,
     /// Hash: 1434607651
@@ -1310,6 +1316,132 @@ impl StaticEventType {
             Self::RemoveFloating_Implementation => 212963204,
             Self::RemoveCargoBags_Implementation => 1641654691,
             Self::StopEntities_Implementation => 1548218257,
+            Self::OnPerformJump => -1656160698,
+            Self::TradeRequest_Server => 1153176581,
+            Self::TradeRequest_StartTrade => -333822725,
+            Self::TradeRequest_StartTrade_Server => -1032588706,
+            Self::TradeRequest_Response => -1965914489,
+            Self::TradeRequest_Cancel => -165914431,
+            Self::SubmitTradingOffer_Server => -851153255,
+            Self::SubmitTradingOffer_ClientRecieve => -371826021,
+            Self::SubmitTradingOffer_Abort => 1154862430,
+            Self::SubmitTradingOffer_Cancel => -2007445446,
+            Self::AcceptOffer_Server => 635899077,
+            Self::AcceptOffer_ClientRecieve => 270409597,
+            Self::CoordSysCreated_Client => -601403384,
+            Self::CoorSysRemoved_Client => 329590679,
+            Self::Save => 1944425919,
+            Self::Stop => -251830069,
+            Self::OnFactionMessageRequest => -70290348,
+            Self::OnFactionMessageSuccess => -6878122,
+            Self::CreateAccount_Clients => 574487107,
+            Self::RemoveAccount_Clients => -525270557,
+            Self::MyBankingSystem_UnlockAchievementForClient => -560556835,
+            Self::ChangeBalanceBroadcastToClients => 1394955793,
+            Self::RequestWithdraw_Server => -110205594,
+            Self::RequestDeposit_Server => -3481990,
+            Self::RequestTransfer_BroadcastToClients => 1728664726,
+            Self::ResetAssetModifierSync => 1717925206,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299 => 244971711,
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300 => -1468025778,
+            Self::OnTargetRequestServer => 410358905,
+            Self::RequestReleaseTargetLock => 1398335973,
+            Self::LooseLockOnClient => -1045581498,
+            Self::OnTargetLostClient => 993936260,
+            Self::RequestUseMessageStatic => 1848625239,
+            Self::UseSuccessStatic => -786878073,
+            Self::UseFailureStatic => 1270596991,
+            Self::OnInventoryFilled => -1252531882,
+            Self::OnShootMissile => -1120937279,
+            Self::OnRemoveMissile => 1465334920,
+            Self::DrawTrajectoryOnClient => 864020922,
+            Self::OnChangeTrajectory => -1603112534,
+            Self::SendTransferRequestMessage => -814227222,
+            Self::ReceiveTransferRequestMessage => 495107682,
+            Self::ReceiveTransferNotPossibleMessage => -1470579651,
+            Self::ClaimNPCGrid => -1311402453,
+            Self::TransferBlocksBuiltByID => 61299407,
+            Self::TransferBlocksBuiltByIDClient => 1118961820,
+            Self::RemoveBlocksBuiltByID => 207776612,
+            Self::SetGridNameFromServer => 52512643,
+            Self::SpawnEventInit => -1343692117,
+            Self::SpawnGroup => -1640232824,
+            Self::RequestMarketWatchItemsServer => 1126596262,
+            Self::ReceiveMarketWatchItemsClient => -1781283463,
+            Self::OnCreativeToolsEnabled => 849424381,
+            Self::OnCrash => -121532033,
+            Self::HitIndicatorActivationInternal => 1716892082,
+            Self::OnPromoteLevelSet => -1023606420,
+            Self::OnServerSaving => 474247999,
+            Self::OnServerPerformanceWarning => -884346230,
+            Self::SetSpectatorPositionFromServer => -2041568845,
+            Self::SetSpectatorFromServer => -1624982073,
+            Self::CameraControllerSet => -488908749,
+            Self::OnRequestVicinityInformation => 1479392230,
+            Self::OnVicinityInformation => 1679563312,
+            Self::PersistEncounterClient => 1173577328,
+            Self::EncounterSpawned => -1461126129,
+            Self::AddExistingObjectsSeed => 1406797685,
+            Self::CreateParticleEffectOnEntityEvent => -579833526,
+            Self::RequestGridSpawn => -91760840,
+            Self::SpawnGridReply => 1482780683,
+            Self::ShowMessageGridsRemovedWhilePasting => 622100888,
+            Self::TryPasteGrid_Implementation => -1771071010,
+            Self::ShowPasteFailedOperation => -2140073272,
+            Self::SendHudNotificationAfterPaste => -1828815329,
+            Self::OnChangeShareRequest => 656420721,
+            Self::AddChangeOwnersRequestServerside => 2098567998,
+            Self::OnChangeShareModeSuccess => 1343840543,
+            Self::RemoveAllOwnershipChangeRequests => 565793947,
+            Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
+            Self::OnChangeOwnersRequestConfirmation => -698781606,
+            Self::CancelPendingTransferRequestsServerSide => -2102062020,
+            Self::MyCubeGrid_CancelPendingTransferRequests_353 => -2018398609,
+            Self::MyCubeGrid_CancelPendingTransferRequests_354 => -1021133171,
+            Self::AddChangeOwnersRequestClientside => -744210607,
+            Self::RemoveOwnershipChangeRequests => -452010520,
+            Self::OnChangeOwnersSuccess => -158472076,
+            Self::OnEntityCloseRequest => -1604327235,
+            Self::ForceCloseEntityOnClients => 398695025,
+            Self::RequestSpawnCreative_Implementation => -721357215,
+            Self::StopShootingRequest => 1418502850,
+            Self::VoxelOperationCapsule_Implementation => 372297727,
+            Self::VoxelOperationSphere_Implementation => 486421894,
+            Self::VoxelOperationBox_Implementation => 142835008,
+            Self::VoxelOperationRamp_Implementation => -1486016308,
+            Self::VoxelOperationElipsoid_Implementation => -1630165803,
+            Self::RevertBoulderBroadcast => -412678223,
+            Self::CreateSafeZone_Implementation => 1902899611,
+            Self::DeleteSafeZone_Implementation => 1216932006,
+            Self::UpdateSafeZone_Implementation => -544729304,
+            Self::UpdateSafeZonePlayer_Implementation => -1023231828,
+            Self::UpdateSafeZone_Broadcast => -970785659,
+            Self::UpdateSafeZone_ImplementationPlayer => -1586833151,
+            Self::UpdateSafeZoneRadius_ImplementationPlayer => 1750881658,
+            Self::UpdateGlobalSafeZone_Implementation => -1061102768,
+            Self::DisableItemsInSector => 1584080916,
+            Self::DoDamageSlimBlockBatch => 1053876014,
+            Self::DoDamageSlimBlock => -1175225013,
+            Self::GetActiveContractsStatic => 784628154,
+            Self::AbandonContractStatic => -1153568468,
+            Self::ReceiveActiveContractsStatic => 86514478,
+            Self::ReceiveAbandonContractStatic => 1257854501,
+            Self::OpenEditorFailure => 985434609,
+            Self::NotifyAboutMissingDLC => 1541414554,
+            Self::OnReserveEntityRequest => -2119543385,
+            Self::OnReserveEntitySuccess => -763290443,
+            Self::OnReserveEntityFailure => 1822107534,
+            Self::OnReserveEnvironmentItemRequest => 942940255,
+            Self::OnReserveEnvironmentItemSuccess => -557903,
+            Self::OnReserveEnvironmentItemFailure => 2103708345,
+            Self::OnReserveVoxelPositionRequest => 79104601,
+            Self::OnReserveVoxelPositionSuccess => -1951293053,
+            Self::OnReserveVoxelPositionFailure => 506755351,
+            Self::OnReserveAreaRequest => -2067915046,
+            Self::OnReserveAreaSuccess => -24361819,
+            Self::OnReserveAreaFailure => 86262018,
+            Self::OnReserveAreaAllSuccess => 2105765683,
+            Self::OnReserveAreaCancel => 874984563,
             Self::ShareBlueprintRequest => 1692034881,
             Self::ShareBlueprintRequestClient => 102854626,
             Self::VisitAllShopsInternal => 102852439,
@@ -1388,132 +1520,9 @@ impl StaticEventType {
             Self::NewNpcClickedInternal => -1985006743,
             Self::ServerLimitInfo_Implementation => -705535132,
             Self::ServerLimitInfo_Received => -285101732,
-            Self::OnPerformJump => -1656160698,
-            Self::TradeRequest_Server => 1153176581,
-            Self::TradeRequest_StartTrade => -333822725,
-            Self::TradeRequest_StartTrade_Server => -1032588706,
-            Self::TradeRequest_Response => -1965914489,
-            Self::TradeRequest_Cancel => -165914431,
-            Self::SubmitTradingOffer_Server => -851153255,
-            Self::SubmitTradingOffer_ClientRecieve => -371826021,
-            Self::SubmitTradingOffer_Abort => 1154862430,
-            Self::SubmitTradingOffer_Cancel => -2007445446,
-            Self::AcceptOffer_Server => 635899077,
-            Self::AcceptOffer_ClientRecieve => 270409597,
-            Self::CoordSysCreated_Client => -601403384,
-            Self::CoorSysRemoved_Client => 329590679,
-            Self::Save => 1944425919,
-            Self::Stop => -251830069,
-            Self::OnFactionMessageRequest => -70290348,
-            Self::OnFactionMessageSuccess => -6878122,
-            Self::CreateAccount_Clients => 574487107,
-            Self::RemoveAccount_Clients => -525270557,
-            Self::MyBankingSystem_UnlockAchievementForClient => -560556835,
-            Self::ChangeBalanceBroadcastToClients => 1394955793,
-            Self::RequestWithdraw_Server => -110205594,
-            Self::RequestDeposit_Server => -3481990,
-            Self::RequestTransfer_BroadcastToClients => 1728664726,
-            Self::ResetAssetModifierSync => 1717925206,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377 => 244971711,
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378 => -1468025778,
-            Self::OnTargetRequestServer => 410358905,
-            Self::RequestReleaseTargetLock => 1398335973,
-            Self::LooseLockOnClient => -1045581498,
-            Self::OnTargetLostClient => 993936260,
-            Self::RequestUseMessageStatic => 1848625239,
-            Self::UseSuccessStatic => -786878073,
-            Self::UseFailureStatic => 1270596991,
-            Self::OnInventoryFilled => -1252531882,
-            Self::OnShootMissile => -1120937279,
-            Self::OnRemoveMissile => 1465334920,
-            Self::DrawTrajectoryOnClient => 864020922,
-            Self::OnChangeTrajectory => -1603112534,
-            Self::SendTransferRequestMessage => -814227222,
-            Self::ReceiveTransferRequestMessage => 495107682,
-            Self::ReceiveTransferNotPossibleMessage => -1470579651,
-            Self::ClaimNPCGrid => -1311402453,
-            Self::TransferBlocksBuiltByID => 61299407,
-            Self::TransferBlocksBuiltByIDClient => 1118961820,
-            Self::RemoveBlocksBuiltByID => 207776612,
-            Self::SetGridNameFromServer => 52512643,
-            Self::SpawnEventInit => -1343692117,
-            Self::SpawnGroup => -1640232824,
-            Self::RequestMarketWatchItemsServer => 1126596262,
-            Self::ReceiveMarketWatchItemsClient => -308562336,
-            Self::OnCreativeToolsEnabled => 849424381,
-            Self::OnCrash => -121532033,
-            Self::HitIndicatorActivationInternal => 1716892082,
-            Self::OnPromoteLevelSet => -1023606420,
-            Self::OnServerSaving => 474247999,
-            Self::OnServerPerformanceWarning => -884346230,
-            Self::SetSpectatorPositionFromServer => -2041568845,
-            Self::SetSpectatorFromServer => -1624982073,
-            Self::CameraControllerSet => -488908749,
-            Self::OnRequestVicinityInformation => 1479392230,
-            Self::OnVicinityInformation => 1679563312,
-            Self::PersistEncounterClient => 1173577328,
-            Self::EncounterSpawned => -1461126129,
-            Self::AddExistingObjectsSeed => 1406797685,
-            Self::CreateParticleEffectOnEntityEvent => -579833526,
-            Self::RequestGridSpawn => -91760840,
-            Self::SpawnGridReply => 1482780683,
-            Self::ShowMessageGridsRemovedWhilePasting => 622100888,
-            Self::TryPasteGrid_Implementation => -1771071010,
-            Self::ShowPasteFailedOperation => -2140073272,
-            Self::SendHudNotificationAfterPaste => -1828815329,
-            Self::OnChangeShareRequest => 656420721,
-            Self::AddChangeOwnersRequestServerside => 2098567998,
-            Self::OnChangeShareModeSuccess => 1343840543,
-            Self::RemoveAllOwnershipChangeRequests => 565793947,
-            Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
-            Self::OnChangeOwnersRequestConfirmation => -698781606,
-            Self::CancelPendingTransferRequestsServerSide => -2102062020,
-            Self::MyCubeGrid_CancelPendingTransferRequests_431 => -2018398609,
-            Self::MyCubeGrid_CancelPendingTransferRequests_432 => -1021133171,
-            Self::AddChangeOwnersRequestClientside => -744210607,
-            Self::RemoveOwnershipChangeRequests => -452010520,
-            Self::OnChangeOwnersSuccess => -158472076,
-            Self::OnEntityCloseRequest => -1604327235,
-            Self::ForceCloseEntityOnClients => 398695025,
-            Self::RequestSpawnCreative_Implementation => -721357215,
-            Self::StopShootingRequest => 1418502850,
-            Self::VoxelOperationCapsule_Implementation => 372297727,
-            Self::VoxelOperationSphere_Implementation => 486421894,
-            Self::VoxelOperationBox_Implementation => 142835008,
-            Self::VoxelOperationRamp_Implementation => -1486016308,
-            Self::VoxelOperationElipsoid_Implementation => -1630165803,
-            Self::RevertBoulderBroadcast => -412678223,
-            Self::CreateSafeZone_Implementation => 1902899611,
-            Self::DeleteSafeZone_Implementation => 1216932006,
-            Self::UpdateSafeZone_Implementation => -544729304,
-            Self::UpdateSafeZonePlayer_Implementation => -1023231828,
-            Self::UpdateSafeZone_Broadcast => -970785659,
-            Self::UpdateSafeZone_ImplementationPlayer => -1586833151,
-            Self::UpdateSafeZoneRadius_ImplementationPlayer => 1750881658,
-            Self::UpdateGlobalSafeZone_Implementation => -1061102768,
-            Self::DisableItemsInSector => 1584080916,
-            Self::DoDamageSlimBlockBatch => 1053876014,
-            Self::DoDamageSlimBlock => -1175225013,
-            Self::GetActiveContractsStatic => 784628154,
-            Self::AbandonContractStatic => -1153568468,
-            Self::ReceiveActiveContractsStatic => 86514478,
-            Self::ReceiveAbandonContractStatic => 1257854501,
-            Self::OpenEditorFailure => 985434609,
-            Self::NotifyAboutMissingDLC => 1541414554,
-            Self::OnReserveEntityRequest => -2119543385,
-            Self::OnReserveEntitySuccess => -763290443,
-            Self::OnReserveEntityFailure => 1822107534,
-            Self::OnReserveEnvironmentItemRequest => 942940255,
-            Self::OnReserveEnvironmentItemSuccess => -557903,
-            Self::OnReserveEnvironmentItemFailure => 2103708345,
-            Self::OnReserveVoxelPositionRequest => 79104601,
-            Self::OnReserveVoxelPositionSuccess => -1951293053,
-            Self::OnReserveVoxelPositionFailure => 506755351,
-            Self::OnReserveAreaRequest => -2067915046,
-            Self::OnReserveAreaSuccess => -24361819,
-            Self::OnReserveAreaFailure => 86262018,
-            Self::OnReserveAreaAllSuccess => 2105765683,
-            Self::OnReserveAreaCancel => 874984563,
+            Self::RequestPingGrid => -334294952,
+            Self::NotifyPingGridFailed_NotBigOwner => 1109102035,
+            Self::NotifyPingGridFailed_ConnectedToHostile => 822260556,
             Self::OnCommandReceived => -1378373925,
             Self::OnSyncCooldownRequest => 1434607651,
             Self::OnSyncCooldownResponse => 1546928190,
@@ -1820,6 +1829,132 @@ impl StaticEventType {
             212963204 => Some(Self::RemoveFloating_Implementation),
             1641654691 => Some(Self::RemoveCargoBags_Implementation),
             1548218257 => Some(Self::StopEntities_Implementation),
+            -1656160698 => Some(Self::OnPerformJump),
+            1153176581 => Some(Self::TradeRequest_Server),
+            -333822725 => Some(Self::TradeRequest_StartTrade),
+            -1032588706 => Some(Self::TradeRequest_StartTrade_Server),
+            -1965914489 => Some(Self::TradeRequest_Response),
+            -165914431 => Some(Self::TradeRequest_Cancel),
+            -851153255 => Some(Self::SubmitTradingOffer_Server),
+            -371826021 => Some(Self::SubmitTradingOffer_ClientRecieve),
+            1154862430 => Some(Self::SubmitTradingOffer_Abort),
+            -2007445446 => Some(Self::SubmitTradingOffer_Cancel),
+            635899077 => Some(Self::AcceptOffer_Server),
+            270409597 => Some(Self::AcceptOffer_ClientRecieve),
+            -601403384 => Some(Self::CoordSysCreated_Client),
+            329590679 => Some(Self::CoorSysRemoved_Client),
+            1944425919 => Some(Self::Save),
+            -251830069 => Some(Self::Stop),
+            -70290348 => Some(Self::OnFactionMessageRequest),
+            -6878122 => Some(Self::OnFactionMessageSuccess),
+            574487107 => Some(Self::CreateAccount_Clients),
+            -525270557 => Some(Self::RemoveAccount_Clients),
+            -560556835 => Some(Self::MyBankingSystem_UnlockAchievementForClient),
+            1394955793 => Some(Self::ChangeBalanceBroadcastToClients),
+            -110205594 => Some(Self::RequestWithdraw_Server),
+            -3481990 => Some(Self::RequestDeposit_Server),
+            1728664726 => Some(Self::RequestTransfer_BroadcastToClients),
+            1717925206 => Some(Self::ResetAssetModifierSync),
+            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_299),
+            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_300),
+            410358905 => Some(Self::OnTargetRequestServer),
+            1398335973 => Some(Self::RequestReleaseTargetLock),
+            -1045581498 => Some(Self::LooseLockOnClient),
+            993936260 => Some(Self::OnTargetLostClient),
+            1848625239 => Some(Self::RequestUseMessageStatic),
+            -786878073 => Some(Self::UseSuccessStatic),
+            1270596991 => Some(Self::UseFailureStatic),
+            -1252531882 => Some(Self::OnInventoryFilled),
+            -1120937279 => Some(Self::OnShootMissile),
+            1465334920 => Some(Self::OnRemoveMissile),
+            864020922 => Some(Self::DrawTrajectoryOnClient),
+            -1603112534 => Some(Self::OnChangeTrajectory),
+            -814227222 => Some(Self::SendTransferRequestMessage),
+            495107682 => Some(Self::ReceiveTransferRequestMessage),
+            -1470579651 => Some(Self::ReceiveTransferNotPossibleMessage),
+            -1311402453 => Some(Self::ClaimNPCGrid),
+            61299407 => Some(Self::TransferBlocksBuiltByID),
+            1118961820 => Some(Self::TransferBlocksBuiltByIDClient),
+            207776612 => Some(Self::RemoveBlocksBuiltByID),
+            52512643 => Some(Self::SetGridNameFromServer),
+            -1343692117 => Some(Self::SpawnEventInit),
+            -1640232824 => Some(Self::SpawnGroup),
+            1126596262 => Some(Self::RequestMarketWatchItemsServer),
+            -1781283463 => Some(Self::ReceiveMarketWatchItemsClient),
+            849424381 => Some(Self::OnCreativeToolsEnabled),
+            -121532033 => Some(Self::OnCrash),
+            1716892082 => Some(Self::HitIndicatorActivationInternal),
+            -1023606420 => Some(Self::OnPromoteLevelSet),
+            474247999 => Some(Self::OnServerSaving),
+            -884346230 => Some(Self::OnServerPerformanceWarning),
+            -2041568845 => Some(Self::SetSpectatorPositionFromServer),
+            -1624982073 => Some(Self::SetSpectatorFromServer),
+            -488908749 => Some(Self::CameraControllerSet),
+            1479392230 => Some(Self::OnRequestVicinityInformation),
+            1679563312 => Some(Self::OnVicinityInformation),
+            1173577328 => Some(Self::PersistEncounterClient),
+            -1461126129 => Some(Self::EncounterSpawned),
+            1406797685 => Some(Self::AddExistingObjectsSeed),
+            -579833526 => Some(Self::CreateParticleEffectOnEntityEvent),
+            -91760840 => Some(Self::RequestGridSpawn),
+            1482780683 => Some(Self::SpawnGridReply),
+            622100888 => Some(Self::ShowMessageGridsRemovedWhilePasting),
+            -1771071010 => Some(Self::TryPasteGrid_Implementation),
+            -2140073272 => Some(Self::ShowPasteFailedOperation),
+            -1828815329 => Some(Self::SendHudNotificationAfterPaste),
+            656420721 => Some(Self::OnChangeShareRequest),
+            2098567998 => Some(Self::AddChangeOwnersRequestServerside),
+            1343840543 => Some(Self::OnChangeShareModeSuccess),
+            565793947 => Some(Self::RemoveAllOwnershipChangeRequests),
+            -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
+            -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
+            -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
+            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_353),
+            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_354),
+            -744210607 => Some(Self::AddChangeOwnersRequestClientside),
+            -452010520 => Some(Self::RemoveOwnershipChangeRequests),
+            -158472076 => Some(Self::OnChangeOwnersSuccess),
+            -1604327235 => Some(Self::OnEntityCloseRequest),
+            398695025 => Some(Self::ForceCloseEntityOnClients),
+            -721357215 => Some(Self::RequestSpawnCreative_Implementation),
+            1418502850 => Some(Self::StopShootingRequest),
+            372297727 => Some(Self::VoxelOperationCapsule_Implementation),
+            486421894 => Some(Self::VoxelOperationSphere_Implementation),
+            142835008 => Some(Self::VoxelOperationBox_Implementation),
+            -1486016308 => Some(Self::VoxelOperationRamp_Implementation),
+            -1630165803 => Some(Self::VoxelOperationElipsoid_Implementation),
+            -412678223 => Some(Self::RevertBoulderBroadcast),
+            1902899611 => Some(Self::CreateSafeZone_Implementation),
+            1216932006 => Some(Self::DeleteSafeZone_Implementation),
+            -544729304 => Some(Self::UpdateSafeZone_Implementation),
+            -1023231828 => Some(Self::UpdateSafeZonePlayer_Implementation),
+            -970785659 => Some(Self::UpdateSafeZone_Broadcast),
+            -1586833151 => Some(Self::UpdateSafeZone_ImplementationPlayer),
+            1750881658 => Some(Self::UpdateSafeZoneRadius_ImplementationPlayer),
+            -1061102768 => Some(Self::UpdateGlobalSafeZone_Implementation),
+            1584080916 => Some(Self::DisableItemsInSector),
+            1053876014 => Some(Self::DoDamageSlimBlockBatch),
+            -1175225013 => Some(Self::DoDamageSlimBlock),
+            784628154 => Some(Self::GetActiveContractsStatic),
+            -1153568468 => Some(Self::AbandonContractStatic),
+            86514478 => Some(Self::ReceiveActiveContractsStatic),
+            1257854501 => Some(Self::ReceiveAbandonContractStatic),
+            985434609 => Some(Self::OpenEditorFailure),
+            1541414554 => Some(Self::NotifyAboutMissingDLC),
+            -2119543385 => Some(Self::OnReserveEntityRequest),
+            -763290443 => Some(Self::OnReserveEntitySuccess),
+            1822107534 => Some(Self::OnReserveEntityFailure),
+            942940255 => Some(Self::OnReserveEnvironmentItemRequest),
+            -557903 => Some(Self::OnReserveEnvironmentItemSuccess),
+            2103708345 => Some(Self::OnReserveEnvironmentItemFailure),
+            79104601 => Some(Self::OnReserveVoxelPositionRequest),
+            -1951293053 => Some(Self::OnReserveVoxelPositionSuccess),
+            506755351 => Some(Self::OnReserveVoxelPositionFailure),
+            -2067915046 => Some(Self::OnReserveAreaRequest),
+            -24361819 => Some(Self::OnReserveAreaSuccess),
+            86262018 => Some(Self::OnReserveAreaFailure),
+            2105765683 => Some(Self::OnReserveAreaAllSuccess),
+            874984563 => Some(Self::OnReserveAreaCancel),
             1692034881 => Some(Self::ShareBlueprintRequest),
             102854626 => Some(Self::ShareBlueprintRequestClient),
             102852439 => Some(Self::VisitAllShopsInternal),
@@ -1898,132 +2033,9 @@ impl StaticEventType {
             -1985006743 => Some(Self::NewNpcClickedInternal),
             -705535132 => Some(Self::ServerLimitInfo_Implementation),
             -285101732 => Some(Self::ServerLimitInfo_Received),
-            -1656160698 => Some(Self::OnPerformJump),
-            1153176581 => Some(Self::TradeRequest_Server),
-            -333822725 => Some(Self::TradeRequest_StartTrade),
-            -1032588706 => Some(Self::TradeRequest_StartTrade_Server),
-            -1965914489 => Some(Self::TradeRequest_Response),
-            -165914431 => Some(Self::TradeRequest_Cancel),
-            -851153255 => Some(Self::SubmitTradingOffer_Server),
-            -371826021 => Some(Self::SubmitTradingOffer_ClientRecieve),
-            1154862430 => Some(Self::SubmitTradingOffer_Abort),
-            -2007445446 => Some(Self::SubmitTradingOffer_Cancel),
-            635899077 => Some(Self::AcceptOffer_Server),
-            270409597 => Some(Self::AcceptOffer_ClientRecieve),
-            -601403384 => Some(Self::CoordSysCreated_Client),
-            329590679 => Some(Self::CoorSysRemoved_Client),
-            1944425919 => Some(Self::Save),
-            -251830069 => Some(Self::Stop),
-            -70290348 => Some(Self::OnFactionMessageRequest),
-            -6878122 => Some(Self::OnFactionMessageSuccess),
-            574487107 => Some(Self::CreateAccount_Clients),
-            -525270557 => Some(Self::RemoveAccount_Clients),
-            -560556835 => Some(Self::MyBankingSystem_UnlockAchievementForClient),
-            1394955793 => Some(Self::ChangeBalanceBroadcastToClients),
-            -110205594 => Some(Self::RequestWithdraw_Server),
-            -3481990 => Some(Self::RequestDeposit_Server),
-            1728664726 => Some(Self::RequestTransfer_BroadcastToClients),
-            1717925206 => Some(Self::ResetAssetModifierSync),
-            244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_377),
-            -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_378),
-            410358905 => Some(Self::OnTargetRequestServer),
-            1398335973 => Some(Self::RequestReleaseTargetLock),
-            -1045581498 => Some(Self::LooseLockOnClient),
-            993936260 => Some(Self::OnTargetLostClient),
-            1848625239 => Some(Self::RequestUseMessageStatic),
-            -786878073 => Some(Self::UseSuccessStatic),
-            1270596991 => Some(Self::UseFailureStatic),
-            -1252531882 => Some(Self::OnInventoryFilled),
-            -1120937279 => Some(Self::OnShootMissile),
-            1465334920 => Some(Self::OnRemoveMissile),
-            864020922 => Some(Self::DrawTrajectoryOnClient),
-            -1603112534 => Some(Self::OnChangeTrajectory),
-            -814227222 => Some(Self::SendTransferRequestMessage),
-            495107682 => Some(Self::ReceiveTransferRequestMessage),
-            -1470579651 => Some(Self::ReceiveTransferNotPossibleMessage),
-            -1311402453 => Some(Self::ClaimNPCGrid),
-            61299407 => Some(Self::TransferBlocksBuiltByID),
-            1118961820 => Some(Self::TransferBlocksBuiltByIDClient),
-            207776612 => Some(Self::RemoveBlocksBuiltByID),
-            52512643 => Some(Self::SetGridNameFromServer),
-            -1343692117 => Some(Self::SpawnEventInit),
-            -1640232824 => Some(Self::SpawnGroup),
-            1126596262 => Some(Self::RequestMarketWatchItemsServer),
-            -308562336 => Some(Self::ReceiveMarketWatchItemsClient),
-            849424381 => Some(Self::OnCreativeToolsEnabled),
-            -121532033 => Some(Self::OnCrash),
-            1716892082 => Some(Self::HitIndicatorActivationInternal),
-            -1023606420 => Some(Self::OnPromoteLevelSet),
-            474247999 => Some(Self::OnServerSaving),
-            -884346230 => Some(Self::OnServerPerformanceWarning),
-            -2041568845 => Some(Self::SetSpectatorPositionFromServer),
-            -1624982073 => Some(Self::SetSpectatorFromServer),
-            -488908749 => Some(Self::CameraControllerSet),
-            1479392230 => Some(Self::OnRequestVicinityInformation),
-            1679563312 => Some(Self::OnVicinityInformation),
-            1173577328 => Some(Self::PersistEncounterClient),
-            -1461126129 => Some(Self::EncounterSpawned),
-            1406797685 => Some(Self::AddExistingObjectsSeed),
-            -579833526 => Some(Self::CreateParticleEffectOnEntityEvent),
-            -91760840 => Some(Self::RequestGridSpawn),
-            1482780683 => Some(Self::SpawnGridReply),
-            622100888 => Some(Self::ShowMessageGridsRemovedWhilePasting),
-            -1771071010 => Some(Self::TryPasteGrid_Implementation),
-            -2140073272 => Some(Self::ShowPasteFailedOperation),
-            -1828815329 => Some(Self::SendHudNotificationAfterPaste),
-            656420721 => Some(Self::OnChangeShareRequest),
-            2098567998 => Some(Self::AddChangeOwnersRequestServerside),
-            1343840543 => Some(Self::OnChangeShareModeSuccess),
-            565793947 => Some(Self::RemoveAllOwnershipChangeRequests),
-            -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
-            -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
-            -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
-            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_431),
-            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_432),
-            -744210607 => Some(Self::AddChangeOwnersRequestClientside),
-            -452010520 => Some(Self::RemoveOwnershipChangeRequests),
-            -158472076 => Some(Self::OnChangeOwnersSuccess),
-            -1604327235 => Some(Self::OnEntityCloseRequest),
-            398695025 => Some(Self::ForceCloseEntityOnClients),
-            -721357215 => Some(Self::RequestSpawnCreative_Implementation),
-            1418502850 => Some(Self::StopShootingRequest),
-            372297727 => Some(Self::VoxelOperationCapsule_Implementation),
-            486421894 => Some(Self::VoxelOperationSphere_Implementation),
-            142835008 => Some(Self::VoxelOperationBox_Implementation),
-            -1486016308 => Some(Self::VoxelOperationRamp_Implementation),
-            -1630165803 => Some(Self::VoxelOperationElipsoid_Implementation),
-            -412678223 => Some(Self::RevertBoulderBroadcast),
-            1902899611 => Some(Self::CreateSafeZone_Implementation),
-            1216932006 => Some(Self::DeleteSafeZone_Implementation),
-            -544729304 => Some(Self::UpdateSafeZone_Implementation),
-            -1023231828 => Some(Self::UpdateSafeZonePlayer_Implementation),
-            -970785659 => Some(Self::UpdateSafeZone_Broadcast),
-            -1586833151 => Some(Self::UpdateSafeZone_ImplementationPlayer),
-            1750881658 => Some(Self::UpdateSafeZoneRadius_ImplementationPlayer),
-            -1061102768 => Some(Self::UpdateGlobalSafeZone_Implementation),
-            1584080916 => Some(Self::DisableItemsInSector),
-            1053876014 => Some(Self::DoDamageSlimBlockBatch),
-            -1175225013 => Some(Self::DoDamageSlimBlock),
-            784628154 => Some(Self::GetActiveContractsStatic),
-            -1153568468 => Some(Self::AbandonContractStatic),
-            86514478 => Some(Self::ReceiveActiveContractsStatic),
-            1257854501 => Some(Self::ReceiveAbandonContractStatic),
-            985434609 => Some(Self::OpenEditorFailure),
-            1541414554 => Some(Self::NotifyAboutMissingDLC),
-            -2119543385 => Some(Self::OnReserveEntityRequest),
-            -763290443 => Some(Self::OnReserveEntitySuccess),
-            1822107534 => Some(Self::OnReserveEntityFailure),
-            942940255 => Some(Self::OnReserveEnvironmentItemRequest),
-            -557903 => Some(Self::OnReserveEnvironmentItemSuccess),
-            2103708345 => Some(Self::OnReserveEnvironmentItemFailure),
-            79104601 => Some(Self::OnReserveVoxelPositionRequest),
-            -1951293053 => Some(Self::OnReserveVoxelPositionSuccess),
-            506755351 => Some(Self::OnReserveVoxelPositionFailure),
-            -2067915046 => Some(Self::OnReserveAreaRequest),
-            -24361819 => Some(Self::OnReserveAreaSuccess),
-            86262018 => Some(Self::OnReserveAreaFailure),
-            2105765683 => Some(Self::OnReserveAreaAllSuccess),
-            874984563 => Some(Self::OnReserveAreaCancel),
+            -334294952 => Some(Self::RequestPingGrid),
+            1109102035 => Some(Self::NotifyPingGridFailed_NotBigOwner),
+            822260556 => Some(Self::NotifyPingGridFailed_ConnectedToHostile),
             -1378373925 => Some(Self::OnCommandReceived),
             1434607651 => Some(Self::OnSyncCooldownRequest),
             1546928190 => Some(Self::OnSyncCooldownResponse),
@@ -2607,6 +2619,258 @@ pub enum StaticEventPayload {
     RemoveCargoBags_Implementation,
     /// StopEntities_Implementation event (no payload)
     StopEntities_Implementation,
+    /// OnPerformJump event payload
+    OnPerformJump(OnPerformJumpPayload),
+    /// TradeRequest_Server event payload
+    TradeRequest_Server(TradeRequest_ServerPayload),
+    /// TradeRequest_StartTrade event payload
+    TradeRequest_StartTrade(TradeRequest_StartTradePayload),
+    /// TradeRequest_StartTrade_Server event payload
+    TradeRequest_StartTrade_Server(TradeRequest_StartTrade_ServerPayload),
+    /// TradeRequest_Response event payload
+    TradeRequest_Response(TradeRequest_ResponsePayload),
+    /// TradeRequest_Cancel event (no payload)
+    TradeRequest_Cancel,
+    /// SubmitTradingOffer_Server event payload
+    SubmitTradingOffer_Server(SubmitTradingOffer_ServerPayload),
+    /// SubmitTradingOffer_ClientRecieve event payload
+    SubmitTradingOffer_ClientRecieve(SubmitTradingOffer_ClientRecievePayload),
+    /// SubmitTradingOffer_Abort event (no payload)
+    SubmitTradingOffer_Abort,
+    /// SubmitTradingOffer_Cancel event (no payload)
+    SubmitTradingOffer_Cancel,
+    /// AcceptOffer_Server event payload
+    AcceptOffer_Server(AcceptOffer_ServerPayload),
+    /// AcceptOffer_ClientRecieve event payload
+    AcceptOffer_ClientRecieve(AcceptOffer_ClientRecievePayload),
+    /// CoordSysCreated_Client event payload
+    CoordSysCreated_Client(CoordSysCreated_ClientPayload),
+    /// CoorSysRemoved_Client event payload
+    CoorSysRemoved_Client(CoorSysRemoved_ClientPayload),
+    /// Save event payload
+    Save(SavePayload),
+    /// Stop event (no payload)
+    Stop,
+    /// OnFactionMessageRequest event payload
+    OnFactionMessageRequest(OnFactionMessageRequestPayload),
+    /// OnFactionMessageSuccess event payload
+    OnFactionMessageSuccess(OnFactionMessageSuccessPayload),
+    /// CreateAccount_Clients event payload
+    CreateAccount_Clients(CreateAccount_ClientsPayload),
+    /// RemoveAccount_Clients event payload
+    RemoveAccount_Clients(RemoveAccount_ClientsPayload),
+    /// MyBankingSystem_UnlockAchievementForClient event payload
+    MyBankingSystem_UnlockAchievementForClient(MyBankingSystem_UnlockAchievementForClientPayload),
+    /// ChangeBalanceBroadcastToClients event payload
+    ChangeBalanceBroadcastToClients(ChangeBalanceBroadcastToClientsPayload),
+    /// RequestWithdraw_Server event payload
+    RequestWithdraw_Server(RequestWithdraw_ServerPayload),
+    /// RequestDeposit_Server event payload
+    RequestDeposit_Server(RequestDeposit_ServerPayload),
+    /// RequestTransfer_BroadcastToClients event payload
+    RequestTransfer_BroadcastToClients(RequestTransfer_BroadcastToClientsPayload),
+    /// ResetAssetModifierSync event payload
+    ResetAssetModifierSync(ResetAssetModifierSyncPayload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_299 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_299(MyAssetModifierComponent_ApplyAssetModifierSync_299Payload),
+    /// MyAssetModifierComponent_ApplyAssetModifierSync_300 event payload
+    MyAssetModifierComponent_ApplyAssetModifierSync_300(MyAssetModifierComponent_ApplyAssetModifierSync_300Payload),
+    /// OnTargetRequestServer event payload
+    OnTargetRequestServer(OnTargetRequestServerPayload),
+    /// RequestReleaseTargetLock event (no payload)
+    RequestReleaseTargetLock,
+    /// LooseLockOnClient event (no payload)
+    LooseLockOnClient,
+    /// OnTargetLostClient event (no payload)
+    OnTargetLostClient,
+    /// RequestUseMessageStatic event payload
+    RequestUseMessageStatic(RequestUseMessageStaticPayload),
+    /// UseSuccessStatic event payload
+    UseSuccessStatic(UseSuccessStaticPayload),
+    /// UseFailureStatic event payload
+    UseFailureStatic(UseFailureStaticPayload),
+    /// OnInventoryFilled event (no payload)
+    OnInventoryFilled,
+    /// OnShootMissile event payload
+    OnShootMissile(OnShootMissilePayload),
+    /// OnRemoveMissile event payload
+    OnRemoveMissile(OnRemoveMissilePayload),
+    /// DrawTrajectoryOnClient event payload
+    DrawTrajectoryOnClient(DrawTrajectoryOnClientPayload),
+    /// OnChangeTrajectory event payload
+    OnChangeTrajectory(OnChangeTrajectoryPayload),
+    /// SendTransferRequestMessage event payload
+    SendTransferRequestMessage(SendTransferRequestMessagePayload),
+    /// ReceiveTransferRequestMessage event payload
+    ReceiveTransferRequestMessage(ReceiveTransferRequestMessagePayload),
+    /// ReceiveTransferNotPossibleMessage event payload
+    ReceiveTransferNotPossibleMessage(ReceiveTransferNotPossibleMessagePayload),
+    /// ClaimNPCGrid event payload
+    ClaimNPCGrid(ClaimNPCGridPayload),
+    /// TransferBlocksBuiltByID event payload
+    TransferBlocksBuiltByID(TransferBlocksBuiltByIDPayload),
+    /// TransferBlocksBuiltByIDClient event payload
+    TransferBlocksBuiltByIDClient(TransferBlocksBuiltByIDClientPayload),
+    /// RemoveBlocksBuiltByID event payload
+    RemoveBlocksBuiltByID(RemoveBlocksBuiltByIDPayload),
+    /// SetGridNameFromServer event payload
+    SetGridNameFromServer(SetGridNameFromServerPayload),
+    /// SpawnEventInit event (no payload)
+    SpawnEventInit,
+    /// SpawnGroup event payload
+    SpawnGroup(SpawnGroupPayload),
+    /// RequestMarketWatchItemsServer event payload
+    RequestMarketWatchItemsServer(RequestMarketWatchItemsServerPayload),
+    /// ReceiveMarketWatchItemsClient event payload
+    ReceiveMarketWatchItemsClient(ReceiveMarketWatchItemsClientPayload),
+    /// OnCreativeToolsEnabled event payload
+    OnCreativeToolsEnabled(OnCreativeToolsEnabledPayload),
+    /// OnCrash event (no payload)
+    OnCrash,
+    /// HitIndicatorActivationInternal event payload
+    HitIndicatorActivationInternal(HitIndicatorActivationInternalPayload),
+    /// OnPromoteLevelSet event payload
+    OnPromoteLevelSet(OnPromoteLevelSetPayload),
+    /// OnServerSaving event payload
+    OnServerSaving(OnServerSavingPayload),
+    /// OnServerPerformanceWarning event payload
+    OnServerPerformanceWarning(OnServerPerformanceWarningPayload),
+    /// SetSpectatorPositionFromServer event payload
+    SetSpectatorPositionFromServer(SetSpectatorPositionFromServerPayload),
+    /// SetSpectatorFromServer event (no payload)
+    SetSpectatorFromServer,
+    /// CameraControllerSet event payload
+    CameraControllerSet(CameraControllerSetPayload),
+    /// OnRequestVicinityInformation event payload
+    OnRequestVicinityInformation(OnRequestVicinityInformationPayload),
+    /// OnVicinityInformation event payload
+    OnVicinityInformation(OnVicinityInformationPayload),
+    /// PersistEncounterClient event payload
+    PersistEncounterClient(PersistEncounterClientPayload),
+    /// EncounterSpawned event payload
+    EncounterSpawned(EncounterSpawnedPayload),
+    /// AddExistingObjectsSeed event payload
+    AddExistingObjectsSeed(AddExistingObjectsSeedPayload),
+    /// CreateParticleEffectOnEntityEvent event payload
+    CreateParticleEffectOnEntityEvent(CreateParticleEffectOnEntityEventPayload),
+    /// RequestGridSpawn event payload
+    RequestGridSpawn(RequestGridSpawnPayload),
+    /// SpawnGridReply event payload
+    SpawnGridReply(SpawnGridReplyPayload),
+    /// ShowMessageGridsRemovedWhilePasting event (no payload)
+    ShowMessageGridsRemovedWhilePasting,
+    /// TryPasteGrid_Implementation event payload
+    TryPasteGrid_Implementation(TryPasteGrid_ImplementationPayload),
+    /// ShowPasteFailedOperation event (no payload)
+    ShowPasteFailedOperation,
+    /// SendHudNotificationAfterPaste event (no payload)
+    SendHudNotificationAfterPaste,
+    /// OnChangeShareRequest event payload
+    OnChangeShareRequest(OnChangeShareRequestPayload),
+    /// AddChangeOwnersRequestServerside event payload
+    AddChangeOwnersRequestServerside(AddChangeOwnersRequestServersidePayload),
+    /// OnChangeShareModeSuccess event payload
+    OnChangeShareModeSuccess(OnChangeShareModeSuccessPayload),
+    /// RemoveAllOwnershipChangeRequests event payload
+    RemoveAllOwnershipChangeRequests(RemoveAllOwnershipChangeRequestsPayload),
+    /// RemoveSpecificOwnershipChangeRequests event payload
+    RemoveSpecificOwnershipChangeRequests(RemoveSpecificOwnershipChangeRequestsPayload),
+    /// OnChangeOwnersRequestConfirmation event payload
+    OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
+    /// CancelPendingTransferRequestsServerSide event payload
+    CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
+    /// MyCubeGrid_CancelPendingTransferRequests_353 event payload
+    MyCubeGrid_CancelPendingTransferRequests_353(MyCubeGrid_CancelPendingTransferRequests_353Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_354 event payload
+    MyCubeGrid_CancelPendingTransferRequests_354(MyCubeGrid_CancelPendingTransferRequests_354Payload),
+    /// AddChangeOwnersRequestClientside event payload
+    AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
+    /// RemoveOwnershipChangeRequests event payload
+    RemoveOwnershipChangeRequests(RemoveOwnershipChangeRequestsPayload),
+    /// OnChangeOwnersSuccess event payload
+    OnChangeOwnersSuccess(OnChangeOwnersSuccessPayload),
+    /// OnEntityCloseRequest event payload
+    OnEntityCloseRequest(OnEntityCloseRequestPayload),
+    /// ForceCloseEntityOnClients event payload
+    ForceCloseEntityOnClients(ForceCloseEntityOnClientsPayload),
+    /// RequestSpawnCreative_Implementation event payload
+    RequestSpawnCreative_Implementation(RequestSpawnCreative_ImplementationPayload),
+    /// StopShootingRequest event payload
+    StopShootingRequest(StopShootingRequestPayload),
+    /// VoxelOperationCapsule_Implementation event payload
+    VoxelOperationCapsule_Implementation(VoxelOperationCapsule_ImplementationPayload),
+    /// VoxelOperationSphere_Implementation event payload
+    VoxelOperationSphere_Implementation(VoxelOperationSphere_ImplementationPayload),
+    /// VoxelOperationBox_Implementation event payload
+    VoxelOperationBox_Implementation(VoxelOperationBox_ImplementationPayload),
+    /// VoxelOperationRamp_Implementation event payload
+    VoxelOperationRamp_Implementation(VoxelOperationRamp_ImplementationPayload),
+    /// VoxelOperationElipsoid_Implementation event payload
+    VoxelOperationElipsoid_Implementation(VoxelOperationElipsoid_ImplementationPayload),
+    /// RevertBoulderBroadcast event payload
+    RevertBoulderBroadcast(RevertBoulderBroadcastPayload),
+    /// CreateSafeZone_Implementation event payload
+    CreateSafeZone_Implementation(CreateSafeZone_ImplementationPayload),
+    /// DeleteSafeZone_Implementation event payload
+    DeleteSafeZone_Implementation(DeleteSafeZone_ImplementationPayload),
+    /// UpdateSafeZone_Implementation event payload
+    UpdateSafeZone_Implementation(UpdateSafeZone_ImplementationPayload),
+    /// UpdateSafeZonePlayer_Implementation event payload
+    UpdateSafeZonePlayer_Implementation(UpdateSafeZonePlayer_ImplementationPayload),
+    /// UpdateSafeZone_Broadcast event payload
+    UpdateSafeZone_Broadcast(UpdateSafeZone_BroadcastPayload),
+    /// UpdateSafeZone_ImplementationPlayer event payload
+    UpdateSafeZone_ImplementationPlayer(UpdateSafeZone_ImplementationPlayerPayload),
+    /// UpdateSafeZoneRadius_ImplementationPlayer event payload
+    UpdateSafeZoneRadius_ImplementationPlayer(UpdateSafeZoneRadius_ImplementationPlayerPayload),
+    /// UpdateGlobalSafeZone_Implementation event payload
+    UpdateGlobalSafeZone_Implementation(UpdateGlobalSafeZone_ImplementationPayload),
+    /// DisableItemsInSector event payload
+    DisableItemsInSector(DisableItemsInSectorPayload),
+    /// DoDamageSlimBlockBatch event payload
+    DoDamageSlimBlockBatch(DoDamageSlimBlockBatchPayload),
+    /// DoDamageSlimBlock event payload
+    DoDamageSlimBlock(DoDamageSlimBlockPayload),
+    /// GetActiveContractsStatic event (no payload)
+    GetActiveContractsStatic,
+    /// AbandonContractStatic event payload
+    AbandonContractStatic(AbandonContractStaticPayload),
+    /// ReceiveActiveContractsStatic event payload
+    ReceiveActiveContractsStatic(ReceiveActiveContractsStaticPayload),
+    /// ReceiveAbandonContractStatic event payload
+    ReceiveAbandonContractStatic(ReceiveAbandonContractStaticPayload),
+    /// OpenEditorFailure event (no payload)
+    OpenEditorFailure,
+    /// NotifyAboutMissingDLC event payload
+    NotifyAboutMissingDLC(NotifyAboutMissingDLCPayload),
+    /// OnReserveEntityRequest event payload
+    OnReserveEntityRequest(OnReserveEntityRequestPayload),
+    /// OnReserveEntitySuccess event payload
+    OnReserveEntitySuccess(OnReserveEntitySuccessPayload),
+    /// OnReserveEntityFailure event payload
+    OnReserveEntityFailure(OnReserveEntityFailurePayload),
+    /// OnReserveEnvironmentItemRequest event payload
+    OnReserveEnvironmentItemRequest(OnReserveEnvironmentItemRequestPayload),
+    /// OnReserveEnvironmentItemSuccess event payload
+    OnReserveEnvironmentItemSuccess(OnReserveEnvironmentItemSuccessPayload),
+    /// OnReserveEnvironmentItemFailure event payload
+    OnReserveEnvironmentItemFailure(OnReserveEnvironmentItemFailurePayload),
+    /// OnReserveVoxelPositionRequest event payload
+    OnReserveVoxelPositionRequest(OnReserveVoxelPositionRequestPayload),
+    /// OnReserveVoxelPositionSuccess event payload
+    OnReserveVoxelPositionSuccess(OnReserveVoxelPositionSuccessPayload),
+    /// OnReserveVoxelPositionFailure event payload
+    OnReserveVoxelPositionFailure(OnReserveVoxelPositionFailurePayload),
+    /// OnReserveAreaRequest event payload
+    OnReserveAreaRequest(OnReserveAreaRequestPayload),
+    /// OnReserveAreaSuccess event payload
+    OnReserveAreaSuccess(OnReserveAreaSuccessPayload),
+    /// OnReserveAreaFailure event payload
+    OnReserveAreaFailure(OnReserveAreaFailurePayload),
+    /// OnReserveAreaAllSuccess event payload
+    OnReserveAreaAllSuccess(OnReserveAreaAllSuccessPayload),
+    /// OnReserveAreaCancel event payload
+    OnReserveAreaCancel(OnReserveAreaCancelPayload),
     /// ShareBlueprintRequest event payload
     ShareBlueprintRequest(ShareBlueprintRequestPayload),
     /// ShareBlueprintRequestClient event payload
@@ -2763,258 +3027,12 @@ pub enum StaticEventPayload {
     ServerLimitInfo_Implementation,
     /// ServerLimitInfo_Received event payload
     ServerLimitInfo_Received(ServerLimitInfo_ReceivedPayload),
-    /// OnPerformJump event payload
-    OnPerformJump(OnPerformJumpPayload),
-    /// TradeRequest_Server event payload
-    TradeRequest_Server(TradeRequest_ServerPayload),
-    /// TradeRequest_StartTrade event payload
-    TradeRequest_StartTrade(TradeRequest_StartTradePayload),
-    /// TradeRequest_StartTrade_Server event payload
-    TradeRequest_StartTrade_Server(TradeRequest_StartTrade_ServerPayload),
-    /// TradeRequest_Response event payload
-    TradeRequest_Response(TradeRequest_ResponsePayload),
-    /// TradeRequest_Cancel event (no payload)
-    TradeRequest_Cancel,
-    /// SubmitTradingOffer_Server event payload
-    SubmitTradingOffer_Server(SubmitTradingOffer_ServerPayload),
-    /// SubmitTradingOffer_ClientRecieve event payload
-    SubmitTradingOffer_ClientRecieve(SubmitTradingOffer_ClientRecievePayload),
-    /// SubmitTradingOffer_Abort event (no payload)
-    SubmitTradingOffer_Abort,
-    /// SubmitTradingOffer_Cancel event (no payload)
-    SubmitTradingOffer_Cancel,
-    /// AcceptOffer_Server event payload
-    AcceptOffer_Server(AcceptOffer_ServerPayload),
-    /// AcceptOffer_ClientRecieve event payload
-    AcceptOffer_ClientRecieve(AcceptOffer_ClientRecievePayload),
-    /// CoordSysCreated_Client event payload
-    CoordSysCreated_Client(CoordSysCreated_ClientPayload),
-    /// CoorSysRemoved_Client event payload
-    CoorSysRemoved_Client(CoorSysRemoved_ClientPayload),
-    /// Save event payload
-    Save(SavePayload),
-    /// Stop event (no payload)
-    Stop,
-    /// OnFactionMessageRequest event payload
-    OnFactionMessageRequest(OnFactionMessageRequestPayload),
-    /// OnFactionMessageSuccess event payload
-    OnFactionMessageSuccess(OnFactionMessageSuccessPayload),
-    /// CreateAccount_Clients event payload
-    CreateAccount_Clients(CreateAccount_ClientsPayload),
-    /// RemoveAccount_Clients event payload
-    RemoveAccount_Clients(RemoveAccount_ClientsPayload),
-    /// MyBankingSystem_UnlockAchievementForClient event payload
-    MyBankingSystem_UnlockAchievementForClient(MyBankingSystem_UnlockAchievementForClientPayload),
-    /// ChangeBalanceBroadcastToClients event payload
-    ChangeBalanceBroadcastToClients(ChangeBalanceBroadcastToClientsPayload),
-    /// RequestWithdraw_Server event payload
-    RequestWithdraw_Server(RequestWithdraw_ServerPayload),
-    /// RequestDeposit_Server event payload
-    RequestDeposit_Server(RequestDeposit_ServerPayload),
-    /// RequestTransfer_BroadcastToClients event payload
-    RequestTransfer_BroadcastToClients(RequestTransfer_BroadcastToClientsPayload),
-    /// ResetAssetModifierSync event payload
-    ResetAssetModifierSync(ResetAssetModifierSyncPayload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_377 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_377(MyAssetModifierComponent_ApplyAssetModifierSync_377Payload),
-    /// MyAssetModifierComponent_ApplyAssetModifierSync_378 event payload
-    MyAssetModifierComponent_ApplyAssetModifierSync_378(MyAssetModifierComponent_ApplyAssetModifierSync_378Payload),
-    /// OnTargetRequestServer event payload
-    OnTargetRequestServer(OnTargetRequestServerPayload),
-    /// RequestReleaseTargetLock event (no payload)
-    RequestReleaseTargetLock,
-    /// LooseLockOnClient event (no payload)
-    LooseLockOnClient,
-    /// OnTargetLostClient event (no payload)
-    OnTargetLostClient,
-    /// RequestUseMessageStatic event payload
-    RequestUseMessageStatic(RequestUseMessageStaticPayload),
-    /// UseSuccessStatic event payload
-    UseSuccessStatic(UseSuccessStaticPayload),
-    /// UseFailureStatic event payload
-    UseFailureStatic(UseFailureStaticPayload),
-    /// OnInventoryFilled event (no payload)
-    OnInventoryFilled,
-    /// OnShootMissile event payload
-    OnShootMissile(OnShootMissilePayload),
-    /// OnRemoveMissile event payload
-    OnRemoveMissile(OnRemoveMissilePayload),
-    /// DrawTrajectoryOnClient event payload
-    DrawTrajectoryOnClient(DrawTrajectoryOnClientPayload),
-    /// OnChangeTrajectory event payload
-    OnChangeTrajectory(OnChangeTrajectoryPayload),
-    /// SendTransferRequestMessage event payload
-    SendTransferRequestMessage(SendTransferRequestMessagePayload),
-    /// ReceiveTransferRequestMessage event payload
-    ReceiveTransferRequestMessage(ReceiveTransferRequestMessagePayload),
-    /// ReceiveTransferNotPossibleMessage event payload
-    ReceiveTransferNotPossibleMessage(ReceiveTransferNotPossibleMessagePayload),
-    /// ClaimNPCGrid event payload
-    ClaimNPCGrid(ClaimNPCGridPayload),
-    /// TransferBlocksBuiltByID event payload
-    TransferBlocksBuiltByID(TransferBlocksBuiltByIDPayload),
-    /// TransferBlocksBuiltByIDClient event payload
-    TransferBlocksBuiltByIDClient(TransferBlocksBuiltByIDClientPayload),
-    /// RemoveBlocksBuiltByID event payload
-    RemoveBlocksBuiltByID(RemoveBlocksBuiltByIDPayload),
-    /// SetGridNameFromServer event payload
-    SetGridNameFromServer(SetGridNameFromServerPayload),
-    /// SpawnEventInit event (no payload)
-    SpawnEventInit,
-    /// SpawnGroup event payload
-    SpawnGroup(SpawnGroupPayload),
-    /// RequestMarketWatchItemsServer event payload
-    RequestMarketWatchItemsServer(RequestMarketWatchItemsServerPayload),
-    /// ReceiveMarketWatchItemsClient event payload
-    ReceiveMarketWatchItemsClient(ReceiveMarketWatchItemsClientPayload),
-    /// OnCreativeToolsEnabled event payload
-    OnCreativeToolsEnabled(OnCreativeToolsEnabledPayload),
-    /// OnCrash event (no payload)
-    OnCrash,
-    /// HitIndicatorActivationInternal event payload
-    HitIndicatorActivationInternal(HitIndicatorActivationInternalPayload),
-    /// OnPromoteLevelSet event payload
-    OnPromoteLevelSet(OnPromoteLevelSetPayload),
-    /// OnServerSaving event payload
-    OnServerSaving(OnServerSavingPayload),
-    /// OnServerPerformanceWarning event payload
-    OnServerPerformanceWarning(OnServerPerformanceWarningPayload),
-    /// SetSpectatorPositionFromServer event payload
-    SetSpectatorPositionFromServer(SetSpectatorPositionFromServerPayload),
-    /// SetSpectatorFromServer event (no payload)
-    SetSpectatorFromServer,
-    /// CameraControllerSet event payload
-    CameraControllerSet(CameraControllerSetPayload),
-    /// OnRequestVicinityInformation event payload
-    OnRequestVicinityInformation(OnRequestVicinityInformationPayload),
-    /// OnVicinityInformation event payload
-    OnVicinityInformation(OnVicinityInformationPayload),
-    /// PersistEncounterClient event payload
-    PersistEncounterClient(PersistEncounterClientPayload),
-    /// EncounterSpawned event payload
-    EncounterSpawned(EncounterSpawnedPayload),
-    /// AddExistingObjectsSeed event payload
-    AddExistingObjectsSeed(AddExistingObjectsSeedPayload),
-    /// CreateParticleEffectOnEntityEvent event payload
-    CreateParticleEffectOnEntityEvent(CreateParticleEffectOnEntityEventPayload),
-    /// RequestGridSpawn event payload
-    RequestGridSpawn(RequestGridSpawnPayload),
-    /// SpawnGridReply event payload
-    SpawnGridReply(SpawnGridReplyPayload),
-    /// ShowMessageGridsRemovedWhilePasting event (no payload)
-    ShowMessageGridsRemovedWhilePasting,
-    /// TryPasteGrid_Implementation event payload
-    TryPasteGrid_Implementation(TryPasteGrid_ImplementationPayload),
-    /// ShowPasteFailedOperation event (no payload)
-    ShowPasteFailedOperation,
-    /// SendHudNotificationAfterPaste event (no payload)
-    SendHudNotificationAfterPaste,
-    /// OnChangeShareRequest event payload
-    OnChangeShareRequest(OnChangeShareRequestPayload),
-    /// AddChangeOwnersRequestServerside event payload
-    AddChangeOwnersRequestServerside(AddChangeOwnersRequestServersidePayload),
-    /// OnChangeShareModeSuccess event payload
-    OnChangeShareModeSuccess(OnChangeShareModeSuccessPayload),
-    /// RemoveAllOwnershipChangeRequests event payload
-    RemoveAllOwnershipChangeRequests(RemoveAllOwnershipChangeRequestsPayload),
-    /// RemoveSpecificOwnershipChangeRequests event payload
-    RemoveSpecificOwnershipChangeRequests(RemoveSpecificOwnershipChangeRequestsPayload),
-    /// OnChangeOwnersRequestConfirmation event payload
-    OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
-    /// CancelPendingTransferRequestsServerSide event payload
-    CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
-    /// MyCubeGrid_CancelPendingTransferRequests_431 event payload
-    MyCubeGrid_CancelPendingTransferRequests_431(MyCubeGrid_CancelPendingTransferRequests_431Payload),
-    /// MyCubeGrid_CancelPendingTransferRequests_432 event payload
-    MyCubeGrid_CancelPendingTransferRequests_432(MyCubeGrid_CancelPendingTransferRequests_432Payload),
-    /// AddChangeOwnersRequestClientside event payload
-    AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
-    /// RemoveOwnershipChangeRequests event payload
-    RemoveOwnershipChangeRequests(RemoveOwnershipChangeRequestsPayload),
-    /// OnChangeOwnersSuccess event payload
-    OnChangeOwnersSuccess(OnChangeOwnersSuccessPayload),
-    /// OnEntityCloseRequest event payload
-    OnEntityCloseRequest(OnEntityCloseRequestPayload),
-    /// ForceCloseEntityOnClients event payload
-    ForceCloseEntityOnClients(ForceCloseEntityOnClientsPayload),
-    /// RequestSpawnCreative_Implementation event payload
-    RequestSpawnCreative_Implementation(RequestSpawnCreative_ImplementationPayload),
-    /// StopShootingRequest event payload
-    StopShootingRequest(StopShootingRequestPayload),
-    /// VoxelOperationCapsule_Implementation event payload
-    VoxelOperationCapsule_Implementation(VoxelOperationCapsule_ImplementationPayload),
-    /// VoxelOperationSphere_Implementation event payload
-    VoxelOperationSphere_Implementation(VoxelOperationSphere_ImplementationPayload),
-    /// VoxelOperationBox_Implementation event payload
-    VoxelOperationBox_Implementation(VoxelOperationBox_ImplementationPayload),
-    /// VoxelOperationRamp_Implementation event payload
-    VoxelOperationRamp_Implementation(VoxelOperationRamp_ImplementationPayload),
-    /// VoxelOperationElipsoid_Implementation event payload
-    VoxelOperationElipsoid_Implementation(VoxelOperationElipsoid_ImplementationPayload),
-    /// RevertBoulderBroadcast event payload
-    RevertBoulderBroadcast(RevertBoulderBroadcastPayload),
-    /// CreateSafeZone_Implementation event payload
-    CreateSafeZone_Implementation(CreateSafeZone_ImplementationPayload),
-    /// DeleteSafeZone_Implementation event payload
-    DeleteSafeZone_Implementation(DeleteSafeZone_ImplementationPayload),
-    /// UpdateSafeZone_Implementation event payload
-    UpdateSafeZone_Implementation(UpdateSafeZone_ImplementationPayload),
-    /// UpdateSafeZonePlayer_Implementation event payload
-    UpdateSafeZonePlayer_Implementation(UpdateSafeZonePlayer_ImplementationPayload),
-    /// UpdateSafeZone_Broadcast event payload
-    UpdateSafeZone_Broadcast(UpdateSafeZone_BroadcastPayload),
-    /// UpdateSafeZone_ImplementationPlayer event payload
-    UpdateSafeZone_ImplementationPlayer(UpdateSafeZone_ImplementationPlayerPayload),
-    /// UpdateSafeZoneRadius_ImplementationPlayer event payload
-    UpdateSafeZoneRadius_ImplementationPlayer(UpdateSafeZoneRadius_ImplementationPlayerPayload),
-    /// UpdateGlobalSafeZone_Implementation event payload
-    UpdateGlobalSafeZone_Implementation(UpdateGlobalSafeZone_ImplementationPayload),
-    /// DisableItemsInSector event payload
-    DisableItemsInSector(DisableItemsInSectorPayload),
-    /// DoDamageSlimBlockBatch event payload
-    DoDamageSlimBlockBatch(DoDamageSlimBlockBatchPayload),
-    /// DoDamageSlimBlock event payload
-    DoDamageSlimBlock(DoDamageSlimBlockPayload),
-    /// GetActiveContractsStatic event (no payload)
-    GetActiveContractsStatic,
-    /// AbandonContractStatic event payload
-    AbandonContractStatic(AbandonContractStaticPayload),
-    /// ReceiveActiveContractsStatic event payload
-    ReceiveActiveContractsStatic(ReceiveActiveContractsStaticPayload),
-    /// ReceiveAbandonContractStatic event payload
-    ReceiveAbandonContractStatic(ReceiveAbandonContractStaticPayload),
-    /// OpenEditorFailure event (no payload)
-    OpenEditorFailure,
-    /// NotifyAboutMissingDLC event payload
-    NotifyAboutMissingDLC(NotifyAboutMissingDLCPayload),
-    /// OnReserveEntityRequest event payload
-    OnReserveEntityRequest(OnReserveEntityRequestPayload),
-    /// OnReserveEntitySuccess event payload
-    OnReserveEntitySuccess(OnReserveEntitySuccessPayload),
-    /// OnReserveEntityFailure event payload
-    OnReserveEntityFailure(OnReserveEntityFailurePayload),
-    /// OnReserveEnvironmentItemRequest event payload
-    OnReserveEnvironmentItemRequest(OnReserveEnvironmentItemRequestPayload),
-    /// OnReserveEnvironmentItemSuccess event payload
-    OnReserveEnvironmentItemSuccess(OnReserveEnvironmentItemSuccessPayload),
-    /// OnReserveEnvironmentItemFailure event payload
-    OnReserveEnvironmentItemFailure(OnReserveEnvironmentItemFailurePayload),
-    /// OnReserveVoxelPositionRequest event payload
-    OnReserveVoxelPositionRequest(OnReserveVoxelPositionRequestPayload),
-    /// OnReserveVoxelPositionSuccess event payload
-    OnReserveVoxelPositionSuccess(OnReserveVoxelPositionSuccessPayload),
-    /// OnReserveVoxelPositionFailure event payload
-    OnReserveVoxelPositionFailure(OnReserveVoxelPositionFailurePayload),
-    /// OnReserveAreaRequest event payload
-    OnReserveAreaRequest(OnReserveAreaRequestPayload),
-    /// OnReserveAreaSuccess event payload
-    OnReserveAreaSuccess(OnReserveAreaSuccessPayload),
-    /// OnReserveAreaFailure event payload
-    OnReserveAreaFailure(OnReserveAreaFailurePayload),
-    /// OnReserveAreaAllSuccess event payload
-    OnReserveAreaAllSuccess(OnReserveAreaAllSuccessPayload),
-    /// OnReserveAreaCancel event payload
-    OnReserveAreaCancel(OnReserveAreaCancelPayload),
+    /// RequestPingGrid event payload
+    RequestPingGrid(RequestPingGridPayload),
+    /// NotifyPingGridFailed_NotBigOwner event (no payload)
+    NotifyPingGridFailed_NotBigOwner,
+    /// NotifyPingGridFailed_ConnectedToHostile event (no payload)
+    NotifyPingGridFailed_ConnectedToHostile,
     /// OnCommandReceived event payload
     OnCommandReceived(OnCommandReceivedPayload),
     /// OnSyncCooldownRequest event (no payload)
@@ -4093,6 +4111,462 @@ impl StaticEventType {
             Self::RemoveFloating_Implementation => Ok(StaticEventPayload::RemoveFloating_Implementation),
             Self::RemoveCargoBags_Implementation => Ok(StaticEventPayload::RemoveCargoBags_Implementation),
             Self::StopEntities_Implementation => Ok(StaticEventPayload::StopEntities_Implementation),
+            Self::OnPerformJump => {
+                let (_, payload) = OnPerformJumpPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnPerformJump(payload))
+            }
+            Self::TradeRequest_Server => {
+                let (_, payload) = TradeRequest_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TradeRequest_Server(payload))
+            }
+            Self::TradeRequest_StartTrade => {
+                let (_, payload) = TradeRequest_StartTradePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TradeRequest_StartTrade(payload))
+            }
+            Self::TradeRequest_StartTrade_Server => {
+                let (_, payload) = TradeRequest_StartTrade_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TradeRequest_StartTrade_Server(payload))
+            }
+            Self::TradeRequest_Response => {
+                let (_, payload) = TradeRequest_ResponsePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TradeRequest_Response(payload))
+            }
+            Self::TradeRequest_Cancel => Ok(StaticEventPayload::TradeRequest_Cancel),
+            Self::SubmitTradingOffer_Server => {
+                let (_, payload) = SubmitTradingOffer_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SubmitTradingOffer_Server(payload))
+            }
+            Self::SubmitTradingOffer_ClientRecieve => {
+                let (_, payload) = SubmitTradingOffer_ClientRecievePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SubmitTradingOffer_ClientRecieve(payload))
+            }
+            Self::SubmitTradingOffer_Abort => Ok(StaticEventPayload::SubmitTradingOffer_Abort),
+            Self::SubmitTradingOffer_Cancel => Ok(StaticEventPayload::SubmitTradingOffer_Cancel),
+            Self::AcceptOffer_Server => {
+                let (_, payload) = AcceptOffer_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AcceptOffer_Server(payload))
+            }
+            Self::AcceptOffer_ClientRecieve => {
+                let (_, payload) = AcceptOffer_ClientRecievePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AcceptOffer_ClientRecieve(payload))
+            }
+            Self::CoordSysCreated_Client => {
+                let (_, payload) = CoordSysCreated_ClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CoordSysCreated_Client(payload))
+            }
+            Self::CoorSysRemoved_Client => {
+                let (_, payload) = CoorSysRemoved_ClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CoorSysRemoved_Client(payload))
+            }
+            Self::Save => {
+                let (_, payload) = SavePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::Save(payload))
+            }
+            Self::Stop => Ok(StaticEventPayload::Stop),
+            Self::OnFactionMessageRequest => {
+                let (_, payload) = OnFactionMessageRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnFactionMessageRequest(payload))
+            }
+            Self::OnFactionMessageSuccess => {
+                let (_, payload) = OnFactionMessageSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnFactionMessageSuccess(payload))
+            }
+            Self::CreateAccount_Clients => {
+                let (_, payload) = CreateAccount_ClientsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CreateAccount_Clients(payload))
+            }
+            Self::RemoveAccount_Clients => {
+                let (_, payload) = RemoveAccount_ClientsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RemoveAccount_Clients(payload))
+            }
+            Self::MyBankingSystem_UnlockAchievementForClient => {
+                let (_, payload) = MyBankingSystem_UnlockAchievementForClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyBankingSystem_UnlockAchievementForClient(payload))
+            }
+            Self::ChangeBalanceBroadcastToClients => {
+                let (_, payload) = ChangeBalanceBroadcastToClientsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ChangeBalanceBroadcastToClients(payload))
+            }
+            Self::RequestWithdraw_Server => {
+                let (_, payload) = RequestWithdraw_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestWithdraw_Server(payload))
+            }
+            Self::RequestDeposit_Server => {
+                let (_, payload) = RequestDeposit_ServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestDeposit_Server(payload))
+            }
+            Self::RequestTransfer_BroadcastToClients => {
+                let (_, payload) = RequestTransfer_BroadcastToClientsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestTransfer_BroadcastToClients(payload))
+            }
+            Self::ResetAssetModifierSync => {
+                let (_, payload) = ResetAssetModifierSyncPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ResetAssetModifierSync(payload))
+            }
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_299Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_299(payload))
+            }
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300 => {
+                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_300Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_300(payload))
+            }
+            Self::OnTargetRequestServer => {
+                let (_, payload) = OnTargetRequestServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnTargetRequestServer(payload))
+            }
+            Self::RequestReleaseTargetLock => Ok(StaticEventPayload::RequestReleaseTargetLock),
+            Self::LooseLockOnClient => Ok(StaticEventPayload::LooseLockOnClient),
+            Self::OnTargetLostClient => Ok(StaticEventPayload::OnTargetLostClient),
+            Self::RequestUseMessageStatic => {
+                let (_, payload) = RequestUseMessageStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestUseMessageStatic(payload))
+            }
+            Self::UseSuccessStatic => {
+                let (_, payload) = UseSuccessStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UseSuccessStatic(payload))
+            }
+            Self::UseFailureStatic => {
+                let (_, payload) = UseFailureStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UseFailureStatic(payload))
+            }
+            Self::OnInventoryFilled => Ok(StaticEventPayload::OnInventoryFilled),
+            Self::OnShootMissile => {
+                let (_, payload) = OnShootMissilePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnShootMissile(payload))
+            }
+            Self::OnRemoveMissile => {
+                let (_, payload) = OnRemoveMissilePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnRemoveMissile(payload))
+            }
+            Self::DrawTrajectoryOnClient => {
+                let (_, payload) = DrawTrajectoryOnClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::DrawTrajectoryOnClient(payload))
+            }
+            Self::OnChangeTrajectory => {
+                let (_, payload) = OnChangeTrajectoryPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnChangeTrajectory(payload))
+            }
+            Self::SendTransferRequestMessage => {
+                let (_, payload) = SendTransferRequestMessagePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SendTransferRequestMessage(payload))
+            }
+            Self::ReceiveTransferRequestMessage => {
+                let (_, payload) = ReceiveTransferRequestMessagePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveTransferRequestMessage(payload))
+            }
+            Self::ReceiveTransferNotPossibleMessage => {
+                let (_, payload) = ReceiveTransferNotPossibleMessagePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveTransferNotPossibleMessage(payload))
+            }
+            Self::ClaimNPCGrid => {
+                let (_, payload) = ClaimNPCGridPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ClaimNPCGrid(payload))
+            }
+            Self::TransferBlocksBuiltByID => {
+                let (_, payload) = TransferBlocksBuiltByIDPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TransferBlocksBuiltByID(payload))
+            }
+            Self::TransferBlocksBuiltByIDClient => {
+                let (_, payload) = TransferBlocksBuiltByIDClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TransferBlocksBuiltByIDClient(payload))
+            }
+            Self::RemoveBlocksBuiltByID => {
+                let (_, payload) = RemoveBlocksBuiltByIDPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RemoveBlocksBuiltByID(payload))
+            }
+            Self::SetGridNameFromServer => {
+                let (_, payload) = SetGridNameFromServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SetGridNameFromServer(payload))
+            }
+            Self::SpawnEventInit => Ok(StaticEventPayload::SpawnEventInit),
+            Self::SpawnGroup => {
+                let (_, payload) = SpawnGroupPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SpawnGroup(payload))
+            }
+            Self::RequestMarketWatchItemsServer => {
+                let (_, payload) = RequestMarketWatchItemsServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestMarketWatchItemsServer(payload))
+            }
+            Self::ReceiveMarketWatchItemsClient => {
+                let (_, payload) = ReceiveMarketWatchItemsClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveMarketWatchItemsClient(payload))
+            }
+            Self::OnCreativeToolsEnabled => {
+                let (_, payload) = OnCreativeToolsEnabledPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnCreativeToolsEnabled(payload))
+            }
+            Self::OnCrash => Ok(StaticEventPayload::OnCrash),
+            Self::HitIndicatorActivationInternal => {
+                let (_, payload) = HitIndicatorActivationInternalPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::HitIndicatorActivationInternal(payload))
+            }
+            Self::OnPromoteLevelSet => {
+                let (_, payload) = OnPromoteLevelSetPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnPromoteLevelSet(payload))
+            }
+            Self::OnServerSaving => {
+                let (_, payload) = OnServerSavingPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnServerSaving(payload))
+            }
+            Self::OnServerPerformanceWarning => {
+                let (_, payload) = OnServerPerformanceWarningPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnServerPerformanceWarning(payload))
+            }
+            Self::SetSpectatorPositionFromServer => {
+                let (_, payload) = SetSpectatorPositionFromServerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SetSpectatorPositionFromServer(payload))
+            }
+            Self::SetSpectatorFromServer => Ok(StaticEventPayload::SetSpectatorFromServer),
+            Self::CameraControllerSet => {
+                let (_, payload) = CameraControllerSetPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CameraControllerSet(payload))
+            }
+            Self::OnRequestVicinityInformation => {
+                let (_, payload) = OnRequestVicinityInformationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnRequestVicinityInformation(payload))
+            }
+            Self::OnVicinityInformation => {
+                let (_, payload) = OnVicinityInformationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnVicinityInformation(payload))
+            }
+            Self::PersistEncounterClient => {
+                let (_, payload) = PersistEncounterClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::PersistEncounterClient(payload))
+            }
+            Self::EncounterSpawned => {
+                let (_, payload) = EncounterSpawnedPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::EncounterSpawned(payload))
+            }
+            Self::AddExistingObjectsSeed => {
+                let (_, payload) = AddExistingObjectsSeedPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AddExistingObjectsSeed(payload))
+            }
+            Self::CreateParticleEffectOnEntityEvent => {
+                let (_, payload) = CreateParticleEffectOnEntityEventPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CreateParticleEffectOnEntityEvent(payload))
+            }
+            Self::RequestGridSpawn => {
+                let (_, payload) = RequestGridSpawnPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestGridSpawn(payload))
+            }
+            Self::SpawnGridReply => {
+                let (_, payload) = SpawnGridReplyPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SpawnGridReply(payload))
+            }
+            Self::ShowMessageGridsRemovedWhilePasting => Ok(StaticEventPayload::ShowMessageGridsRemovedWhilePasting),
+            Self::TryPasteGrid_Implementation => {
+                let (_, payload) = TryPasteGrid_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::TryPasteGrid_Implementation(payload))
+            }
+            Self::ShowPasteFailedOperation => Ok(StaticEventPayload::ShowPasteFailedOperation),
+            Self::SendHudNotificationAfterPaste => Ok(StaticEventPayload::SendHudNotificationAfterPaste),
+            Self::OnChangeShareRequest => {
+                let (_, payload) = OnChangeShareRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnChangeShareRequest(payload))
+            }
+            Self::AddChangeOwnersRequestServerside => {
+                let (_, payload) = AddChangeOwnersRequestServersidePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AddChangeOwnersRequestServerside(payload))
+            }
+            Self::OnChangeShareModeSuccess => {
+                let (_, payload) = OnChangeShareModeSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnChangeShareModeSuccess(payload))
+            }
+            Self::RemoveAllOwnershipChangeRequests => {
+                let (_, payload) = RemoveAllOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RemoveAllOwnershipChangeRequests(payload))
+            }
+            Self::RemoveSpecificOwnershipChangeRequests => {
+                let (_, payload) = RemoveSpecificOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RemoveSpecificOwnershipChangeRequests(payload))
+            }
+            Self::OnChangeOwnersRequestConfirmation => {
+                let (_, payload) = OnChangeOwnersRequestConfirmationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnChangeOwnersRequestConfirmation(payload))
+            }
+            Self::CancelPendingTransferRequestsServerSide => {
+                let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
+            }
+            Self::MyCubeGrid_CancelPendingTransferRequests_353 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_353Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_353(payload))
+            }
+            Self::MyCubeGrid_CancelPendingTransferRequests_354 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_354Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_354(payload))
+            }
+            Self::AddChangeOwnersRequestClientside => {
+                let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AddChangeOwnersRequestClientside(payload))
+            }
+            Self::RemoveOwnershipChangeRequests => {
+                let (_, payload) = RemoveOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RemoveOwnershipChangeRequests(payload))
+            }
+            Self::OnChangeOwnersSuccess => {
+                let (_, payload) = OnChangeOwnersSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnChangeOwnersSuccess(payload))
+            }
+            Self::OnEntityCloseRequest => {
+                let (_, payload) = OnEntityCloseRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnEntityCloseRequest(payload))
+            }
+            Self::ForceCloseEntityOnClients => {
+                let (_, payload) = ForceCloseEntityOnClientsPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ForceCloseEntityOnClients(payload))
+            }
+            Self::RequestSpawnCreative_Implementation => {
+                let (_, payload) = RequestSpawnCreative_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestSpawnCreative_Implementation(payload))
+            }
+            Self::StopShootingRequest => {
+                let (_, payload) = StopShootingRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::StopShootingRequest(payload))
+            }
+            Self::VoxelOperationCapsule_Implementation => {
+                let (_, payload) = VoxelOperationCapsule_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::VoxelOperationCapsule_Implementation(payload))
+            }
+            Self::VoxelOperationSphere_Implementation => {
+                let (_, payload) = VoxelOperationSphere_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::VoxelOperationSphere_Implementation(payload))
+            }
+            Self::VoxelOperationBox_Implementation => {
+                let (_, payload) = VoxelOperationBox_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::VoxelOperationBox_Implementation(payload))
+            }
+            Self::VoxelOperationRamp_Implementation => {
+                let (_, payload) = VoxelOperationRamp_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::VoxelOperationRamp_Implementation(payload))
+            }
+            Self::VoxelOperationElipsoid_Implementation => {
+                let (_, payload) = VoxelOperationElipsoid_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::VoxelOperationElipsoid_Implementation(payload))
+            }
+            Self::RevertBoulderBroadcast => {
+                let (_, payload) = RevertBoulderBroadcastPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RevertBoulderBroadcast(payload))
+            }
+            Self::CreateSafeZone_Implementation => {
+                let (_, payload) = CreateSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::CreateSafeZone_Implementation(payload))
+            }
+            Self::DeleteSafeZone_Implementation => {
+                let (_, payload) = DeleteSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::DeleteSafeZone_Implementation(payload))
+            }
+            Self::UpdateSafeZone_Implementation => {
+                let (_, payload) = UpdateSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateSafeZone_Implementation(payload))
+            }
+            Self::UpdateSafeZonePlayer_Implementation => {
+                let (_, payload) = UpdateSafeZonePlayer_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateSafeZonePlayer_Implementation(payload))
+            }
+            Self::UpdateSafeZone_Broadcast => {
+                let (_, payload) = UpdateSafeZone_BroadcastPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateSafeZone_Broadcast(payload))
+            }
+            Self::UpdateSafeZone_ImplementationPlayer => {
+                let (_, payload) = UpdateSafeZone_ImplementationPlayerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateSafeZone_ImplementationPlayer(payload))
+            }
+            Self::UpdateSafeZoneRadius_ImplementationPlayer => {
+                let (_, payload) = UpdateSafeZoneRadius_ImplementationPlayerPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateSafeZoneRadius_ImplementationPlayer(payload))
+            }
+            Self::UpdateGlobalSafeZone_Implementation => {
+                let (_, payload) = UpdateGlobalSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::UpdateGlobalSafeZone_Implementation(payload))
+            }
+            Self::DisableItemsInSector => {
+                let (_, payload) = DisableItemsInSectorPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::DisableItemsInSector(payload))
+            }
+            Self::DoDamageSlimBlockBatch => {
+                let (_, payload) = DoDamageSlimBlockBatchPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::DoDamageSlimBlockBatch(payload))
+            }
+            Self::DoDamageSlimBlock => {
+                let (_, payload) = DoDamageSlimBlockPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::DoDamageSlimBlock(payload))
+            }
+            Self::GetActiveContractsStatic => Ok(StaticEventPayload::GetActiveContractsStatic),
+            Self::AbandonContractStatic => {
+                let (_, payload) = AbandonContractStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::AbandonContractStatic(payload))
+            }
+            Self::ReceiveActiveContractsStatic => {
+                let (_, payload) = ReceiveActiveContractsStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveActiveContractsStatic(payload))
+            }
+            Self::ReceiveAbandonContractStatic => {
+                let (_, payload) = ReceiveAbandonContractStaticPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::ReceiveAbandonContractStatic(payload))
+            }
+            Self::OpenEditorFailure => Ok(StaticEventPayload::OpenEditorFailure),
+            Self::NotifyAboutMissingDLC => {
+                let (_, payload) = NotifyAboutMissingDLCPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::NotifyAboutMissingDLC(payload))
+            }
+            Self::OnReserveEntityRequest => {
+                let (_, payload) = OnReserveEntityRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEntityRequest(payload))
+            }
+            Self::OnReserveEntitySuccess => {
+                let (_, payload) = OnReserveEntitySuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEntitySuccess(payload))
+            }
+            Self::OnReserveEntityFailure => {
+                let (_, payload) = OnReserveEntityFailurePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEntityFailure(payload))
+            }
+            Self::OnReserveEnvironmentItemRequest => {
+                let (_, payload) = OnReserveEnvironmentItemRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEnvironmentItemRequest(payload))
+            }
+            Self::OnReserveEnvironmentItemSuccess => {
+                let (_, payload) = OnReserveEnvironmentItemSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEnvironmentItemSuccess(payload))
+            }
+            Self::OnReserveEnvironmentItemFailure => {
+                let (_, payload) = OnReserveEnvironmentItemFailurePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveEnvironmentItemFailure(payload))
+            }
+            Self::OnReserveVoxelPositionRequest => {
+                let (_, payload) = OnReserveVoxelPositionRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveVoxelPositionRequest(payload))
+            }
+            Self::OnReserveVoxelPositionSuccess => {
+                let (_, payload) = OnReserveVoxelPositionSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveVoxelPositionSuccess(payload))
+            }
+            Self::OnReserveVoxelPositionFailure => {
+                let (_, payload) = OnReserveVoxelPositionFailurePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveVoxelPositionFailure(payload))
+            }
+            Self::OnReserveAreaRequest => {
+                let (_, payload) = OnReserveAreaRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveAreaRequest(payload))
+            }
+            Self::OnReserveAreaSuccess => {
+                let (_, payload) = OnReserveAreaSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveAreaSuccess(payload))
+            }
+            Self::OnReserveAreaFailure => {
+                let (_, payload) = OnReserveAreaFailurePayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveAreaFailure(payload))
+            }
+            Self::OnReserveAreaAllSuccess => {
+                let (_, payload) = OnReserveAreaAllSuccessPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveAreaAllSuccess(payload))
+            }
+            Self::OnReserveAreaCancel => {
+                let (_, payload) = OnReserveAreaCancelPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnReserveAreaCancel(payload))
+            }
             Self::ShareBlueprintRequest => {
                 let (_, payload) = ShareBlueprintRequestPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ShareBlueprintRequest(payload))
@@ -4342,462 +4816,12 @@ impl StaticEventType {
                 let (_, payload) = ServerLimitInfo_ReceivedPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ServerLimitInfo_Received(payload))
             }
-            Self::OnPerformJump => {
-                let (_, payload) = OnPerformJumpPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnPerformJump(payload))
-            }
-            Self::TradeRequest_Server => {
-                let (_, payload) = TradeRequest_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TradeRequest_Server(payload))
-            }
-            Self::TradeRequest_StartTrade => {
-                let (_, payload) = TradeRequest_StartTradePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TradeRequest_StartTrade(payload))
-            }
-            Self::TradeRequest_StartTrade_Server => {
-                let (_, payload) = TradeRequest_StartTrade_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TradeRequest_StartTrade_Server(payload))
-            }
-            Self::TradeRequest_Response => {
-                let (_, payload) = TradeRequest_ResponsePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TradeRequest_Response(payload))
-            }
-            Self::TradeRequest_Cancel => Ok(StaticEventPayload::TradeRequest_Cancel),
-            Self::SubmitTradingOffer_Server => {
-                let (_, payload) = SubmitTradingOffer_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SubmitTradingOffer_Server(payload))
-            }
-            Self::SubmitTradingOffer_ClientRecieve => {
-                let (_, payload) = SubmitTradingOffer_ClientRecievePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SubmitTradingOffer_ClientRecieve(payload))
-            }
-            Self::SubmitTradingOffer_Abort => Ok(StaticEventPayload::SubmitTradingOffer_Abort),
-            Self::SubmitTradingOffer_Cancel => Ok(StaticEventPayload::SubmitTradingOffer_Cancel),
-            Self::AcceptOffer_Server => {
-                let (_, payload) = AcceptOffer_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AcceptOffer_Server(payload))
-            }
-            Self::AcceptOffer_ClientRecieve => {
-                let (_, payload) = AcceptOffer_ClientRecievePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AcceptOffer_ClientRecieve(payload))
-            }
-            Self::CoordSysCreated_Client => {
-                let (_, payload) = CoordSysCreated_ClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CoordSysCreated_Client(payload))
-            }
-            Self::CoorSysRemoved_Client => {
-                let (_, payload) = CoorSysRemoved_ClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CoorSysRemoved_Client(payload))
-            }
-            Self::Save => {
-                let (_, payload) = SavePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::Save(payload))
-            }
-            Self::Stop => Ok(StaticEventPayload::Stop),
-            Self::OnFactionMessageRequest => {
-                let (_, payload) = OnFactionMessageRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnFactionMessageRequest(payload))
-            }
-            Self::OnFactionMessageSuccess => {
-                let (_, payload) = OnFactionMessageSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnFactionMessageSuccess(payload))
-            }
-            Self::CreateAccount_Clients => {
-                let (_, payload) = CreateAccount_ClientsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CreateAccount_Clients(payload))
-            }
-            Self::RemoveAccount_Clients => {
-                let (_, payload) = RemoveAccount_ClientsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RemoveAccount_Clients(payload))
-            }
-            Self::MyBankingSystem_UnlockAchievementForClient => {
-                let (_, payload) = MyBankingSystem_UnlockAchievementForClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyBankingSystem_UnlockAchievementForClient(payload))
-            }
-            Self::ChangeBalanceBroadcastToClients => {
-                let (_, payload) = ChangeBalanceBroadcastToClientsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ChangeBalanceBroadcastToClients(payload))
-            }
-            Self::RequestWithdraw_Server => {
-                let (_, payload) = RequestWithdraw_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestWithdraw_Server(payload))
-            }
-            Self::RequestDeposit_Server => {
-                let (_, payload) = RequestDeposit_ServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestDeposit_Server(payload))
-            }
-            Self::RequestTransfer_BroadcastToClients => {
-                let (_, payload) = RequestTransfer_BroadcastToClientsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestTransfer_BroadcastToClients(payload))
-            }
-            Self::ResetAssetModifierSync => {
-                let (_, payload) = ResetAssetModifierSyncPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ResetAssetModifierSync(payload))
-            }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_377Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_377(payload))
-            }
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378 => {
-                let (_, payload) = MyAssetModifierComponent_ApplyAssetModifierSync_378Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyAssetModifierComponent_ApplyAssetModifierSync_378(payload))
-            }
-            Self::OnTargetRequestServer => {
-                let (_, payload) = OnTargetRequestServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnTargetRequestServer(payload))
-            }
-            Self::RequestReleaseTargetLock => Ok(StaticEventPayload::RequestReleaseTargetLock),
-            Self::LooseLockOnClient => Ok(StaticEventPayload::LooseLockOnClient),
-            Self::OnTargetLostClient => Ok(StaticEventPayload::OnTargetLostClient),
-            Self::RequestUseMessageStatic => {
-                let (_, payload) = RequestUseMessageStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestUseMessageStatic(payload))
-            }
-            Self::UseSuccessStatic => {
-                let (_, payload) = UseSuccessStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UseSuccessStatic(payload))
-            }
-            Self::UseFailureStatic => {
-                let (_, payload) = UseFailureStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UseFailureStatic(payload))
-            }
-            Self::OnInventoryFilled => Ok(StaticEventPayload::OnInventoryFilled),
-            Self::OnShootMissile => {
-                let (_, payload) = OnShootMissilePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnShootMissile(payload))
-            }
-            Self::OnRemoveMissile => {
-                let (_, payload) = OnRemoveMissilePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnRemoveMissile(payload))
-            }
-            Self::DrawTrajectoryOnClient => {
-                let (_, payload) = DrawTrajectoryOnClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::DrawTrajectoryOnClient(payload))
-            }
-            Self::OnChangeTrajectory => {
-                let (_, payload) = OnChangeTrajectoryPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnChangeTrajectory(payload))
-            }
-            Self::SendTransferRequestMessage => {
-                let (_, payload) = SendTransferRequestMessagePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SendTransferRequestMessage(payload))
-            }
-            Self::ReceiveTransferRequestMessage => {
-                let (_, payload) = ReceiveTransferRequestMessagePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ReceiveTransferRequestMessage(payload))
-            }
-            Self::ReceiveTransferNotPossibleMessage => {
-                let (_, payload) = ReceiveTransferNotPossibleMessagePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ReceiveTransferNotPossibleMessage(payload))
-            }
-            Self::ClaimNPCGrid => {
-                let (_, payload) = ClaimNPCGridPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ClaimNPCGrid(payload))
-            }
-            Self::TransferBlocksBuiltByID => {
-                let (_, payload) = TransferBlocksBuiltByIDPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TransferBlocksBuiltByID(payload))
-            }
-            Self::TransferBlocksBuiltByIDClient => {
-                let (_, payload) = TransferBlocksBuiltByIDClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TransferBlocksBuiltByIDClient(payload))
-            }
-            Self::RemoveBlocksBuiltByID => {
-                let (_, payload) = RemoveBlocksBuiltByIDPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RemoveBlocksBuiltByID(payload))
-            }
-            Self::SetGridNameFromServer => {
-                let (_, payload) = SetGridNameFromServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SetGridNameFromServer(payload))
-            }
-            Self::SpawnEventInit => Ok(StaticEventPayload::SpawnEventInit),
-            Self::SpawnGroup => {
-                let (_, payload) = SpawnGroupPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SpawnGroup(payload))
-            }
-            Self::RequestMarketWatchItemsServer => {
-                let (_, payload) = RequestMarketWatchItemsServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestMarketWatchItemsServer(payload))
-            }
-            Self::ReceiveMarketWatchItemsClient => {
-                let (_, payload) = ReceiveMarketWatchItemsClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ReceiveMarketWatchItemsClient(payload))
-            }
-            Self::OnCreativeToolsEnabled => {
-                let (_, payload) = OnCreativeToolsEnabledPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnCreativeToolsEnabled(payload))
-            }
-            Self::OnCrash => Ok(StaticEventPayload::OnCrash),
-            Self::HitIndicatorActivationInternal => {
-                let (_, payload) = HitIndicatorActivationInternalPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::HitIndicatorActivationInternal(payload))
-            }
-            Self::OnPromoteLevelSet => {
-                let (_, payload) = OnPromoteLevelSetPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnPromoteLevelSet(payload))
-            }
-            Self::OnServerSaving => {
-                let (_, payload) = OnServerSavingPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnServerSaving(payload))
-            }
-            Self::OnServerPerformanceWarning => {
-                let (_, payload) = OnServerPerformanceWarningPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnServerPerformanceWarning(payload))
-            }
-            Self::SetSpectatorPositionFromServer => {
-                let (_, payload) = SetSpectatorPositionFromServerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SetSpectatorPositionFromServer(payload))
-            }
-            Self::SetSpectatorFromServer => Ok(StaticEventPayload::SetSpectatorFromServer),
-            Self::CameraControllerSet => {
-                let (_, payload) = CameraControllerSetPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CameraControllerSet(payload))
-            }
-            Self::OnRequestVicinityInformation => {
-                let (_, payload) = OnRequestVicinityInformationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnRequestVicinityInformation(payload))
-            }
-            Self::OnVicinityInformation => {
-                let (_, payload) = OnVicinityInformationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnVicinityInformation(payload))
-            }
-            Self::PersistEncounterClient => {
-                let (_, payload) = PersistEncounterClientPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::PersistEncounterClient(payload))
-            }
-            Self::EncounterSpawned => {
-                let (_, payload) = EncounterSpawnedPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::EncounterSpawned(payload))
-            }
-            Self::AddExistingObjectsSeed => {
-                let (_, payload) = AddExistingObjectsSeedPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AddExistingObjectsSeed(payload))
-            }
-            Self::CreateParticleEffectOnEntityEvent => {
-                let (_, payload) = CreateParticleEffectOnEntityEventPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CreateParticleEffectOnEntityEvent(payload))
-            }
-            Self::RequestGridSpawn => {
-                let (_, payload) = RequestGridSpawnPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestGridSpawn(payload))
-            }
-            Self::SpawnGridReply => {
-                let (_, payload) = SpawnGridReplyPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::SpawnGridReply(payload))
-            }
-            Self::ShowMessageGridsRemovedWhilePasting => Ok(StaticEventPayload::ShowMessageGridsRemovedWhilePasting),
-            Self::TryPasteGrid_Implementation => {
-                let (_, payload) = TryPasteGrid_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::TryPasteGrid_Implementation(payload))
-            }
-            Self::ShowPasteFailedOperation => Ok(StaticEventPayload::ShowPasteFailedOperation),
-            Self::SendHudNotificationAfterPaste => Ok(StaticEventPayload::SendHudNotificationAfterPaste),
-            Self::OnChangeShareRequest => {
-                let (_, payload) = OnChangeShareRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnChangeShareRequest(payload))
-            }
-            Self::AddChangeOwnersRequestServerside => {
-                let (_, payload) = AddChangeOwnersRequestServersidePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AddChangeOwnersRequestServerside(payload))
-            }
-            Self::OnChangeShareModeSuccess => {
-                let (_, payload) = OnChangeShareModeSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnChangeShareModeSuccess(payload))
-            }
-            Self::RemoveAllOwnershipChangeRequests => {
-                let (_, payload) = RemoveAllOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RemoveAllOwnershipChangeRequests(payload))
-            }
-            Self::RemoveSpecificOwnershipChangeRequests => {
-                let (_, payload) = RemoveSpecificOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RemoveSpecificOwnershipChangeRequests(payload))
-            }
-            Self::OnChangeOwnersRequestConfirmation => {
-                let (_, payload) = OnChangeOwnersRequestConfirmationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnChangeOwnersRequestConfirmation(payload))
-            }
-            Self::CancelPendingTransferRequestsServerSide => {
-                let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
-            }
-            Self::MyCubeGrid_CancelPendingTransferRequests_431 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_431Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_431(payload))
-            }
-            Self::MyCubeGrid_CancelPendingTransferRequests_432 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_432Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_432(payload))
-            }
-            Self::AddChangeOwnersRequestClientside => {
-                let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AddChangeOwnersRequestClientside(payload))
-            }
-            Self::RemoveOwnershipChangeRequests => {
-                let (_, payload) = RemoveOwnershipChangeRequestsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RemoveOwnershipChangeRequests(payload))
-            }
-            Self::OnChangeOwnersSuccess => {
-                let (_, payload) = OnChangeOwnersSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnChangeOwnersSuccess(payload))
-            }
-            Self::OnEntityCloseRequest => {
-                let (_, payload) = OnEntityCloseRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnEntityCloseRequest(payload))
-            }
-            Self::ForceCloseEntityOnClients => {
-                let (_, payload) = ForceCloseEntityOnClientsPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ForceCloseEntityOnClients(payload))
-            }
-            Self::RequestSpawnCreative_Implementation => {
-                let (_, payload) = RequestSpawnCreative_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RequestSpawnCreative_Implementation(payload))
-            }
-            Self::StopShootingRequest => {
-                let (_, payload) = StopShootingRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::StopShootingRequest(payload))
-            }
-            Self::VoxelOperationCapsule_Implementation => {
-                let (_, payload) = VoxelOperationCapsule_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::VoxelOperationCapsule_Implementation(payload))
-            }
-            Self::VoxelOperationSphere_Implementation => {
-                let (_, payload) = VoxelOperationSphere_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::VoxelOperationSphere_Implementation(payload))
-            }
-            Self::VoxelOperationBox_Implementation => {
-                let (_, payload) = VoxelOperationBox_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::VoxelOperationBox_Implementation(payload))
-            }
-            Self::VoxelOperationRamp_Implementation => {
-                let (_, payload) = VoxelOperationRamp_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::VoxelOperationRamp_Implementation(payload))
-            }
-            Self::VoxelOperationElipsoid_Implementation => {
-                let (_, payload) = VoxelOperationElipsoid_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::VoxelOperationElipsoid_Implementation(payload))
-            }
-            Self::RevertBoulderBroadcast => {
-                let (_, payload) = RevertBoulderBroadcastPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::RevertBoulderBroadcast(payload))
-            }
-            Self::CreateSafeZone_Implementation => {
-                let (_, payload) = CreateSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::CreateSafeZone_Implementation(payload))
-            }
-            Self::DeleteSafeZone_Implementation => {
-                let (_, payload) = DeleteSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::DeleteSafeZone_Implementation(payload))
-            }
-            Self::UpdateSafeZone_Implementation => {
-                let (_, payload) = UpdateSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateSafeZone_Implementation(payload))
-            }
-            Self::UpdateSafeZonePlayer_Implementation => {
-                let (_, payload) = UpdateSafeZonePlayer_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateSafeZonePlayer_Implementation(payload))
-            }
-            Self::UpdateSafeZone_Broadcast => {
-                let (_, payload) = UpdateSafeZone_BroadcastPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateSafeZone_Broadcast(payload))
-            }
-            Self::UpdateSafeZone_ImplementationPlayer => {
-                let (_, payload) = UpdateSafeZone_ImplementationPlayerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateSafeZone_ImplementationPlayer(payload))
-            }
-            Self::UpdateSafeZoneRadius_ImplementationPlayer => {
-                let (_, payload) = UpdateSafeZoneRadius_ImplementationPlayerPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateSafeZoneRadius_ImplementationPlayer(payload))
-            }
-            Self::UpdateGlobalSafeZone_Implementation => {
-                let (_, payload) = UpdateGlobalSafeZone_ImplementationPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::UpdateGlobalSafeZone_Implementation(payload))
-            }
-            Self::DisableItemsInSector => {
-                let (_, payload) = DisableItemsInSectorPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::DisableItemsInSector(payload))
-            }
-            Self::DoDamageSlimBlockBatch => {
-                let (_, payload) = DoDamageSlimBlockBatchPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::DoDamageSlimBlockBatch(payload))
-            }
-            Self::DoDamageSlimBlock => {
-                let (_, payload) = DoDamageSlimBlockPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::DoDamageSlimBlock(payload))
-            }
-            Self::GetActiveContractsStatic => Ok(StaticEventPayload::GetActiveContractsStatic),
-            Self::AbandonContractStatic => {
-                let (_, payload) = AbandonContractStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::AbandonContractStatic(payload))
-            }
-            Self::ReceiveActiveContractsStatic => {
-                let (_, payload) = ReceiveActiveContractsStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ReceiveActiveContractsStatic(payload))
-            }
-            Self::ReceiveAbandonContractStatic => {
-                let (_, payload) = ReceiveAbandonContractStaticPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::ReceiveAbandonContractStatic(payload))
-            }
-            Self::OpenEditorFailure => Ok(StaticEventPayload::OpenEditorFailure),
-            Self::NotifyAboutMissingDLC => {
-                let (_, payload) = NotifyAboutMissingDLCPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::NotifyAboutMissingDLC(payload))
-            }
-            Self::OnReserveEntityRequest => {
-                let (_, payload) = OnReserveEntityRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEntityRequest(payload))
-            }
-            Self::OnReserveEntitySuccess => {
-                let (_, payload) = OnReserveEntitySuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEntitySuccess(payload))
-            }
-            Self::OnReserveEntityFailure => {
-                let (_, payload) = OnReserveEntityFailurePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEntityFailure(payload))
-            }
-            Self::OnReserveEnvironmentItemRequest => {
-                let (_, payload) = OnReserveEnvironmentItemRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEnvironmentItemRequest(payload))
-            }
-            Self::OnReserveEnvironmentItemSuccess => {
-                let (_, payload) = OnReserveEnvironmentItemSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEnvironmentItemSuccess(payload))
-            }
-            Self::OnReserveEnvironmentItemFailure => {
-                let (_, payload) = OnReserveEnvironmentItemFailurePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveEnvironmentItemFailure(payload))
-            }
-            Self::OnReserveVoxelPositionRequest => {
-                let (_, payload) = OnReserveVoxelPositionRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveVoxelPositionRequest(payload))
-            }
-            Self::OnReserveVoxelPositionSuccess => {
-                let (_, payload) = OnReserveVoxelPositionSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveVoxelPositionSuccess(payload))
-            }
-            Self::OnReserveVoxelPositionFailure => {
-                let (_, payload) = OnReserveVoxelPositionFailurePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveVoxelPositionFailure(payload))
-            }
-            Self::OnReserveAreaRequest => {
-                let (_, payload) = OnReserveAreaRequestPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveAreaRequest(payload))
-            }
-            Self::OnReserveAreaSuccess => {
-                let (_, payload) = OnReserveAreaSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveAreaSuccess(payload))
-            }
-            Self::OnReserveAreaFailure => {
-                let (_, payload) = OnReserveAreaFailurePayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveAreaFailure(payload))
-            }
-            Self::OnReserveAreaAllSuccess => {
-                let (_, payload) = OnReserveAreaAllSuccessPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveAreaAllSuccess(payload))
-            }
-            Self::OnReserveAreaCancel => {
-                let (_, payload) = OnReserveAreaCancelPayload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::OnReserveAreaCancel(payload))
-            }
+            Self::RequestPingGrid => {
+                let (_, payload) = RequestPingGridPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestPingGrid(payload))
+            }
+            Self::NotifyPingGridFailed_NotBigOwner => Ok(StaticEventPayload::NotifyPingGridFailed_NotBigOwner),
+            Self::NotifyPingGridFailed_ConnectedToHostile => Ok(StaticEventPayload::NotifyPingGridFailed_ConnectedToHostile),
             Self::OnCommandReceived => {
                 let (_, payload) = OnCommandReceivedPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::OnCommandReceived(payload))
@@ -5445,6 +5469,258 @@ pub trait StaticEventVisitor {
     fn visit_remove_cargo_bags_implementation(&mut self) {}
     /// Called when visiting StopEntities_Implementation event (no payload).
     fn visit_stop_entities_implementation(&mut self) {}
+    /// Called when visiting OnPerformJump event.
+    fn visit_on_perform_jump(&mut self, payload: &OnPerformJumpPayload) {}
+    /// Called when visiting TradeRequest_Server event.
+    fn visit_trade_request_server(&mut self, payload: &TradeRequest_ServerPayload) {}
+    /// Called when visiting TradeRequest_StartTrade event.
+    fn visit_trade_request_start_trade(&mut self, payload: &TradeRequest_StartTradePayload) {}
+    /// Called when visiting TradeRequest_StartTrade_Server event.
+    fn visit_trade_request_start_trade_server(&mut self, payload: &TradeRequest_StartTrade_ServerPayload) {}
+    /// Called when visiting TradeRequest_Response event.
+    fn visit_trade_request_response(&mut self, payload: &TradeRequest_ResponsePayload) {}
+    /// Called when visiting TradeRequest_Cancel event (no payload).
+    fn visit_trade_request_cancel(&mut self) {}
+    /// Called when visiting SubmitTradingOffer_Server event.
+    fn visit_submit_trading_offer_server(&mut self, payload: &SubmitTradingOffer_ServerPayload) {}
+    /// Called when visiting SubmitTradingOffer_ClientRecieve event.
+    fn visit_submit_trading_offer_client_recieve(&mut self, payload: &SubmitTradingOffer_ClientRecievePayload) {}
+    /// Called when visiting SubmitTradingOffer_Abort event (no payload).
+    fn visit_submit_trading_offer_abort(&mut self) {}
+    /// Called when visiting SubmitTradingOffer_Cancel event (no payload).
+    fn visit_submit_trading_offer_cancel(&mut self) {}
+    /// Called when visiting AcceptOffer_Server event.
+    fn visit_accept_offer_server(&mut self, payload: &AcceptOffer_ServerPayload) {}
+    /// Called when visiting AcceptOffer_ClientRecieve event.
+    fn visit_accept_offer_client_recieve(&mut self, payload: &AcceptOffer_ClientRecievePayload) {}
+    /// Called when visiting CoordSysCreated_Client event.
+    fn visit_coord_sys_created_client(&mut self, payload: &CoordSysCreated_ClientPayload) {}
+    /// Called when visiting CoorSysRemoved_Client event.
+    fn visit_coor_sys_removed_client(&mut self, payload: &CoorSysRemoved_ClientPayload) {}
+    /// Called when visiting Save event.
+    fn visit_save(&mut self, payload: &SavePayload) {}
+    /// Called when visiting Stop event (no payload).
+    fn visit_stop(&mut self) {}
+    /// Called when visiting OnFactionMessageRequest event.
+    fn visit_on_faction_message_request(&mut self, payload: &OnFactionMessageRequestPayload) {}
+    /// Called when visiting OnFactionMessageSuccess event.
+    fn visit_on_faction_message_success(&mut self, payload: &OnFactionMessageSuccessPayload) {}
+    /// Called when visiting CreateAccount_Clients event.
+    fn visit_create_account_clients(&mut self, payload: &CreateAccount_ClientsPayload) {}
+    /// Called when visiting RemoveAccount_Clients event.
+    fn visit_remove_account_clients(&mut self, payload: &RemoveAccount_ClientsPayload) {}
+    /// Called when visiting MyBankingSystem_UnlockAchievementForClient event.
+    fn visit_my_banking_system_unlock_achievement_for_client(&mut self, payload: &MyBankingSystem_UnlockAchievementForClientPayload) {}
+    /// Called when visiting ChangeBalanceBroadcastToClients event.
+    fn visit_change_balance_broadcast_to_clients(&mut self, payload: &ChangeBalanceBroadcastToClientsPayload) {}
+    /// Called when visiting RequestWithdraw_Server event.
+    fn visit_request_withdraw_server(&mut self, payload: &RequestWithdraw_ServerPayload) {}
+    /// Called when visiting RequestDeposit_Server event.
+    fn visit_request_deposit_server(&mut self, payload: &RequestDeposit_ServerPayload) {}
+    /// Called when visiting RequestTransfer_BroadcastToClients event.
+    fn visit_request_transfer_broadcast_to_clients(&mut self, payload: &RequestTransfer_BroadcastToClientsPayload) {}
+    /// Called when visiting ResetAssetModifierSync event.
+    fn visit_reset_asset_modifier_sync(&mut self, payload: &ResetAssetModifierSyncPayload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_299 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_299(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_299Payload) {}
+    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_300 event.
+    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_300(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_300Payload) {}
+    /// Called when visiting OnTargetRequestServer event.
+    fn visit_on_target_request_server(&mut self, payload: &OnTargetRequestServerPayload) {}
+    /// Called when visiting RequestReleaseTargetLock event (no payload).
+    fn visit_request_release_target_lock(&mut self) {}
+    /// Called when visiting LooseLockOnClient event (no payload).
+    fn visit_loose_lock_on_client(&mut self) {}
+    /// Called when visiting OnTargetLostClient event (no payload).
+    fn visit_on_target_lost_client(&mut self) {}
+    /// Called when visiting RequestUseMessageStatic event.
+    fn visit_request_use_message_static(&mut self, payload: &RequestUseMessageStaticPayload) {}
+    /// Called when visiting UseSuccessStatic event.
+    fn visit_use_success_static(&mut self, payload: &UseSuccessStaticPayload) {}
+    /// Called when visiting UseFailureStatic event.
+    fn visit_use_failure_static(&mut self, payload: &UseFailureStaticPayload) {}
+    /// Called when visiting OnInventoryFilled event (no payload).
+    fn visit_on_inventory_filled(&mut self) {}
+    /// Called when visiting OnShootMissile event.
+    fn visit_on_shoot_missile(&mut self, payload: &OnShootMissilePayload) {}
+    /// Called when visiting OnRemoveMissile event.
+    fn visit_on_remove_missile(&mut self, payload: &OnRemoveMissilePayload) {}
+    /// Called when visiting DrawTrajectoryOnClient event.
+    fn visit_draw_trajectory_on_client(&mut self, payload: &DrawTrajectoryOnClientPayload) {}
+    /// Called when visiting OnChangeTrajectory event.
+    fn visit_on_change_trajectory(&mut self, payload: &OnChangeTrajectoryPayload) {}
+    /// Called when visiting SendTransferRequestMessage event.
+    fn visit_send_transfer_request_message(&mut self, payload: &SendTransferRequestMessagePayload) {}
+    /// Called when visiting ReceiveTransferRequestMessage event.
+    fn visit_receive_transfer_request_message(&mut self, payload: &ReceiveTransferRequestMessagePayload) {}
+    /// Called when visiting ReceiveTransferNotPossibleMessage event.
+    fn visit_receive_transfer_not_possible_message(&mut self, payload: &ReceiveTransferNotPossibleMessagePayload) {}
+    /// Called when visiting ClaimNPCGrid event.
+    fn visit_claim_npcgrid(&mut self, payload: &ClaimNPCGridPayload) {}
+    /// Called when visiting TransferBlocksBuiltByID event.
+    fn visit_transfer_blocks_built_by_id(&mut self, payload: &TransferBlocksBuiltByIDPayload) {}
+    /// Called when visiting TransferBlocksBuiltByIDClient event.
+    fn visit_transfer_blocks_built_by_idclient(&mut self, payload: &TransferBlocksBuiltByIDClientPayload) {}
+    /// Called when visiting RemoveBlocksBuiltByID event.
+    fn visit_remove_blocks_built_by_id(&mut self, payload: &RemoveBlocksBuiltByIDPayload) {}
+    /// Called when visiting SetGridNameFromServer event.
+    fn visit_set_grid_name_from_server(&mut self, payload: &SetGridNameFromServerPayload) {}
+    /// Called when visiting SpawnEventInit event (no payload).
+    fn visit_spawn_event_init(&mut self) {}
+    /// Called when visiting SpawnGroup event.
+    fn visit_spawn_group(&mut self, payload: &SpawnGroupPayload) {}
+    /// Called when visiting RequestMarketWatchItemsServer event.
+    fn visit_request_market_watch_items_server(&mut self, payload: &RequestMarketWatchItemsServerPayload) {}
+    /// Called when visiting ReceiveMarketWatchItemsClient event.
+    fn visit_receive_market_watch_items_client(&mut self, payload: &ReceiveMarketWatchItemsClientPayload) {}
+    /// Called when visiting OnCreativeToolsEnabled event.
+    fn visit_on_creative_tools_enabled(&mut self, payload: &OnCreativeToolsEnabledPayload) {}
+    /// Called when visiting OnCrash event (no payload).
+    fn visit_on_crash(&mut self) {}
+    /// Called when visiting HitIndicatorActivationInternal event.
+    fn visit_hit_indicator_activation_internal(&mut self, payload: &HitIndicatorActivationInternalPayload) {}
+    /// Called when visiting OnPromoteLevelSet event.
+    fn visit_on_promote_level_set(&mut self, payload: &OnPromoteLevelSetPayload) {}
+    /// Called when visiting OnServerSaving event.
+    fn visit_on_server_saving(&mut self, payload: &OnServerSavingPayload) {}
+    /// Called when visiting OnServerPerformanceWarning event.
+    fn visit_on_server_performance_warning(&mut self, payload: &OnServerPerformanceWarningPayload) {}
+    /// Called when visiting SetSpectatorPositionFromServer event.
+    fn visit_set_spectator_position_from_server(&mut self, payload: &SetSpectatorPositionFromServerPayload) {}
+    /// Called when visiting SetSpectatorFromServer event (no payload).
+    fn visit_set_spectator_from_server(&mut self) {}
+    /// Called when visiting CameraControllerSet event.
+    fn visit_camera_controller_set(&mut self, payload: &CameraControllerSetPayload) {}
+    /// Called when visiting OnRequestVicinityInformation event.
+    fn visit_on_request_vicinity_information(&mut self, payload: &OnRequestVicinityInformationPayload) {}
+    /// Called when visiting OnVicinityInformation event.
+    fn visit_on_vicinity_information(&mut self, payload: &OnVicinityInformationPayload) {}
+    /// Called when visiting PersistEncounterClient event.
+    fn visit_persist_encounter_client(&mut self, payload: &PersistEncounterClientPayload) {}
+    /// Called when visiting EncounterSpawned event.
+    fn visit_encounter_spawned(&mut self, payload: &EncounterSpawnedPayload) {}
+    /// Called when visiting AddExistingObjectsSeed event.
+    fn visit_add_existing_objects_seed(&mut self, payload: &AddExistingObjectsSeedPayload) {}
+    /// Called when visiting CreateParticleEffectOnEntityEvent event.
+    fn visit_create_particle_effect_on_entity_event(&mut self, payload: &CreateParticleEffectOnEntityEventPayload) {}
+    /// Called when visiting RequestGridSpawn event.
+    fn visit_request_grid_spawn(&mut self, payload: &RequestGridSpawnPayload) {}
+    /// Called when visiting SpawnGridReply event.
+    fn visit_spawn_grid_reply(&mut self, payload: &SpawnGridReplyPayload) {}
+    /// Called when visiting ShowMessageGridsRemovedWhilePasting event (no payload).
+    fn visit_show_message_grids_removed_while_pasting(&mut self) {}
+    /// Called when visiting TryPasteGrid_Implementation event.
+    fn visit_try_paste_grid_implementation(&mut self, payload: &TryPasteGrid_ImplementationPayload) {}
+    /// Called when visiting ShowPasteFailedOperation event (no payload).
+    fn visit_show_paste_failed_operation(&mut self) {}
+    /// Called when visiting SendHudNotificationAfterPaste event (no payload).
+    fn visit_send_hud_notification_after_paste(&mut self) {}
+    /// Called when visiting OnChangeShareRequest event.
+    fn visit_on_change_share_request(&mut self, payload: &OnChangeShareRequestPayload) {}
+    /// Called when visiting AddChangeOwnersRequestServerside event.
+    fn visit_add_change_owners_request_serverside(&mut self, payload: &AddChangeOwnersRequestServersidePayload) {}
+    /// Called when visiting OnChangeShareModeSuccess event.
+    fn visit_on_change_share_mode_success(&mut self, payload: &OnChangeShareModeSuccessPayload) {}
+    /// Called when visiting RemoveAllOwnershipChangeRequests event.
+    fn visit_remove_all_ownership_change_requests(&mut self, payload: &RemoveAllOwnershipChangeRequestsPayload) {}
+    /// Called when visiting RemoveSpecificOwnershipChangeRequests event.
+    fn visit_remove_specific_ownership_change_requests(&mut self, payload: &RemoveSpecificOwnershipChangeRequestsPayload) {}
+    /// Called when visiting OnChangeOwnersRequestConfirmation event.
+    fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
+    /// Called when visiting CancelPendingTransferRequestsServerSide event.
+    fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_353 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_353(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_353Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_354 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_354(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_354Payload) {}
+    /// Called when visiting AddChangeOwnersRequestClientside event.
+    fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
+    /// Called when visiting RemoveOwnershipChangeRequests event.
+    fn visit_remove_ownership_change_requests(&mut self, payload: &RemoveOwnershipChangeRequestsPayload) {}
+    /// Called when visiting OnChangeOwnersSuccess event.
+    fn visit_on_change_owners_success(&mut self, payload: &OnChangeOwnersSuccessPayload) {}
+    /// Called when visiting OnEntityCloseRequest event.
+    fn visit_on_entity_close_request(&mut self, payload: &OnEntityCloseRequestPayload) {}
+    /// Called when visiting ForceCloseEntityOnClients event.
+    fn visit_force_close_entity_on_clients(&mut self, payload: &ForceCloseEntityOnClientsPayload) {}
+    /// Called when visiting RequestSpawnCreative_Implementation event.
+    fn visit_request_spawn_creative_implementation(&mut self, payload: &RequestSpawnCreative_ImplementationPayload) {}
+    /// Called when visiting StopShootingRequest event.
+    fn visit_stop_shooting_request(&mut self, payload: &StopShootingRequestPayload) {}
+    /// Called when visiting VoxelOperationCapsule_Implementation event.
+    fn visit_voxel_operation_capsule_implementation(&mut self, payload: &VoxelOperationCapsule_ImplementationPayload) {}
+    /// Called when visiting VoxelOperationSphere_Implementation event.
+    fn visit_voxel_operation_sphere_implementation(&mut self, payload: &VoxelOperationSphere_ImplementationPayload) {}
+    /// Called when visiting VoxelOperationBox_Implementation event.
+    fn visit_voxel_operation_box_implementation(&mut self, payload: &VoxelOperationBox_ImplementationPayload) {}
+    /// Called when visiting VoxelOperationRamp_Implementation event.
+    fn visit_voxel_operation_ramp_implementation(&mut self, payload: &VoxelOperationRamp_ImplementationPayload) {}
+    /// Called when visiting VoxelOperationElipsoid_Implementation event.
+    fn visit_voxel_operation_elipsoid_implementation(&mut self, payload: &VoxelOperationElipsoid_ImplementationPayload) {}
+    /// Called when visiting RevertBoulderBroadcast event.
+    fn visit_revert_boulder_broadcast(&mut self, payload: &RevertBoulderBroadcastPayload) {}
+    /// Called when visiting CreateSafeZone_Implementation event.
+    fn visit_create_safe_zone_implementation(&mut self, payload: &CreateSafeZone_ImplementationPayload) {}
+    /// Called when visiting DeleteSafeZone_Implementation event.
+    fn visit_delete_safe_zone_implementation(&mut self, payload: &DeleteSafeZone_ImplementationPayload) {}
+    /// Called when visiting UpdateSafeZone_Implementation event.
+    fn visit_update_safe_zone_implementation(&mut self, payload: &UpdateSafeZone_ImplementationPayload) {}
+    /// Called when visiting UpdateSafeZonePlayer_Implementation event.
+    fn visit_update_safe_zone_player_implementation(&mut self, payload: &UpdateSafeZonePlayer_ImplementationPayload) {}
+    /// Called when visiting UpdateSafeZone_Broadcast event.
+    fn visit_update_safe_zone_broadcast(&mut self, payload: &UpdateSafeZone_BroadcastPayload) {}
+    /// Called when visiting UpdateSafeZone_ImplementationPlayer event.
+    fn visit_update_safe_zone_implementation_player(&mut self, payload: &UpdateSafeZone_ImplementationPlayerPayload) {}
+    /// Called when visiting UpdateSafeZoneRadius_ImplementationPlayer event.
+    fn visit_update_safe_zone_radius_implementation_player(&mut self, payload: &UpdateSafeZoneRadius_ImplementationPlayerPayload) {}
+    /// Called when visiting UpdateGlobalSafeZone_Implementation event.
+    fn visit_update_global_safe_zone_implementation(&mut self, payload: &UpdateGlobalSafeZone_ImplementationPayload) {}
+    /// Called when visiting DisableItemsInSector event.
+    fn visit_disable_items_in_sector(&mut self, payload: &DisableItemsInSectorPayload) {}
+    /// Called when visiting DoDamageSlimBlockBatch event.
+    fn visit_do_damage_slim_block_batch(&mut self, payload: &DoDamageSlimBlockBatchPayload) {}
+    /// Called when visiting DoDamageSlimBlock event.
+    fn visit_do_damage_slim_block(&mut self, payload: &DoDamageSlimBlockPayload) {}
+    /// Called when visiting GetActiveContractsStatic event (no payload).
+    fn visit_get_active_contracts_static(&mut self) {}
+    /// Called when visiting AbandonContractStatic event.
+    fn visit_abandon_contract_static(&mut self, payload: &AbandonContractStaticPayload) {}
+    /// Called when visiting ReceiveActiveContractsStatic event.
+    fn visit_receive_active_contracts_static(&mut self, payload: &ReceiveActiveContractsStaticPayload) {}
+    /// Called when visiting ReceiveAbandonContractStatic event.
+    fn visit_receive_abandon_contract_static(&mut self, payload: &ReceiveAbandonContractStaticPayload) {}
+    /// Called when visiting OpenEditorFailure event (no payload).
+    fn visit_open_editor_failure(&mut self) {}
+    /// Called when visiting NotifyAboutMissingDLC event.
+    fn visit_notify_about_missing_dlc(&mut self, payload: &NotifyAboutMissingDLCPayload) {}
+    /// Called when visiting OnReserveEntityRequest event.
+    fn visit_on_reserve_entity_request(&mut self, payload: &OnReserveEntityRequestPayload) {}
+    /// Called when visiting OnReserveEntitySuccess event.
+    fn visit_on_reserve_entity_success(&mut self, payload: &OnReserveEntitySuccessPayload) {}
+    /// Called when visiting OnReserveEntityFailure event.
+    fn visit_on_reserve_entity_failure(&mut self, payload: &OnReserveEntityFailurePayload) {}
+    /// Called when visiting OnReserveEnvironmentItemRequest event.
+    fn visit_on_reserve_environment_item_request(&mut self, payload: &OnReserveEnvironmentItemRequestPayload) {}
+    /// Called when visiting OnReserveEnvironmentItemSuccess event.
+    fn visit_on_reserve_environment_item_success(&mut self, payload: &OnReserveEnvironmentItemSuccessPayload) {}
+    /// Called when visiting OnReserveEnvironmentItemFailure event.
+    fn visit_on_reserve_environment_item_failure(&mut self, payload: &OnReserveEnvironmentItemFailurePayload) {}
+    /// Called when visiting OnReserveVoxelPositionRequest event.
+    fn visit_on_reserve_voxel_position_request(&mut self, payload: &OnReserveVoxelPositionRequestPayload) {}
+    /// Called when visiting OnReserveVoxelPositionSuccess event.
+    fn visit_on_reserve_voxel_position_success(&mut self, payload: &OnReserveVoxelPositionSuccessPayload) {}
+    /// Called when visiting OnReserveVoxelPositionFailure event.
+    fn visit_on_reserve_voxel_position_failure(&mut self, payload: &OnReserveVoxelPositionFailurePayload) {}
+    /// Called when visiting OnReserveAreaRequest event.
+    fn visit_on_reserve_area_request(&mut self, payload: &OnReserveAreaRequestPayload) {}
+    /// Called when visiting OnReserveAreaSuccess event.
+    fn visit_on_reserve_area_success(&mut self, payload: &OnReserveAreaSuccessPayload) {}
+    /// Called when visiting OnReserveAreaFailure event.
+    fn visit_on_reserve_area_failure(&mut self, payload: &OnReserveAreaFailurePayload) {}
+    /// Called when visiting OnReserveAreaAllSuccess event.
+    fn visit_on_reserve_area_all_success(&mut self, payload: &OnReserveAreaAllSuccessPayload) {}
+    /// Called when visiting OnReserveAreaCancel event.
+    fn visit_on_reserve_area_cancel(&mut self, payload: &OnReserveAreaCancelPayload) {}
     /// Called when visiting ShareBlueprintRequest event.
     fn visit_share_blueprint_request(&mut self, payload: &ShareBlueprintRequestPayload) {}
     /// Called when visiting ShareBlueprintRequestClient event.
@@ -5601,258 +5877,12 @@ pub trait StaticEventVisitor {
     fn visit_server_limit_info_implementation(&mut self) {}
     /// Called when visiting ServerLimitInfo_Received event.
     fn visit_server_limit_info_received(&mut self, payload: &ServerLimitInfo_ReceivedPayload) {}
-    /// Called when visiting OnPerformJump event.
-    fn visit_on_perform_jump(&mut self, payload: &OnPerformJumpPayload) {}
-    /// Called when visiting TradeRequest_Server event.
-    fn visit_trade_request_server(&mut self, payload: &TradeRequest_ServerPayload) {}
-    /// Called when visiting TradeRequest_StartTrade event.
-    fn visit_trade_request_start_trade(&mut self, payload: &TradeRequest_StartTradePayload) {}
-    /// Called when visiting TradeRequest_StartTrade_Server event.
-    fn visit_trade_request_start_trade_server(&mut self, payload: &TradeRequest_StartTrade_ServerPayload) {}
-    /// Called when visiting TradeRequest_Response event.
-    fn visit_trade_request_response(&mut self, payload: &TradeRequest_ResponsePayload) {}
-    /// Called when visiting TradeRequest_Cancel event (no payload).
-    fn visit_trade_request_cancel(&mut self) {}
-    /// Called when visiting SubmitTradingOffer_Server event.
-    fn visit_submit_trading_offer_server(&mut self, payload: &SubmitTradingOffer_ServerPayload) {}
-    /// Called when visiting SubmitTradingOffer_ClientRecieve event.
-    fn visit_submit_trading_offer_client_recieve(&mut self, payload: &SubmitTradingOffer_ClientRecievePayload) {}
-    /// Called when visiting SubmitTradingOffer_Abort event (no payload).
-    fn visit_submit_trading_offer_abort(&mut self) {}
-    /// Called when visiting SubmitTradingOffer_Cancel event (no payload).
-    fn visit_submit_trading_offer_cancel(&mut self) {}
-    /// Called when visiting AcceptOffer_Server event.
-    fn visit_accept_offer_server(&mut self, payload: &AcceptOffer_ServerPayload) {}
-    /// Called when visiting AcceptOffer_ClientRecieve event.
-    fn visit_accept_offer_client_recieve(&mut self, payload: &AcceptOffer_ClientRecievePayload) {}
-    /// Called when visiting CoordSysCreated_Client event.
-    fn visit_coord_sys_created_client(&mut self, payload: &CoordSysCreated_ClientPayload) {}
-    /// Called when visiting CoorSysRemoved_Client event.
-    fn visit_coor_sys_removed_client(&mut self, payload: &CoorSysRemoved_ClientPayload) {}
-    /// Called when visiting Save event.
-    fn visit_save(&mut self, payload: &SavePayload) {}
-    /// Called when visiting Stop event (no payload).
-    fn visit_stop(&mut self) {}
-    /// Called when visiting OnFactionMessageRequest event.
-    fn visit_on_faction_message_request(&mut self, payload: &OnFactionMessageRequestPayload) {}
-    /// Called when visiting OnFactionMessageSuccess event.
-    fn visit_on_faction_message_success(&mut self, payload: &OnFactionMessageSuccessPayload) {}
-    /// Called when visiting CreateAccount_Clients event.
-    fn visit_create_account_clients(&mut self, payload: &CreateAccount_ClientsPayload) {}
-    /// Called when visiting RemoveAccount_Clients event.
-    fn visit_remove_account_clients(&mut self, payload: &RemoveAccount_ClientsPayload) {}
-    /// Called when visiting MyBankingSystem_UnlockAchievementForClient event.
-    fn visit_my_banking_system_unlock_achievement_for_client(&mut self, payload: &MyBankingSystem_UnlockAchievementForClientPayload) {}
-    /// Called when visiting ChangeBalanceBroadcastToClients event.
-    fn visit_change_balance_broadcast_to_clients(&mut self, payload: &ChangeBalanceBroadcastToClientsPayload) {}
-    /// Called when visiting RequestWithdraw_Server event.
-    fn visit_request_withdraw_server(&mut self, payload: &RequestWithdraw_ServerPayload) {}
-    /// Called when visiting RequestDeposit_Server event.
-    fn visit_request_deposit_server(&mut self, payload: &RequestDeposit_ServerPayload) {}
-    /// Called when visiting RequestTransfer_BroadcastToClients event.
-    fn visit_request_transfer_broadcast_to_clients(&mut self, payload: &RequestTransfer_BroadcastToClientsPayload) {}
-    /// Called when visiting ResetAssetModifierSync event.
-    fn visit_reset_asset_modifier_sync(&mut self, payload: &ResetAssetModifierSyncPayload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_377 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_377(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_377Payload) {}
-    /// Called when visiting MyAssetModifierComponent_ApplyAssetModifierSync_378 event.
-    fn visit_my_asset_modifier_component_apply_asset_modifier_sync_378(&mut self, payload: &MyAssetModifierComponent_ApplyAssetModifierSync_378Payload) {}
-    /// Called when visiting OnTargetRequestServer event.
-    fn visit_on_target_request_server(&mut self, payload: &OnTargetRequestServerPayload) {}
-    /// Called when visiting RequestReleaseTargetLock event (no payload).
-    fn visit_request_release_target_lock(&mut self) {}
-    /// Called when visiting LooseLockOnClient event (no payload).
-    fn visit_loose_lock_on_client(&mut self) {}
-    /// Called when visiting OnTargetLostClient event (no payload).
-    fn visit_on_target_lost_client(&mut self) {}
-    /// Called when visiting RequestUseMessageStatic event.
-    fn visit_request_use_message_static(&mut self, payload: &RequestUseMessageStaticPayload) {}
-    /// Called when visiting UseSuccessStatic event.
-    fn visit_use_success_static(&mut self, payload: &UseSuccessStaticPayload) {}
-    /// Called when visiting UseFailureStatic event.
-    fn visit_use_failure_static(&mut self, payload: &UseFailureStaticPayload) {}
-    /// Called when visiting OnInventoryFilled event (no payload).
-    fn visit_on_inventory_filled(&mut self) {}
-    /// Called when visiting OnShootMissile event.
-    fn visit_on_shoot_missile(&mut self, payload: &OnShootMissilePayload) {}
-    /// Called when visiting OnRemoveMissile event.
-    fn visit_on_remove_missile(&mut self, payload: &OnRemoveMissilePayload) {}
-    /// Called when visiting DrawTrajectoryOnClient event.
-    fn visit_draw_trajectory_on_client(&mut self, payload: &DrawTrajectoryOnClientPayload) {}
-    /// Called when visiting OnChangeTrajectory event.
-    fn visit_on_change_trajectory(&mut self, payload: &OnChangeTrajectoryPayload) {}
-    /// Called when visiting SendTransferRequestMessage event.
-    fn visit_send_transfer_request_message(&mut self, payload: &SendTransferRequestMessagePayload) {}
-    /// Called when visiting ReceiveTransferRequestMessage event.
-    fn visit_receive_transfer_request_message(&mut self, payload: &ReceiveTransferRequestMessagePayload) {}
-    /// Called when visiting ReceiveTransferNotPossibleMessage event.
-    fn visit_receive_transfer_not_possible_message(&mut self, payload: &ReceiveTransferNotPossibleMessagePayload) {}
-    /// Called when visiting ClaimNPCGrid event.
-    fn visit_claim_npcgrid(&mut self, payload: &ClaimNPCGridPayload) {}
-    /// Called when visiting TransferBlocksBuiltByID event.
-    fn visit_transfer_blocks_built_by_id(&mut self, payload: &TransferBlocksBuiltByIDPayload) {}
-    /// Called when visiting TransferBlocksBuiltByIDClient event.
-    fn visit_transfer_blocks_built_by_idclient(&mut self, payload: &TransferBlocksBuiltByIDClientPayload) {}
-    /// Called when visiting RemoveBlocksBuiltByID event.
-    fn visit_remove_blocks_built_by_id(&mut self, payload: &RemoveBlocksBuiltByIDPayload) {}
-    /// Called when visiting SetGridNameFromServer event.
-    fn visit_set_grid_name_from_server(&mut self, payload: &SetGridNameFromServerPayload) {}
-    /// Called when visiting SpawnEventInit event (no payload).
-    fn visit_spawn_event_init(&mut self) {}
-    /// Called when visiting SpawnGroup event.
-    fn visit_spawn_group(&mut self, payload: &SpawnGroupPayload) {}
-    /// Called when visiting RequestMarketWatchItemsServer event.
-    fn visit_request_market_watch_items_server(&mut self, payload: &RequestMarketWatchItemsServerPayload) {}
-    /// Called when visiting ReceiveMarketWatchItemsClient event.
-    fn visit_receive_market_watch_items_client(&mut self, payload: &ReceiveMarketWatchItemsClientPayload) {}
-    /// Called when visiting OnCreativeToolsEnabled event.
-    fn visit_on_creative_tools_enabled(&mut self, payload: &OnCreativeToolsEnabledPayload) {}
-    /// Called when visiting OnCrash event (no payload).
-    fn visit_on_crash(&mut self) {}
-    /// Called when visiting HitIndicatorActivationInternal event.
-    fn visit_hit_indicator_activation_internal(&mut self, payload: &HitIndicatorActivationInternalPayload) {}
-    /// Called when visiting OnPromoteLevelSet event.
-    fn visit_on_promote_level_set(&mut self, payload: &OnPromoteLevelSetPayload) {}
-    /// Called when visiting OnServerSaving event.
-    fn visit_on_server_saving(&mut self, payload: &OnServerSavingPayload) {}
-    /// Called when visiting OnServerPerformanceWarning event.
-    fn visit_on_server_performance_warning(&mut self, payload: &OnServerPerformanceWarningPayload) {}
-    /// Called when visiting SetSpectatorPositionFromServer event.
-    fn visit_set_spectator_position_from_server(&mut self, payload: &SetSpectatorPositionFromServerPayload) {}
-    /// Called when visiting SetSpectatorFromServer event (no payload).
-    fn visit_set_spectator_from_server(&mut self) {}
-    /// Called when visiting CameraControllerSet event.
-    fn visit_camera_controller_set(&mut self, payload: &CameraControllerSetPayload) {}
-    /// Called when visiting OnRequestVicinityInformation event.
-    fn visit_on_request_vicinity_information(&mut self, payload: &OnRequestVicinityInformationPayload) {}
-    /// Called when visiting OnVicinityInformation event.
-    fn visit_on_vicinity_information(&mut self, payload: &OnVicinityInformationPayload) {}
-    /// Called when visiting PersistEncounterClient event.
-    fn visit_persist_encounter_client(&mut self, payload: &PersistEncounterClientPayload) {}
-    /// Called when visiting EncounterSpawned event.
-    fn visit_encounter_spawned(&mut self, payload: &EncounterSpawnedPayload) {}
-    /// Called when visiting AddExistingObjectsSeed event.
-    fn visit_add_existing_objects_seed(&mut self, payload: &AddExistingObjectsSeedPayload) {}
-    /// Called when visiting CreateParticleEffectOnEntityEvent event.
-    fn visit_create_particle_effect_on_entity_event(&mut self, payload: &CreateParticleEffectOnEntityEventPayload) {}
-    /// Called when visiting RequestGridSpawn event.
-    fn visit_request_grid_spawn(&mut self, payload: &RequestGridSpawnPayload) {}
-    /// Called when visiting SpawnGridReply event.
-    fn visit_spawn_grid_reply(&mut self, payload: &SpawnGridReplyPayload) {}
-    /// Called when visiting ShowMessageGridsRemovedWhilePasting event (no payload).
-    fn visit_show_message_grids_removed_while_pasting(&mut self) {}
-    /// Called when visiting TryPasteGrid_Implementation event.
-    fn visit_try_paste_grid_implementation(&mut self, payload: &TryPasteGrid_ImplementationPayload) {}
-    /// Called when visiting ShowPasteFailedOperation event (no payload).
-    fn visit_show_paste_failed_operation(&mut self) {}
-    /// Called when visiting SendHudNotificationAfterPaste event (no payload).
-    fn visit_send_hud_notification_after_paste(&mut self) {}
-    /// Called when visiting OnChangeShareRequest event.
-    fn visit_on_change_share_request(&mut self, payload: &OnChangeShareRequestPayload) {}
-    /// Called when visiting AddChangeOwnersRequestServerside event.
-    fn visit_add_change_owners_request_serverside(&mut self, payload: &AddChangeOwnersRequestServersidePayload) {}
-    /// Called when visiting OnChangeShareModeSuccess event.
-    fn visit_on_change_share_mode_success(&mut self, payload: &OnChangeShareModeSuccessPayload) {}
-    /// Called when visiting RemoveAllOwnershipChangeRequests event.
-    fn visit_remove_all_ownership_change_requests(&mut self, payload: &RemoveAllOwnershipChangeRequestsPayload) {}
-    /// Called when visiting RemoveSpecificOwnershipChangeRequests event.
-    fn visit_remove_specific_ownership_change_requests(&mut self, payload: &RemoveSpecificOwnershipChangeRequestsPayload) {}
-    /// Called when visiting OnChangeOwnersRequestConfirmation event.
-    fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
-    /// Called when visiting CancelPendingTransferRequestsServerSide event.
-    fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_431 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_431(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_431Payload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_432 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_432(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_432Payload) {}
-    /// Called when visiting AddChangeOwnersRequestClientside event.
-    fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
-    /// Called when visiting RemoveOwnershipChangeRequests event.
-    fn visit_remove_ownership_change_requests(&mut self, payload: &RemoveOwnershipChangeRequestsPayload) {}
-    /// Called when visiting OnChangeOwnersSuccess event.
-    fn visit_on_change_owners_success(&mut self, payload: &OnChangeOwnersSuccessPayload) {}
-    /// Called when visiting OnEntityCloseRequest event.
-    fn visit_on_entity_close_request(&mut self, payload: &OnEntityCloseRequestPayload) {}
-    /// Called when visiting ForceCloseEntityOnClients event.
-    fn visit_force_close_entity_on_clients(&mut self, payload: &ForceCloseEntityOnClientsPayload) {}
-    /// Called when visiting RequestSpawnCreative_Implementation event.
-    fn visit_request_spawn_creative_implementation(&mut self, payload: &RequestSpawnCreative_ImplementationPayload) {}
-    /// Called when visiting StopShootingRequest event.
-    fn visit_stop_shooting_request(&mut self, payload: &StopShootingRequestPayload) {}
-    /// Called when visiting VoxelOperationCapsule_Implementation event.
-    fn visit_voxel_operation_capsule_implementation(&mut self, payload: &VoxelOperationCapsule_ImplementationPayload) {}
-    /// Called when visiting VoxelOperationSphere_Implementation event.
-    fn visit_voxel_operation_sphere_implementation(&mut self, payload: &VoxelOperationSphere_ImplementationPayload) {}
-    /// Called when visiting VoxelOperationBox_Implementation event.
-    fn visit_voxel_operation_box_implementation(&mut self, payload: &VoxelOperationBox_ImplementationPayload) {}
-    /// Called when visiting VoxelOperationRamp_Implementation event.
-    fn visit_voxel_operation_ramp_implementation(&mut self, payload: &VoxelOperationRamp_ImplementationPayload) {}
-    /// Called when visiting VoxelOperationElipsoid_Implementation event.
-    fn visit_voxel_operation_elipsoid_implementation(&mut self, payload: &VoxelOperationElipsoid_ImplementationPayload) {}
-    /// Called when visiting RevertBoulderBroadcast event.
-    fn visit_revert_boulder_broadcast(&mut self, payload: &RevertBoulderBroadcastPayload) {}
-    /// Called when visiting CreateSafeZone_Implementation event.
-    fn visit_create_safe_zone_implementation(&mut self, payload: &CreateSafeZone_ImplementationPayload) {}
-    /// Called when visiting DeleteSafeZone_Implementation event.
-    fn visit_delete_safe_zone_implementation(&mut self, payload: &DeleteSafeZone_ImplementationPayload) {}
-    /// Called when visiting UpdateSafeZone_Implementation event.
-    fn visit_update_safe_zone_implementation(&mut self, payload: &UpdateSafeZone_ImplementationPayload) {}
-    /// Called when visiting UpdateSafeZonePlayer_Implementation event.
-    fn visit_update_safe_zone_player_implementation(&mut self, payload: &UpdateSafeZonePlayer_ImplementationPayload) {}
-    /// Called when visiting UpdateSafeZone_Broadcast event.
-    fn visit_update_safe_zone_broadcast(&mut self, payload: &UpdateSafeZone_BroadcastPayload) {}
-    /// Called when visiting UpdateSafeZone_ImplementationPlayer event.
-    fn visit_update_safe_zone_implementation_player(&mut self, payload: &UpdateSafeZone_ImplementationPlayerPayload) {}
-    /// Called when visiting UpdateSafeZoneRadius_ImplementationPlayer event.
-    fn visit_update_safe_zone_radius_implementation_player(&mut self, payload: &UpdateSafeZoneRadius_ImplementationPlayerPayload) {}
-    /// Called when visiting UpdateGlobalSafeZone_Implementation event.
-    fn visit_update_global_safe_zone_implementation(&mut self, payload: &UpdateGlobalSafeZone_ImplementationPayload) {}
-    /// Called when visiting DisableItemsInSector event.
-    fn visit_disable_items_in_sector(&mut self, payload: &DisableItemsInSectorPayload) {}
-    /// Called when visiting DoDamageSlimBlockBatch event.
-    fn visit_do_damage_slim_block_batch(&mut self, payload: &DoDamageSlimBlockBatchPayload) {}
-    /// Called when visiting DoDamageSlimBlock event.
-    fn visit_do_damage_slim_block(&mut self, payload: &DoDamageSlimBlockPayload) {}
-    /// Called when visiting GetActiveContractsStatic event (no payload).
-    fn visit_get_active_contracts_static(&mut self) {}
-    /// Called when visiting AbandonContractStatic event.
-    fn visit_abandon_contract_static(&mut self, payload: &AbandonContractStaticPayload) {}
-    /// Called when visiting ReceiveActiveContractsStatic event.
-    fn visit_receive_active_contracts_static(&mut self, payload: &ReceiveActiveContractsStaticPayload) {}
-    /// Called when visiting ReceiveAbandonContractStatic event.
-    fn visit_receive_abandon_contract_static(&mut self, payload: &ReceiveAbandonContractStaticPayload) {}
-    /// Called when visiting OpenEditorFailure event (no payload).
-    fn visit_open_editor_failure(&mut self) {}
-    /// Called when visiting NotifyAboutMissingDLC event.
-    fn visit_notify_about_missing_dlc(&mut self, payload: &NotifyAboutMissingDLCPayload) {}
-    /// Called when visiting OnReserveEntityRequest event.
-    fn visit_on_reserve_entity_request(&mut self, payload: &OnReserveEntityRequestPayload) {}
-    /// Called when visiting OnReserveEntitySuccess event.
-    fn visit_on_reserve_entity_success(&mut self, payload: &OnReserveEntitySuccessPayload) {}
-    /// Called when visiting OnReserveEntityFailure event.
-    fn visit_on_reserve_entity_failure(&mut self, payload: &OnReserveEntityFailurePayload) {}
-    /// Called when visiting OnReserveEnvironmentItemRequest event.
-    fn visit_on_reserve_environment_item_request(&mut self, payload: &OnReserveEnvironmentItemRequestPayload) {}
-    /// Called when visiting OnReserveEnvironmentItemSuccess event.
-    fn visit_on_reserve_environment_item_success(&mut self, payload: &OnReserveEnvironmentItemSuccessPayload) {}
-    /// Called when visiting OnReserveEnvironmentItemFailure event.
-    fn visit_on_reserve_environment_item_failure(&mut self, payload: &OnReserveEnvironmentItemFailurePayload) {}
-    /// Called when visiting OnReserveVoxelPositionRequest event.
-    fn visit_on_reserve_voxel_position_request(&mut self, payload: &OnReserveVoxelPositionRequestPayload) {}
-    /// Called when visiting OnReserveVoxelPositionSuccess event.
-    fn visit_on_reserve_voxel_position_success(&mut self, payload: &OnReserveVoxelPositionSuccessPayload) {}
-    /// Called when visiting OnReserveVoxelPositionFailure event.
-    fn visit_on_reserve_voxel_position_failure(&mut self, payload: &OnReserveVoxelPositionFailurePayload) {}
-    /// Called when visiting OnReserveAreaRequest event.
-    fn visit_on_reserve_area_request(&mut self, payload: &OnReserveAreaRequestPayload) {}
-    /// Called when visiting OnReserveAreaSuccess event.
-    fn visit_on_reserve_area_success(&mut self, payload: &OnReserveAreaSuccessPayload) {}
-    /// Called when visiting OnReserveAreaFailure event.
-    fn visit_on_reserve_area_failure(&mut self, payload: &OnReserveAreaFailurePayload) {}
-    /// Called when visiting OnReserveAreaAllSuccess event.
-    fn visit_on_reserve_area_all_success(&mut self, payload: &OnReserveAreaAllSuccessPayload) {}
-    /// Called when visiting OnReserveAreaCancel event.
-    fn visit_on_reserve_area_cancel(&mut self, payload: &OnReserveAreaCancelPayload) {}
+    /// Called when visiting RequestPingGrid event.
+    fn visit_request_ping_grid(&mut self, payload: &RequestPingGridPayload) {}
+    /// Called when visiting NotifyPingGridFailed_NotBigOwner event (no payload).
+    fn visit_notify_ping_grid_failed_not_big_owner(&mut self) {}
+    /// Called when visiting NotifyPingGridFailed_ConnectedToHostile event (no payload).
+    fn visit_notify_ping_grid_failed_connected_to_hostile(&mut self) {}
     /// Called when visiting OnCommandReceived event.
     fn visit_on_command_received(&mut self, payload: &OnCommandReceivedPayload) {}
     /// Called when visiting OnSyncCooldownRequest event (no payload).
@@ -6189,6 +6219,132 @@ impl StaticEventPayload {
             Self::RemoveFloating_Implementation => visitor.visit_remove_floating_implementation(),
             Self::RemoveCargoBags_Implementation => visitor.visit_remove_cargo_bags_implementation(),
             Self::StopEntities_Implementation => visitor.visit_stop_entities_implementation(),
+            Self::OnPerformJump(payload) => visitor.visit_on_perform_jump(payload),
+            Self::TradeRequest_Server(payload) => visitor.visit_trade_request_server(payload),
+            Self::TradeRequest_StartTrade(payload) => visitor.visit_trade_request_start_trade(payload),
+            Self::TradeRequest_StartTrade_Server(payload) => visitor.visit_trade_request_start_trade_server(payload),
+            Self::TradeRequest_Response(payload) => visitor.visit_trade_request_response(payload),
+            Self::TradeRequest_Cancel => visitor.visit_trade_request_cancel(),
+            Self::SubmitTradingOffer_Server(payload) => visitor.visit_submit_trading_offer_server(payload),
+            Self::SubmitTradingOffer_ClientRecieve(payload) => visitor.visit_submit_trading_offer_client_recieve(payload),
+            Self::SubmitTradingOffer_Abort => visitor.visit_submit_trading_offer_abort(),
+            Self::SubmitTradingOffer_Cancel => visitor.visit_submit_trading_offer_cancel(),
+            Self::AcceptOffer_Server(payload) => visitor.visit_accept_offer_server(payload),
+            Self::AcceptOffer_ClientRecieve(payload) => visitor.visit_accept_offer_client_recieve(payload),
+            Self::CoordSysCreated_Client(payload) => visitor.visit_coord_sys_created_client(payload),
+            Self::CoorSysRemoved_Client(payload) => visitor.visit_coor_sys_removed_client(payload),
+            Self::Save(payload) => visitor.visit_save(payload),
+            Self::Stop => visitor.visit_stop(),
+            Self::OnFactionMessageRequest(payload) => visitor.visit_on_faction_message_request(payload),
+            Self::OnFactionMessageSuccess(payload) => visitor.visit_on_faction_message_success(payload),
+            Self::CreateAccount_Clients(payload) => visitor.visit_create_account_clients(payload),
+            Self::RemoveAccount_Clients(payload) => visitor.visit_remove_account_clients(payload),
+            Self::MyBankingSystem_UnlockAchievementForClient(payload) => visitor.visit_my_banking_system_unlock_achievement_for_client(payload),
+            Self::ChangeBalanceBroadcastToClients(payload) => visitor.visit_change_balance_broadcast_to_clients(payload),
+            Self::RequestWithdraw_Server(payload) => visitor.visit_request_withdraw_server(payload),
+            Self::RequestDeposit_Server(payload) => visitor.visit_request_deposit_server(payload),
+            Self::RequestTransfer_BroadcastToClients(payload) => visitor.visit_request_transfer_broadcast_to_clients(payload),
+            Self::ResetAssetModifierSync(payload) => visitor.visit_reset_asset_modifier_sync(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_299(payload),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_300(payload),
+            Self::OnTargetRequestServer(payload) => visitor.visit_on_target_request_server(payload),
+            Self::RequestReleaseTargetLock => visitor.visit_request_release_target_lock(),
+            Self::LooseLockOnClient => visitor.visit_loose_lock_on_client(),
+            Self::OnTargetLostClient => visitor.visit_on_target_lost_client(),
+            Self::RequestUseMessageStatic(payload) => visitor.visit_request_use_message_static(payload),
+            Self::UseSuccessStatic(payload) => visitor.visit_use_success_static(payload),
+            Self::UseFailureStatic(payload) => visitor.visit_use_failure_static(payload),
+            Self::OnInventoryFilled => visitor.visit_on_inventory_filled(),
+            Self::OnShootMissile(payload) => visitor.visit_on_shoot_missile(payload),
+            Self::OnRemoveMissile(payload) => visitor.visit_on_remove_missile(payload),
+            Self::DrawTrajectoryOnClient(payload) => visitor.visit_draw_trajectory_on_client(payload),
+            Self::OnChangeTrajectory(payload) => visitor.visit_on_change_trajectory(payload),
+            Self::SendTransferRequestMessage(payload) => visitor.visit_send_transfer_request_message(payload),
+            Self::ReceiveTransferRequestMessage(payload) => visitor.visit_receive_transfer_request_message(payload),
+            Self::ReceiveTransferNotPossibleMessage(payload) => visitor.visit_receive_transfer_not_possible_message(payload),
+            Self::ClaimNPCGrid(payload) => visitor.visit_claim_npcgrid(payload),
+            Self::TransferBlocksBuiltByID(payload) => visitor.visit_transfer_blocks_built_by_id(payload),
+            Self::TransferBlocksBuiltByIDClient(payload) => visitor.visit_transfer_blocks_built_by_idclient(payload),
+            Self::RemoveBlocksBuiltByID(payload) => visitor.visit_remove_blocks_built_by_id(payload),
+            Self::SetGridNameFromServer(payload) => visitor.visit_set_grid_name_from_server(payload),
+            Self::SpawnEventInit => visitor.visit_spawn_event_init(),
+            Self::SpawnGroup(payload) => visitor.visit_spawn_group(payload),
+            Self::RequestMarketWatchItemsServer(payload) => visitor.visit_request_market_watch_items_server(payload),
+            Self::ReceiveMarketWatchItemsClient(payload) => visitor.visit_receive_market_watch_items_client(payload),
+            Self::OnCreativeToolsEnabled(payload) => visitor.visit_on_creative_tools_enabled(payload),
+            Self::OnCrash => visitor.visit_on_crash(),
+            Self::HitIndicatorActivationInternal(payload) => visitor.visit_hit_indicator_activation_internal(payload),
+            Self::OnPromoteLevelSet(payload) => visitor.visit_on_promote_level_set(payload),
+            Self::OnServerSaving(payload) => visitor.visit_on_server_saving(payload),
+            Self::OnServerPerformanceWarning(payload) => visitor.visit_on_server_performance_warning(payload),
+            Self::SetSpectatorPositionFromServer(payload) => visitor.visit_set_spectator_position_from_server(payload),
+            Self::SetSpectatorFromServer => visitor.visit_set_spectator_from_server(),
+            Self::CameraControllerSet(payload) => visitor.visit_camera_controller_set(payload),
+            Self::OnRequestVicinityInformation(payload) => visitor.visit_on_request_vicinity_information(payload),
+            Self::OnVicinityInformation(payload) => visitor.visit_on_vicinity_information(payload),
+            Self::PersistEncounterClient(payload) => visitor.visit_persist_encounter_client(payload),
+            Self::EncounterSpawned(payload) => visitor.visit_encounter_spawned(payload),
+            Self::AddExistingObjectsSeed(payload) => visitor.visit_add_existing_objects_seed(payload),
+            Self::CreateParticleEffectOnEntityEvent(payload) => visitor.visit_create_particle_effect_on_entity_event(payload),
+            Self::RequestGridSpawn(payload) => visitor.visit_request_grid_spawn(payload),
+            Self::SpawnGridReply(payload) => visitor.visit_spawn_grid_reply(payload),
+            Self::ShowMessageGridsRemovedWhilePasting => visitor.visit_show_message_grids_removed_while_pasting(),
+            Self::TryPasteGrid_Implementation(payload) => visitor.visit_try_paste_grid_implementation(payload),
+            Self::ShowPasteFailedOperation => visitor.visit_show_paste_failed_operation(),
+            Self::SendHudNotificationAfterPaste => visitor.visit_send_hud_notification_after_paste(),
+            Self::OnChangeShareRequest(payload) => visitor.visit_on_change_share_request(payload),
+            Self::AddChangeOwnersRequestServerside(payload) => visitor.visit_add_change_owners_request_serverside(payload),
+            Self::OnChangeShareModeSuccess(payload) => visitor.visit_on_change_share_mode_success(payload),
+            Self::RemoveAllOwnershipChangeRequests(payload) => visitor.visit_remove_all_ownership_change_requests(payload),
+            Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
+            Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
+            Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_353(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_353(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_354(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_354(payload),
+            Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
+            Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
+            Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
+            Self::OnEntityCloseRequest(payload) => visitor.visit_on_entity_close_request(payload),
+            Self::ForceCloseEntityOnClients(payload) => visitor.visit_force_close_entity_on_clients(payload),
+            Self::RequestSpawnCreative_Implementation(payload) => visitor.visit_request_spawn_creative_implementation(payload),
+            Self::StopShootingRequest(payload) => visitor.visit_stop_shooting_request(payload),
+            Self::VoxelOperationCapsule_Implementation(payload) => visitor.visit_voxel_operation_capsule_implementation(payload),
+            Self::VoxelOperationSphere_Implementation(payload) => visitor.visit_voxel_operation_sphere_implementation(payload),
+            Self::VoxelOperationBox_Implementation(payload) => visitor.visit_voxel_operation_box_implementation(payload),
+            Self::VoxelOperationRamp_Implementation(payload) => visitor.visit_voxel_operation_ramp_implementation(payload),
+            Self::VoxelOperationElipsoid_Implementation(payload) => visitor.visit_voxel_operation_elipsoid_implementation(payload),
+            Self::RevertBoulderBroadcast(payload) => visitor.visit_revert_boulder_broadcast(payload),
+            Self::CreateSafeZone_Implementation(payload) => visitor.visit_create_safe_zone_implementation(payload),
+            Self::DeleteSafeZone_Implementation(payload) => visitor.visit_delete_safe_zone_implementation(payload),
+            Self::UpdateSafeZone_Implementation(payload) => visitor.visit_update_safe_zone_implementation(payload),
+            Self::UpdateSafeZonePlayer_Implementation(payload) => visitor.visit_update_safe_zone_player_implementation(payload),
+            Self::UpdateSafeZone_Broadcast(payload) => visitor.visit_update_safe_zone_broadcast(payload),
+            Self::UpdateSafeZone_ImplementationPlayer(payload) => visitor.visit_update_safe_zone_implementation_player(payload),
+            Self::UpdateSafeZoneRadius_ImplementationPlayer(payload) => visitor.visit_update_safe_zone_radius_implementation_player(payload),
+            Self::UpdateGlobalSafeZone_Implementation(payload) => visitor.visit_update_global_safe_zone_implementation(payload),
+            Self::DisableItemsInSector(payload) => visitor.visit_disable_items_in_sector(payload),
+            Self::DoDamageSlimBlockBatch(payload) => visitor.visit_do_damage_slim_block_batch(payload),
+            Self::DoDamageSlimBlock(payload) => visitor.visit_do_damage_slim_block(payload),
+            Self::GetActiveContractsStatic => visitor.visit_get_active_contracts_static(),
+            Self::AbandonContractStatic(payload) => visitor.visit_abandon_contract_static(payload),
+            Self::ReceiveActiveContractsStatic(payload) => visitor.visit_receive_active_contracts_static(payload),
+            Self::ReceiveAbandonContractStatic(payload) => visitor.visit_receive_abandon_contract_static(payload),
+            Self::OpenEditorFailure => visitor.visit_open_editor_failure(),
+            Self::NotifyAboutMissingDLC(payload) => visitor.visit_notify_about_missing_dlc(payload),
+            Self::OnReserveEntityRequest(payload) => visitor.visit_on_reserve_entity_request(payload),
+            Self::OnReserveEntitySuccess(payload) => visitor.visit_on_reserve_entity_success(payload),
+            Self::OnReserveEntityFailure(payload) => visitor.visit_on_reserve_entity_failure(payload),
+            Self::OnReserveEnvironmentItemRequest(payload) => visitor.visit_on_reserve_environment_item_request(payload),
+            Self::OnReserveEnvironmentItemSuccess(payload) => visitor.visit_on_reserve_environment_item_success(payload),
+            Self::OnReserveEnvironmentItemFailure(payload) => visitor.visit_on_reserve_environment_item_failure(payload),
+            Self::OnReserveVoxelPositionRequest(payload) => visitor.visit_on_reserve_voxel_position_request(payload),
+            Self::OnReserveVoxelPositionSuccess(payload) => visitor.visit_on_reserve_voxel_position_success(payload),
+            Self::OnReserveVoxelPositionFailure(payload) => visitor.visit_on_reserve_voxel_position_failure(payload),
+            Self::OnReserveAreaRequest(payload) => visitor.visit_on_reserve_area_request(payload),
+            Self::OnReserveAreaSuccess(payload) => visitor.visit_on_reserve_area_success(payload),
+            Self::OnReserveAreaFailure(payload) => visitor.visit_on_reserve_area_failure(payload),
+            Self::OnReserveAreaAllSuccess(payload) => visitor.visit_on_reserve_area_all_success(payload),
+            Self::OnReserveAreaCancel(payload) => visitor.visit_on_reserve_area_cancel(payload),
             Self::ShareBlueprintRequest(payload) => visitor.visit_share_blueprint_request(payload),
             Self::ShareBlueprintRequestClient(payload) => visitor.visit_share_blueprint_request_client(payload),
             Self::VisitAllShopsInternal => visitor.visit_visit_all_shops_internal(),
@@ -6267,132 +6423,9 @@ impl StaticEventPayload {
             Self::NewNpcClickedInternal(payload) => visitor.visit_new_npc_clicked_internal(payload),
             Self::ServerLimitInfo_Implementation => visitor.visit_server_limit_info_implementation(),
             Self::ServerLimitInfo_Received(payload) => visitor.visit_server_limit_info_received(payload),
-            Self::OnPerformJump(payload) => visitor.visit_on_perform_jump(payload),
-            Self::TradeRequest_Server(payload) => visitor.visit_trade_request_server(payload),
-            Self::TradeRequest_StartTrade(payload) => visitor.visit_trade_request_start_trade(payload),
-            Self::TradeRequest_StartTrade_Server(payload) => visitor.visit_trade_request_start_trade_server(payload),
-            Self::TradeRequest_Response(payload) => visitor.visit_trade_request_response(payload),
-            Self::TradeRequest_Cancel => visitor.visit_trade_request_cancel(),
-            Self::SubmitTradingOffer_Server(payload) => visitor.visit_submit_trading_offer_server(payload),
-            Self::SubmitTradingOffer_ClientRecieve(payload) => visitor.visit_submit_trading_offer_client_recieve(payload),
-            Self::SubmitTradingOffer_Abort => visitor.visit_submit_trading_offer_abort(),
-            Self::SubmitTradingOffer_Cancel => visitor.visit_submit_trading_offer_cancel(),
-            Self::AcceptOffer_Server(payload) => visitor.visit_accept_offer_server(payload),
-            Self::AcceptOffer_ClientRecieve(payload) => visitor.visit_accept_offer_client_recieve(payload),
-            Self::CoordSysCreated_Client(payload) => visitor.visit_coord_sys_created_client(payload),
-            Self::CoorSysRemoved_Client(payload) => visitor.visit_coor_sys_removed_client(payload),
-            Self::Save(payload) => visitor.visit_save(payload),
-            Self::Stop => visitor.visit_stop(),
-            Self::OnFactionMessageRequest(payload) => visitor.visit_on_faction_message_request(payload),
-            Self::OnFactionMessageSuccess(payload) => visitor.visit_on_faction_message_success(payload),
-            Self::CreateAccount_Clients(payload) => visitor.visit_create_account_clients(payload),
-            Self::RemoveAccount_Clients(payload) => visitor.visit_remove_account_clients(payload),
-            Self::MyBankingSystem_UnlockAchievementForClient(payload) => visitor.visit_my_banking_system_unlock_achievement_for_client(payload),
-            Self::ChangeBalanceBroadcastToClients(payload) => visitor.visit_change_balance_broadcast_to_clients(payload),
-            Self::RequestWithdraw_Server(payload) => visitor.visit_request_withdraw_server(payload),
-            Self::RequestDeposit_Server(payload) => visitor.visit_request_deposit_server(payload),
-            Self::RequestTransfer_BroadcastToClients(payload) => visitor.visit_request_transfer_broadcast_to_clients(payload),
-            Self::ResetAssetModifierSync(payload) => visitor.visit_reset_asset_modifier_sync(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_377(payload),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378(payload) => visitor.visit_my_asset_modifier_component_apply_asset_modifier_sync_378(payload),
-            Self::OnTargetRequestServer(payload) => visitor.visit_on_target_request_server(payload),
-            Self::RequestReleaseTargetLock => visitor.visit_request_release_target_lock(),
-            Self::LooseLockOnClient => visitor.visit_loose_lock_on_client(),
-            Self::OnTargetLostClient => visitor.visit_on_target_lost_client(),
-            Self::RequestUseMessageStatic(payload) => visitor.visit_request_use_message_static(payload),
-            Self::UseSuccessStatic(payload) => visitor.visit_use_success_static(payload),
-            Self::UseFailureStatic(payload) => visitor.visit_use_failure_static(payload),
-            Self::OnInventoryFilled => visitor.visit_on_inventory_filled(),
-            Self::OnShootMissile(payload) => visitor.visit_on_shoot_missile(payload),
-            Self::OnRemoveMissile(payload) => visitor.visit_on_remove_missile(payload),
-            Self::DrawTrajectoryOnClient(payload) => visitor.visit_draw_trajectory_on_client(payload),
-            Self::OnChangeTrajectory(payload) => visitor.visit_on_change_trajectory(payload),
-            Self::SendTransferRequestMessage(payload) => visitor.visit_send_transfer_request_message(payload),
-            Self::ReceiveTransferRequestMessage(payload) => visitor.visit_receive_transfer_request_message(payload),
-            Self::ReceiveTransferNotPossibleMessage(payload) => visitor.visit_receive_transfer_not_possible_message(payload),
-            Self::ClaimNPCGrid(payload) => visitor.visit_claim_npcgrid(payload),
-            Self::TransferBlocksBuiltByID(payload) => visitor.visit_transfer_blocks_built_by_id(payload),
-            Self::TransferBlocksBuiltByIDClient(payload) => visitor.visit_transfer_blocks_built_by_idclient(payload),
-            Self::RemoveBlocksBuiltByID(payload) => visitor.visit_remove_blocks_built_by_id(payload),
-            Self::SetGridNameFromServer(payload) => visitor.visit_set_grid_name_from_server(payload),
-            Self::SpawnEventInit => visitor.visit_spawn_event_init(),
-            Self::SpawnGroup(payload) => visitor.visit_spawn_group(payload),
-            Self::RequestMarketWatchItemsServer(payload) => visitor.visit_request_market_watch_items_server(payload),
-            Self::ReceiveMarketWatchItemsClient(payload) => visitor.visit_receive_market_watch_items_client(payload),
-            Self::OnCreativeToolsEnabled(payload) => visitor.visit_on_creative_tools_enabled(payload),
-            Self::OnCrash => visitor.visit_on_crash(),
-            Self::HitIndicatorActivationInternal(payload) => visitor.visit_hit_indicator_activation_internal(payload),
-            Self::OnPromoteLevelSet(payload) => visitor.visit_on_promote_level_set(payload),
-            Self::OnServerSaving(payload) => visitor.visit_on_server_saving(payload),
-            Self::OnServerPerformanceWarning(payload) => visitor.visit_on_server_performance_warning(payload),
-            Self::SetSpectatorPositionFromServer(payload) => visitor.visit_set_spectator_position_from_server(payload),
-            Self::SetSpectatorFromServer => visitor.visit_set_spectator_from_server(),
-            Self::CameraControllerSet(payload) => visitor.visit_camera_controller_set(payload),
-            Self::OnRequestVicinityInformation(payload) => visitor.visit_on_request_vicinity_information(payload),
-            Self::OnVicinityInformation(payload) => visitor.visit_on_vicinity_information(payload),
-            Self::PersistEncounterClient(payload) => visitor.visit_persist_encounter_client(payload),
-            Self::EncounterSpawned(payload) => visitor.visit_encounter_spawned(payload),
-            Self::AddExistingObjectsSeed(payload) => visitor.visit_add_existing_objects_seed(payload),
-            Self::CreateParticleEffectOnEntityEvent(payload) => visitor.visit_create_particle_effect_on_entity_event(payload),
-            Self::RequestGridSpawn(payload) => visitor.visit_request_grid_spawn(payload),
-            Self::SpawnGridReply(payload) => visitor.visit_spawn_grid_reply(payload),
-            Self::ShowMessageGridsRemovedWhilePasting => visitor.visit_show_message_grids_removed_while_pasting(),
-            Self::TryPasteGrid_Implementation(payload) => visitor.visit_try_paste_grid_implementation(payload),
-            Self::ShowPasteFailedOperation => visitor.visit_show_paste_failed_operation(),
-            Self::SendHudNotificationAfterPaste => visitor.visit_send_hud_notification_after_paste(),
-            Self::OnChangeShareRequest(payload) => visitor.visit_on_change_share_request(payload),
-            Self::AddChangeOwnersRequestServerside(payload) => visitor.visit_add_change_owners_request_serverside(payload),
-            Self::OnChangeShareModeSuccess(payload) => visitor.visit_on_change_share_mode_success(payload),
-            Self::RemoveAllOwnershipChangeRequests(payload) => visitor.visit_remove_all_ownership_change_requests(payload),
-            Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
-            Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
-            Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_431(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_431(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_432(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_432(payload),
-            Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
-            Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
-            Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
-            Self::OnEntityCloseRequest(payload) => visitor.visit_on_entity_close_request(payload),
-            Self::ForceCloseEntityOnClients(payload) => visitor.visit_force_close_entity_on_clients(payload),
-            Self::RequestSpawnCreative_Implementation(payload) => visitor.visit_request_spawn_creative_implementation(payload),
-            Self::StopShootingRequest(payload) => visitor.visit_stop_shooting_request(payload),
-            Self::VoxelOperationCapsule_Implementation(payload) => visitor.visit_voxel_operation_capsule_implementation(payload),
-            Self::VoxelOperationSphere_Implementation(payload) => visitor.visit_voxel_operation_sphere_implementation(payload),
-            Self::VoxelOperationBox_Implementation(payload) => visitor.visit_voxel_operation_box_implementation(payload),
-            Self::VoxelOperationRamp_Implementation(payload) => visitor.visit_voxel_operation_ramp_implementation(payload),
-            Self::VoxelOperationElipsoid_Implementation(payload) => visitor.visit_voxel_operation_elipsoid_implementation(payload),
-            Self::RevertBoulderBroadcast(payload) => visitor.visit_revert_boulder_broadcast(payload),
-            Self::CreateSafeZone_Implementation(payload) => visitor.visit_create_safe_zone_implementation(payload),
-            Self::DeleteSafeZone_Implementation(payload) => visitor.visit_delete_safe_zone_implementation(payload),
-            Self::UpdateSafeZone_Implementation(payload) => visitor.visit_update_safe_zone_implementation(payload),
-            Self::UpdateSafeZonePlayer_Implementation(payload) => visitor.visit_update_safe_zone_player_implementation(payload),
-            Self::UpdateSafeZone_Broadcast(payload) => visitor.visit_update_safe_zone_broadcast(payload),
-            Self::UpdateSafeZone_ImplementationPlayer(payload) => visitor.visit_update_safe_zone_implementation_player(payload),
-            Self::UpdateSafeZoneRadius_ImplementationPlayer(payload) => visitor.visit_update_safe_zone_radius_implementation_player(payload),
-            Self::UpdateGlobalSafeZone_Implementation(payload) => visitor.visit_update_global_safe_zone_implementation(payload),
-            Self::DisableItemsInSector(payload) => visitor.visit_disable_items_in_sector(payload),
-            Self::DoDamageSlimBlockBatch(payload) => visitor.visit_do_damage_slim_block_batch(payload),
-            Self::DoDamageSlimBlock(payload) => visitor.visit_do_damage_slim_block(payload),
-            Self::GetActiveContractsStatic => visitor.visit_get_active_contracts_static(),
-            Self::AbandonContractStatic(payload) => visitor.visit_abandon_contract_static(payload),
-            Self::ReceiveActiveContractsStatic(payload) => visitor.visit_receive_active_contracts_static(payload),
-            Self::ReceiveAbandonContractStatic(payload) => visitor.visit_receive_abandon_contract_static(payload),
-            Self::OpenEditorFailure => visitor.visit_open_editor_failure(),
-            Self::NotifyAboutMissingDLC(payload) => visitor.visit_notify_about_missing_dlc(payload),
-            Self::OnReserveEntityRequest(payload) => visitor.visit_on_reserve_entity_request(payload),
-            Self::OnReserveEntitySuccess(payload) => visitor.visit_on_reserve_entity_success(payload),
-            Self::OnReserveEntityFailure(payload) => visitor.visit_on_reserve_entity_failure(payload),
-            Self::OnReserveEnvironmentItemRequest(payload) => visitor.visit_on_reserve_environment_item_request(payload),
-            Self::OnReserveEnvironmentItemSuccess(payload) => visitor.visit_on_reserve_environment_item_success(payload),
-            Self::OnReserveEnvironmentItemFailure(payload) => visitor.visit_on_reserve_environment_item_failure(payload),
-            Self::OnReserveVoxelPositionRequest(payload) => visitor.visit_on_reserve_voxel_position_request(payload),
-            Self::OnReserveVoxelPositionSuccess(payload) => visitor.visit_on_reserve_voxel_position_success(payload),
-            Self::OnReserveVoxelPositionFailure(payload) => visitor.visit_on_reserve_voxel_position_failure(payload),
-            Self::OnReserveAreaRequest(payload) => visitor.visit_on_reserve_area_request(payload),
-            Self::OnReserveAreaSuccess(payload) => visitor.visit_on_reserve_area_success(payload),
-            Self::OnReserveAreaFailure(payload) => visitor.visit_on_reserve_area_failure(payload),
-            Self::OnReserveAreaAllSuccess(payload) => visitor.visit_on_reserve_area_all_success(payload),
-            Self::OnReserveAreaCancel(payload) => visitor.visit_on_reserve_area_cancel(payload),
+            Self::RequestPingGrid(payload) => visitor.visit_request_ping_grid(payload),
+            Self::NotifyPingGridFailed_NotBigOwner => visitor.visit_notify_ping_grid_failed_not_big_owner(),
+            Self::NotifyPingGridFailed_ConnectedToHostile => visitor.visit_notify_ping_grid_failed_connected_to_hostile(),
             Self::OnCommandReceived(payload) => visitor.visit_on_command_received(payload),
             Self::OnSyncCooldownRequest => visitor.visit_on_sync_cooldown_request(),
             Self::OnSyncCooldownResponse(payload) => visitor.visit_on_sync_cooldown_response(payload),
@@ -6700,6 +6733,132 @@ impl StaticEventPayload {
             Self::RemoveFloating_Implementation => Some(StaticEventType::RemoveFloating_Implementation),
             Self::RemoveCargoBags_Implementation => Some(StaticEventType::RemoveCargoBags_Implementation),
             Self::StopEntities_Implementation => Some(StaticEventType::StopEntities_Implementation),
+            Self::OnPerformJump(_) => Some(StaticEventType::OnPerformJump),
+            Self::TradeRequest_Server(_) => Some(StaticEventType::TradeRequest_Server),
+            Self::TradeRequest_StartTrade(_) => Some(StaticEventType::TradeRequest_StartTrade),
+            Self::TradeRequest_StartTrade_Server(_) => Some(StaticEventType::TradeRequest_StartTrade_Server),
+            Self::TradeRequest_Response(_) => Some(StaticEventType::TradeRequest_Response),
+            Self::TradeRequest_Cancel => Some(StaticEventType::TradeRequest_Cancel),
+            Self::SubmitTradingOffer_Server(_) => Some(StaticEventType::SubmitTradingOffer_Server),
+            Self::SubmitTradingOffer_ClientRecieve(_) => Some(StaticEventType::SubmitTradingOffer_ClientRecieve),
+            Self::SubmitTradingOffer_Abort => Some(StaticEventType::SubmitTradingOffer_Abort),
+            Self::SubmitTradingOffer_Cancel => Some(StaticEventType::SubmitTradingOffer_Cancel),
+            Self::AcceptOffer_Server(_) => Some(StaticEventType::AcceptOffer_Server),
+            Self::AcceptOffer_ClientRecieve(_) => Some(StaticEventType::AcceptOffer_ClientRecieve),
+            Self::CoordSysCreated_Client(_) => Some(StaticEventType::CoordSysCreated_Client),
+            Self::CoorSysRemoved_Client(_) => Some(StaticEventType::CoorSysRemoved_Client),
+            Self::Save(_) => Some(StaticEventType::Save),
+            Self::Stop => Some(StaticEventType::Stop),
+            Self::OnFactionMessageRequest(_) => Some(StaticEventType::OnFactionMessageRequest),
+            Self::OnFactionMessageSuccess(_) => Some(StaticEventType::OnFactionMessageSuccess),
+            Self::CreateAccount_Clients(_) => Some(StaticEventType::CreateAccount_Clients),
+            Self::RemoveAccount_Clients(_) => Some(StaticEventType::RemoveAccount_Clients),
+            Self::MyBankingSystem_UnlockAchievementForClient(_) => Some(StaticEventType::MyBankingSystem_UnlockAchievementForClient),
+            Self::ChangeBalanceBroadcastToClients(_) => Some(StaticEventType::ChangeBalanceBroadcastToClients),
+            Self::RequestWithdraw_Server(_) => Some(StaticEventType::RequestWithdraw_Server),
+            Self::RequestDeposit_Server(_) => Some(StaticEventType::RequestDeposit_Server),
+            Self::RequestTransfer_BroadcastToClients(_) => Some(StaticEventType::RequestTransfer_BroadcastToClients),
+            Self::ResetAssetModifierSync(_) => Some(StaticEventType::ResetAssetModifierSync),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_299(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_299),
+            Self::MyAssetModifierComponent_ApplyAssetModifierSync_300(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_300),
+            Self::OnTargetRequestServer(_) => Some(StaticEventType::OnTargetRequestServer),
+            Self::RequestReleaseTargetLock => Some(StaticEventType::RequestReleaseTargetLock),
+            Self::LooseLockOnClient => Some(StaticEventType::LooseLockOnClient),
+            Self::OnTargetLostClient => Some(StaticEventType::OnTargetLostClient),
+            Self::RequestUseMessageStatic(_) => Some(StaticEventType::RequestUseMessageStatic),
+            Self::UseSuccessStatic(_) => Some(StaticEventType::UseSuccessStatic),
+            Self::UseFailureStatic(_) => Some(StaticEventType::UseFailureStatic),
+            Self::OnInventoryFilled => Some(StaticEventType::OnInventoryFilled),
+            Self::OnShootMissile(_) => Some(StaticEventType::OnShootMissile),
+            Self::OnRemoveMissile(_) => Some(StaticEventType::OnRemoveMissile),
+            Self::DrawTrajectoryOnClient(_) => Some(StaticEventType::DrawTrajectoryOnClient),
+            Self::OnChangeTrajectory(_) => Some(StaticEventType::OnChangeTrajectory),
+            Self::SendTransferRequestMessage(_) => Some(StaticEventType::SendTransferRequestMessage),
+            Self::ReceiveTransferRequestMessage(_) => Some(StaticEventType::ReceiveTransferRequestMessage),
+            Self::ReceiveTransferNotPossibleMessage(_) => Some(StaticEventType::ReceiveTransferNotPossibleMessage),
+            Self::ClaimNPCGrid(_) => Some(StaticEventType::ClaimNPCGrid),
+            Self::TransferBlocksBuiltByID(_) => Some(StaticEventType::TransferBlocksBuiltByID),
+            Self::TransferBlocksBuiltByIDClient(_) => Some(StaticEventType::TransferBlocksBuiltByIDClient),
+            Self::RemoveBlocksBuiltByID(_) => Some(StaticEventType::RemoveBlocksBuiltByID),
+            Self::SetGridNameFromServer(_) => Some(StaticEventType::SetGridNameFromServer),
+            Self::SpawnEventInit => Some(StaticEventType::SpawnEventInit),
+            Self::SpawnGroup(_) => Some(StaticEventType::SpawnGroup),
+            Self::RequestMarketWatchItemsServer(_) => Some(StaticEventType::RequestMarketWatchItemsServer),
+            Self::ReceiveMarketWatchItemsClient(_) => Some(StaticEventType::ReceiveMarketWatchItemsClient),
+            Self::OnCreativeToolsEnabled(_) => Some(StaticEventType::OnCreativeToolsEnabled),
+            Self::OnCrash => Some(StaticEventType::OnCrash),
+            Self::HitIndicatorActivationInternal(_) => Some(StaticEventType::HitIndicatorActivationInternal),
+            Self::OnPromoteLevelSet(_) => Some(StaticEventType::OnPromoteLevelSet),
+            Self::OnServerSaving(_) => Some(StaticEventType::OnServerSaving),
+            Self::OnServerPerformanceWarning(_) => Some(StaticEventType::OnServerPerformanceWarning),
+            Self::SetSpectatorPositionFromServer(_) => Some(StaticEventType::SetSpectatorPositionFromServer),
+            Self::SetSpectatorFromServer => Some(StaticEventType::SetSpectatorFromServer),
+            Self::CameraControllerSet(_) => Some(StaticEventType::CameraControllerSet),
+            Self::OnRequestVicinityInformation(_) => Some(StaticEventType::OnRequestVicinityInformation),
+            Self::OnVicinityInformation(_) => Some(StaticEventType::OnVicinityInformation),
+            Self::PersistEncounterClient(_) => Some(StaticEventType::PersistEncounterClient),
+            Self::EncounterSpawned(_) => Some(StaticEventType::EncounterSpawned),
+            Self::AddExistingObjectsSeed(_) => Some(StaticEventType::AddExistingObjectsSeed),
+            Self::CreateParticleEffectOnEntityEvent(_) => Some(StaticEventType::CreateParticleEffectOnEntityEvent),
+            Self::RequestGridSpawn(_) => Some(StaticEventType::RequestGridSpawn),
+            Self::SpawnGridReply(_) => Some(StaticEventType::SpawnGridReply),
+            Self::ShowMessageGridsRemovedWhilePasting => Some(StaticEventType::ShowMessageGridsRemovedWhilePasting),
+            Self::TryPasteGrid_Implementation(_) => Some(StaticEventType::TryPasteGrid_Implementation),
+            Self::ShowPasteFailedOperation => Some(StaticEventType::ShowPasteFailedOperation),
+            Self::SendHudNotificationAfterPaste => Some(StaticEventType::SendHudNotificationAfterPaste),
+            Self::OnChangeShareRequest(_) => Some(StaticEventType::OnChangeShareRequest),
+            Self::AddChangeOwnersRequestServerside(_) => Some(StaticEventType::AddChangeOwnersRequestServerside),
+            Self::OnChangeShareModeSuccess(_) => Some(StaticEventType::OnChangeShareModeSuccess),
+            Self::RemoveAllOwnershipChangeRequests(_) => Some(StaticEventType::RemoveAllOwnershipChangeRequests),
+            Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
+            Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
+            Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
+            Self::MyCubeGrid_CancelPendingTransferRequests_353(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_353),
+            Self::MyCubeGrid_CancelPendingTransferRequests_354(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_354),
+            Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
+            Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
+            Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),
+            Self::OnEntityCloseRequest(_) => Some(StaticEventType::OnEntityCloseRequest),
+            Self::ForceCloseEntityOnClients(_) => Some(StaticEventType::ForceCloseEntityOnClients),
+            Self::RequestSpawnCreative_Implementation(_) => Some(StaticEventType::RequestSpawnCreative_Implementation),
+            Self::StopShootingRequest(_) => Some(StaticEventType::StopShootingRequest),
+            Self::VoxelOperationCapsule_Implementation(_) => Some(StaticEventType::VoxelOperationCapsule_Implementation),
+            Self::VoxelOperationSphere_Implementation(_) => Some(StaticEventType::VoxelOperationSphere_Implementation),
+            Self::VoxelOperationBox_Implementation(_) => Some(StaticEventType::VoxelOperationBox_Implementation),
+            Self::VoxelOperationRamp_Implementation(_) => Some(StaticEventType::VoxelOperationRamp_Implementation),
+            Self::VoxelOperationElipsoid_Implementation(_) => Some(StaticEventType::VoxelOperationElipsoid_Implementation),
+            Self::RevertBoulderBroadcast(_) => Some(StaticEventType::RevertBoulderBroadcast),
+            Self::CreateSafeZone_Implementation(_) => Some(StaticEventType::CreateSafeZone_Implementation),
+            Self::DeleteSafeZone_Implementation(_) => Some(StaticEventType::DeleteSafeZone_Implementation),
+            Self::UpdateSafeZone_Implementation(_) => Some(StaticEventType::UpdateSafeZone_Implementation),
+            Self::UpdateSafeZonePlayer_Implementation(_) => Some(StaticEventType::UpdateSafeZonePlayer_Implementation),
+            Self::UpdateSafeZone_Broadcast(_) => Some(StaticEventType::UpdateSafeZone_Broadcast),
+            Self::UpdateSafeZone_ImplementationPlayer(_) => Some(StaticEventType::UpdateSafeZone_ImplementationPlayer),
+            Self::UpdateSafeZoneRadius_ImplementationPlayer(_) => Some(StaticEventType::UpdateSafeZoneRadius_ImplementationPlayer),
+            Self::UpdateGlobalSafeZone_Implementation(_) => Some(StaticEventType::UpdateGlobalSafeZone_Implementation),
+            Self::DisableItemsInSector(_) => Some(StaticEventType::DisableItemsInSector),
+            Self::DoDamageSlimBlockBatch(_) => Some(StaticEventType::DoDamageSlimBlockBatch),
+            Self::DoDamageSlimBlock(_) => Some(StaticEventType::DoDamageSlimBlock),
+            Self::GetActiveContractsStatic => Some(StaticEventType::GetActiveContractsStatic),
+            Self::AbandonContractStatic(_) => Some(StaticEventType::AbandonContractStatic),
+            Self::ReceiveActiveContractsStatic(_) => Some(StaticEventType::ReceiveActiveContractsStatic),
+            Self::ReceiveAbandonContractStatic(_) => Some(StaticEventType::ReceiveAbandonContractStatic),
+            Self::OpenEditorFailure => Some(StaticEventType::OpenEditorFailure),
+            Self::NotifyAboutMissingDLC(_) => Some(StaticEventType::NotifyAboutMissingDLC),
+            Self::OnReserveEntityRequest(_) => Some(StaticEventType::OnReserveEntityRequest),
+            Self::OnReserveEntitySuccess(_) => Some(StaticEventType::OnReserveEntitySuccess),
+            Self::OnReserveEntityFailure(_) => Some(StaticEventType::OnReserveEntityFailure),
+            Self::OnReserveEnvironmentItemRequest(_) => Some(StaticEventType::OnReserveEnvironmentItemRequest),
+            Self::OnReserveEnvironmentItemSuccess(_) => Some(StaticEventType::OnReserveEnvironmentItemSuccess),
+            Self::OnReserveEnvironmentItemFailure(_) => Some(StaticEventType::OnReserveEnvironmentItemFailure),
+            Self::OnReserveVoxelPositionRequest(_) => Some(StaticEventType::OnReserveVoxelPositionRequest),
+            Self::OnReserveVoxelPositionSuccess(_) => Some(StaticEventType::OnReserveVoxelPositionSuccess),
+            Self::OnReserveVoxelPositionFailure(_) => Some(StaticEventType::OnReserveVoxelPositionFailure),
+            Self::OnReserveAreaRequest(_) => Some(StaticEventType::OnReserveAreaRequest),
+            Self::OnReserveAreaSuccess(_) => Some(StaticEventType::OnReserveAreaSuccess),
+            Self::OnReserveAreaFailure(_) => Some(StaticEventType::OnReserveAreaFailure),
+            Self::OnReserveAreaAllSuccess(_) => Some(StaticEventType::OnReserveAreaAllSuccess),
+            Self::OnReserveAreaCancel(_) => Some(StaticEventType::OnReserveAreaCancel),
             Self::ShareBlueprintRequest(_) => Some(StaticEventType::ShareBlueprintRequest),
             Self::ShareBlueprintRequestClient(_) => Some(StaticEventType::ShareBlueprintRequestClient),
             Self::VisitAllShopsInternal => Some(StaticEventType::VisitAllShopsInternal),
@@ -6778,132 +6937,9 @@ impl StaticEventPayload {
             Self::NewNpcClickedInternal(_) => Some(StaticEventType::NewNpcClickedInternal),
             Self::ServerLimitInfo_Implementation => Some(StaticEventType::ServerLimitInfo_Implementation),
             Self::ServerLimitInfo_Received(_) => Some(StaticEventType::ServerLimitInfo_Received),
-            Self::OnPerformJump(_) => Some(StaticEventType::OnPerformJump),
-            Self::TradeRequest_Server(_) => Some(StaticEventType::TradeRequest_Server),
-            Self::TradeRequest_StartTrade(_) => Some(StaticEventType::TradeRequest_StartTrade),
-            Self::TradeRequest_StartTrade_Server(_) => Some(StaticEventType::TradeRequest_StartTrade_Server),
-            Self::TradeRequest_Response(_) => Some(StaticEventType::TradeRequest_Response),
-            Self::TradeRequest_Cancel => Some(StaticEventType::TradeRequest_Cancel),
-            Self::SubmitTradingOffer_Server(_) => Some(StaticEventType::SubmitTradingOffer_Server),
-            Self::SubmitTradingOffer_ClientRecieve(_) => Some(StaticEventType::SubmitTradingOffer_ClientRecieve),
-            Self::SubmitTradingOffer_Abort => Some(StaticEventType::SubmitTradingOffer_Abort),
-            Self::SubmitTradingOffer_Cancel => Some(StaticEventType::SubmitTradingOffer_Cancel),
-            Self::AcceptOffer_Server(_) => Some(StaticEventType::AcceptOffer_Server),
-            Self::AcceptOffer_ClientRecieve(_) => Some(StaticEventType::AcceptOffer_ClientRecieve),
-            Self::CoordSysCreated_Client(_) => Some(StaticEventType::CoordSysCreated_Client),
-            Self::CoorSysRemoved_Client(_) => Some(StaticEventType::CoorSysRemoved_Client),
-            Self::Save(_) => Some(StaticEventType::Save),
-            Self::Stop => Some(StaticEventType::Stop),
-            Self::OnFactionMessageRequest(_) => Some(StaticEventType::OnFactionMessageRequest),
-            Self::OnFactionMessageSuccess(_) => Some(StaticEventType::OnFactionMessageSuccess),
-            Self::CreateAccount_Clients(_) => Some(StaticEventType::CreateAccount_Clients),
-            Self::RemoveAccount_Clients(_) => Some(StaticEventType::RemoveAccount_Clients),
-            Self::MyBankingSystem_UnlockAchievementForClient(_) => Some(StaticEventType::MyBankingSystem_UnlockAchievementForClient),
-            Self::ChangeBalanceBroadcastToClients(_) => Some(StaticEventType::ChangeBalanceBroadcastToClients),
-            Self::RequestWithdraw_Server(_) => Some(StaticEventType::RequestWithdraw_Server),
-            Self::RequestDeposit_Server(_) => Some(StaticEventType::RequestDeposit_Server),
-            Self::RequestTransfer_BroadcastToClients(_) => Some(StaticEventType::RequestTransfer_BroadcastToClients),
-            Self::ResetAssetModifierSync(_) => Some(StaticEventType::ResetAssetModifierSync),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_377(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_377),
-            Self::MyAssetModifierComponent_ApplyAssetModifierSync_378(_) => Some(StaticEventType::MyAssetModifierComponent_ApplyAssetModifierSync_378),
-            Self::OnTargetRequestServer(_) => Some(StaticEventType::OnTargetRequestServer),
-            Self::RequestReleaseTargetLock => Some(StaticEventType::RequestReleaseTargetLock),
-            Self::LooseLockOnClient => Some(StaticEventType::LooseLockOnClient),
-            Self::OnTargetLostClient => Some(StaticEventType::OnTargetLostClient),
-            Self::RequestUseMessageStatic(_) => Some(StaticEventType::RequestUseMessageStatic),
-            Self::UseSuccessStatic(_) => Some(StaticEventType::UseSuccessStatic),
-            Self::UseFailureStatic(_) => Some(StaticEventType::UseFailureStatic),
-            Self::OnInventoryFilled => Some(StaticEventType::OnInventoryFilled),
-            Self::OnShootMissile(_) => Some(StaticEventType::OnShootMissile),
-            Self::OnRemoveMissile(_) => Some(StaticEventType::OnRemoveMissile),
-            Self::DrawTrajectoryOnClient(_) => Some(StaticEventType::DrawTrajectoryOnClient),
-            Self::OnChangeTrajectory(_) => Some(StaticEventType::OnChangeTrajectory),
-            Self::SendTransferRequestMessage(_) => Some(StaticEventType::SendTransferRequestMessage),
-            Self::ReceiveTransferRequestMessage(_) => Some(StaticEventType::ReceiveTransferRequestMessage),
-            Self::ReceiveTransferNotPossibleMessage(_) => Some(StaticEventType::ReceiveTransferNotPossibleMessage),
-            Self::ClaimNPCGrid(_) => Some(StaticEventType::ClaimNPCGrid),
-            Self::TransferBlocksBuiltByID(_) => Some(StaticEventType::TransferBlocksBuiltByID),
-            Self::TransferBlocksBuiltByIDClient(_) => Some(StaticEventType::TransferBlocksBuiltByIDClient),
-            Self::RemoveBlocksBuiltByID(_) => Some(StaticEventType::RemoveBlocksBuiltByID),
-            Self::SetGridNameFromServer(_) => Some(StaticEventType::SetGridNameFromServer),
-            Self::SpawnEventInit => Some(StaticEventType::SpawnEventInit),
-            Self::SpawnGroup(_) => Some(StaticEventType::SpawnGroup),
-            Self::RequestMarketWatchItemsServer(_) => Some(StaticEventType::RequestMarketWatchItemsServer),
-            Self::ReceiveMarketWatchItemsClient(_) => Some(StaticEventType::ReceiveMarketWatchItemsClient),
-            Self::OnCreativeToolsEnabled(_) => Some(StaticEventType::OnCreativeToolsEnabled),
-            Self::OnCrash => Some(StaticEventType::OnCrash),
-            Self::HitIndicatorActivationInternal(_) => Some(StaticEventType::HitIndicatorActivationInternal),
-            Self::OnPromoteLevelSet(_) => Some(StaticEventType::OnPromoteLevelSet),
-            Self::OnServerSaving(_) => Some(StaticEventType::OnServerSaving),
-            Self::OnServerPerformanceWarning(_) => Some(StaticEventType::OnServerPerformanceWarning),
-            Self::SetSpectatorPositionFromServer(_) => Some(StaticEventType::SetSpectatorPositionFromServer),
-            Self::SetSpectatorFromServer => Some(StaticEventType::SetSpectatorFromServer),
-            Self::CameraControllerSet(_) => Some(StaticEventType::CameraControllerSet),
-            Self::OnRequestVicinityInformation(_) => Some(StaticEventType::OnRequestVicinityInformation),
-            Self::OnVicinityInformation(_) => Some(StaticEventType::OnVicinityInformation),
-            Self::PersistEncounterClient(_) => Some(StaticEventType::PersistEncounterClient),
-            Self::EncounterSpawned(_) => Some(StaticEventType::EncounterSpawned),
-            Self::AddExistingObjectsSeed(_) => Some(StaticEventType::AddExistingObjectsSeed),
-            Self::CreateParticleEffectOnEntityEvent(_) => Some(StaticEventType::CreateParticleEffectOnEntityEvent),
-            Self::RequestGridSpawn(_) => Some(StaticEventType::RequestGridSpawn),
-            Self::SpawnGridReply(_) => Some(StaticEventType::SpawnGridReply),
-            Self::ShowMessageGridsRemovedWhilePasting => Some(StaticEventType::ShowMessageGridsRemovedWhilePasting),
-            Self::TryPasteGrid_Implementation(_) => Some(StaticEventType::TryPasteGrid_Implementation),
-            Self::ShowPasteFailedOperation => Some(StaticEventType::ShowPasteFailedOperation),
-            Self::SendHudNotificationAfterPaste => Some(StaticEventType::SendHudNotificationAfterPaste),
-            Self::OnChangeShareRequest(_) => Some(StaticEventType::OnChangeShareRequest),
-            Self::AddChangeOwnersRequestServerside(_) => Some(StaticEventType::AddChangeOwnersRequestServerside),
-            Self::OnChangeShareModeSuccess(_) => Some(StaticEventType::OnChangeShareModeSuccess),
-            Self::RemoveAllOwnershipChangeRequests(_) => Some(StaticEventType::RemoveAllOwnershipChangeRequests),
-            Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
-            Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
-            Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
-            Self::MyCubeGrid_CancelPendingTransferRequests_431(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_431),
-            Self::MyCubeGrid_CancelPendingTransferRequests_432(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_432),
-            Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
-            Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
-            Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),
-            Self::OnEntityCloseRequest(_) => Some(StaticEventType::OnEntityCloseRequest),
-            Self::ForceCloseEntityOnClients(_) => Some(StaticEventType::ForceCloseEntityOnClients),
-            Self::RequestSpawnCreative_Implementation(_) => Some(StaticEventType::RequestSpawnCreative_Implementation),
-            Self::StopShootingRequest(_) => Some(StaticEventType::StopShootingRequest),
-            Self::VoxelOperationCapsule_Implementation(_) => Some(StaticEventType::VoxelOperationCapsule_Implementation),
-            Self::VoxelOperationSphere_Implementation(_) => Some(StaticEventType::VoxelOperationSphere_Implementation),
-            Self::VoxelOperationBox_Implementation(_) => Some(StaticEventType::VoxelOperationBox_Implementation),
-            Self::VoxelOperationRamp_Implementation(_) => Some(StaticEventType::VoxelOperationRamp_Implementation),
-            Self::VoxelOperationElipsoid_Implementation(_) => Some(StaticEventType::VoxelOperationElipsoid_Implementation),
-            Self::RevertBoulderBroadcast(_) => Some(StaticEventType::RevertBoulderBroadcast),
-            Self::CreateSafeZone_Implementation(_) => Some(StaticEventType::CreateSafeZone_Implementation),
-            Self::DeleteSafeZone_Implementation(_) => Some(StaticEventType::DeleteSafeZone_Implementation),
-            Self::UpdateSafeZone_Implementation(_) => Some(StaticEventType::UpdateSafeZone_Implementation),
-            Self::UpdateSafeZonePlayer_Implementation(_) => Some(StaticEventType::UpdateSafeZonePlayer_Implementation),
-            Self::UpdateSafeZone_Broadcast(_) => Some(StaticEventType::UpdateSafeZone_Broadcast),
-            Self::UpdateSafeZone_ImplementationPlayer(_) => Some(StaticEventType::UpdateSafeZone_ImplementationPlayer),
-            Self::UpdateSafeZoneRadius_ImplementationPlayer(_) => Some(StaticEventType::UpdateSafeZoneRadius_ImplementationPlayer),
-            Self::UpdateGlobalSafeZone_Implementation(_) => Some(StaticEventType::UpdateGlobalSafeZone_Implementation),
-            Self::DisableItemsInSector(_) => Some(StaticEventType::DisableItemsInSector),
-            Self::DoDamageSlimBlockBatch(_) => Some(StaticEventType::DoDamageSlimBlockBatch),
-            Self::DoDamageSlimBlock(_) => Some(StaticEventType::DoDamageSlimBlock),
-            Self::GetActiveContractsStatic => Some(StaticEventType::GetActiveContractsStatic),
-            Self::AbandonContractStatic(_) => Some(StaticEventType::AbandonContractStatic),
-            Self::ReceiveActiveContractsStatic(_) => Some(StaticEventType::ReceiveActiveContractsStatic),
-            Self::ReceiveAbandonContractStatic(_) => Some(StaticEventType::ReceiveAbandonContractStatic),
-            Self::OpenEditorFailure => Some(StaticEventType::OpenEditorFailure),
-            Self::NotifyAboutMissingDLC(_) => Some(StaticEventType::NotifyAboutMissingDLC),
-            Self::OnReserveEntityRequest(_) => Some(StaticEventType::OnReserveEntityRequest),
-            Self::OnReserveEntitySuccess(_) => Some(StaticEventType::OnReserveEntitySuccess),
-            Self::OnReserveEntityFailure(_) => Some(StaticEventType::OnReserveEntityFailure),
-            Self::OnReserveEnvironmentItemRequest(_) => Some(StaticEventType::OnReserveEnvironmentItemRequest),
-            Self::OnReserveEnvironmentItemSuccess(_) => Some(StaticEventType::OnReserveEnvironmentItemSuccess),
-            Self::OnReserveEnvironmentItemFailure(_) => Some(StaticEventType::OnReserveEnvironmentItemFailure),
-            Self::OnReserveVoxelPositionRequest(_) => Some(StaticEventType::OnReserveVoxelPositionRequest),
-            Self::OnReserveVoxelPositionSuccess(_) => Some(StaticEventType::OnReserveVoxelPositionSuccess),
-            Self::OnReserveVoxelPositionFailure(_) => Some(StaticEventType::OnReserveVoxelPositionFailure),
-            Self::OnReserveAreaRequest(_) => Some(StaticEventType::OnReserveAreaRequest),
-            Self::OnReserveAreaSuccess(_) => Some(StaticEventType::OnReserveAreaSuccess),
-            Self::OnReserveAreaFailure(_) => Some(StaticEventType::OnReserveAreaFailure),
-            Self::OnReserveAreaAllSuccess(_) => Some(StaticEventType::OnReserveAreaAllSuccess),
-            Self::OnReserveAreaCancel(_) => Some(StaticEventType::OnReserveAreaCancel),
+            Self::RequestPingGrid(_) => Some(StaticEventType::RequestPingGrid),
+            Self::NotifyPingGridFailed_NotBigOwner => Some(StaticEventType::NotifyPingGridFailed_NotBigOwner),
+            Self::NotifyPingGridFailed_ConnectedToHostile => Some(StaticEventType::NotifyPingGridFailed_ConnectedToHostile),
             Self::OnCommandReceived(_) => Some(StaticEventType::OnCommandReceived),
             Self::OnSyncCooldownRequest => Some(StaticEventType::OnSyncCooldownRequest),
             Self::OnSyncCooldownResponse(_) => Some(StaticEventType::OnSyncCooldownResponse),

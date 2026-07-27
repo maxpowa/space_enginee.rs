@@ -21,6 +21,16 @@ pub struct MyCharacter_ActivateSnapPayload {
     pub target_id: BitAligned<i64>,
 }
 
+/// Payload for MyCharacter::EnableIronsightCallback instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyCharacter_EnableIronsightCallbackPayload {
+    pub enable: BitBool,
+    pub new_key_press: BitBool,
+    pub change_camera: BitBool,
+    pub hide_crosshair_when_aiming: BitBool,
+    pub force_change_camera: BitBool,
+}
+
 /// Payload for MyCharacter::CreateBurrowingParticleFX_Client instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_CreateBurrowingParticleFX_ClientPayload {
@@ -39,26 +49,16 @@ pub struct MyCharacter_TriggerAnimationEventPayload {
     pub event_name: VarString,
 }
 
-/// Payload for MyCharacter::SyncCapacitySuccess instance event.
-#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCharacter_SyncCapacitySuccessPayload {
-    pub remaining_capacity: BitAligned<f32>,
-}
-
-/// Payload for MyCharacter::EnableIronsightCallback instance event.
-#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCharacter_EnableIronsightCallbackPayload {
-    pub enable: BitBool,
-    pub new_key_press: BitBool,
-    pub change_camera: BitBool,
-    pub hide_crosshair_when_aiming: BitBool,
-    pub force_change_camera: BitBool,
-}
-
 /// Payload for MyCharacter::Jump instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCharacter_JumpPayload {
     pub move_indicator: Vector3F,
+}
+
+/// Payload for MyCharacter::SyncCapacitySuccess instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyCharacter_SyncCapacitySuccessPayload {
+    pub remaining_capacity: BitAligned<f32>,
 }
 
 /// Payload for MyCharacter::EnableLightsCallback instance event.
@@ -219,10 +219,14 @@ pub struct MyCharacter_IsDrillingAnObjectSyncPayload {
 /// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyCharacterInstanceEvent {
+    /// Hash: -1057914069
+    UnequipWeapon,
     /// Hash: -680409121
     SynchronizeBuildPlanner_Implementation,
     /// Hash: -141492815
     ActivateSnap,
+    /// Hash: 1382426031
+    EnableIronsightCallback,
     /// Hash: -1738066643
     ReloadServer,
     /// Hash: -266920387
@@ -231,14 +235,10 @@ pub enum MyCharacterInstanceEvent {
     DeleteBurrowingParticleFX_Client,
     /// Hash: -877967289
     TriggerAnimationEvent,
-    /// Hash: 1020161238
-    SyncCapacitySuccess,
-    /// Hash: 1382426031
-    EnableIronsightCallback,
     /// Hash: 276811173
     Jump,
-    /// Hash: -1057914069
-    UnequipWeapon,
+    /// Hash: 1020161238
+    SyncCapacitySuccess,
     /// Hash: 147871161
     EnableLightsCallback,
     /// Hash: -1137299889
@@ -303,16 +303,16 @@ impl MyCharacterInstanceEvent {
     /// Get the stable hash of this instance event.
     pub const fn event_hash(&self) -> i32 {
         match self {
+            Self::UnequipWeapon => -1057914069,
             Self::SynchronizeBuildPlanner_Implementation => -680409121,
             Self::ActivateSnap => -141492815,
+            Self::EnableIronsightCallback => 1382426031,
             Self::ReloadServer => -1738066643,
             Self::CreateBurrowingParticleFX_Client => -266920387,
             Self::DeleteBurrowingParticleFX_Client => 2047136294,
             Self::TriggerAnimationEvent => -877967289,
-            Self::SyncCapacitySuccess => 1020161238,
-            Self::EnableIronsightCallback => 1382426031,
             Self::Jump => 276811173,
-            Self::UnequipWeapon => -1057914069,
+            Self::SyncCapacitySuccess => 1020161238,
             Self::EnableLightsCallback => 147871161,
             Self::EnableBroadcasting => -1137299889,
             Self::EnableBroadcastingCallback => -236016482,
@@ -348,16 +348,16 @@ impl MyCharacterInstanceEvent {
     /// Look up from event hash. Returns None for unknown events.
     pub fn from_hash(hash: i32) -> Option<Self> {
         match hash {
+            -1057914069 => Some(Self::UnequipWeapon),
             -680409121 => Some(Self::SynchronizeBuildPlanner_Implementation),
             -141492815 => Some(Self::ActivateSnap),
+            1382426031 => Some(Self::EnableIronsightCallback),
             -1738066643 => Some(Self::ReloadServer),
             -266920387 => Some(Self::CreateBurrowingParticleFX_Client),
             2047136294 => Some(Self::DeleteBurrowingParticleFX_Client),
             -877967289 => Some(Self::TriggerAnimationEvent),
-            1020161238 => Some(Self::SyncCapacitySuccess),
-            1382426031 => Some(Self::EnableIronsightCallback),
             276811173 => Some(Self::Jump),
-            -1057914069 => Some(Self::UnequipWeapon),
+            1020161238 => Some(Self::SyncCapacitySuccess),
             147871161 => Some(Self::EnableLightsCallback),
             -1137299889 => Some(Self::EnableBroadcasting),
             -236016482 => Some(Self::EnableBroadcastingCallback),
@@ -397,10 +397,14 @@ impl MyCharacterInstanceEvent {
 /// Use `MyCharacterInstanceEvent::parse_payload()` to parse raw bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub enum MyCharacterInstanceEventPayload {
+    /// UnequipWeapon event (no payload)
+    UnequipWeapon,
     /// SynchronizeBuildPlanner_Implementation event payload
     SynchronizeBuildPlanner_Implementation(MyCharacter_SynchronizeBuildPlanner_ImplementationPayload),
     /// ActivateSnap event payload
     ActivateSnap(MyCharacter_ActivateSnapPayload),
+    /// EnableIronsightCallback event payload
+    EnableIronsightCallback(MyCharacter_EnableIronsightCallbackPayload),
     /// ReloadServer event (no payload)
     ReloadServer,
     /// CreateBurrowingParticleFX_Client event payload
@@ -409,14 +413,10 @@ pub enum MyCharacterInstanceEventPayload {
     DeleteBurrowingParticleFX_Client(MyCharacter_DeleteBurrowingParticleFX_ClientPayload),
     /// TriggerAnimationEvent event payload
     TriggerAnimationEvent(MyCharacter_TriggerAnimationEventPayload),
-    /// SyncCapacitySuccess event payload
-    SyncCapacitySuccess(MyCharacter_SyncCapacitySuccessPayload),
-    /// EnableIronsightCallback event payload
-    EnableIronsightCallback(MyCharacter_EnableIronsightCallbackPayload),
     /// Jump event payload
     Jump(MyCharacter_JumpPayload),
-    /// UnequipWeapon event (no payload)
-    UnequipWeapon,
+    /// SyncCapacitySuccess event payload
+    SyncCapacitySuccess(MyCharacter_SyncCapacitySuccessPayload),
     /// EnableLightsCallback event payload
     EnableLightsCallback(MyCharacter_EnableLightsCallbackPayload),
     /// EnableBroadcasting event payload
@@ -488,6 +488,7 @@ impl MyCharacterInstanceEvent {
     /// Returns `Err` if the payload bytes don't match the expected format.
     pub fn parse_payload(&self, bytes: &[u8]) -> Result<MyCharacterInstanceEventPayload, deku::DekuError> {
         match self {
+            Self::UnequipWeapon => Ok(MyCharacterInstanceEventPayload::UnequipWeapon),
             Self::SynchronizeBuildPlanner_Implementation => {
                 let (_, payload) = MyCharacter_SynchronizeBuildPlanner_ImplementationPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::SynchronizeBuildPlanner_Implementation(payload))
@@ -495,6 +496,10 @@ impl MyCharacterInstanceEvent {
             Self::ActivateSnap => {
                 let (_, payload) = MyCharacter_ActivateSnapPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::ActivateSnap(payload))
+            }
+            Self::EnableIronsightCallback => {
+                let (_, payload) = MyCharacter_EnableIronsightCallbackPayload::from_bytes((bytes, 0))?;
+                Ok(MyCharacterInstanceEventPayload::EnableIronsightCallback(payload))
             }
             Self::ReloadServer => Ok(MyCharacterInstanceEventPayload::ReloadServer),
             Self::CreateBurrowingParticleFX_Client => {
@@ -509,19 +514,14 @@ impl MyCharacterInstanceEvent {
                 let (_, payload) = MyCharacter_TriggerAnimationEventPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::TriggerAnimationEvent(payload))
             }
-            Self::SyncCapacitySuccess => {
-                let (_, payload) = MyCharacter_SyncCapacitySuccessPayload::from_bytes((bytes, 0))?;
-                Ok(MyCharacterInstanceEventPayload::SyncCapacitySuccess(payload))
-            }
-            Self::EnableIronsightCallback => {
-                let (_, payload) = MyCharacter_EnableIronsightCallbackPayload::from_bytes((bytes, 0))?;
-                Ok(MyCharacterInstanceEventPayload::EnableIronsightCallback(payload))
-            }
             Self::Jump => {
                 let (_, payload) = MyCharacter_JumpPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::Jump(payload))
             }
-            Self::UnequipWeapon => Ok(MyCharacterInstanceEventPayload::UnequipWeapon),
+            Self::SyncCapacitySuccess => {
+                let (_, payload) = MyCharacter_SyncCapacitySuccessPayload::from_bytes((bytes, 0))?;
+                Ok(MyCharacterInstanceEventPayload::SyncCapacitySuccess(payload))
+            }
             Self::EnableLightsCallback => {
                 let (_, payload) = MyCharacter_EnableLightsCallbackPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::EnableLightsCallback(payload))
@@ -640,10 +640,14 @@ pub fn parse_my_character_instance_event(event_hash: i32, payload_bytes: &[u8]) 
 /// Implement only the methods you care about - all have default empty implementations.
 #[allow(unused_variables)]
 pub trait MyCharacterInstanceEventVisitor {
+    /// Called when visiting UnequipWeapon event (no payload).
+    fn visit_unequip_weapon(&mut self) {}
     /// Called when visiting SynchronizeBuildPlanner_Implementation event.
     fn visit_synchronize_build_planner_implementation(&mut self, payload: &MyCharacter_SynchronizeBuildPlanner_ImplementationPayload) {}
     /// Called when visiting ActivateSnap event.
     fn visit_activate_snap(&mut self, payload: &MyCharacter_ActivateSnapPayload) {}
+    /// Called when visiting EnableIronsightCallback event.
+    fn visit_enable_ironsight_callback(&mut self, payload: &MyCharacter_EnableIronsightCallbackPayload) {}
     /// Called when visiting ReloadServer event (no payload).
     fn visit_reload_server(&mut self) {}
     /// Called when visiting CreateBurrowingParticleFX_Client event.
@@ -652,14 +656,10 @@ pub trait MyCharacterInstanceEventVisitor {
     fn visit_delete_burrowing_particle_fx_client(&mut self, payload: &MyCharacter_DeleteBurrowingParticleFX_ClientPayload) {}
     /// Called when visiting TriggerAnimationEvent event.
     fn visit_trigger_animation_event(&mut self, payload: &MyCharacter_TriggerAnimationEventPayload) {}
-    /// Called when visiting SyncCapacitySuccess event.
-    fn visit_sync_capacity_success(&mut self, payload: &MyCharacter_SyncCapacitySuccessPayload) {}
-    /// Called when visiting EnableIronsightCallback event.
-    fn visit_enable_ironsight_callback(&mut self, payload: &MyCharacter_EnableIronsightCallbackPayload) {}
     /// Called when visiting Jump event.
     fn visit_jump(&mut self, payload: &MyCharacter_JumpPayload) {}
-    /// Called when visiting UnequipWeapon event (no payload).
-    fn visit_unequip_weapon(&mut self) {}
+    /// Called when visiting SyncCapacitySuccess event.
+    fn visit_sync_capacity_success(&mut self, payload: &MyCharacter_SyncCapacitySuccessPayload) {}
     /// Called when visiting EnableLightsCallback event.
     fn visit_enable_lights_callback(&mut self, payload: &MyCharacter_EnableLightsCallbackPayload) {}
     /// Called when visiting EnableBroadcasting event.
@@ -727,16 +727,16 @@ impl MyCharacterInstanceEventPayload {
     /// Accept a visitor, dispatching to the appropriate visit method.
     pub fn accept<V: MyCharacterInstanceEventVisitor>(&self, visitor: &mut V) {
         match self {
+            Self::UnequipWeapon => visitor.visit_unequip_weapon(),
             Self::SynchronizeBuildPlanner_Implementation(payload) => visitor.visit_synchronize_build_planner_implementation(payload),
             Self::ActivateSnap(payload) => visitor.visit_activate_snap(payload),
+            Self::EnableIronsightCallback(payload) => visitor.visit_enable_ironsight_callback(payload),
             Self::ReloadServer => visitor.visit_reload_server(),
             Self::CreateBurrowingParticleFX_Client(payload) => visitor.visit_create_burrowing_particle_fx_client(payload),
             Self::DeleteBurrowingParticleFX_Client(payload) => visitor.visit_delete_burrowing_particle_fx_client(payload),
             Self::TriggerAnimationEvent(payload) => visitor.visit_trigger_animation_event(payload),
-            Self::SyncCapacitySuccess(payload) => visitor.visit_sync_capacity_success(payload),
-            Self::EnableIronsightCallback(payload) => visitor.visit_enable_ironsight_callback(payload),
             Self::Jump(payload) => visitor.visit_jump(payload),
-            Self::UnequipWeapon => visitor.visit_unequip_weapon(),
+            Self::SyncCapacitySuccess(payload) => visitor.visit_sync_capacity_success(payload),
             Self::EnableLightsCallback(payload) => visitor.visit_enable_lights_callback(payload),
             Self::EnableBroadcasting(payload) => visitor.visit_enable_broadcasting(payload),
             Self::EnableBroadcastingCallback(payload) => visitor.visit_enable_broadcasting_callback(payload),
@@ -773,16 +773,16 @@ impl MyCharacterInstanceEventPayload {
     /// Get the instance event type for this payload.
     pub fn event_type(&self) -> Option<MyCharacterInstanceEvent> {
         match self {
+            Self::UnequipWeapon => Some(MyCharacterInstanceEvent::UnequipWeapon),
             Self::SynchronizeBuildPlanner_Implementation(_) => Some(MyCharacterInstanceEvent::SynchronizeBuildPlanner_Implementation),
             Self::ActivateSnap(_) => Some(MyCharacterInstanceEvent::ActivateSnap),
+            Self::EnableIronsightCallback(_) => Some(MyCharacterInstanceEvent::EnableIronsightCallback),
             Self::ReloadServer => Some(MyCharacterInstanceEvent::ReloadServer),
             Self::CreateBurrowingParticleFX_Client(_) => Some(MyCharacterInstanceEvent::CreateBurrowingParticleFX_Client),
             Self::DeleteBurrowingParticleFX_Client(_) => Some(MyCharacterInstanceEvent::DeleteBurrowingParticleFX_Client),
             Self::TriggerAnimationEvent(_) => Some(MyCharacterInstanceEvent::TriggerAnimationEvent),
-            Self::SyncCapacitySuccess(_) => Some(MyCharacterInstanceEvent::SyncCapacitySuccess),
-            Self::EnableIronsightCallback(_) => Some(MyCharacterInstanceEvent::EnableIronsightCallback),
             Self::Jump(_) => Some(MyCharacterInstanceEvent::Jump),
-            Self::UnequipWeapon => Some(MyCharacterInstanceEvent::UnequipWeapon),
+            Self::SyncCapacitySuccess(_) => Some(MyCharacterInstanceEvent::SyncCapacitySuccess),
             Self::EnableLightsCallback(_) => Some(MyCharacterInstanceEvent::EnableLightsCallback),
             Self::EnableBroadcasting(_) => Some(MyCharacterInstanceEvent::EnableBroadcasting),
             Self::EnableBroadcastingCallback(_) => Some(MyCharacterInstanceEvent::EnableBroadcastingCallback),

@@ -9,6 +9,12 @@ use space_engineers_compat::{BitAligned, BitBool, Nullable, VarMap, VarVec, VarB
 use space_engineers_compat::math::Vector3F;
 use space_engineers_sys::math::Vector3D;
 
+/// Payload for MyGridsStorageEntityComponent::OnSetPivotHandler instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyGridsStorageEntityComponent_OnSetPivotHandlerPayload {
+    pub world_pos: Vector3D,
+}
+
 /// Payload for MyGridsStorageEntityComponent::GetStoredGridsReply instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyGridsStorageEntityComponent_GetStoredGridsReplyPayload {
@@ -94,10 +100,17 @@ pub struct MyGridsStorageEntityComponent_GetOrdersReplyPayload {
     pub res: VarVec<space_engineers_sys::types::game::MyGridRetrievalOrderData>,
 }
 
-/// Payload for MyGridsStorageEntityComponent::ConfirmDeployFailureReply instance event.
+/// Payload for MyGridsStorageEntityComponent::ConfirmDeployFailureWrongTerminalReply instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyGridsStorageEntityComponent_ConfirmDeployFailureReplyPayload {
+pub struct MyGridsStorageEntityComponent_ConfirmDeployFailureWrongTerminalReplyPayload {
     pub original_terminal_entity_id: BitAligned<i64>,
+}
+
+/// Payload for MyGridsStorageEntityComponent::ConfirmDeployFailureTooFarReply instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyGridsStorageEntityComponent_ConfirmDeployFailureTooFarReplyPayload {
+    pub grid_name: VarString,
+    pub storage_position: Vector3D,
 }
 
 /// Payload for MyGridsStorageEntityComponent::ExpediteCurrentClientOrderReply instance event.
@@ -137,6 +150,12 @@ pub struct MyGridsStorageEntityComponent_RetrieveGridTrustedPayload {
 /// Use `Version` to convert to/from version-specific event IDs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MyGridsStorageEntityComponentInstanceEvent {
+    /// Hash: -407684518
+    BeginWatchingNearbyGridsEndpoint,
+    /// Hash: 530199522
+    EndWatchingNearbyGridsEndpoint,
+    /// Hash: 1908955715
+    OnSetPivotHandler,
     /// Hash: 608329896
     GetStoredGridsReply,
     /// Hash: -375596662
@@ -173,8 +192,12 @@ pub enum MyGridsStorageEntityComponentInstanceEvent {
     GetOrdersEndpoint,
     /// Hash: 1645739317
     CancelCurrentClientOrderEndpoint,
-    /// Hash: -429009802
-    ConfirmDeployFailureReply,
+    /// Hash: 1268952393
+    ConfirmDeployFailureWrongTerminalReply,
+    /// Hash: -426292142
+    ConfirmDeployFailureMovingReply,
+    /// Hash: -184141643
+    ConfirmDeployFailureTooFarReply,
     /// Hash: 1682778682
     ConfirmDeployEndpoint,
     /// Hash: 669431934
@@ -203,6 +226,9 @@ impl MyGridsStorageEntityComponentInstanceEvent {
     /// Get the stable hash of this instance event.
     pub const fn event_hash(&self) -> i32 {
         match self {
+            Self::BeginWatchingNearbyGridsEndpoint => -407684518,
+            Self::EndWatchingNearbyGridsEndpoint => 530199522,
+            Self::OnSetPivotHandler => 1908955715,
             Self::GetStoredGridsReply => 608329896,
             Self::GetStoredGridsEndpoint => -375596662,
             Self::GetGridsInDesignatedAreaReply => -703160930,
@@ -221,7 +247,9 @@ impl MyGridsStorageEntityComponentInstanceEvent {
             Self::GetOrdersReply => 1000166365,
             Self::GetOrdersEndpoint => 1213292342,
             Self::CancelCurrentClientOrderEndpoint => 1645739317,
-            Self::ConfirmDeployFailureReply => -429009802,
+            Self::ConfirmDeployFailureWrongTerminalReply => 1268952393,
+            Self::ConfirmDeployFailureMovingReply => -426292142,
+            Self::ConfirmDeployFailureTooFarReply => -184141643,
             Self::ConfirmDeployEndpoint => 1682778682,
             Self::ExpediteCurrentClientOrderReply => 669431934,
             Self::ExpediteCurrentClientOrderEndpoint => 2075662450,
@@ -239,6 +267,9 @@ impl MyGridsStorageEntityComponentInstanceEvent {
     /// Look up from event hash. Returns None for unknown events.
     pub fn from_hash(hash: i32) -> Option<Self> {
         match hash {
+            -407684518 => Some(Self::BeginWatchingNearbyGridsEndpoint),
+            530199522 => Some(Self::EndWatchingNearbyGridsEndpoint),
+            1908955715 => Some(Self::OnSetPivotHandler),
             608329896 => Some(Self::GetStoredGridsReply),
             -375596662 => Some(Self::GetStoredGridsEndpoint),
             -703160930 => Some(Self::GetGridsInDesignatedAreaReply),
@@ -257,7 +288,9 @@ impl MyGridsStorageEntityComponentInstanceEvent {
             1000166365 => Some(Self::GetOrdersReply),
             1213292342 => Some(Self::GetOrdersEndpoint),
             1645739317 => Some(Self::CancelCurrentClientOrderEndpoint),
-            -429009802 => Some(Self::ConfirmDeployFailureReply),
+            1268952393 => Some(Self::ConfirmDeployFailureWrongTerminalReply),
+            -426292142 => Some(Self::ConfirmDeployFailureMovingReply),
+            -184141643 => Some(Self::ConfirmDeployFailureTooFarReply),
             1682778682 => Some(Self::ConfirmDeployEndpoint),
             669431934 => Some(Self::ExpediteCurrentClientOrderReply),
             2075662450 => Some(Self::ExpediteCurrentClientOrderEndpoint),
@@ -279,6 +312,12 @@ impl MyGridsStorageEntityComponentInstanceEvent {
 /// Use `MyGridsStorageEntityComponentInstanceEvent::parse_payload()` to parse raw bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub enum MyGridsStorageEntityComponentInstanceEventPayload {
+    /// BeginWatchingNearbyGridsEndpoint event (no payload)
+    BeginWatchingNearbyGridsEndpoint,
+    /// EndWatchingNearbyGridsEndpoint event (no payload)
+    EndWatchingNearbyGridsEndpoint,
+    /// OnSetPivotHandler event payload
+    OnSetPivotHandler(MyGridsStorageEntityComponent_OnSetPivotHandlerPayload),
     /// GetStoredGridsReply event payload
     GetStoredGridsReply(MyGridsStorageEntityComponent_GetStoredGridsReplyPayload),
     /// GetStoredGridsEndpoint event (no payload)
@@ -315,8 +354,12 @@ pub enum MyGridsStorageEntityComponentInstanceEventPayload {
     GetOrdersEndpoint,
     /// CancelCurrentClientOrderEndpoint event (no payload)
     CancelCurrentClientOrderEndpoint,
-    /// ConfirmDeployFailureReply event payload
-    ConfirmDeployFailureReply(MyGridsStorageEntityComponent_ConfirmDeployFailureReplyPayload),
+    /// ConfirmDeployFailureWrongTerminalReply event payload
+    ConfirmDeployFailureWrongTerminalReply(MyGridsStorageEntityComponent_ConfirmDeployFailureWrongTerminalReplyPayload),
+    /// ConfirmDeployFailureMovingReply event (no payload)
+    ConfirmDeployFailureMovingReply,
+    /// ConfirmDeployFailureTooFarReply event payload
+    ConfirmDeployFailureTooFarReply(MyGridsStorageEntityComponent_ConfirmDeployFailureTooFarReplyPayload),
     /// ConfirmDeployEndpoint event (no payload)
     ConfirmDeployEndpoint,
     /// ExpediteCurrentClientOrderReply event payload
@@ -352,6 +395,12 @@ impl MyGridsStorageEntityComponentInstanceEvent {
     /// Returns `Err` if the payload bytes don't match the expected format.
     pub fn parse_payload(&self, bytes: &[u8]) -> Result<MyGridsStorageEntityComponentInstanceEventPayload, deku::DekuError> {
         match self {
+            Self::BeginWatchingNearbyGridsEndpoint => Ok(MyGridsStorageEntityComponentInstanceEventPayload::BeginWatchingNearbyGridsEndpoint),
+            Self::EndWatchingNearbyGridsEndpoint => Ok(MyGridsStorageEntityComponentInstanceEventPayload::EndWatchingNearbyGridsEndpoint),
+            Self::OnSetPivotHandler => {
+                let (_, payload) = MyGridsStorageEntityComponent_OnSetPivotHandlerPayload::from_bytes((bytes, 0))?;
+                Ok(MyGridsStorageEntityComponentInstanceEventPayload::OnSetPivotHandler(payload))
+            }
             Self::GetStoredGridsReply => {
                 let (_, payload) = MyGridsStorageEntityComponent_GetStoredGridsReplyPayload::from_bytes((bytes, 0))?;
                 Ok(MyGridsStorageEntityComponentInstanceEventPayload::GetStoredGridsReply(payload))
@@ -409,9 +458,14 @@ impl MyGridsStorageEntityComponentInstanceEvent {
             }
             Self::GetOrdersEndpoint => Ok(MyGridsStorageEntityComponentInstanceEventPayload::GetOrdersEndpoint),
             Self::CancelCurrentClientOrderEndpoint => Ok(MyGridsStorageEntityComponentInstanceEventPayload::CancelCurrentClientOrderEndpoint),
-            Self::ConfirmDeployFailureReply => {
-                let (_, payload) = MyGridsStorageEntityComponent_ConfirmDeployFailureReplyPayload::from_bytes((bytes, 0))?;
-                Ok(MyGridsStorageEntityComponentInstanceEventPayload::ConfirmDeployFailureReply(payload))
+            Self::ConfirmDeployFailureWrongTerminalReply => {
+                let (_, payload) = MyGridsStorageEntityComponent_ConfirmDeployFailureWrongTerminalReplyPayload::from_bytes((bytes, 0))?;
+                Ok(MyGridsStorageEntityComponentInstanceEventPayload::ConfirmDeployFailureWrongTerminalReply(payload))
+            }
+            Self::ConfirmDeployFailureMovingReply => Ok(MyGridsStorageEntityComponentInstanceEventPayload::ConfirmDeployFailureMovingReply),
+            Self::ConfirmDeployFailureTooFarReply => {
+                let (_, payload) = MyGridsStorageEntityComponent_ConfirmDeployFailureTooFarReplyPayload::from_bytes((bytes, 0))?;
+                Ok(MyGridsStorageEntityComponentInstanceEventPayload::ConfirmDeployFailureTooFarReply(payload))
             }
             Self::ConfirmDeployEndpoint => Ok(MyGridsStorageEntityComponentInstanceEventPayload::ConfirmDeployEndpoint),
             Self::ExpediteCurrentClientOrderReply => {
@@ -459,6 +513,12 @@ pub fn parse_my_grids_storage_entity_component_instance_event(event_hash: i32, p
 /// Implement only the methods you care about - all have default empty implementations.
 #[allow(unused_variables)]
 pub trait MyGridsStorageEntityComponentInstanceEventVisitor {
+    /// Called when visiting BeginWatchingNearbyGridsEndpoint event (no payload).
+    fn visit_begin_watching_nearby_grids_endpoint(&mut self) {}
+    /// Called when visiting EndWatchingNearbyGridsEndpoint event (no payload).
+    fn visit_end_watching_nearby_grids_endpoint(&mut self) {}
+    /// Called when visiting OnSetPivotHandler event.
+    fn visit_on_set_pivot_handler(&mut self, payload: &MyGridsStorageEntityComponent_OnSetPivotHandlerPayload) {}
     /// Called when visiting GetStoredGridsReply event.
     fn visit_get_stored_grids_reply(&mut self, payload: &MyGridsStorageEntityComponent_GetStoredGridsReplyPayload) {}
     /// Called when visiting GetStoredGridsEndpoint event (no payload).
@@ -495,8 +555,12 @@ pub trait MyGridsStorageEntityComponentInstanceEventVisitor {
     fn visit_get_orders_endpoint(&mut self) {}
     /// Called when visiting CancelCurrentClientOrderEndpoint event (no payload).
     fn visit_cancel_current_client_order_endpoint(&mut self) {}
-    /// Called when visiting ConfirmDeployFailureReply event.
-    fn visit_confirm_deploy_failure_reply(&mut self, payload: &MyGridsStorageEntityComponent_ConfirmDeployFailureReplyPayload) {}
+    /// Called when visiting ConfirmDeployFailureWrongTerminalReply event.
+    fn visit_confirm_deploy_failure_wrong_terminal_reply(&mut self, payload: &MyGridsStorageEntityComponent_ConfirmDeployFailureWrongTerminalReplyPayload) {}
+    /// Called when visiting ConfirmDeployFailureMovingReply event (no payload).
+    fn visit_confirm_deploy_failure_moving_reply(&mut self) {}
+    /// Called when visiting ConfirmDeployFailureTooFarReply event.
+    fn visit_confirm_deploy_failure_too_far_reply(&mut self, payload: &MyGridsStorageEntityComponent_ConfirmDeployFailureTooFarReplyPayload) {}
     /// Called when visiting ConfirmDeployEndpoint event (no payload).
     fn visit_confirm_deploy_endpoint(&mut self) {}
     /// Called when visiting ExpediteCurrentClientOrderReply event.
@@ -528,6 +592,9 @@ impl MyGridsStorageEntityComponentInstanceEventPayload {
     /// Accept a visitor, dispatching to the appropriate visit method.
     pub fn accept<V: MyGridsStorageEntityComponentInstanceEventVisitor>(&self, visitor: &mut V) {
         match self {
+            Self::BeginWatchingNearbyGridsEndpoint => visitor.visit_begin_watching_nearby_grids_endpoint(),
+            Self::EndWatchingNearbyGridsEndpoint => visitor.visit_end_watching_nearby_grids_endpoint(),
+            Self::OnSetPivotHandler(payload) => visitor.visit_on_set_pivot_handler(payload),
             Self::GetStoredGridsReply(payload) => visitor.visit_get_stored_grids_reply(payload),
             Self::GetStoredGridsEndpoint => visitor.visit_get_stored_grids_endpoint(),
             Self::GetGridsInDesignatedAreaReply(payload) => visitor.visit_get_grids_in_designated_area_reply(payload),
@@ -546,7 +613,9 @@ impl MyGridsStorageEntityComponentInstanceEventPayload {
             Self::GetOrdersReply(payload) => visitor.visit_get_orders_reply(payload),
             Self::GetOrdersEndpoint => visitor.visit_get_orders_endpoint(),
             Self::CancelCurrentClientOrderEndpoint => visitor.visit_cancel_current_client_order_endpoint(),
-            Self::ConfirmDeployFailureReply(payload) => visitor.visit_confirm_deploy_failure_reply(payload),
+            Self::ConfirmDeployFailureWrongTerminalReply(payload) => visitor.visit_confirm_deploy_failure_wrong_terminal_reply(payload),
+            Self::ConfirmDeployFailureMovingReply => visitor.visit_confirm_deploy_failure_moving_reply(),
+            Self::ConfirmDeployFailureTooFarReply(payload) => visitor.visit_confirm_deploy_failure_too_far_reply(payload),
             Self::ConfirmDeployEndpoint => visitor.visit_confirm_deploy_endpoint(),
             Self::ExpediteCurrentClientOrderReply(payload) => visitor.visit_expedite_current_client_order_reply(payload),
             Self::ExpediteCurrentClientOrderEndpoint => visitor.visit_expedite_current_client_order_endpoint(),
@@ -565,6 +634,9 @@ impl MyGridsStorageEntityComponentInstanceEventPayload {
     /// Get the instance event type for this payload.
     pub fn event_type(&self) -> Option<MyGridsStorageEntityComponentInstanceEvent> {
         match self {
+            Self::BeginWatchingNearbyGridsEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::BeginWatchingNearbyGridsEndpoint),
+            Self::EndWatchingNearbyGridsEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::EndWatchingNearbyGridsEndpoint),
+            Self::OnSetPivotHandler(_) => Some(MyGridsStorageEntityComponentInstanceEvent::OnSetPivotHandler),
             Self::GetStoredGridsReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::GetStoredGridsReply),
             Self::GetStoredGridsEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::GetStoredGridsEndpoint),
             Self::GetGridsInDesignatedAreaReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::GetGridsInDesignatedAreaReply),
@@ -583,7 +655,9 @@ impl MyGridsStorageEntityComponentInstanceEventPayload {
             Self::GetOrdersReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::GetOrdersReply),
             Self::GetOrdersEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::GetOrdersEndpoint),
             Self::CancelCurrentClientOrderEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::CancelCurrentClientOrderEndpoint),
-            Self::ConfirmDeployFailureReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::ConfirmDeployFailureReply),
+            Self::ConfirmDeployFailureWrongTerminalReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::ConfirmDeployFailureWrongTerminalReply),
+            Self::ConfirmDeployFailureMovingReply => Some(MyGridsStorageEntityComponentInstanceEvent::ConfirmDeployFailureMovingReply),
+            Self::ConfirmDeployFailureTooFarReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::ConfirmDeployFailureTooFarReply),
             Self::ConfirmDeployEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::ConfirmDeployEndpoint),
             Self::ExpediteCurrentClientOrderReply(_) => Some(MyGridsStorageEntityComponentInstanceEvent::ExpediteCurrentClientOrderReply),
             Self::ExpediteCurrentClientOrderEndpoint => Some(MyGridsStorageEntityComponentInstanceEvent::ExpediteCurrentClientOrderEndpoint),

@@ -127,6 +127,10 @@ pub enum MyGridStorageRequestResult {
     SpawnSpotIsOccupied = 256,
     InsufficientPCU = 512,
     PlayerBlockLimitsExceeded = 1024,
+    GridIsMoving = 2048,
+    GridInCombat = 4096,
+    TooFarFromStorageLocation = 8192,
+    GridContainsHostileBlocks = 16384,
 }
 impl MyGridStorageRequestResult {
     pub const SUCCESS: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
