@@ -172,7 +172,14 @@ mod tests {
     fn test_real_packet() {
         let data: [u8; 25] = [
             0xce, 0x00, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00,
-            0xa7, 0x00, 0xa6, 0x8f, 0x80, 0x94, 0x00, 0x00, 0x00, 0x00, 0x72, 0x91,
+            // Event ID 168: MySessionComponentMatch_RecieveTimeSync.
+            // Event IDs are version-specific. This capture was originally 167
+            // and moved to 168 in the 1.209020 codegen reindex.
+            // If this fails after a game update, read the new ID from
+            // crate-transport/src/protocol/version/embedded_schema.json
+            // (static_events -> name == "RecieveTimeSync"), then update this
+            // byte pair and the assertion below.
+            0xa8, 0x00, 0xa6, 0x8f, 0x80, 0x94, 0x00, 0x00, 0x00, 0x00, 0x72, 0x91,
             0x55,
         ];
         let mut reader = Reader::new(std::io::Cursor::new(&data));
@@ -195,10 +202,12 @@ mod tests {
             panic!("Expected Rpc packet");
         };
 
-        // Verify RPC fields
+        // Verify RPC fields.
+        // Keep this in sync with the event ID bytes above. See the comment
+        // there for where to look up the current version-specific ID.
         assert_eq!(*rpc.network_id, 0, "Static event has network_id 0");
         assert_eq!(*rpc.blocked_by_network_id, 0);
-        assert_eq!(rpc.event_id, 167);
+        assert_eq!(rpc.event_id, 168);
 
         // Parse the payload
         match rpc.parse_static_event_embedded().unwrap() {

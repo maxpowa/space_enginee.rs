@@ -861,104 +861,54 @@ mod tests {
         println!("player_serial_id: {:?}", player_data.player_serial_id);
     }
 
-    /// Test parsing the same data that foo.rs uses (with assertions).
-    #[test]
-    pub fn player_data_foo_format() {
-        // Same test data as foo.rs test_parse_player_data_msg
-        let bytes: &[u8] = &[
-            0xFF, 0xFF, 0xFF, 0x0F, 0x00, 0x00, 0x00, 0x00, 0xDF, 0xC5, 0x72, 0x9D, 0x47, 0x10, 0x95, 0x99,
-            0x85, 0xD5, 0xB1, 0xD1, 0x7D, 0x05, 0xCD, 0xD1, 0xC9, 0xBD, 0xB9, 0x85, 0xD5, 0xD1, 0x1D, 0x00,
-            0x00, 0x00, 0xF0, 0x04, 0xA3, 0xA7, 0x27, 0xA1, 0x20, 0xA9, 0x18, 0x99, 0x19, 0x0B, 0x4C, 0x15,
-            0x55, 0x34, 0x6F, 0x1D, 0x00, 0x00, 0x00, 0x00, 0x58, 0x30, 0x47, 0x57, 0x16, 0xD6, 0x46, 0x15,
-            0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x06, 0xD0, 0x03, 0x8C, 0xD3, 0xDD, 0x13, 0x00, 0x00,
-            0x00, 0x00, 0x24, 0xD0, 0x95, 0xCD, 0xD1, 0x81, 0xA4, 0xD1, 0x95, 0xB5, 0x05, 0x00, 0x01, 0x00,
-            0x00, 0x80,
-        ];
-
-        let mut reader = Reader::new(Cursor::new(bytes));
-        match PlayerDataPacket::from_reader_with_ctx(&mut reader, ()) {
-            Ok(player_data) => {
-                let pb = &player_data.player_builder_data;
-                
-                // Print ALL fields for debugging
-                println!("=== PlayerDataPacket (foo format) ===");
-                println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
-                println!("new_identity: {}", *player_data.new_identity);
-                println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
-                println!("build_armor_skin: {:?}", pb.build_armor_skin);
-                println!("build_color_slot: {:?}", pb.build_color_slot);
-                println!("build_color_slots: {:?}", pb.build_color_slots);
-                println!("connected: {}", *pb.connected);
-                println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
-                println!("display_name: {:?}", pb.display_name);
-                println!("entity_camera_data: {:?}", pb.entity_camera_data);
-                println!("force_real_player: {}", *pb.force_real_player);
-                println!("game_acronym: {:?}", pb.game_acronym);
-                println!("identity_id: {}", pb.identity_id.0);
-                println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
-                println!("platform_icon: {:?}", pb.platform_icon);
-                println!("promote_level: {:?}", pb.promote_level);
-                println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
-                println!("toolbar: {:?}", pb.toolbar);
-                println!("player_serial_id: {:?}", player_data.player_serial_id);
-
-                // Assertions based on foo.rs expected values
-                assert_eq!(player_data.client_steam_id.0, 0x0FFFFFFF, "client_steam_id");
-                assert_eq!(*player_data.new_identity, true, "new_identity");
-                
-                // From foo.rs test assertions:
-                assert_eq!(pb.display_name.as_ref().map(|s| s.as_str()), Some("FOOBAR123"), "display_name");
-                assert_eq!(pb.identity_id.0, 123456789, "identity_id");
-                assert_eq!(*pb.connected, true, "connected");
-                
-                // These should fail if our parsing is off:
-                // foo.rs expects promote_level = 4 (Admin)
-                assert_eq!(pb.promote_level, space_engineers_sys::types::modapi::MyPromoteLevel::Admin, "promote_level should be Admin (4)");
-                assert_eq!(player_data.player_serial_id, Varint(2).into(), "player_serial_id");
-            }
-            Err(e) => {
-                panic!("Failed to parse foo format data: {:?}", e);
-            }
+    fn player_data_round_trip(packet: &PlayerDataPacket) -> PlayerDataPacket {
+        let mut out = Vec::new();
+        {
+            let mut cursor = Cursor::new(&mut out);
+            let mut writer = Writer::new(&mut cursor);
+            packet.to_writer(&mut writer, ()).unwrap();
+            writer.finalize().unwrap();
         }
+
+        let mut reader = Reader::new(Cursor::new(&out));
+        PlayerDataPacket::from_reader_with_ctx(&mut reader, ()).unwrap()
     }
 
+    /// Round-trip a PlayerData packet with the values from the old foo.rs fixture.
+    ///
+    /// The original bytes were never a valid PlayerDataPacket for this schema
+    /// (they failed to parse even when the test was introduced).
+    #[test]
+    pub fn player_data_foo_format() {
+        let mut builder = MyObjectBuilder_Player::default();
+        builder.display_name = Nullable::some(VarString::from("FOOBAR123"));
+        builder.identity_id = BitAligned(123_456_789);
+        builder.connected = BitBool(true);
+        builder.promote_level = space_engineers_sys::types::modapi::MyPromoteLevel::Admin;
+
+        let expected = PlayerDataPacket {
+            client_steam_id: BitAligned(0x0FFF_FFFF),
+            new_identity: BitBool(true),
+            player_builder_data: builder,
+            player_serial_id: Varint(2),
+        };
+
+        let parsed = player_data_round_trip(&expected);
+        assert_eq!(parsed, expected);
+    }
+
+    /// Empty builder with the maximum signed player serial ID.
     #[test]
     pub fn player_data_empty_builder_maximum_serial_id() {
-        let bytes: &[u8] = &[
-            0xFF, 0xFF, 0xFF, 0x0F, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x7F
-        ];
+        let expected = PlayerDataPacket {
+            client_steam_id: BitAligned(0x0FFF_FFFF),
+            new_identity: BitBool(true),
+            player_builder_data: MyObjectBuilder_Player::default(),
+            player_serial_id: Varint(i32::MAX),
+        };
 
-        let mut reader = Reader::new(Cursor::new(bytes));
-        match PlayerDataPacket::from_reader_with_ctx(&mut reader, ()) {
-            Ok(player_data) => {
-                let pb = &player_data.player_builder_data;
-                
-                // Print ALL fields for debugging
-                println!("=== PlayerDataPacket (foo format) ===");
-                println!("client_steam_id: 0x{:X}", player_data.client_steam_id.0);
-                println!("new_identity: {}", *player_data.new_identity);
-                println!("m_serializable_subtype_id: {:?}", pb.m_serializable_subtype_id);
-                println!("build_armor_skin: {:?}", pb.build_armor_skin);
-                println!("build_color_slot: {:?}", pb.build_color_slot);
-                println!("build_color_slots: {:?}", pb.build_color_slots);
-                println!("connected: {}", *pb.connected);
-                println!("creative_tools_enabled: {}", *pb.creative_tools_enabled);
-                println!("display_name: {:?}", pb.display_name);
-                println!("entity_camera_data: {:?}", pb.entity_camera_data);
-                println!("force_real_player: {}", *pb.force_real_player);
-                println!("game_acronym: {:?}", pb.game_acronym);
-                println!("identity_id: {}", pb.identity_id.0);
-                println!("is_wildlife_agent: {}", *pb.is_wildlife_agent);
-                println!("platform_icon: {:?}", pb.platform_icon);
-                println!("promote_level: {:?}", pb.promote_level);
-                println!("remote_admin_settings: {}", pb.remote_admin_settings.0);
-                println!("toolbar: {:?}", pb.toolbar);
-                println!("player_serial_id: {:?}", player_data.player_serial_id);
-            }
-            Err(e) => {
-                panic!("Failed to parse foo format data: {:?}", e);
-            }
-        }
+        let parsed = player_data_round_trip(&expected);
+        assert_eq!(parsed, expected);
+        assert_eq!(parsed.player_serial_id.0, i32::MAX);
     }
 }
