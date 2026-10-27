@@ -4,7 +4,7 @@
 //! They are designed to be transparent for serde/proto while providing correct
 //! bit-level serialization with Deku.
 
-use deku::bitvec::{AsBits, BitField as _, BitVec, Lsb0};
+use deku::bitvec::{BitField as _, BitVec, Msb0};
 use deku::ctx::Order;
 use deku::prelude::{Reader, Writer};
 use deku::{DekuError, DekuReader, DekuWriter};
@@ -109,9 +109,30 @@ fn read_varint_byte<R: Read + Seek>(reader: &mut Reader<R>) -> Result<u8, DekuEr
     Ok(bits.unwrap().as_bitslice().load::<u8>())
 }
 
+/// Writes one byte LSB-first, matching SE's `BitStream.WriteByte`.
+///
+/// Deku's `Writer` takes an `Msb0` bit slice. Building that slice directly from
+/// `as_bits::<Lsb0>()` and passing `Order::Lsb0` does not reliably preserve the
+/// byte order/bit order (it depends on the writer's current leftover order), so
+/// write one bit at a time instead.
+fn write_byte_lsb<W: Write + Seek>(writer: &mut Writer<W>, byte: u8) -> Result<(), DekuError> {
+    for bit in 0..8 {
+        let mut entry = BitVec::<u8, Msb0>::with_capacity(1);
+        entry.push((byte >> bit) & 1 != 0);
+        writer.write_bits_order(&entry, Order::Lsb0)?;
+    }
+    Ok(())
+}
+
+fn write_bytes_lsb<W: Write + Seek>(writer: &mut Writer<W>, bytes: &[u8]) -> Result<(), DekuError> {
+    for &byte in bytes {
+        write_byte_lsb(writer, byte)?;
+    }
+    Ok(())
+}
+
 fn write_varint_bytes<W: Write + Seek>(writer: &mut Writer<W>, bytes: &[u8]) -> Result<(), DekuError> {
-    let data = BitVec::from_iter(bytes.as_bits::<Lsb0>().iter());
-    writer.write_bits_order(&data, Order::Lsb0)
+    write_bytes_lsb(writer, bytes)
 }
 
 macro_rules! impl_unsigned_varint_value {
@@ -413,8 +434,7 @@ impl<T: LeBytes> DekuWriter<()> for BitAligned<T> {
         _ctx: (),
     ) -> Result<(), DekuError> {
         let bytes = self.0.to_le_bytes_vec();
-        let data = BitVec::from_iter(bytes.as_bits::<Lsb0>().iter().rev());
-        writer.write_bits_order(&data, Order::Lsb0)
+        write_bytes_lsb(writer, &bytes)
     }
 }
 
@@ -507,9 +527,7 @@ impl DekuReader<'_, ()> for VarBytes {
 impl DekuWriter<()> for VarBytes {
     fn to_writer<W: Write + Seek>(&self, writer: &mut Writer<W>, _: ()) -> Result<(), DekuError> {
         Varint::from(self.0.len() as u32).to_writer(writer, ())?;
-
-        let data = BitVec::from_iter(self.0.as_slice().as_bits::<Lsb0>().iter().rev());
-        writer.write_bits_order(&data, Order::Lsb0)?;
+        write_bytes_lsb(writer, &self.0)?;
         Ok(())
     }
 }
@@ -623,9 +641,7 @@ impl DekuWriter<()> for VarString {
         _ctx: (),
     ) -> Result<(), DekuError> {
         Varint::from(self.0.len() as u64).to_writer(writer, ())?;
-
-        let data = BitVec::from_iter(self.0.as_bytes().as_bits::<Lsb0>().iter().rev());
-        writer.write_bits_order(&data, Order::Lsb0)?;
+        write_bytes_lsb(writer, self.0.as_bytes())?;
         Ok(())
     }
 }
@@ -1452,8 +1468,7 @@ where
         Varint::from(proto_bytes.len() as u32).to_writer(writer, ())?;
 
         // Write protobuf bytes
-        let data = BitVec::from_iter(proto_bytes.as_bits::<Lsb0>().iter().rev());
-        writer.write_bits_order(&data, Order::Lsb0)?;
+        write_bytes_lsb(writer, &proto_bytes)?;
 
         Ok(())
     }
@@ -1517,5 +1532,79 @@ mod tests {
         let b = VarBytes::from(vec![1, 2, 3]);
         let owned: Vec<u8> = b.into();
         assert_eq!(owned, vec![1, 2, 3]);
+    }
+
+    fn encode<T: deku::DekuWriter<()>>(value: &T) -> Vec<u8> {
+        use deku::writer::Writer;
+        use std::io::Cursor;
+
+        let mut out = Vec::new();
+        {
+            let mut cursor = Cursor::new(&mut out);
+            let mut writer = Writer::new(&mut cursor);
+            value.to_writer(&mut writer, ()).unwrap();
+            writer.finalize().unwrap();
+        }
+        out
+    }
+
+    #[test]
+    fn writes_fixed_width_little_endian() {
+        assert_eq!(encode(&BitAligned(0x1234u16)), vec![0x34, 0x12]);
+        assert_eq!(
+            encode(&BitAligned(0x1234_5678u32)),
+            vec![0x78, 0x56, 0x34, 0x12]
+        );
+        assert_eq!(encode(&BitAligned(1u64)), vec![1, 0, 0, 0, 0, 0, 0, 0]);
+    }
+
+    #[test]
+    fn writes_varint_low_bits_first() {
+        assert_eq!(encode(&Varint(1u64)), vec![0x01]);
+        assert_eq!(encode(&Varint(360u64)), vec![0xe8, 0x02]);
+        assert_eq!(encode(&Varint(0x1234u64)), vec![0xb4, 0x24]);
+    }
+
+    #[test]
+    fn writes_var_bytes_and_strings_lsb_first() {
+        assert_eq!(encode(&VarBytes::from(vec![1u8, 2])), vec![0x02, 0x01, 0x02]);
+        assert_eq!(
+            encode(&VarString::from("Steam")),
+            vec![0x05, b'S', b't', b'e', b'a', b'm']
+        );
+    }
+
+    #[derive(deku::DekuWrite)]
+    struct TestClientConnected {
+        client_id: BitAligned<u64>,
+        experimental_mode: BitBool,
+        is_admin: BitBool,
+        is_profiling: BitBool,
+        join: BitBool,
+        name: crate::Nullable<VarString>,
+        service_name: crate::Nullable<VarString>,
+        token: crate::Nullable<VarBytes>,
+    }
+
+    #[test]
+    fn writes_client_connected_like_the_game() {
+        let packet = TestClientConnected {
+            client_id: BitAligned(0),
+            experimental_mode: BitBool(false),
+            is_admin: BitBool(false),
+            is_profiling: BitBool(false),
+            join: BitBool(true),
+            name: crate::Nullable::some(VarString::from("A")),
+            service_name: crate::Nullable::some(VarString::from("Steam")),
+            token: crate::Nullable::some(VarBytes::from(vec![1u8, 2])),
+        };
+
+        assert_eq!(
+            encode(&packet),
+            vec![
+                0, 0, 0, 0, 0, 0, 0, 0, // client id
+                0x38, 0x20, 0x68, 0xc1, 0x14, 0x5d, 0x59, 0x58, 0x5b, 0x81, 0x00, 0x01,
+            ]
+        );
     }
 }
