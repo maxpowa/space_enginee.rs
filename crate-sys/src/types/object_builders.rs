@@ -820,6 +820,15 @@ pub struct MyObjectBuilder_SessionSettings {
     #[proto(tag = 391)]
     #[serde(rename = "GridStorageMaxDistance", default)]
     pub grid_storage_max_distance: f64,
+    #[proto(tag = 394)]
+    #[serde(rename = "AllowDampeningToHostileGrids", default)]
+    pub allow_dampening_to_hostile_grids: bool,
+    #[proto(tag = 397)]
+    #[serde(rename = "EnableJumpSignatures", default)]
+    pub enable_jump_signatures: bool,
+    #[proto(tag = 401)]
+    #[serde(rename = "AllowGravityDrives", default)]
+    pub allow_gravity_drives: bool,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,Vec<u8>>
 // Original type: VRage.Game.MyObjectBuilder_ScriptManager
@@ -1818,7 +1827,6 @@ pub struct MyObjectBuilder_Base {
     pub m_serializable_subtype_id: super::game::MyStringHash,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint, SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_AutopilotWaypoint>
-// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_ToolbarItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ToolbarItem>
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint
 #[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
@@ -1914,6 +1922,7 @@ pub struct MyObjectBuilder_AutopilotClipboard {
     pub m_serializable_subtype_id: super::game::MyStringHash,
 }
 // Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Missile
+#[::serde_inline_default::serde_inline_default]
 #[::proto_rs::proto_message]
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Missile")]
@@ -1960,6 +1969,10 @@ pub struct MyObjectBuilder_Missile {
     #[proto(tag = 19)]
     #[serde(rename = "HealthPool", default)]
     pub health_pool: crate::compat::BitAligned<f32>,
+    #[proto(tag = 25)]
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Integrity")]
+    pub integrity: crate::compat::BitAligned<f32>,
     #[proto(tag = 16)]
     #[serde(rename = "LauncherId", default)]
     pub launcher_id: crate::compat::BitAligned<i64>,
@@ -1975,6 +1988,9 @@ pub struct MyObjectBuilder_Missile {
     #[proto(skip)]
     #[serde(rename = "Owner", default)]
     pub owner: crate::compat::BitAligned<i64>,
+    #[proto(tag = 22)]
+    #[serde(rename = "TargetEntityId", default)]
+    pub target_entity_id: crate::compat::BitAligned<i64>,
     // Warning: Duplicate Protobuf tag 1 in type Sandbox.Common.ObjectBuilders.MyObjectBuilder_Missile
     #[proto(skip)]
     #[serde(rename = "WeaponDefinitionId")]

@@ -80,7 +80,6 @@ pub struct MyDoorBase_OnChangeDescriptionPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyDoorBase_OpenRequestPayload {
     pub open: BitBool,
-    pub identity_id: BitAligned<i64>,
 }
 
 /// Stable instance event identities for Sandbox.Game.Entities.MyDoorBase.
@@ -108,7 +107,7 @@ pub enum MyDoorBaseInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
-    /// Hash: 167515990
+    /// Hash: 542737886
     OpenRequest,
 }
 
@@ -126,7 +125,7 @@ impl MyDoorBaseInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
-            Self::OpenRequest => 167515990,
+            Self::OpenRequest => 542737886,
         }
     }
 
@@ -143,7 +142,7 @@ impl MyDoorBaseInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
-            167515990 => Some(Self::OpenRequest),
+            542737886 => Some(Self::OpenRequest),
             _ => None,
         }
     }

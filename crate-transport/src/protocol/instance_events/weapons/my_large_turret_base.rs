@@ -76,6 +76,12 @@ pub struct MyLargeTurretBase_OnChangeDescriptionPayload {
     pub is_public: BitBool,
 }
 
+/// Payload for MyLargeTurretBase::ShowSelectedAmmoTypeNotification instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyLargeTurretBase_ShowSelectedAmmoTypeNotificationPayload {
+    pub ammo_magazine_id: space_engineers_sys::types::game::MyStringHash,
+}
+
 /// Payload for MyLargeTurretBase::SetTargetRequest instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyLargeTurretBase_SetTargetRequestPayload {
@@ -165,6 +171,14 @@ pub enum MyLargeTurretBaseInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
+    /// Hash: 2101670283
+    CycleSelectedAmmoTypeRequest,
+    /// Hash: -727124292
+    ShowSelectedAmmoTypeNotification,
+    /// Hash: 439212189
+    ForceReloadRequest,
+    /// Hash: -967406456
+    ShowForceReloadFailedNotification,
     /// Hash: 702883324
     ShootOncePressedEvent,
     /// Hash: -366632937
@@ -207,6 +221,10 @@ impl MyLargeTurretBaseInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
+            Self::CycleSelectedAmmoTypeRequest => 2101670283,
+            Self::ShowSelectedAmmoTypeNotification => -727124292,
+            Self::ForceReloadRequest => 439212189,
+            Self::ShowForceReloadFailedNotification => -967406456,
             Self::ShootOncePressedEvent => 702883324,
             Self::SetTargetRequest => -366632937,
             Self::SetTargetPosition => 1028705773,
@@ -236,6 +254,10 @@ impl MyLargeTurretBaseInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
+            2101670283 => Some(Self::CycleSelectedAmmoTypeRequest),
+            -727124292 => Some(Self::ShowSelectedAmmoTypeNotification),
+            439212189 => Some(Self::ForceReloadRequest),
+            -967406456 => Some(Self::ShowForceReloadFailedNotification),
             702883324 => Some(Self::ShootOncePressedEvent),
             -366632937 => Some(Self::SetTargetRequest),
             1028705773 => Some(Self::SetTargetPosition),
@@ -279,6 +301,14 @@ pub enum MyLargeTurretBaseInstanceEventPayload {
     OnChangeOpenRequest_8(MyLargeTurretBase_OnChangeOpenRequest_8Payload),
     /// OnChangeDescription event payload
     OnChangeDescription(MyLargeTurretBase_OnChangeDescriptionPayload),
+    /// CycleSelectedAmmoTypeRequest event (no payload)
+    CycleSelectedAmmoTypeRequest,
+    /// ShowSelectedAmmoTypeNotification event payload
+    ShowSelectedAmmoTypeNotification(MyLargeTurretBase_ShowSelectedAmmoTypeNotificationPayload),
+    /// ForceReloadRequest event (no payload)
+    ForceReloadRequest,
+    /// ShowForceReloadFailedNotification event (no payload)
+    ShowForceReloadFailedNotification,
     /// ShootOncePressedEvent event (no payload)
     ShootOncePressedEvent,
     /// SetTargetRequest event payload
@@ -355,6 +385,13 @@ impl MyLargeTurretBaseInstanceEvent {
                 let (_, payload) = MyLargeTurretBase_OnChangeDescriptionPayload::from_bytes((bytes, 0))?;
                 Ok(MyLargeTurretBaseInstanceEventPayload::OnChangeDescription(payload))
             }
+            Self::CycleSelectedAmmoTypeRequest => Ok(MyLargeTurretBaseInstanceEventPayload::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification => {
+                let (_, payload) = MyLargeTurretBase_ShowSelectedAmmoTypeNotificationPayload::from_bytes((bytes, 0))?;
+                Ok(MyLargeTurretBaseInstanceEventPayload::ShowSelectedAmmoTypeNotification(payload))
+            }
+            Self::ForceReloadRequest => Ok(MyLargeTurretBaseInstanceEventPayload::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Ok(MyLargeTurretBaseInstanceEventPayload::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Ok(MyLargeTurretBaseInstanceEventPayload::ShootOncePressedEvent),
             Self::SetTargetRequest => {
                 let (_, payload) = MyLargeTurretBase_SetTargetRequestPayload::from_bytes((bytes, 0))?;
@@ -438,6 +475,14 @@ pub trait MyLargeTurretBaseInstanceEventVisitor {
     fn visit_on_change_open_request_8(&mut self, payload: &MyLargeTurretBase_OnChangeOpenRequest_8Payload) {}
     /// Called when visiting OnChangeDescription event.
     fn visit_on_change_description(&mut self, payload: &MyLargeTurretBase_OnChangeDescriptionPayload) {}
+    /// Called when visiting CycleSelectedAmmoTypeRequest event (no payload).
+    fn visit_cycle_selected_ammo_type_request(&mut self) {}
+    /// Called when visiting ShowSelectedAmmoTypeNotification event.
+    fn visit_show_selected_ammo_type_notification(&mut self, payload: &MyLargeTurretBase_ShowSelectedAmmoTypeNotificationPayload) {}
+    /// Called when visiting ForceReloadRequest event (no payload).
+    fn visit_force_reload_request(&mut self) {}
+    /// Called when visiting ShowForceReloadFailedNotification event (no payload).
+    fn visit_show_force_reload_failed_notification(&mut self) {}
     /// Called when visiting ShootOncePressedEvent event (no payload).
     fn visit_shoot_once_pressed_event(&mut self) {}
     /// Called when visiting SetTargetRequest event.
@@ -483,6 +528,10 @@ impl MyLargeTurretBaseInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(payload) => visitor.visit_on_change_open_success_7(payload),
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
+            Self::CycleSelectedAmmoTypeRequest => visitor.visit_cycle_selected_ammo_type_request(),
+            Self::ShowSelectedAmmoTypeNotification(payload) => visitor.visit_show_selected_ammo_type_notification(payload),
+            Self::ForceReloadRequest => visitor.visit_force_reload_request(),
+            Self::ShowForceReloadFailedNotification => visitor.visit_show_force_reload_failed_notification(),
             Self::ShootOncePressedEvent => visitor.visit_shoot_once_pressed_event(),
             Self::SetTargetRequest(payload) => visitor.visit_set_target_request(payload),
             Self::SetTargetPosition(payload) => visitor.visit_set_target_position(payload),
@@ -513,6 +562,10 @@ impl MyLargeTurretBaseInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(_) => Some(MyLargeTurretBaseInstanceEvent::OnChangeOpenSuccess_7),
             Self::OnChangeOpenRequest_8(_) => Some(MyLargeTurretBaseInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MyLargeTurretBaseInstanceEvent::OnChangeDescription),
+            Self::CycleSelectedAmmoTypeRequest => Some(MyLargeTurretBaseInstanceEvent::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification(_) => Some(MyLargeTurretBaseInstanceEvent::ShowSelectedAmmoTypeNotification),
+            Self::ForceReloadRequest => Some(MyLargeTurretBaseInstanceEvent::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Some(MyLargeTurretBaseInstanceEvent::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Some(MyLargeTurretBaseInstanceEvent::ShootOncePressedEvent),
             Self::SetTargetRequest(_) => Some(MyLargeTurretBaseInstanceEvent::SetTargetRequest),
             Self::SetTargetPosition(_) => Some(MyLargeTurretBaseInstanceEvent::SetTargetPosition),

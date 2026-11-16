@@ -76,6 +76,12 @@ pub struct MySmallGatlingGun_OnChangeDescriptionPayload {
     pub is_public: BitBool,
 }
 
+/// Payload for MySmallGatlingGun::ShowSelectedAmmoTypeNotification instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MySmallGatlingGun_ShowSelectedAmmoTypeNotificationPayload {
+    pub ammo_magazine_id: space_engineers_sys::types::game::MyStringHash,
+}
+
 /// Payload for MySmallGatlingGun::OnShootMissile instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySmallGatlingGun_OnShootMissilePayload {
@@ -113,6 +119,14 @@ pub enum MySmallGatlingGunInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
+    /// Hash: 2101670283
+    CycleSelectedAmmoTypeRequest,
+    /// Hash: -727124292
+    ShowSelectedAmmoTypeNotification,
+    /// Hash: 439212189
+    ForceReloadRequest,
+    /// Hash: -967406456
+    ShowForceReloadFailedNotification,
     /// Hash: 702883324
     ShootOncePressedEvent,
     /// Hash: 690649551
@@ -135,6 +149,10 @@ impl MySmallGatlingGunInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
+            Self::CycleSelectedAmmoTypeRequest => 2101670283,
+            Self::ShowSelectedAmmoTypeNotification => -727124292,
+            Self::ForceReloadRequest => 439212189,
+            Self::ShowForceReloadFailedNotification => -967406456,
             Self::ShootOncePressedEvent => 702883324,
             Self::OnShootMissile => 690649551,
             Self::OnRemoveMissile => -2028270369,
@@ -154,6 +172,10 @@ impl MySmallGatlingGunInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
+            2101670283 => Some(Self::CycleSelectedAmmoTypeRequest),
+            -727124292 => Some(Self::ShowSelectedAmmoTypeNotification),
+            439212189 => Some(Self::ForceReloadRequest),
+            -967406456 => Some(Self::ShowForceReloadFailedNotification),
             702883324 => Some(Self::ShootOncePressedEvent),
             690649551 => Some(Self::OnShootMissile),
             -2028270369 => Some(Self::OnRemoveMissile),
@@ -187,6 +209,14 @@ pub enum MySmallGatlingGunInstanceEventPayload {
     OnChangeOpenRequest_8(MySmallGatlingGun_OnChangeOpenRequest_8Payload),
     /// OnChangeDescription event payload
     OnChangeDescription(MySmallGatlingGun_OnChangeDescriptionPayload),
+    /// CycleSelectedAmmoTypeRequest event (no payload)
+    CycleSelectedAmmoTypeRequest,
+    /// ShowSelectedAmmoTypeNotification event payload
+    ShowSelectedAmmoTypeNotification(MySmallGatlingGun_ShowSelectedAmmoTypeNotificationPayload),
+    /// ForceReloadRequest event (no payload)
+    ForceReloadRequest,
+    /// ShowForceReloadFailedNotification event (no payload)
+    ShowForceReloadFailedNotification,
     /// ShootOncePressedEvent event (no payload)
     ShootOncePressedEvent,
     /// OnShootMissile event payload
@@ -243,6 +273,13 @@ impl MySmallGatlingGunInstanceEvent {
                 let (_, payload) = MySmallGatlingGun_OnChangeDescriptionPayload::from_bytes((bytes, 0))?;
                 Ok(MySmallGatlingGunInstanceEventPayload::OnChangeDescription(payload))
             }
+            Self::CycleSelectedAmmoTypeRequest => Ok(MySmallGatlingGunInstanceEventPayload::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification => {
+                let (_, payload) = MySmallGatlingGun_ShowSelectedAmmoTypeNotificationPayload::from_bytes((bytes, 0))?;
+                Ok(MySmallGatlingGunInstanceEventPayload::ShowSelectedAmmoTypeNotification(payload))
+            }
+            Self::ForceReloadRequest => Ok(MySmallGatlingGunInstanceEventPayload::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Ok(MySmallGatlingGunInstanceEventPayload::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Ok(MySmallGatlingGunInstanceEventPayload::ShootOncePressedEvent),
             Self::OnShootMissile => {
                 let (_, payload) = MySmallGatlingGun_OnShootMissilePayload::from_bytes((bytes, 0))?;
@@ -292,6 +329,14 @@ pub trait MySmallGatlingGunInstanceEventVisitor {
     fn visit_on_change_open_request_8(&mut self, payload: &MySmallGatlingGun_OnChangeOpenRequest_8Payload) {}
     /// Called when visiting OnChangeDescription event.
     fn visit_on_change_description(&mut self, payload: &MySmallGatlingGun_OnChangeDescriptionPayload) {}
+    /// Called when visiting CycleSelectedAmmoTypeRequest event (no payload).
+    fn visit_cycle_selected_ammo_type_request(&mut self) {}
+    /// Called when visiting ShowSelectedAmmoTypeNotification event.
+    fn visit_show_selected_ammo_type_notification(&mut self, payload: &MySmallGatlingGun_ShowSelectedAmmoTypeNotificationPayload) {}
+    /// Called when visiting ForceReloadRequest event (no payload).
+    fn visit_force_reload_request(&mut self) {}
+    /// Called when visiting ShowForceReloadFailedNotification event (no payload).
+    fn visit_show_force_reload_failed_notification(&mut self) {}
     /// Called when visiting ShootOncePressedEvent event (no payload).
     fn visit_shoot_once_pressed_event(&mut self) {}
     /// Called when visiting OnShootMissile event.
@@ -317,6 +362,10 @@ impl MySmallGatlingGunInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(payload) => visitor.visit_on_change_open_success_7(payload),
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
+            Self::CycleSelectedAmmoTypeRequest => visitor.visit_cycle_selected_ammo_type_request(),
+            Self::ShowSelectedAmmoTypeNotification(payload) => visitor.visit_show_selected_ammo_type_notification(payload),
+            Self::ForceReloadRequest => visitor.visit_force_reload_request(),
+            Self::ShowForceReloadFailedNotification => visitor.visit_show_force_reload_failed_notification(),
             Self::ShootOncePressedEvent => visitor.visit_shoot_once_pressed_event(),
             Self::OnShootMissile(payload) => visitor.visit_on_shoot_missile(payload),
             Self::OnRemoveMissile(payload) => visitor.visit_on_remove_missile(payload),
@@ -337,6 +386,10 @@ impl MySmallGatlingGunInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(_) => Some(MySmallGatlingGunInstanceEvent::OnChangeOpenSuccess_7),
             Self::OnChangeOpenRequest_8(_) => Some(MySmallGatlingGunInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MySmallGatlingGunInstanceEvent::OnChangeDescription),
+            Self::CycleSelectedAmmoTypeRequest => Some(MySmallGatlingGunInstanceEvent::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification(_) => Some(MySmallGatlingGunInstanceEvent::ShowSelectedAmmoTypeNotification),
+            Self::ForceReloadRequest => Some(MySmallGatlingGunInstanceEvent::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Some(MySmallGatlingGunInstanceEvent::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Some(MySmallGatlingGunInstanceEvent::ShootOncePressedEvent),
             Self::OnShootMissile(_) => Some(MySmallGatlingGunInstanceEvent::OnShootMissile),
             Self::OnRemoveMissile(_) => Some(MySmallGatlingGunInstanceEvent::OnRemoveMissile),

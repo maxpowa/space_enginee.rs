@@ -531,6 +531,8 @@ pub enum StaticEventType {
     SetPCU_Client,
     /// Hash: 419266788
     SetDampeningEntity,
+    /// Hash: 705157817
+    ShowDampeningToHostileGridDenied,
     /// Hash: -472020852
     ClearDampeningEntity,
     /// Hash: 1231173031
@@ -625,7 +627,7 @@ pub enum StaticEventType {
     MyAssetModifierComponent_ApplyAssetModifierSync_258,
     /// Hash: -1468025778
     MyAssetModifierComponent_ApplyAssetModifierSync_293,
-    /// Hash: 410358905
+    /// Hash: 343314884
     OnTargetRequestServer,
     /// Hash: 1398335973
     RequestReleaseTargetLock,
@@ -645,9 +647,11 @@ pub enum StaticEventType {
     OnShootMissile,
     /// Hash: 1465334920
     OnRemoveMissile,
+    /// Hash: -623112459
+    OnStartScrambledTurn,
     /// Hash: 864020922
     DrawTrajectoryOnClient,
-    /// Hash: -1603112534
+    /// Hash: 340762603
     OnChangeTrajectory,
     /// Hash: -814227222
     SendTransferRequestMessage,
@@ -730,9 +734,9 @@ pub enum StaticEventType {
     /// Hash: -2102062020
     CancelPendingTransferRequestsServerSide,
     /// Hash: -2018398609
-    MyCubeGrid_CancelPendingTransferRequests_10778,
+    MyCubeGrid_CancelPendingTransferRequests_10850,
     /// Hash: -1021133171
-    MyCubeGrid_CancelPendingTransferRequests_10795,
+    MyCubeGrid_CancelPendingTransferRequests_10867,
     /// Hash: -744210607
     AddChangeOwnersRequestClientside,
     /// Hash: -452010520
@@ -867,6 +871,8 @@ pub enum StaticEventType {
     RequestLayersFromServer,
     /// Hash: -1460018590
     ReceiveLayersFromServer,
+    /// Hash: -1107014143
+    SetSimulateLowMemoryForNpcsRequest,
     /// Hash: 1485052171
     HavokMemoryStatsRequest,
     /// Hash: -1886282250
@@ -1001,6 +1007,8 @@ pub enum StaticEventType {
     ShowMotD,
     /// Hash: -1703749710
     MyGlobalEncountersGenerator_UpdateGPSRemainingTime,
+    /// Hash: -2093344174
+    OnSignatureDetectedClient,
     /// Hash: 564199813
     MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification,
     /// Hash: -868665565
@@ -1015,6 +1023,16 @@ pub enum StaticEventType {
     RequestRespawnPointsResponse,
     /// Hash: 1696845478
     ChangeStat,
+    /// Hash: -2091197730
+    RequestSetCombatLogging,
+    /// Hash: -1776172321
+    RequestSetRoutePlannerLogging,
+    /// Hash: 94408423
+    RequestRaiseAlert,
+    /// Hash: -652601169
+    RequestRegisterCombatAnchor,
+    /// Hash: -1987029080
+    RequestUnregisterAnchor,
     /// Hash: -1850869894
     RequestSpawnSelectedGlobalEncounter,
     /// Hash: 1504695371
@@ -1031,6 +1049,10 @@ pub enum StaticEventType {
     RequestSpawnInstallationAtCrosshair,
     /// Hash: -531016194
     RequestSpawnInstallationAtCam,
+    /// Hash: -1965148581
+    RequestSpawnTestBot,
+    /// Hash: 1863887828
+    RequestOrder,
     /// Hash: -100638308
     RequestCreateStationGps,
     /// Hash: -1231143597
@@ -1297,6 +1319,7 @@ impl StaticEventType {
             Self::SetIdentityGridBlocksBuilt => -1631323165,
             Self::SetPCU_Client => -1437638838,
             Self::SetDampeningEntity => 419266788,
+            Self::ShowDampeningToHostileGridDenied => 705157817,
             Self::ClearDampeningEntity => -472020852,
             Self::SetDampeningEntityClient => 1231173031,
             Self::OnRespawnRequest => -717106603,
@@ -1344,7 +1367,7 @@ impl StaticEventType {
             Self::ResetAssetModifierSync => 1717925206,
             Self::MyAssetModifierComponent_ApplyAssetModifierSync_258 => 244971711,
             Self::MyAssetModifierComponent_ApplyAssetModifierSync_293 => -1468025778,
-            Self::OnTargetRequestServer => 410358905,
+            Self::OnTargetRequestServer => 343314884,
             Self::RequestReleaseTargetLock => 1398335973,
             Self::LooseLockOnClient => -1045581498,
             Self::OnTargetLostClient => 993936260,
@@ -1354,8 +1377,9 @@ impl StaticEventType {
             Self::OnInventoryFilled => -1252531882,
             Self::OnShootMissile => -1120937279,
             Self::OnRemoveMissile => 1465334920,
+            Self::OnStartScrambledTurn => -623112459,
             Self::DrawTrajectoryOnClient => 864020922,
-            Self::OnChangeTrajectory => -1603112534,
+            Self::OnChangeTrajectory => 340762603,
             Self::SendTransferRequestMessage => -814227222,
             Self::ReceiveTransferRequestMessage => 495107682,
             Self::ReceiveTransferNotPossibleMessage => -1470579651,
@@ -1396,8 +1420,8 @@ impl StaticEventType {
             Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
             Self::OnChangeOwnersRequestConfirmation => -698781606,
             Self::CancelPendingTransferRequestsServerSide => -2102062020,
-            Self::MyCubeGrid_CancelPendingTransferRequests_10778 => -2018398609,
-            Self::MyCubeGrid_CancelPendingTransferRequests_10795 => -1021133171,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10850 => -2018398609,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10867 => -1021133171,
             Self::AddChangeOwnersRequestClientside => -744210607,
             Self::RemoveOwnershipChangeRequests => -452010520,
             Self::OnChangeOwnersSuccess => -158472076,
@@ -1465,6 +1489,7 @@ impl StaticEventType {
             Self::SendDataClient => -353938270,
             Self::RequestLayersFromServer => -1063626949,
             Self::ReceiveLayersFromServer => -1460018590,
+            Self::SetSimulateLowMemoryForNpcsRequest => -1107014143,
             Self::HavokMemoryStatsRequest => 1485052171,
             Self::HavokMemoryStatsReply => -1886282250,
             Self::ProcessGetFailedValidationsRequest => 173503294,
@@ -1532,6 +1557,7 @@ impl StaticEventType {
             Self::ShowMedicalScreen_Implementation => 1756570335,
             Self::ShowMotD => -326424210,
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime => -1703749710,
+            Self::OnSignatureDetectedClient => -2093344174,
             Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => 564199813,
             Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => -868665565,
             Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => 1228327712,
@@ -1539,6 +1565,11 @@ impl StaticEventType {
             Self::RefreshRespawnPointsRequest => 482570430,
             Self::RequestRespawnPointsResponse => 1216041884,
             Self::ChangeStat => 1696845478,
+            Self::RequestSetCombatLogging => -2091197730,
+            Self::RequestSetRoutePlannerLogging => -1776172321,
+            Self::RequestRaiseAlert => 94408423,
+            Self::RequestRegisterCombatAnchor => -652601169,
+            Self::RequestUnregisterAnchor => -1987029080,
             Self::RequestSpawnSelectedGlobalEncounter => -1850869894,
             Self::RequestForceClaimTimerToEndSoon => 1504695371,
             Self::RequestMarkGridAsNpcs => -1873612226,
@@ -1547,6 +1578,8 @@ impl StaticEventType {
             Self::RequestGlobalEncounterDespawn => 346544685,
             Self::RequestSpawnInstallationAtCrosshair => -2102810046,
             Self::RequestSpawnInstallationAtCam => -531016194,
+            Self::RequestSpawnTestBot => -1965148581,
+            Self::RequestOrder => 1863887828,
             Self::RequestCreateStationGps => -100638308,
             Self::ShowAlreadyCollectedNotification => -1231143597,
             Self::PlayAttackAnimation => -115341791,
@@ -1810,6 +1843,7 @@ impl StaticEventType {
             -1631323165 => Some(Self::SetIdentityGridBlocksBuilt),
             -1437638838 => Some(Self::SetPCU_Client),
             419266788 => Some(Self::SetDampeningEntity),
+            705157817 => Some(Self::ShowDampeningToHostileGridDenied),
             -472020852 => Some(Self::ClearDampeningEntity),
             1231173031 => Some(Self::SetDampeningEntityClient),
             -717106603 => Some(Self::OnRespawnRequest),
@@ -1857,7 +1891,7 @@ impl StaticEventType {
             1717925206 => Some(Self::ResetAssetModifierSync),
             244971711 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_258),
             -1468025778 => Some(Self::MyAssetModifierComponent_ApplyAssetModifierSync_293),
-            410358905 => Some(Self::OnTargetRequestServer),
+            343314884 => Some(Self::OnTargetRequestServer),
             1398335973 => Some(Self::RequestReleaseTargetLock),
             -1045581498 => Some(Self::LooseLockOnClient),
             993936260 => Some(Self::OnTargetLostClient),
@@ -1867,8 +1901,9 @@ impl StaticEventType {
             -1252531882 => Some(Self::OnInventoryFilled),
             -1120937279 => Some(Self::OnShootMissile),
             1465334920 => Some(Self::OnRemoveMissile),
+            -623112459 => Some(Self::OnStartScrambledTurn),
             864020922 => Some(Self::DrawTrajectoryOnClient),
-            -1603112534 => Some(Self::OnChangeTrajectory),
+            340762603 => Some(Self::OnChangeTrajectory),
             -814227222 => Some(Self::SendTransferRequestMessage),
             495107682 => Some(Self::ReceiveTransferRequestMessage),
             -1470579651 => Some(Self::ReceiveTransferNotPossibleMessage),
@@ -1909,8 +1944,8 @@ impl StaticEventType {
             -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
             -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
             -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
-            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10778),
-            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10795),
+            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10850),
+            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10867),
             -744210607 => Some(Self::AddChangeOwnersRequestClientside),
             -452010520 => Some(Self::RemoveOwnershipChangeRequests),
             -158472076 => Some(Self::OnChangeOwnersSuccess),
@@ -1978,6 +2013,7 @@ impl StaticEventType {
             -353938270 => Some(Self::SendDataClient),
             -1063626949 => Some(Self::RequestLayersFromServer),
             -1460018590 => Some(Self::ReceiveLayersFromServer),
+            -1107014143 => Some(Self::SetSimulateLowMemoryForNpcsRequest),
             1485052171 => Some(Self::HavokMemoryStatsRequest),
             -1886282250 => Some(Self::HavokMemoryStatsReply),
             173503294 => Some(Self::ProcessGetFailedValidationsRequest),
@@ -2045,6 +2081,7 @@ impl StaticEventType {
             1756570335 => Some(Self::ShowMedicalScreen_Implementation),
             -326424210 => Some(Self::ShowMotD),
             -1703749710 => Some(Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime),
+            -2093344174 => Some(Self::OnSignatureDetectedClient),
             564199813 => Some(Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
             -868665565 => Some(Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
             1228327712 => Some(Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
@@ -2052,6 +2089,11 @@ impl StaticEventType {
             482570430 => Some(Self::RefreshRespawnPointsRequest),
             1216041884 => Some(Self::RequestRespawnPointsResponse),
             1696845478 => Some(Self::ChangeStat),
+            -2091197730 => Some(Self::RequestSetCombatLogging),
+            -1776172321 => Some(Self::RequestSetRoutePlannerLogging),
+            94408423 => Some(Self::RequestRaiseAlert),
+            -652601169 => Some(Self::RequestRegisterCombatAnchor),
+            -1987029080 => Some(Self::RequestUnregisterAnchor),
             -1850869894 => Some(Self::RequestSpawnSelectedGlobalEncounter),
             1504695371 => Some(Self::RequestForceClaimTimerToEndSoon),
             -1873612226 => Some(Self::RequestMarkGridAsNpcs),
@@ -2060,6 +2102,8 @@ impl StaticEventType {
             346544685 => Some(Self::RequestGlobalEncounterDespawn),
             -2102810046 => Some(Self::RequestSpawnInstallationAtCrosshair),
             -531016194 => Some(Self::RequestSpawnInstallationAtCam),
+            -1965148581 => Some(Self::RequestSpawnTestBot),
+            1863887828 => Some(Self::RequestOrder),
             -100638308 => Some(Self::RequestCreateStationGps),
             -1231143597 => Some(Self::ShowAlreadyCollectedNotification),
             -115341791 => Some(Self::PlayAttackAnimation),
@@ -2581,6 +2625,8 @@ pub enum StaticEventPayload {
     SetPCU_Client(SetPCU_ClientPayload),
     /// SetDampeningEntity event payload
     SetDampeningEntity(SetDampeningEntityPayload),
+    /// ShowDampeningToHostileGridDenied event (no payload)
+    ShowDampeningToHostileGridDenied,
     /// ClearDampeningEntity event payload
     ClearDampeningEntity(ClearDampeningEntityPayload),
     /// SetDampeningEntityClient event payload
@@ -2695,6 +2741,8 @@ pub enum StaticEventPayload {
     OnShootMissile(OnShootMissilePayload),
     /// OnRemoveMissile event payload
     OnRemoveMissile(OnRemoveMissilePayload),
+    /// OnStartScrambledTurn event payload
+    OnStartScrambledTurn(OnStartScrambledTurnPayload),
     /// DrawTrajectoryOnClient event payload
     DrawTrajectoryOnClient(DrawTrajectoryOnClientPayload),
     /// OnChangeTrajectory event payload
@@ -2779,10 +2827,10 @@ pub enum StaticEventPayload {
     OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
     /// CancelPendingTransferRequestsServerSide event payload
     CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
-    /// MyCubeGrid_CancelPendingTransferRequests_10778 event payload
-    MyCubeGrid_CancelPendingTransferRequests_10778(MyCubeGrid_CancelPendingTransferRequests_10778Payload),
-    /// MyCubeGrid_CancelPendingTransferRequests_10795 event payload
-    MyCubeGrid_CancelPendingTransferRequests_10795(MyCubeGrid_CancelPendingTransferRequests_10795Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10850 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10850(MyCubeGrid_CancelPendingTransferRequests_10850Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10867 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10867(MyCubeGrid_CancelPendingTransferRequests_10867Payload),
     /// AddChangeOwnersRequestClientside event payload
     AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
     /// RemoveOwnershipChangeRequests event payload
@@ -2917,6 +2965,8 @@ pub enum StaticEventPayload {
     RequestLayersFromServer,
     /// ReceiveLayersFromServer event payload
     ReceiveLayersFromServer(ReceiveLayersFromServerPayload),
+    /// SetSimulateLowMemoryForNpcsRequest event payload
+    SetSimulateLowMemoryForNpcsRequest(SetSimulateLowMemoryForNpcsRequestPayload),
     /// HavokMemoryStatsRequest event (no payload)
     HavokMemoryStatsRequest,
     /// HavokMemoryStatsReply event payload
@@ -3051,6 +3101,8 @@ pub enum StaticEventPayload {
     ShowMotD(ShowMotDPayload),
     /// MyGlobalEncountersGenerator_UpdateGPSRemainingTime event payload
     MyGlobalEncountersGenerator_UpdateGPSRemainingTime(MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload),
+    /// OnSignatureDetectedClient event payload
+    OnSignatureDetectedClient(OnSignatureDetectedClientPayload),
     /// MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification event (no payload)
     MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification,
     /// MySessionComponentGridTriggeredContracts_SendMaxContractsNotification event (no payload)
@@ -3065,6 +3117,16 @@ pub enum StaticEventPayload {
     RequestRespawnPointsResponse(RequestRespawnPointsResponsePayload),
     /// ChangeStat event payload
     ChangeStat(ChangeStatPayload),
+    /// RequestSetCombatLogging event payload
+    RequestSetCombatLogging(RequestSetCombatLoggingPayload),
+    /// RequestSetRoutePlannerLogging event payload
+    RequestSetRoutePlannerLogging(RequestSetRoutePlannerLoggingPayload),
+    /// RequestRaiseAlert event payload
+    RequestRaiseAlert(RequestRaiseAlertPayload),
+    /// RequestRegisterCombatAnchor event payload
+    RequestRegisterCombatAnchor(RequestRegisterCombatAnchorPayload),
+    /// RequestUnregisterAnchor event payload
+    RequestUnregisterAnchor(RequestUnregisterAnchorPayload),
     /// RequestSpawnSelectedGlobalEncounter event payload
     RequestSpawnSelectedGlobalEncounter(RequestSpawnSelectedGlobalEncounterPayload),
     /// RequestForceClaimTimerToEndSoon event payload
@@ -3081,6 +3143,10 @@ pub enum StaticEventPayload {
     RequestSpawnInstallationAtCrosshair(RequestSpawnInstallationAtCrosshairPayload),
     /// RequestSpawnInstallationAtCam event payload
     RequestSpawnInstallationAtCam(RequestSpawnInstallationAtCamPayload),
+    /// RequestSpawnTestBot event payload
+    RequestSpawnTestBot(RequestSpawnTestBotPayload),
+    /// RequestOrder event payload
+    RequestOrder(RequestOrderPayload),
     /// RequestCreateStationGps event payload
     RequestCreateStationGps(RequestCreateStationGpsPayload),
     /// ShowAlreadyCollectedNotification event (no payload)
@@ -4050,6 +4116,7 @@ impl StaticEventType {
                 let (_, payload) = SetDampeningEntityPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::SetDampeningEntity(payload))
             }
+            Self::ShowDampeningToHostileGridDenied => Ok(StaticEventPayload::ShowDampeningToHostileGridDenied),
             Self::ClearDampeningEntity => {
                 let (_, payload) = ClearDampeningEntityPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ClearDampeningEntity(payload))
@@ -4239,6 +4306,10 @@ impl StaticEventType {
                 let (_, payload) = OnRemoveMissilePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::OnRemoveMissile(payload))
             }
+            Self::OnStartScrambledTurn => {
+                let (_, payload) = OnStartScrambledTurnPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnStartScrambledTurn(payload))
+            }
             Self::DrawTrajectoryOnClient => {
                 let (_, payload) = DrawTrajectoryOnClientPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::DrawTrajectoryOnClient(payload))
@@ -4389,13 +4460,13 @@ impl StaticEventType {
                 let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_10778 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10778Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10778(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10850 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10850Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10850(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_10795 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10795Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10795(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10867 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10867Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10867(payload))
             }
             Self::AddChangeOwnersRequestClientside => {
                 let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
@@ -4638,6 +4709,10 @@ impl StaticEventType {
                 let (_, payload) = ReceiveLayersFromServerPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ReceiveLayersFromServer(payload))
             }
+            Self::SetSimulateLowMemoryForNpcsRequest => {
+                let (_, payload) = SetSimulateLowMemoryForNpcsRequestPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::SetSimulateLowMemoryForNpcsRequest(payload))
+            }
             Self::HavokMemoryStatsRequest => Ok(StaticEventPayload::HavokMemoryStatsRequest),
             Self::HavokMemoryStatsReply => {
                 let (_, payload) = HavokMemoryStatsReplyPayload::from_bytes((bytes, 0))?;
@@ -4852,6 +4927,10 @@ impl StaticEventType {
                 let (_, payload) = MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(payload))
             }
+            Self::OnSignatureDetectedClient => {
+                let (_, payload) = OnSignatureDetectedClientPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::OnSignatureDetectedClient(payload))
+            }
             Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => Ok(StaticEventPayload::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
             Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => Ok(StaticEventPayload::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
             Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => Ok(StaticEventPayload::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
@@ -4864,6 +4943,26 @@ impl StaticEventType {
             Self::ChangeStat => {
                 let (_, payload) = ChangeStatPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::ChangeStat(payload))
+            }
+            Self::RequestSetCombatLogging => {
+                let (_, payload) = RequestSetCombatLoggingPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestSetCombatLogging(payload))
+            }
+            Self::RequestSetRoutePlannerLogging => {
+                let (_, payload) = RequestSetRoutePlannerLoggingPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestSetRoutePlannerLogging(payload))
+            }
+            Self::RequestRaiseAlert => {
+                let (_, payload) = RequestRaiseAlertPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestRaiseAlert(payload))
+            }
+            Self::RequestRegisterCombatAnchor => {
+                let (_, payload) = RequestRegisterCombatAnchorPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestRegisterCombatAnchor(payload))
+            }
+            Self::RequestUnregisterAnchor => {
+                let (_, payload) = RequestUnregisterAnchorPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestUnregisterAnchor(payload))
             }
             Self::RequestSpawnSelectedGlobalEncounter => {
                 let (_, payload) = RequestSpawnSelectedGlobalEncounterPayload::from_bytes((bytes, 0))?;
@@ -4887,6 +4986,14 @@ impl StaticEventType {
             Self::RequestSpawnInstallationAtCam => {
                 let (_, payload) = RequestSpawnInstallationAtCamPayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::RequestSpawnInstallationAtCam(payload))
+            }
+            Self::RequestSpawnTestBot => {
+                let (_, payload) = RequestSpawnTestBotPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestSpawnTestBot(payload))
+            }
+            Self::RequestOrder => {
+                let (_, payload) = RequestOrderPayload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::RequestOrder(payload))
             }
             Self::RequestCreateStationGps => {
                 let (_, payload) = RequestCreateStationGpsPayload::from_bytes((bytes, 0))?;
@@ -5431,6 +5538,8 @@ pub trait StaticEventVisitor {
     fn visit_set_pcu_client(&mut self, payload: &SetPCU_ClientPayload) {}
     /// Called when visiting SetDampeningEntity event.
     fn visit_set_dampening_entity(&mut self, payload: &SetDampeningEntityPayload) {}
+    /// Called when visiting ShowDampeningToHostileGridDenied event (no payload).
+    fn visit_show_dampening_to_hostile_grid_denied(&mut self) {}
     /// Called when visiting ClearDampeningEntity event.
     fn visit_clear_dampening_entity(&mut self, payload: &ClearDampeningEntityPayload) {}
     /// Called when visiting SetDampeningEntityClient event.
@@ -5545,6 +5654,8 @@ pub trait StaticEventVisitor {
     fn visit_on_shoot_missile(&mut self, payload: &OnShootMissilePayload) {}
     /// Called when visiting OnRemoveMissile event.
     fn visit_on_remove_missile(&mut self, payload: &OnRemoveMissilePayload) {}
+    /// Called when visiting OnStartScrambledTurn event.
+    fn visit_on_start_scrambled_turn(&mut self, payload: &OnStartScrambledTurnPayload) {}
     /// Called when visiting DrawTrajectoryOnClient event.
     fn visit_draw_trajectory_on_client(&mut self, payload: &DrawTrajectoryOnClientPayload) {}
     /// Called when visiting OnChangeTrajectory event.
@@ -5629,10 +5740,10 @@ pub trait StaticEventVisitor {
     fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
     /// Called when visiting CancelPendingTransferRequestsServerSide event.
     fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10778 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_10778(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10778Payload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10795 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_10795(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10795Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10850 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10850(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10850Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10867 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10867(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10867Payload) {}
     /// Called when visiting AddChangeOwnersRequestClientside event.
     fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
     /// Called when visiting RemoveOwnershipChangeRequests event.
@@ -5767,6 +5878,8 @@ pub trait StaticEventVisitor {
     fn visit_request_layers_from_server(&mut self) {}
     /// Called when visiting ReceiveLayersFromServer event.
     fn visit_receive_layers_from_server(&mut self, payload: &ReceiveLayersFromServerPayload) {}
+    /// Called when visiting SetSimulateLowMemoryForNpcsRequest event.
+    fn visit_set_simulate_low_memory_for_npcs_request(&mut self, payload: &SetSimulateLowMemoryForNpcsRequestPayload) {}
     /// Called when visiting HavokMemoryStatsRequest event (no payload).
     fn visit_havok_memory_stats_request(&mut self) {}
     /// Called when visiting HavokMemoryStatsReply event.
@@ -5901,6 +6014,8 @@ pub trait StaticEventVisitor {
     fn visit_show_mot_d(&mut self, payload: &ShowMotDPayload) {}
     /// Called when visiting MyGlobalEncountersGenerator_UpdateGPSRemainingTime event.
     fn visit_my_global_encounters_generator_update_gpsremaining_time(&mut self, payload: &MyGlobalEncountersGenerator_UpdateGPSRemainingTimePayload) {}
+    /// Called when visiting OnSignatureDetectedClient event.
+    fn visit_on_signature_detected_client(&mut self, payload: &OnSignatureDetectedClientPayload) {}
     /// Called when visiting MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification event (no payload).
     fn visit_my_session_component_grid_triggered_contracts_send_contract_accepted_notification(&mut self) {}
     /// Called when visiting MySessionComponentGridTriggeredContracts_SendMaxContractsNotification event (no payload).
@@ -5915,6 +6030,16 @@ pub trait StaticEventVisitor {
     fn visit_request_respawn_points_response(&mut self, payload: &RequestRespawnPointsResponsePayload) {}
     /// Called when visiting ChangeStat event.
     fn visit_change_stat(&mut self, payload: &ChangeStatPayload) {}
+    /// Called when visiting RequestSetCombatLogging event.
+    fn visit_request_set_combat_logging(&mut self, payload: &RequestSetCombatLoggingPayload) {}
+    /// Called when visiting RequestSetRoutePlannerLogging event.
+    fn visit_request_set_route_planner_logging(&mut self, payload: &RequestSetRoutePlannerLoggingPayload) {}
+    /// Called when visiting RequestRaiseAlert event.
+    fn visit_request_raise_alert(&mut self, payload: &RequestRaiseAlertPayload) {}
+    /// Called when visiting RequestRegisterCombatAnchor event.
+    fn visit_request_register_combat_anchor(&mut self, payload: &RequestRegisterCombatAnchorPayload) {}
+    /// Called when visiting RequestUnregisterAnchor event.
+    fn visit_request_unregister_anchor(&mut self, payload: &RequestUnregisterAnchorPayload) {}
     /// Called when visiting RequestSpawnSelectedGlobalEncounter event.
     fn visit_request_spawn_selected_global_encounter(&mut self, payload: &RequestSpawnSelectedGlobalEncounterPayload) {}
     /// Called when visiting RequestForceClaimTimerToEndSoon event.
@@ -5931,6 +6056,10 @@ pub trait StaticEventVisitor {
     fn visit_request_spawn_installation_at_crosshair(&mut self, payload: &RequestSpawnInstallationAtCrosshairPayload) {}
     /// Called when visiting RequestSpawnInstallationAtCam event.
     fn visit_request_spawn_installation_at_cam(&mut self, payload: &RequestSpawnInstallationAtCamPayload) {}
+    /// Called when visiting RequestSpawnTestBot event.
+    fn visit_request_spawn_test_bot(&mut self, payload: &RequestSpawnTestBotPayload) {}
+    /// Called when visiting RequestOrder event.
+    fn visit_request_order(&mut self, payload: &RequestOrderPayload) {}
     /// Called when visiting RequestCreateStationGps event.
     fn visit_request_create_station_gps(&mut self, payload: &RequestCreateStationGpsPayload) {}
     /// Called when visiting ShowAlreadyCollectedNotification event (no payload).
@@ -6200,6 +6329,7 @@ impl StaticEventPayload {
             Self::SetIdentityGridBlocksBuilt(payload) => visitor.visit_set_identity_grid_blocks_built(payload),
             Self::SetPCU_Client(payload) => visitor.visit_set_pcu_client(payload),
             Self::SetDampeningEntity(payload) => visitor.visit_set_dampening_entity(payload),
+            Self::ShowDampeningToHostileGridDenied => visitor.visit_show_dampening_to_hostile_grid_denied(),
             Self::ClearDampeningEntity(payload) => visitor.visit_clear_dampening_entity(payload),
             Self::SetDampeningEntityClient(payload) => visitor.visit_set_dampening_entity_client(payload),
             Self::OnRespawnRequest(payload) => visitor.visit_on_respawn_request(payload),
@@ -6257,6 +6387,7 @@ impl StaticEventPayload {
             Self::OnInventoryFilled => visitor.visit_on_inventory_filled(),
             Self::OnShootMissile(payload) => visitor.visit_on_shoot_missile(payload),
             Self::OnRemoveMissile(payload) => visitor.visit_on_remove_missile(payload),
+            Self::OnStartScrambledTurn(payload) => visitor.visit_on_start_scrambled_turn(payload),
             Self::DrawTrajectoryOnClient(payload) => visitor.visit_draw_trajectory_on_client(payload),
             Self::OnChangeTrajectory(payload) => visitor.visit_on_change_trajectory(payload),
             Self::SendTransferRequestMessage(payload) => visitor.visit_send_transfer_request_message(payload),
@@ -6299,8 +6430,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
             Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
             Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10778(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10778(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10795(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10795(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10850(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10850(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10867(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10867(payload),
             Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
             Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
             Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
@@ -6368,6 +6499,7 @@ impl StaticEventPayload {
             Self::SendDataClient(payload) => visitor.visit_send_data_client(payload),
             Self::RequestLayersFromServer => visitor.visit_request_layers_from_server(),
             Self::ReceiveLayersFromServer(payload) => visitor.visit_receive_layers_from_server(payload),
+            Self::SetSimulateLowMemoryForNpcsRequest(payload) => visitor.visit_set_simulate_low_memory_for_npcs_request(payload),
             Self::HavokMemoryStatsRequest => visitor.visit_havok_memory_stats_request(),
             Self::HavokMemoryStatsReply(payload) => visitor.visit_havok_memory_stats_reply(payload),
             Self::ProcessGetFailedValidationsRequest => visitor.visit_process_get_failed_validations_request(),
@@ -6435,6 +6567,7 @@ impl StaticEventPayload {
             Self::ShowMedicalScreen_Implementation(payload) => visitor.visit_show_medical_screen_implementation(payload),
             Self::ShowMotD(payload) => visitor.visit_show_mot_d(payload),
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(payload) => visitor.visit_my_global_encounters_generator_update_gpsremaining_time(payload),
+            Self::OnSignatureDetectedClient(payload) => visitor.visit_on_signature_detected_client(payload),
             Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => visitor.visit_my_session_component_grid_triggered_contracts_send_contract_accepted_notification(),
             Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => visitor.visit_my_session_component_grid_triggered_contracts_send_max_contracts_notification(),
             Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => visitor.visit_my_session_component_item_triggered_contracts_send_contract_accepted_notification(),
@@ -6442,6 +6575,11 @@ impl StaticEventPayload {
             Self::RefreshRespawnPointsRequest => visitor.visit_refresh_respawn_points_request(),
             Self::RequestRespawnPointsResponse(payload) => visitor.visit_request_respawn_points_response(payload),
             Self::ChangeStat(payload) => visitor.visit_change_stat(payload),
+            Self::RequestSetCombatLogging(payload) => visitor.visit_request_set_combat_logging(payload),
+            Self::RequestSetRoutePlannerLogging(payload) => visitor.visit_request_set_route_planner_logging(payload),
+            Self::RequestRaiseAlert(payload) => visitor.visit_request_raise_alert(payload),
+            Self::RequestRegisterCombatAnchor(payload) => visitor.visit_request_register_combat_anchor(payload),
+            Self::RequestUnregisterAnchor(payload) => visitor.visit_request_unregister_anchor(payload),
             Self::RequestSpawnSelectedGlobalEncounter(payload) => visitor.visit_request_spawn_selected_global_encounter(payload),
             Self::RequestForceClaimTimerToEndSoon(payload) => visitor.visit_request_force_claim_timer_to_end_soon(payload),
             Self::RequestMarkGridAsNpcs(payload) => visitor.visit_request_mark_grid_as_npcs(payload),
@@ -6450,6 +6588,8 @@ impl StaticEventPayload {
             Self::RequestGlobalEncounterDespawn => visitor.visit_request_global_encounter_despawn(),
             Self::RequestSpawnInstallationAtCrosshair(payload) => visitor.visit_request_spawn_installation_at_crosshair(payload),
             Self::RequestSpawnInstallationAtCam(payload) => visitor.visit_request_spawn_installation_at_cam(payload),
+            Self::RequestSpawnTestBot(payload) => visitor.visit_request_spawn_test_bot(payload),
+            Self::RequestOrder(payload) => visitor.visit_request_order(payload),
             Self::RequestCreateStationGps(payload) => visitor.visit_request_create_station_gps(payload),
             Self::ShowAlreadyCollectedNotification => visitor.visit_show_already_collected_notification(),
             Self::PlayAttackAnimation(payload) => visitor.visit_play_attack_animation(payload),
@@ -6714,6 +6854,7 @@ impl StaticEventPayload {
             Self::SetIdentityGridBlocksBuilt(_) => Some(StaticEventType::SetIdentityGridBlocksBuilt),
             Self::SetPCU_Client(_) => Some(StaticEventType::SetPCU_Client),
             Self::SetDampeningEntity(_) => Some(StaticEventType::SetDampeningEntity),
+            Self::ShowDampeningToHostileGridDenied => Some(StaticEventType::ShowDampeningToHostileGridDenied),
             Self::ClearDampeningEntity(_) => Some(StaticEventType::ClearDampeningEntity),
             Self::SetDampeningEntityClient(_) => Some(StaticEventType::SetDampeningEntityClient),
             Self::OnRespawnRequest(_) => Some(StaticEventType::OnRespawnRequest),
@@ -6771,6 +6912,7 @@ impl StaticEventPayload {
             Self::OnInventoryFilled => Some(StaticEventType::OnInventoryFilled),
             Self::OnShootMissile(_) => Some(StaticEventType::OnShootMissile),
             Self::OnRemoveMissile(_) => Some(StaticEventType::OnRemoveMissile),
+            Self::OnStartScrambledTurn(_) => Some(StaticEventType::OnStartScrambledTurn),
             Self::DrawTrajectoryOnClient(_) => Some(StaticEventType::DrawTrajectoryOnClient),
             Self::OnChangeTrajectory(_) => Some(StaticEventType::OnChangeTrajectory),
             Self::SendTransferRequestMessage(_) => Some(StaticEventType::SendTransferRequestMessage),
@@ -6813,8 +6955,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
             Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
             Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10778(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10778),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10795(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10795),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10850(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10850),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10867(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10867),
             Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
             Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
             Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),
@@ -6882,6 +7024,7 @@ impl StaticEventPayload {
             Self::SendDataClient(_) => Some(StaticEventType::SendDataClient),
             Self::RequestLayersFromServer => Some(StaticEventType::RequestLayersFromServer),
             Self::ReceiveLayersFromServer(_) => Some(StaticEventType::ReceiveLayersFromServer),
+            Self::SetSimulateLowMemoryForNpcsRequest(_) => Some(StaticEventType::SetSimulateLowMemoryForNpcsRequest),
             Self::HavokMemoryStatsRequest => Some(StaticEventType::HavokMemoryStatsRequest),
             Self::HavokMemoryStatsReply(_) => Some(StaticEventType::HavokMemoryStatsReply),
             Self::ProcessGetFailedValidationsRequest => Some(StaticEventType::ProcessGetFailedValidationsRequest),
@@ -6949,6 +7092,7 @@ impl StaticEventPayload {
             Self::ShowMedicalScreen_Implementation(_) => Some(StaticEventType::ShowMedicalScreen_Implementation),
             Self::ShowMotD(_) => Some(StaticEventType::ShowMotD),
             Self::MyGlobalEncountersGenerator_UpdateGPSRemainingTime(_) => Some(StaticEventType::MyGlobalEncountersGenerator_UpdateGPSRemainingTime),
+            Self::OnSignatureDetectedClient(_) => Some(StaticEventType::OnSignatureDetectedClient),
             Self::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification => Some(StaticEventType::MySessionComponentGridTriggeredContracts_SendContractAcceptedNotification),
             Self::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification => Some(StaticEventType::MySessionComponentGridTriggeredContracts_SendMaxContractsNotification),
             Self::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification => Some(StaticEventType::MySessionComponentItemTriggeredContracts_SendContractAcceptedNotification),
@@ -6956,6 +7100,11 @@ impl StaticEventPayload {
             Self::RefreshRespawnPointsRequest => Some(StaticEventType::RefreshRespawnPointsRequest),
             Self::RequestRespawnPointsResponse(_) => Some(StaticEventType::RequestRespawnPointsResponse),
             Self::ChangeStat(_) => Some(StaticEventType::ChangeStat),
+            Self::RequestSetCombatLogging(_) => Some(StaticEventType::RequestSetCombatLogging),
+            Self::RequestSetRoutePlannerLogging(_) => Some(StaticEventType::RequestSetRoutePlannerLogging),
+            Self::RequestRaiseAlert(_) => Some(StaticEventType::RequestRaiseAlert),
+            Self::RequestRegisterCombatAnchor(_) => Some(StaticEventType::RequestRegisterCombatAnchor),
+            Self::RequestUnregisterAnchor(_) => Some(StaticEventType::RequestUnregisterAnchor),
             Self::RequestSpawnSelectedGlobalEncounter(_) => Some(StaticEventType::RequestSpawnSelectedGlobalEncounter),
             Self::RequestForceClaimTimerToEndSoon(_) => Some(StaticEventType::RequestForceClaimTimerToEndSoon),
             Self::RequestMarkGridAsNpcs(_) => Some(StaticEventType::RequestMarkGridAsNpcs),
@@ -6964,6 +7113,8 @@ impl StaticEventPayload {
             Self::RequestGlobalEncounterDespawn => Some(StaticEventType::RequestGlobalEncounterDespawn),
             Self::RequestSpawnInstallationAtCrosshair(_) => Some(StaticEventType::RequestSpawnInstallationAtCrosshair),
             Self::RequestSpawnInstallationAtCam(_) => Some(StaticEventType::RequestSpawnInstallationAtCam),
+            Self::RequestSpawnTestBot(_) => Some(StaticEventType::RequestSpawnTestBot),
+            Self::RequestOrder(_) => Some(StaticEventType::RequestOrder),
             Self::RequestCreateStationGps(_) => Some(StaticEventType::RequestCreateStationGps),
             Self::ShowAlreadyCollectedNotification => Some(StaticEventType::ShowAlreadyCollectedNotification),
             Self::PlayAttackAnimation(_) => Some(StaticEventType::PlayAttackAnimation),

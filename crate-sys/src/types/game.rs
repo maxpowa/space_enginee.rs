@@ -195,6 +195,23 @@ pub struct MySerializableSpriteCollection {
     pub sprites: crate::compat::Nullable<crate::compat::VarVec<MySerializableSprite>>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Entities.Blocks.ToolbarItem, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<ToolbarItem>
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.Screens.Helpers.MyToolbarSlotRef, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyToolbarSlotRef>
+// Original type: Sandbox.Game.Screens.Helpers.MyToolbarSlotRef
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyToolbarSlotRef")]
+pub struct MyToolbarSlotRef {
+    #[proto(tag = 2)]
+    #[serde(rename = "Index", default)]
+    pub index: crate::compat::BitAligned<i32>,
+    #[proto(tag = 3)]
+    #[serde(rename = "IsGamepad", default)]
+    pub is_gamepad: crate::compat::BitBool,
+    #[proto(tag = 1)]
+    #[serde(rename = "ToolbarIndex", default)]
+    pub toolbar_index: crate::compat::BitAligned<i32>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_ToolbarItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::object_builders::MyObjectBuilder_ToolbarItem>
 // Original enum: VRage.Game.Entity.UseObject.UseActionEnum
 #[::enumflags2::bitflags]
 #[repr(u32)]
@@ -256,6 +273,8 @@ pub struct MyEntityStat_MyStatSyncData {
     pub amount: crate::compat::BitAligned<f32>,
     #[serde(rename = "ChangeInfo")]
     pub change_info: MyStatSyncData_MyStatChangeInfo,
+    #[serde(rename = "MaxValue", default)]
+    pub max_value: crate::compat::BitAligned<f32>,
     #[serde(rename = "RegenLeft", default)]
     pub regen_left: crate::compat::BitAligned<f32>,
     #[serde(rename = "StatId")]
@@ -2401,6 +2420,8 @@ pub struct MyGpsCollection_AddMsg {
     pub coords: crate::math::Vector3D,
     #[serde(rename = "Description", default)]
     pub description: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "DiscardSeconds", default)]
+    pub discard_seconds: crate::compat::BitAligned<i32>,
     #[serde(rename = "DisplayName", default)]
     pub display_name: crate::compat::Nullable<crate::compat::VarString>,
     #[serde(rename = "EntityId", default)]
@@ -2415,6 +2436,8 @@ pub struct MyGpsCollection_AddMsg {
     pub is_final: crate::compat::BitBool,
     #[serde(rename = "IsGlobalEncounterGPS", default)]
     pub is_global_encounter_gp_s: crate::compat::BitBool,
+    #[serde(rename = "IsJumpSignatureGPS", default)]
+    pub is_jump_signature_gp_s: crate::compat::BitBool,
     #[serde(rename = "IsObjective", default)]
     pub is_objective: crate::compat::BitBool,
     #[serde(rename = "Name", default)]
@@ -3333,6 +3356,12 @@ pub enum RenderProfilerCommand {
     EnableAutoScale,
     #[deku(id = "35")]
     EnableShallowProfile,
+    #[deku(id = "36")]
+    EnableAverageTimes,
+    #[deku(id = "37")]
+    BeginReportCapture,
+    #[deku(id = "38")]
+    WriteReport,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[SpaceEngineers.Game.World.MySpaceRespawnComponent+RespawnCooldownEntry, SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MySpaceRespawnComponent_RespawnCooldownEntry>
 // Original type: SpaceEngineers.Game.World.MySpaceRespawnComponent+RespawnCooldownEntry
@@ -3421,4 +3450,30 @@ pub enum MyGuiScreenDebugCharacterStats_StatType {
     Energy,
     #[deku(id = "6")]
     Food,
+}
+// Original enum: SpaceEngineers.Game.GUI.DebugScreens.MyGuiScreenDebugTestBots+MyTestBotOrder
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 4, bit_order = "lsb")]
+#[serde(rename = "MyTestBotOrder")]
+pub enum MyGuiScreenDebugTestBots_MyTestBotOrder {
+    #[default]
+    #[deku(id = "0")]
+    Goto,
+    #[deku(id = "1")]
+    FlyTo,
+    #[deku(id = "2")]
+    FollowMe,
+    #[deku(id = "3")]
+    Land,
+    #[deku(id = "4")]
+    Stop,
+    #[deku(id = "5")]
+    Teleport,
+    #[deku(id = "6")]
+    Despawn,
+    #[deku(id = "7")]
+    TakeOver,
+    #[deku(id = "8")]
+    Release,
 }

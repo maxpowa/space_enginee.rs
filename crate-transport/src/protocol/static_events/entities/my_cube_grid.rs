@@ -65,17 +65,17 @@ pub struct CancelPendingTransferRequestsServerSidePayload {
     pub owner_id: BitAligned<i64>,
 }
 
-/// Payload for MyCubeGrid_CancelPendingTransferRequests_10778 event.
+/// Payload for MyCubeGrid_CancelPendingTransferRequests_10850 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCubeGrid_CancelPendingTransferRequests_10778Payload {
+pub struct MyCubeGrid_CancelPendingTransferRequests_10850Payload {
     pub request_batch_guid: space_engineers_compat::Guid,
     pub grid_id: BitAligned<i64>,
     pub owner: BitAligned<i64>,
 }
 
-/// Payload for MyCubeGrid_CancelPendingTransferRequests_10795 event.
+/// Payload for MyCubeGrid_CancelPendingTransferRequests_10867 event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
-pub struct MyCubeGrid_CancelPendingTransferRequests_10795Payload {
+pub struct MyCubeGrid_CancelPendingTransferRequests_10867Payload {
     pub request_batch_guid: space_engineers_compat::Guid,
     pub grid_id: BitAligned<i64>,
     pub sender: BitAligned<u64>,

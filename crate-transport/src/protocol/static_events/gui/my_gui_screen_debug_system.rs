@@ -9,6 +9,12 @@ use space_engineers_compat::{BitAligned, BitBool, Nullable, VarMap, VarVec, VarB
 use space_engineers_compat::math::Vector3F;
 use space_engineers_sys::math::Vector3D;
 
+/// Payload for SetSimulateLowMemoryForNpcsRequest event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct SetSimulateLowMemoryForNpcsRequestPayload {
+    pub enabled: BitBool,
+}
+
 /// Payload for HavokMemoryStatsReply event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct HavokMemoryStatsReplyPayload {

@@ -225,10 +225,10 @@ pub enum MyCharacterInstanceEvent {
     SynchronizeBuildPlanner_Implementation,
     /// Hash: -141492815
     ActivateSnap,
-    /// Hash: 1382426031
-    EnableIronsightCallback,
     /// Hash: -1738066643
     ReloadServer,
+    /// Hash: 1382426031
+    EnableIronsightCallback,
     /// Hash: -266920387
     CreateBurrowingParticleFX_Client,
     /// Hash: 2047136294
@@ -306,8 +306,8 @@ impl MyCharacterInstanceEvent {
             Self::UnequipWeapon => -1057914069,
             Self::SynchronizeBuildPlanner_Implementation => -680409121,
             Self::ActivateSnap => -141492815,
-            Self::EnableIronsightCallback => 1382426031,
             Self::ReloadServer => -1738066643,
+            Self::EnableIronsightCallback => 1382426031,
             Self::CreateBurrowingParticleFX_Client => -266920387,
             Self::DeleteBurrowingParticleFX_Client => 2047136294,
             Self::TriggerAnimationEvent => -877967289,
@@ -351,8 +351,8 @@ impl MyCharacterInstanceEvent {
             -1057914069 => Some(Self::UnequipWeapon),
             -680409121 => Some(Self::SynchronizeBuildPlanner_Implementation),
             -141492815 => Some(Self::ActivateSnap),
-            1382426031 => Some(Self::EnableIronsightCallback),
             -1738066643 => Some(Self::ReloadServer),
+            1382426031 => Some(Self::EnableIronsightCallback),
             -266920387 => Some(Self::CreateBurrowingParticleFX_Client),
             2047136294 => Some(Self::DeleteBurrowingParticleFX_Client),
             -877967289 => Some(Self::TriggerAnimationEvent),
@@ -403,10 +403,10 @@ pub enum MyCharacterInstanceEventPayload {
     SynchronizeBuildPlanner_Implementation(MyCharacter_SynchronizeBuildPlanner_ImplementationPayload),
     /// ActivateSnap event payload
     ActivateSnap(MyCharacter_ActivateSnapPayload),
-    /// EnableIronsightCallback event payload
-    EnableIronsightCallback(MyCharacter_EnableIronsightCallbackPayload),
     /// ReloadServer event (no payload)
     ReloadServer,
+    /// EnableIronsightCallback event payload
+    EnableIronsightCallback(MyCharacter_EnableIronsightCallbackPayload),
     /// CreateBurrowingParticleFX_Client event payload
     CreateBurrowingParticleFX_Client(MyCharacter_CreateBurrowingParticleFX_ClientPayload),
     /// DeleteBurrowingParticleFX_Client event payload
@@ -497,11 +497,11 @@ impl MyCharacterInstanceEvent {
                 let (_, payload) = MyCharacter_ActivateSnapPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::ActivateSnap(payload))
             }
+            Self::ReloadServer => Ok(MyCharacterInstanceEventPayload::ReloadServer),
             Self::EnableIronsightCallback => {
                 let (_, payload) = MyCharacter_EnableIronsightCallbackPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::EnableIronsightCallback(payload))
             }
-            Self::ReloadServer => Ok(MyCharacterInstanceEventPayload::ReloadServer),
             Self::CreateBurrowingParticleFX_Client => {
                 let (_, payload) = MyCharacter_CreateBurrowingParticleFX_ClientPayload::from_bytes((bytes, 0))?;
                 Ok(MyCharacterInstanceEventPayload::CreateBurrowingParticleFX_Client(payload))
@@ -646,10 +646,10 @@ pub trait MyCharacterInstanceEventVisitor {
     fn visit_synchronize_build_planner_implementation(&mut self, payload: &MyCharacter_SynchronizeBuildPlanner_ImplementationPayload) {}
     /// Called when visiting ActivateSnap event.
     fn visit_activate_snap(&mut self, payload: &MyCharacter_ActivateSnapPayload) {}
-    /// Called when visiting EnableIronsightCallback event.
-    fn visit_enable_ironsight_callback(&mut self, payload: &MyCharacter_EnableIronsightCallbackPayload) {}
     /// Called when visiting ReloadServer event (no payload).
     fn visit_reload_server(&mut self) {}
+    /// Called when visiting EnableIronsightCallback event.
+    fn visit_enable_ironsight_callback(&mut self, payload: &MyCharacter_EnableIronsightCallbackPayload) {}
     /// Called when visiting CreateBurrowingParticleFX_Client event.
     fn visit_create_burrowing_particle_fx_client(&mut self, payload: &MyCharacter_CreateBurrowingParticleFX_ClientPayload) {}
     /// Called when visiting DeleteBurrowingParticleFX_Client event.
@@ -730,8 +730,8 @@ impl MyCharacterInstanceEventPayload {
             Self::UnequipWeapon => visitor.visit_unequip_weapon(),
             Self::SynchronizeBuildPlanner_Implementation(payload) => visitor.visit_synchronize_build_planner_implementation(payload),
             Self::ActivateSnap(payload) => visitor.visit_activate_snap(payload),
-            Self::EnableIronsightCallback(payload) => visitor.visit_enable_ironsight_callback(payload),
             Self::ReloadServer => visitor.visit_reload_server(),
+            Self::EnableIronsightCallback(payload) => visitor.visit_enable_ironsight_callback(payload),
             Self::CreateBurrowingParticleFX_Client(payload) => visitor.visit_create_burrowing_particle_fx_client(payload),
             Self::DeleteBurrowingParticleFX_Client(payload) => visitor.visit_delete_burrowing_particle_fx_client(payload),
             Self::TriggerAnimationEvent(payload) => visitor.visit_trigger_animation_event(payload),
@@ -776,8 +776,8 @@ impl MyCharacterInstanceEventPayload {
             Self::UnequipWeapon => Some(MyCharacterInstanceEvent::UnequipWeapon),
             Self::SynchronizeBuildPlanner_Implementation(_) => Some(MyCharacterInstanceEvent::SynchronizeBuildPlanner_Implementation),
             Self::ActivateSnap(_) => Some(MyCharacterInstanceEvent::ActivateSnap),
-            Self::EnableIronsightCallback(_) => Some(MyCharacterInstanceEvent::EnableIronsightCallback),
             Self::ReloadServer => Some(MyCharacterInstanceEvent::ReloadServer),
+            Self::EnableIronsightCallback(_) => Some(MyCharacterInstanceEvent::EnableIronsightCallback),
             Self::CreateBurrowingParticleFX_Client(_) => Some(MyCharacterInstanceEvent::CreateBurrowingParticleFX_Client),
             Self::DeleteBurrowingParticleFX_Client(_) => Some(MyCharacterInstanceEvent::DeleteBurrowingParticleFX_Client),
             Self::TriggerAnimationEvent(_) => Some(MyCharacterInstanceEvent::TriggerAnimationEvent),

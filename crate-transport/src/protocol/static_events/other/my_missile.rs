@@ -9,6 +9,16 @@ use space_engineers_compat::{BitAligned, BitBool, Nullable, VarMap, VarVec, VarB
 use space_engineers_compat::math::Vector3F;
 use space_engineers_sys::math::Vector3D;
 
+/// Payload for OnStartScrambledTurn event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct OnStartScrambledTurnPayload {
+    pub entity_id: BitAligned<i64>,
+    pub axis: Vector3F,
+    pub step_rad: BitAligned<f32>,
+    pub translation: Vector3D,
+    pub forward: Vector3F,
+}
+
 /// Payload for DrawTrajectoryOnClient event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct DrawTrajectoryOnClientPayload {
@@ -22,5 +32,6 @@ pub struct OnChangeTrajectoryPayload {
     pub entity_id: BitAligned<i64>,
     pub velocity: Vector3F,
     pub translation: Vector3D,
+    pub forward: Vector3F,
 }
 

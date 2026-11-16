@@ -53,6 +53,8 @@ pub enum ReplicatedType {
     MyNpcAssetModifierComponent,
     /// Sandbox.Game.EntityComponents.MyPathRecorderComponent
     MyPathRecorderComponent,
+    /// Sandbox.Game.EntityComponents.MyToolbarProviderComponent
+    MyToolbarProviderComponent,
     /// Sandbox.Game.EntityComponents.MyTurretController
     MyTurretController,
     /// Sandbox.Game.Components.MyEntityStatComponent
@@ -167,6 +169,10 @@ pub enum ReplicatedType {
     MyBasicMissionFollowPlayer,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyChatBroadcastEntityComponent
     MyChatBroadcastEntityComponent,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.MyDestroyBlockComponent
+    MyDestroyBlockComponent,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.MyEmpEntityComponent
+    MyEmpEntityComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyGridsStorageEntityComponent
     MyGridsStorageEntityComponent,
     /// SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent
@@ -221,6 +227,8 @@ pub enum ReplicatedType {
     MyEventMagneticLockReady,
     /// SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMerged
     MyEventMerged,
+    /// SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMissileLocked
+    MyEventMissileLocked,
     /// SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventNaturalGravityChanged
     MyEventNaturalGravityChanged,
     /// SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventPistonPosition
@@ -292,6 +300,7 @@ impl ReplicatedType {
             Self::MyMultiTextPanelComponent => 1507401836,
             Self::MyNpcAssetModifierComponent => -457280954,
             Self::MyPathRecorderComponent => -604498162,
+            Self::MyToolbarProviderComponent => -137265723,
             Self::MyTurretController => -814969721,
             Self::MyEntityStatComponent => -1250445830,
             Self::MyCharacterStatComponent => -368746497,
@@ -349,6 +358,8 @@ impl ReplicatedType {
             Self::MyBasicMissionFollowHome => -535760899,
             Self::MyBasicMissionFollowPlayer => 1275716648,
             Self::MyChatBroadcastEntityComponent => -891318932,
+            Self::MyDestroyBlockComponent => 1651549065,
+            Self::MyEmpEntityComponent => -1992523108,
             Self::MyGridsStorageEntityComponent => -1786901579,
             Self::MyLcdSurfaceComponent => 1840486061,
             Self::MyMaintenancePanelComponent => -1399606377,
@@ -376,6 +387,7 @@ impl ReplicatedType {
             Self::MyEventLandingGearLocked => -1511660884,
             Self::MyEventMagneticLockReady => -1980725583,
             Self::MyEventMerged => -546584515,
+            Self::MyEventMissileLocked => 93181601,
             Self::MyEventNaturalGravityChanged => -154112251,
             Self::MyEventPistonPosition => 822400103,
             Self::MyEventPowerOutput => 1808984781,
@@ -426,6 +438,7 @@ impl ReplicatedType {
             1507401836 => Some(Self::MyMultiTextPanelComponent),
             -457280954 => Some(Self::MyNpcAssetModifierComponent),
             -604498162 => Some(Self::MyPathRecorderComponent),
+            -137265723 => Some(Self::MyToolbarProviderComponent),
             -814969721 => Some(Self::MyTurretController),
             -1250445830 => Some(Self::MyEntityStatComponent),
             -368746497 => Some(Self::MyCharacterStatComponent),
@@ -483,6 +496,8 @@ impl ReplicatedType {
             -535760899 => Some(Self::MyBasicMissionFollowHome),
             1275716648 => Some(Self::MyBasicMissionFollowPlayer),
             -891318932 => Some(Self::MyChatBroadcastEntityComponent),
+            1651549065 => Some(Self::MyDestroyBlockComponent),
+            -1992523108 => Some(Self::MyEmpEntityComponent),
             -1786901579 => Some(Self::MyGridsStorageEntityComponent),
             1840486061 => Some(Self::MyLcdSurfaceComponent),
             -1399606377 => Some(Self::MyMaintenancePanelComponent),
@@ -510,6 +525,7 @@ impl ReplicatedType {
             -1511660884 => Some(Self::MyEventLandingGearLocked),
             -1980725583 => Some(Self::MyEventMagneticLockReady),
             -546584515 => Some(Self::MyEventMerged),
+            93181601 => Some(Self::MyEventMissileLocked),
             -154112251 => Some(Self::MyEventNaturalGravityChanged),
             822400103 => Some(Self::MyEventPistonPosition),
             1808984781 => Some(Self::MyEventPowerOutput),
@@ -561,6 +577,7 @@ impl ReplicatedType {
             Self::MyMultiTextPanelComponent => "Sandbox.Game.EntityComponents.MyMultiTextPanelComponent",
             Self::MyNpcAssetModifierComponent => "Sandbox.Game.EntityComponents.MyNpcAssetModifierComponent",
             Self::MyPathRecorderComponent => "Sandbox.Game.EntityComponents.MyPathRecorderComponent",
+            Self::MyToolbarProviderComponent => "Sandbox.Game.EntityComponents.MyToolbarProviderComponent",
             Self::MyTurretController => "Sandbox.Game.EntityComponents.MyTurretController",
             Self::MyEntityStatComponent => "Sandbox.Game.Components.MyEntityStatComponent",
             Self::MyCharacterStatComponent => "Sandbox.Game.Components.MyCharacterStatComponent",
@@ -618,6 +635,8 @@ impl ReplicatedType {
             Self::MyBasicMissionFollowHome => "SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowHome",
             Self::MyBasicMissionFollowPlayer => "SpaceEngineers.Game.EntityComponents.Blocks.MyBasicMissionFollowPlayer",
             Self::MyChatBroadcastEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyChatBroadcastEntityComponent",
+            Self::MyDestroyBlockComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyDestroyBlockComponent",
+            Self::MyEmpEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyEmpEntityComponent",
             Self::MyGridsStorageEntityComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyGridsStorageEntityComponent",
             Self::MyLcdSurfaceComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyLcdSurfaceComponent",
             Self::MyMaintenancePanelComponent => "SpaceEngineers.Game.EntityComponents.Blocks.MyMaintenancePanelComponent",
@@ -645,6 +664,7 @@ impl ReplicatedType {
             Self::MyEventLandingGearLocked => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventLandingGearLocked",
             Self::MyEventMagneticLockReady => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMagneticLockReady",
             Self::MyEventMerged => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMerged",
+            Self::MyEventMissileLocked => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventMissileLocked",
             Self::MyEventNaturalGravityChanged => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventNaturalGravityChanged",
             Self::MyEventPistonPosition => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventPistonPosition",
             Self::MyEventPowerOutput => "SpaceEngineers.Game.EntityComponents.Blocks.Events.MyEventPowerOutput",

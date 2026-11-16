@@ -76,6 +76,12 @@ pub struct MySmallMissileLauncher_OnChangeDescriptionPayload {
     pub is_public: BitBool,
 }
 
+/// Payload for MySmallMissileLauncher::ShowSelectedAmmoTypeNotification instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MySmallMissileLauncher_ShowSelectedAmmoTypeNotificationPayload {
+    pub ammo_magazine_id: space_engineers_sys::types::game::MyStringHash,
+}
+
 /// Payload for MySmallMissileLauncher::OnShootMissile instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MySmallMissileLauncher_OnShootMissilePayload {
@@ -113,6 +119,14 @@ pub enum MySmallMissileLauncherInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
+    /// Hash: 2101670283
+    CycleSelectedAmmoTypeRequest,
+    /// Hash: -727124292
+    ShowSelectedAmmoTypeNotification,
+    /// Hash: 439212189
+    ForceReloadRequest,
+    /// Hash: -967406456
+    ShowForceReloadFailedNotification,
     /// Hash: 702883324
     ShootOncePressedEvent,
     /// Hash: 1789319446
@@ -137,6 +151,10 @@ impl MySmallMissileLauncherInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
+            Self::CycleSelectedAmmoTypeRequest => 2101670283,
+            Self::ShowSelectedAmmoTypeNotification => -727124292,
+            Self::ForceReloadRequest => 439212189,
+            Self::ShowForceReloadFailedNotification => -967406456,
             Self::ShootOncePressedEvent => 702883324,
             Self::OnShootMissile => 1789319446,
             Self::OnPreShootMissile => 354320256,
@@ -157,6 +175,10 @@ impl MySmallMissileLauncherInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
+            2101670283 => Some(Self::CycleSelectedAmmoTypeRequest),
+            -727124292 => Some(Self::ShowSelectedAmmoTypeNotification),
+            439212189 => Some(Self::ForceReloadRequest),
+            -967406456 => Some(Self::ShowForceReloadFailedNotification),
             702883324 => Some(Self::ShootOncePressedEvent),
             1789319446 => Some(Self::OnShootMissile),
             354320256 => Some(Self::OnPreShootMissile),
@@ -191,6 +213,14 @@ pub enum MySmallMissileLauncherInstanceEventPayload {
     OnChangeOpenRequest_8(MySmallMissileLauncher_OnChangeOpenRequest_8Payload),
     /// OnChangeDescription event payload
     OnChangeDescription(MySmallMissileLauncher_OnChangeDescriptionPayload),
+    /// CycleSelectedAmmoTypeRequest event (no payload)
+    CycleSelectedAmmoTypeRequest,
+    /// ShowSelectedAmmoTypeNotification event payload
+    ShowSelectedAmmoTypeNotification(MySmallMissileLauncher_ShowSelectedAmmoTypeNotificationPayload),
+    /// ForceReloadRequest event (no payload)
+    ForceReloadRequest,
+    /// ShowForceReloadFailedNotification event (no payload)
+    ShowForceReloadFailedNotification,
     /// ShootOncePressedEvent event (no payload)
     ShootOncePressedEvent,
     /// OnShootMissile event payload
@@ -249,6 +279,13 @@ impl MySmallMissileLauncherInstanceEvent {
                 let (_, payload) = MySmallMissileLauncher_OnChangeDescriptionPayload::from_bytes((bytes, 0))?;
                 Ok(MySmallMissileLauncherInstanceEventPayload::OnChangeDescription(payload))
             }
+            Self::CycleSelectedAmmoTypeRequest => Ok(MySmallMissileLauncherInstanceEventPayload::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification => {
+                let (_, payload) = MySmallMissileLauncher_ShowSelectedAmmoTypeNotificationPayload::from_bytes((bytes, 0))?;
+                Ok(MySmallMissileLauncherInstanceEventPayload::ShowSelectedAmmoTypeNotification(payload))
+            }
+            Self::ForceReloadRequest => Ok(MySmallMissileLauncherInstanceEventPayload::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Ok(MySmallMissileLauncherInstanceEventPayload::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Ok(MySmallMissileLauncherInstanceEventPayload::ShootOncePressedEvent),
             Self::OnShootMissile => {
                 let (_, payload) = MySmallMissileLauncher_OnShootMissilePayload::from_bytes((bytes, 0))?;
@@ -299,6 +336,14 @@ pub trait MySmallMissileLauncherInstanceEventVisitor {
     fn visit_on_change_open_request_8(&mut self, payload: &MySmallMissileLauncher_OnChangeOpenRequest_8Payload) {}
     /// Called when visiting OnChangeDescription event.
     fn visit_on_change_description(&mut self, payload: &MySmallMissileLauncher_OnChangeDescriptionPayload) {}
+    /// Called when visiting CycleSelectedAmmoTypeRequest event (no payload).
+    fn visit_cycle_selected_ammo_type_request(&mut self) {}
+    /// Called when visiting ShowSelectedAmmoTypeNotification event.
+    fn visit_show_selected_ammo_type_notification(&mut self, payload: &MySmallMissileLauncher_ShowSelectedAmmoTypeNotificationPayload) {}
+    /// Called when visiting ForceReloadRequest event (no payload).
+    fn visit_force_reload_request(&mut self) {}
+    /// Called when visiting ShowForceReloadFailedNotification event (no payload).
+    fn visit_show_force_reload_failed_notification(&mut self) {}
     /// Called when visiting ShootOncePressedEvent event (no payload).
     fn visit_shoot_once_pressed_event(&mut self) {}
     /// Called when visiting OnShootMissile event.
@@ -326,6 +371,10 @@ impl MySmallMissileLauncherInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(payload) => visitor.visit_on_change_open_success_7(payload),
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
+            Self::CycleSelectedAmmoTypeRequest => visitor.visit_cycle_selected_ammo_type_request(),
+            Self::ShowSelectedAmmoTypeNotification(payload) => visitor.visit_show_selected_ammo_type_notification(payload),
+            Self::ForceReloadRequest => visitor.visit_force_reload_request(),
+            Self::ShowForceReloadFailedNotification => visitor.visit_show_force_reload_failed_notification(),
             Self::ShootOncePressedEvent => visitor.visit_shoot_once_pressed_event(),
             Self::OnShootMissile(payload) => visitor.visit_on_shoot_missile(payload),
             Self::OnPreShootMissile => visitor.visit_on_pre_shoot_missile(),
@@ -347,6 +396,10 @@ impl MySmallMissileLauncherInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(_) => Some(MySmallMissileLauncherInstanceEvent::OnChangeOpenSuccess_7),
             Self::OnChangeOpenRequest_8(_) => Some(MySmallMissileLauncherInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MySmallMissileLauncherInstanceEvent::OnChangeDescription),
+            Self::CycleSelectedAmmoTypeRequest => Some(MySmallMissileLauncherInstanceEvent::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification(_) => Some(MySmallMissileLauncherInstanceEvent::ShowSelectedAmmoTypeNotification),
+            Self::ForceReloadRequest => Some(MySmallMissileLauncherInstanceEvent::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Some(MySmallMissileLauncherInstanceEvent::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Some(MySmallMissileLauncherInstanceEvent::ShootOncePressedEvent),
             Self::OnShootMissile(_) => Some(MySmallMissileLauncherInstanceEvent::OnShootMissile),
             Self::OnPreShootMissile => Some(MySmallMissileLauncherInstanceEvent::OnPreShootMissile),

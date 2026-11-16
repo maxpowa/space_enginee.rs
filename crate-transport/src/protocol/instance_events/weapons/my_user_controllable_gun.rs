@@ -76,6 +76,12 @@ pub struct MyUserControllableGun_OnChangeDescriptionPayload {
     pub is_public: BitBool,
 }
 
+/// Payload for MyUserControllableGun::ShowSelectedAmmoTypeNotification instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyUserControllableGun_ShowSelectedAmmoTypeNotificationPayload {
+    pub ammo_magazine_id: space_engineers_sys::types::game::MyStringHash,
+}
+
 /// Stable instance event identities for Sandbox.Game.Weapons.MyUserControllableGun.
 ///
 /// Use `Version` to convert to/from version-specific event IDs.
@@ -101,6 +107,14 @@ pub enum MyUserControllableGunInstanceEvent {
     OnChangeOpenRequest_8,
     /// Hash: 348586933
     OnChangeDescription,
+    /// Hash: 2101670283
+    CycleSelectedAmmoTypeRequest,
+    /// Hash: -727124292
+    ShowSelectedAmmoTypeNotification,
+    /// Hash: 439212189
+    ForceReloadRequest,
+    /// Hash: -967406456
+    ShowForceReloadFailedNotification,
     /// Hash: 702883324
     ShootOncePressedEvent,
 }
@@ -119,6 +133,10 @@ impl MyUserControllableGunInstanceEvent {
             Self::OnChangeOpenSuccess_7 => 1461148993,
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
+            Self::CycleSelectedAmmoTypeRequest => 2101670283,
+            Self::ShowSelectedAmmoTypeNotification => -727124292,
+            Self::ForceReloadRequest => 439212189,
+            Self::ShowForceReloadFailedNotification => -967406456,
             Self::ShootOncePressedEvent => 702883324,
         }
     }
@@ -136,6 +154,10 @@ impl MyUserControllableGunInstanceEvent {
             1461148993 => Some(Self::OnChangeOpenSuccess_7),
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
+            2101670283 => Some(Self::CycleSelectedAmmoTypeRequest),
+            -727124292 => Some(Self::ShowSelectedAmmoTypeNotification),
+            439212189 => Some(Self::ForceReloadRequest),
+            -967406456 => Some(Self::ShowForceReloadFailedNotification),
             702883324 => Some(Self::ShootOncePressedEvent),
             _ => None,
         }
@@ -167,6 +189,14 @@ pub enum MyUserControllableGunInstanceEventPayload {
     OnChangeOpenRequest_8(MyUserControllableGun_OnChangeOpenRequest_8Payload),
     /// OnChangeDescription event payload
     OnChangeDescription(MyUserControllableGun_OnChangeDescriptionPayload),
+    /// CycleSelectedAmmoTypeRequest event (no payload)
+    CycleSelectedAmmoTypeRequest,
+    /// ShowSelectedAmmoTypeNotification event payload
+    ShowSelectedAmmoTypeNotification(MyUserControllableGun_ShowSelectedAmmoTypeNotificationPayload),
+    /// ForceReloadRequest event (no payload)
+    ForceReloadRequest,
+    /// ShowForceReloadFailedNotification event (no payload)
+    ShowForceReloadFailedNotification,
     /// ShootOncePressedEvent event (no payload)
     ShootOncePressedEvent,
     /// Unknown event (raw bytes preserved)
@@ -219,6 +249,13 @@ impl MyUserControllableGunInstanceEvent {
                 let (_, payload) = MyUserControllableGun_OnChangeDescriptionPayload::from_bytes((bytes, 0))?;
                 Ok(MyUserControllableGunInstanceEventPayload::OnChangeDescription(payload))
             }
+            Self::CycleSelectedAmmoTypeRequest => Ok(MyUserControllableGunInstanceEventPayload::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification => {
+                let (_, payload) = MyUserControllableGun_ShowSelectedAmmoTypeNotificationPayload::from_bytes((bytes, 0))?;
+                Ok(MyUserControllableGunInstanceEventPayload::ShowSelectedAmmoTypeNotification(payload))
+            }
+            Self::ForceReloadRequest => Ok(MyUserControllableGunInstanceEventPayload::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Ok(MyUserControllableGunInstanceEventPayload::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Ok(MyUserControllableGunInstanceEventPayload::ShootOncePressedEvent),
         }
     }
@@ -260,6 +297,14 @@ pub trait MyUserControllableGunInstanceEventVisitor {
     fn visit_on_change_open_request_8(&mut self, payload: &MyUserControllableGun_OnChangeOpenRequest_8Payload) {}
     /// Called when visiting OnChangeDescription event.
     fn visit_on_change_description(&mut self, payload: &MyUserControllableGun_OnChangeDescriptionPayload) {}
+    /// Called when visiting CycleSelectedAmmoTypeRequest event (no payload).
+    fn visit_cycle_selected_ammo_type_request(&mut self) {}
+    /// Called when visiting ShowSelectedAmmoTypeNotification event.
+    fn visit_show_selected_ammo_type_notification(&mut self, payload: &MyUserControllableGun_ShowSelectedAmmoTypeNotificationPayload) {}
+    /// Called when visiting ForceReloadRequest event (no payload).
+    fn visit_force_reload_request(&mut self) {}
+    /// Called when visiting ShowForceReloadFailedNotification event (no payload).
+    fn visit_show_force_reload_failed_notification(&mut self) {}
     /// Called when visiting ShootOncePressedEvent event (no payload).
     fn visit_shoot_once_pressed_event(&mut self) {}
 
@@ -281,6 +326,10 @@ impl MyUserControllableGunInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(payload) => visitor.visit_on_change_open_success_7(payload),
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
+            Self::CycleSelectedAmmoTypeRequest => visitor.visit_cycle_selected_ammo_type_request(),
+            Self::ShowSelectedAmmoTypeNotification(payload) => visitor.visit_show_selected_ammo_type_notification(payload),
+            Self::ForceReloadRequest => visitor.visit_force_reload_request(),
+            Self::ShowForceReloadFailedNotification => visitor.visit_show_force_reload_failed_notification(),
             Self::ShootOncePressedEvent => visitor.visit_shoot_once_pressed_event(),
             Self::Unknown { event_hash, payload } => visitor.visit_unknown(*event_hash, payload),
         }
@@ -299,6 +348,10 @@ impl MyUserControllableGunInstanceEventPayload {
             Self::OnChangeOpenSuccess_7(_) => Some(MyUserControllableGunInstanceEvent::OnChangeOpenSuccess_7),
             Self::OnChangeOpenRequest_8(_) => Some(MyUserControllableGunInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MyUserControllableGunInstanceEvent::OnChangeDescription),
+            Self::CycleSelectedAmmoTypeRequest => Some(MyUserControllableGunInstanceEvent::CycleSelectedAmmoTypeRequest),
+            Self::ShowSelectedAmmoTypeNotification(_) => Some(MyUserControllableGunInstanceEvent::ShowSelectedAmmoTypeNotification),
+            Self::ForceReloadRequest => Some(MyUserControllableGunInstanceEvent::ForceReloadRequest),
+            Self::ShowForceReloadFailedNotification => Some(MyUserControllableGunInstanceEvent::ShowForceReloadFailedNotification),
             Self::ShootOncePressedEvent => Some(MyUserControllableGunInstanceEvent::ShootOncePressedEvent),
             Self::Unknown { .. } => None,
         }

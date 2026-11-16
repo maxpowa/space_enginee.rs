@@ -13,5 +13,6 @@ use space_engineers_sys::math::Vector3D;
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct OnTargetRequestServerPayload {
     pub target_id: BitAligned<i64>,
+    pub toggle: BitBool,
 }
 
