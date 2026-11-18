@@ -13,5 +13,4 @@ pub mod xml_array_item {
     crate::compat::define_xml_array_item!(PCI);
     crate::compat::define_xml_array_item!(GCI);
     crate::compat::define_xml_array_item!(FCI);
-    crate::compat::define_xml_array_item!(Sector);
 }

@@ -265,7 +265,7 @@ impl<'de> Deserialize<'de> for TimeSpan {
 // Guid
 // ============================================================================
 
-#[derive(Clone, PartialEq, Eq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug, Hash)]
 #[proto_rs::proto_message]
 pub struct Guid(#[proto(tag = "1")] u64, #[proto(tag = "2")] u64);
 

@@ -563,9 +563,9 @@ pub struct MyStockpileItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount", default)]
     pub amount: crate::compat::BitAligned<i32>,
-    #[proto(tag = 4)]
+    #[proto(skip)]
     #[serde(rename = "Content", default)]
-    pub content: crate::compat::Nullable<super::object_builders::MyObjectBuilder_PhysicalObject>,
+    pub content: crate::compat::Nullable<super::object_builders::MyObjectBuilder_PhysicalObjectVariant>,
 }
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_CubeGrid, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::object_builders::MyObjectBuilder_CubeGrid>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<u64>

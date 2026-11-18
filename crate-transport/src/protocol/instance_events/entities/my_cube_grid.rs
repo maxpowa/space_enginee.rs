@@ -81,7 +81,7 @@ pub struct MyCubeGrid_TransferBlocksBuiltByIDPayload {
 pub struct MyCubeGrid_BuildBlockSucessPayload {
     pub visuals: space_engineers_sys::types::game::MyCubeGrid_MyBlockVisuals,
     pub location: space_engineers_sys::types::game::MyCubeGrid_MyBlockLocation,
-    pub block_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_CubeBlock,
+    pub block_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_CubeBlockVariant,
     pub builder_entity_id: BitAligned<i64>,
     pub instant_build: BitBool,
     pub owner_id: BitAligned<i64>,

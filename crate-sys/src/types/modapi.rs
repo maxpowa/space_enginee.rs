@@ -321,3 +321,85 @@ pub struct MyHitInfo {
     pub velocity: crate::math::Vector3D,
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.UInt64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.Game.ModAPI.MyPromoteLevel, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<u64,MyPromoteLevel>
+// Original enum: VRage.Game.ModAPI.Ingame.FleeMode
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1, bit_order = "lsb")]
+#[serde(rename = "FleeMode")]
+pub enum FleeMode {
+    #[default]
+    #[deku(id = "0")]
+    AwayFromTarget,
+    #[deku(id = "1")]
+    ToGpsOrBeacon,
+}
+// Original enum: VRage.Game.ModAPI.Ingame.FleeTrigger
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "FleeTrigger")]
+pub enum FleeTrigger {
+    #[default]
+    #[deku(id = "0")]
+    Never,
+    #[deku(id = "1")]
+    Always,
+    #[deku(id = "2")]
+    WhenTargetLocked,
+    #[deku(id = "3")]
+    WhenTakingDamage,
+}
+// Original enum: SpaceEngineers.Game.ModAPI.Ingame.LandingGearMode
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "LandingGearMode")]
+pub enum LandingGearMode {
+    #[default]
+    #[deku(id = "0")]
+    Unlocked,
+    #[deku(id = "1")]
+    ReadyToLock,
+    #[deku(id = "2")]
+    Locked,
+}
+// Original enum: VRage.Game.ModAPI.Ingame.OffensiveCombatTargetPriority
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "OffensiveCombatTargetPriority")]
+pub enum OffensiveCombatTargetPriority {
+    #[default]
+    #[deku(id = "0")]
+    Closest,
+    #[deku(id = "1")]
+    Largest,
+    #[deku(id = "2")]
+    Smallest,
+}
+// Original enum: VRage.Game.ModAPI.Ingame.GuidanceType
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1, bit_order = "lsb")]
+#[serde(rename = "GuidanceType")]
+pub enum GuidanceType {
+    #[default]
+    #[deku(id = "0")]
+    Basic,
+    #[deku(id = "1")]
+    TargetPrediction,
+}
+// Original enum: VRage.Game.ModAPI.Ingame.MyTransponderRelationFilter
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "MyTransponderRelationFilter")]
+pub enum MyTransponderRelationFilter {
+    #[default]
+    #[deku(id = "0")]
+    Owner,
+    #[deku(id = "1")]
+    Faction,
+    #[deku(id = "2")]
+    Everyone,
+}

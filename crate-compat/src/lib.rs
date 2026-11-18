@@ -22,6 +22,7 @@ mod collections;
 mod deku;
 mod nullable;
 mod xml;
+mod xml_only;
 
 // Game-specific modules  
 pub mod compression;
@@ -39,4 +40,6 @@ pub use deku::{
 };
 pub use nullable::{Nullable, NullableShadow};
 pub use xml::{xml_vec, PacketCompressedXmlObject};
+pub use xml_fragment::XmlFragment;
+pub use xml_only::XmlOnlyFragment;
 pub use compression::{compress, decompress};

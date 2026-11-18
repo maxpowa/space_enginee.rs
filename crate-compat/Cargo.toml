@@ -19,6 +19,7 @@ deku = { workspace = true }
 glam = { workspace = true }
 flate2 = { workspace = true }
 quick-xml = { workspace = true, features = ["serialize"] }
+xml-fragment = { workspace = true }
 
 [dev-dependencies]
 quick-xml = { workspace = true }

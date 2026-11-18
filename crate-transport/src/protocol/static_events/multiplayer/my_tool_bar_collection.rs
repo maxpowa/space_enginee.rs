@@ -29,7 +29,7 @@ pub struct OnChangeSlotItemRequestPayload {
 pub struct OnChangeSlotBuilderItemRequestPayload {
     pub player_serial_id: BitAligned<i32>,
     pub index: BitAligned<i32>,
-    pub item_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
+    pub item_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItemVariant,
 }
 
 /// Payload for OnNewToolbarRequest event.
