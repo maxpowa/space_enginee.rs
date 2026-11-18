@@ -497,4 +497,105 @@ mod tests {
         assert_eq!(pirates.faction_type, MyFactionTypes::Pirate);
         assert!(!pirates.stations.is_empty(), "Pirates should have stations");
     }
+
+    /// Dynamic object-builder fields carry a little-endian UInt16 runtime type id before the
+    /// concrete payload (MyObjectBuilderSerializerKeen.SerializeDynamic). The generated
+    /// discriminator enum must round-trip that id together with its payload.
+    #[test]
+    fn test_polymorphic_toolbar_item_round_trip() {
+        use deku::prelude::*;
+
+        // Id 0 is the null/invalid discriminator and has no payload.
+        let (rest, value) =
+            MyObjectBuilder_ToolbarItemVariant::from_bytes((&[0x00u8, 0x00][..], 0)).unwrap();
+        assert_eq!(rest.0.len(), 0);
+        assert_eq!(value, MyObjectBuilder_ToolbarItemVariant::Invalid);
+        assert_eq!(value.to_bytes().unwrap(), vec![0x00, 0x00]);
+
+        // MyObjectBuilder_ToolbarItemEmpty has no fields, so its id is the whole payload.
+        let empty = MyObjectBuilder_ToolbarItemVariant::Empty(Box::new(
+            MyObjectBuilder_ToolbarItemEmpty::default(),
+        ));
+        let id = empty.type_id();
+        assert_ne!(id, 0);
+
+        let bytes = empty.to_bytes().unwrap();
+        assert_eq!(bytes, id.to_le_bytes().to_vec());
+
+        let (rest, decoded) =
+            MyObjectBuilder_ToolbarItemVariant::from_bytes((&bytes[..], 0)).unwrap();
+        assert_eq!(rest.0.len(), 0);
+        assert_eq!(decoded, empty);
+    }
+
+    /// The XML-only fallback cannot be represented in the binary format.
+    #[test]
+    fn test_polymorphic_unknown_is_not_binary_encodable() {
+        use deku::prelude::*;
+
+        let unknown = MyObjectBuilder_ToolbarItemVariant::Unknown(Box::new(
+            crate::compat::XmlOnlyFragment(crate::compat::XmlFragment::Map(vec![(
+                "@xsi:type".to_string(),
+                crate::compat::XmlFragment::Scalar("SomeType".to_string()),
+            )])),
+        ));
+
+        assert!(unknown.to_bytes().is_err());
+    }
+
+    /// A dynamic field can declare a concrete type with no subclasses. The wire still carries its
+    /// id, so it must be its own variant rather than a bare struct.
+    #[test]
+    fn test_polymorphic_concrete_self_variant_round_trip() {
+        use deku::prelude::*;
+
+        let value = MyObjectBuilder_ToolbarVariant::MyObjectBuilder_Toolbar(Box::default());
+        let id = value.type_id();
+        assert_ne!(id, 0);
+
+        let bytes = value.to_bytes().unwrap();
+        assert_eq!(&bytes[..2], &id.to_le_bytes());
+
+        let (rest, decoded) =
+            MyObjectBuilder_ToolbarVariant::from_bytes((&bytes[..], 0)).unwrap();
+        // Bit-aligned payloads can leave the trailing partial byte in `rest`.
+        assert!(rest.0.len() <= 1, "unexpected trailing bytes: {rest:?}");
+        assert_eq!(decoded, value);
+    }
+
+    /// Unknown dynamic object builders must survive an XML round-trip unchanged.
+    #[test]
+    fn test_polymorphic_unknown_xml_round_trip() {
+        #[derive(::serde::Serialize, ::serde::Deserialize)]
+        struct Holder {
+            #[serde(rename = "Data")]
+            data: MyObjectBuilder_ToolbarItemVariant,
+        }
+
+        let xml = r#"<Holder><Data xsi:type="MyObjectBuilder_SomeFutureBlock"><DefinitionId Type="MyObjectBuilder_CubeBlock" Subtype="LargeBlockArmorBlock" /></Data></Holder>"#;
+
+        let parsed: Holder = quick_xml::de::from_str(xml).expect("unknown payload must not fail");
+
+        match &parsed.data {
+            MyObjectBuilder_ToolbarItemVariant::Unknown(fragment) => {
+                assert_eq!(
+                    fragment.0.type_attribute(),
+                    Some("MyObjectBuilder_SomeFutureBlock")
+                );
+            }
+            other => panic!("expected Unknown fallback, got {other:?}"),
+        }
+
+        let written = quick_xml::se::to_string(&parsed).unwrap();
+        assert!(written.contains(r#"xsi:type="MyObjectBuilder_SomeFutureBlock""#));
+        assert!(written.contains(r#"Subtype="LargeBlockArmorBlock""#));
+
+        // A known payload type still takes the typed path.
+        let known = r#"<Holder><Data xsi:type="MyObjectBuilder_ToolbarItemEmpty"/></Holder>"#;
+        let parsed: Holder = quick_xml::de::from_str(known).unwrap();
+        assert!(matches!(
+            parsed.data,
+            MyObjectBuilder_ToolbarItemVariant::Empty(_)
+        ));
+    }
 }

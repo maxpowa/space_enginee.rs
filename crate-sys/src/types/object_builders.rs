@@ -15,9 +15,9 @@ pub struct MyObjectBuilder_ToolbarItem {}
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "Slot")]
 pub struct MyObjectBuilder_Toolbar_Slot {
-    #[proto(tag = 7)]
+    #[proto(skip)]
     #[serde(rename = "Data", default)]
-    pub data: MyObjectBuilder_ToolbarItem,
+    pub data: MyObjectBuilder_ToolbarItemVariant,
     #[proto(tag = 1)]
     #[serde(rename = "Index", default)]
     pub index: crate::compat::BitAligned<i32>,
@@ -1566,9 +1566,9 @@ pub struct MyObjectBuilder_ComponentBase {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "ComponentData")]
 pub struct MyObjectBuilder_ComponentContainer_ComponentData {
-    #[proto(tag = 4)]
+    #[proto(skip)]
     #[serde(rename = "Component", default)]
-    pub component: MyObjectBuilder_ComponentBase,
+    pub component: MyObjectBuilder_ComponentBaseVariant,
     #[proto(tag = 1)]
     #[serde(rename = "TypeId", default)]
     pub type_id: crate::compat::VarString,
@@ -1660,141 +1660,156 @@ pub struct MyObjectBuilder_Sector {
 }
 // Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,Vec<i32>>
 // Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Planet, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_Planet>
-// Original type: VRageMath.Vector3S
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, Hash, Eq, PartialOrd, Ord)]
-#[serde(rename = "Vector3S")]
-pub struct Vector3S {
-    #[proto(tag = 1)]
-    #[serde(rename = "X", default)]
-    pub X: i32,
-    #[proto(tag = 4)]
-    #[serde(rename = "Y", default)]
-    pub Y: i32,
-    #[proto(tag = 7)]
-    #[serde(rename = "Z", default)]
-    pub Z: i32,
-}
-// Note: Type mapping applied from System.Collections.Generic.HashSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
-// Original type: VRage.Game.MyObjectBuilder_Planet+SavedSector
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
-#[serde(rename = "SavedSector")]
-pub struct MyObjectBuilder_Planet_SavedSector {
-    #[proto(tag = 1)]
-    #[serde(rename = "IdPos")]
-    pub id_pos: Vector3S,
-    #[proto(tag = 4)]
-    #[serde(rename = "IdDir")]
-    pub id_dir: super::game::Vector3B,
-    #[proto(tag = 7)]
-    #[serde(rename = "RemovedItems", default, deserialize_with = "crate::compat::xml_vec::deserialize")]
-    pub removed_items: Vec<i32>,
-}
 // Note: Type mapping applied from System.Nullable`1[[VRageRender.Messages.MyAtmosphereSettings, VRage.Render, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<super::game::MyAtmosphereSettings>
 // Note: Type mapping applied from System.Nullable`1[[VRageMath.Vector3, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::math::Vector3F>
 // Original type: VRageRender.Messages.MyAtmosphereSettings
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyAtmosphereSettings")]
 pub struct MyAtmosphereSettings {
-    #[proto(tag = 1)]
-    #[serde(rename = "RayleighScattering")]
-    pub rayleigh_scattering: crate::math::Vector3F,
-    #[proto(tag = 4)]
-    #[serde(rename = "MieScattering", default)]
-    pub mie_scattering: f32,
-    #[proto(tag = 7)]
+    #[serde(rename = "AtmosphereTopModifier", default)]
+    pub atmosphere_top_modifier: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FogIntensity", default)]
+    pub fog_intensity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Intensity", default)]
+    pub intensity: crate::compat::BitAligned<f32>,
     #[serde(rename = "MieColorScattering")]
     pub mie_color_scattering: crate::math::Vector3F,
-    #[proto(tag = 10)]
-    #[serde(rename = "RayleighHeight", default)]
-    pub rayleigh_height: f32,
-    #[proto(tag = 13)]
-    #[serde(rename = "RayleighHeightSpace", default)]
-    pub rayleigh_height_space: f32,
-    #[proto(tag = 16)]
-    #[serde(rename = "RayleighTransitionModifier", default)]
-    pub rayleigh_transition_modifier: f32,
-    #[proto(tag = 19)]
-    #[serde(rename = "MieHeight", default)]
-    pub mie_height: f32,
-    #[proto(tag = 22)]
     #[serde(rename = "MieG", default)]
-    pub mie_g: f32,
-    #[proto(tag = 25)]
-    #[serde(rename = "Intensity", default)]
-    pub intensity: f32,
-    #[proto(tag = 28)]
-    #[serde(rename = "FogIntensity", default)]
-    pub fog_intensity: f32,
-    #[proto(tag = 31)]
-    #[serde(rename = "SeaLevelModifier", default)]
-    pub sea_level_modifier: f32,
-    #[proto(tag = 34)]
-    #[serde(rename = "AtmosphereTopModifier", default)]
-    pub atmosphere_top_modifier: f32,
-    #[proto(tag = 37)]
+    pub mie_g: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MieHeight", default)]
+    pub mie_height: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MieScattering", default)]
+    pub mie_scattering: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RayleighHeight", default)]
+    pub rayleigh_height: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RayleighHeightSpace", default)]
+    pub rayleigh_height_space: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RayleighScattering")]
+    pub rayleigh_scattering: crate::math::Vector3F,
+    #[serde(rename = "RayleighTransitionModifier", default)]
+    pub rayleigh_transition_modifier: crate::compat::BitAligned<f32>,
     #[serde(rename = "Scale", default)]
-    pub scale: f32,
+    pub scale: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SeaLevelModifier", default)]
+    pub sea_level_modifier: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SunColor")]
+    pub sun_color: crate::math::Vector3F,
+    #[serde(skip)]
+    pub sun_color_linear: crate::compat::Nullable<crate::math::Vector3F>,
+    #[serde(rename = "SunSpecularColor")]
+    pub sun_specular_color: crate::math::Vector3F,
+    #[serde(skip)]
+    pub sun_specular_color_linear: crate::compat::Nullable<crate::math::Vector3F>,
+}
+// Original type: VRageMath.Vector3S
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "Vector3S")]
+pub struct Vector3S {
+    #[serde(rename = "X", default)]
+    pub X: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Y", default)]
+    pub Y: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Z", default)]
+    pub Z: crate::compat::BitAligned<i32>,
+}
+// Note: Type mapping applied from System.Collections.Generic.HashSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to Vec<i32>
+// Original type: VRage.Game.MyObjectBuilder_Planet+SavedSector
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SavedSector")]
+pub struct MyObjectBuilder_Planet_SavedSector {
+    #[serde(rename = "IdDir")]
+    pub id_dir: super::game::Vector3B,
+    #[serde(rename = "IdPos")]
+    pub id_pos: Vector3S,
+    #[serde(rename = "RemovedItems", default)]
+    pub removed_items: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<i32>>>,
 }
 // Original type: VRage.Game.MyObjectBuilder_Planet
 #[::serde_inline_default::serde_inline_default]
-#[::proto_rs::proto_message]
-#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_Planet")]
 pub struct MyObjectBuilder_Planet {
-    #[proto(tag = 10)]
-    #[serde(rename = "Radius", default)]
-    pub radius: f32,
-    #[proto(tag = 13)]
-    #[serde(rename = "HasAtmosphere", default)]
-    pub has_atmosphere: bool,
-    #[proto(tag = 16)]
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
     #[serde(rename = "AtmosphereRadius", default)]
-    pub atmosphere_radius: f32,
-    #[proto(tag = 19)]
-    #[serde(rename = "MinimumSurfaceRadius", default)]
-    pub minimum_surface_radius: f32,
-    #[proto(tag = 22)]
-    #[serde(rename = "MaximumHillRadius", default)]
-    pub maximum_hill_radius: f32,
-    #[proto(tag = 25)]
+    pub atmosphere_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "AtmosphereSettings", default)]
+    pub atmosphere_settings: crate::compat::Nullable<crate::compat::Nullable<MyAtmosphereSettings>>,
     #[serde(rename = "AtmosphereWavelengths")]
     pub atmosphere_wavelengths: crate::math::Vector3F,
-    #[proto(tag = 28)]
-    #[serde(rename = "SavedEnviromentSectors", default)]
-    #[serde(serialize_with = "super::xml_array_item::Sector::serialize",
-            deserialize_with = "super::xml_array_item::Sector::deserialize")]
-    pub saved_enviroment_sectors: Vec<MyObjectBuilder_Planet_SavedSector>,
-    #[proto(tag = 31)]
     #[serde(rename = "GravityFalloff", default)]
-    pub gravity_falloff: f32,
-    #[proto(tag = 34)]
+    pub gravity_falloff: crate::compat::BitAligned<f32>,
+    #[serde(rename = "HasAtmosphere", default)]
+    pub has_atmosphere: crate::compat::BitBool,
     #[serde(rename = "MarkAreaEmpty", default)]
-    pub mark_area_empty: bool,
-    #[proto(tag = 37)]
-    #[serde(rename = "AtmosphereSettings", default)]
-    pub atmosphere_settings: crate::compat::Nullable<MyAtmosphereSettings>,
-    #[proto(tag = 40)]
-    #[serde_inline_default(1f32)]
-    #[serde(rename = "SurfaceGravity")]
-    pub surface_gravity: f32,
-    #[proto(tag = 43)]
-    #[serde(rename = "SpawnsFlora", default)]
-    pub spawns_flora: bool,
-    #[proto(tag = 46)]
-    #[serde(rename = "ShowGPS", default)]
-    pub show_gp_s: bool,
-    #[proto(tag = 49)]
-    #[serde(rename = "SpherizeWithDistance", default)]
-    pub spherize_with_distance: bool,
-    #[proto(tag = 52)]
+    pub mark_area_empty: crate::compat::BitBool,
+    #[serde(rename = "MaximumHillRadius", default)]
+    pub maximum_hill_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MinimumSurfaceRadius", default)]
+    pub minimum_surface_radius: crate::compat::BitAligned<f32>,
     #[serde(rename = "PlanetGenerator", default)]
-    pub planet_generator: String,
-    #[proto(tag = 55)]
+    pub planet_generator: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "Radius", default)]
+    pub radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SavedEnviromentSectors", default)]
+    pub saved_enviroment_sectors: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_Planet_SavedSector>>,
     #[serde(rename = "Seed", default)]
-    pub seed: i32,
+    pub seed: crate::compat::BitAligned<i32>,
+    #[serde(rename = "ShowGPS", default)]
+    pub show_gp_s: crate::compat::BitBool,
+    #[serde(rename = "SpawnsFlora", default)]
+    pub spawns_flora: crate::compat::BitBool,
+    #[serde(rename = "SpherizeWithDistance", default)]
+    pub spherize_with_distance: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "SurfaceGravity")]
+    pub surface_gravity: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub boulder_item_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub boulder_planet_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub boulder_sector_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub content_changed: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub created_by_user: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub filename: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub is_global_encounter_asteroid: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub mutable_storage: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_VoxelMap - not in serde
+    #[serde(skip)]
+    pub storage_name: crate::compat::Nullable<crate::compat::VarString>,
 }
 // Original type: VRage.Game.MyObjectBuilder_World
 #[::proto_rs::proto_message]
@@ -1833,9 +1848,9 @@ pub struct MyObjectBuilder_Base {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
 #[serde(rename = "MyObjectBuilder_AutopilotWaypoint")]
 pub struct MyObjectBuilder_AutopilotWaypoint {
-    #[proto(tag = 7)]
+    #[proto(skip)]
     #[serde(rename = "Actions", default)]
-    pub actions: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ToolbarItem>>,
+    pub actions: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ToolbarItemVariant>>,
     #[proto(tag = 40)]
     #[serde(rename = "AdaptiveRotationSpeed", default)]
     pub adaptive_rotation_speed: crate::compat::BitBool,
@@ -2046,9 +2061,9 @@ pub struct MyObjectBuilder_StockpileItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount", default)]
     pub amount: crate::compat::BitAligned<i32>,
-    #[proto(tag = 4)]
+    #[proto(skip)]
     #[serde(rename = "PhysicalContent", default)]
-    pub physical_content: crate::compat::Nullable<MyObjectBuilder_PhysicalObject>,
+    pub physical_content: crate::compat::Nullable<MyObjectBuilder_PhysicalObjectVariant>,
 }
 // Original type: VRage.Game.MyObjectBuilder_ConstructionStockpile
 #[::proto_rs::proto_message]
@@ -2214,15 +2229,15 @@ pub struct MyObjectBuilder_InventoryItem {
     #[proto(tag = 1)]
     #[serde(rename = "Amount")]
     pub amount: super::game::MyFixedPoint,
-    #[proto(tag = 7)]
+    #[proto(skip)]
     #[serde(rename = "Content", default)]
-    pub content: crate::compat::Nullable<MyObjectBuilder_PhysicalObject>,
+    pub content: crate::compat::Nullable<MyObjectBuilder_PhysicalObjectVariant>,
     #[proto(tag = 13)]
     #[serde(rename = "ItemId", default)]
     pub item_id: crate::compat::BitAligned<u32>,
-    #[proto(tag = 10)]
+    #[proto(skip)]
     #[serde(rename = "PhysicalContent", default)]
-    pub physical_content: crate::compat::Nullable<MyObjectBuilder_PhysicalObject>,
+    pub physical_content: crate::compat::Nullable<MyObjectBuilder_PhysicalObjectVariant>,
     #[proto(tag = 4)]
     #[serde_inline_default(crate::compat::BitAligned(1f32))]
     #[serde(rename = "Scale")]
@@ -3117,9 +3132,9 @@ pub struct MyObjectBuilder_Contract {
     // Inherited from MyObjectBuilder_Base - not in serde
     #[serde(skip)]
     pub m_serializable_subtype_id: super::game::MyStringHash,
-    #[proto(tag = 25)]
+    #[proto(skip)]
     #[serde(rename = "ContractCondition", default)]
-    pub contract_condition: crate::compat::Nullable<MyObjectBuilder_ContractCondition>,
+    pub contract_condition: crate::compat::Nullable<MyObjectBuilder_ContractConditionVariant>,
     #[proto(tag = 27)]
     #[serde(rename = "ContractTypeDefinitionId")]
     pub contract_type_definition_id: super::game::SerializableDefinitionId,
@@ -3536,3 +3551,18244 @@ pub struct MyObjectBuilder_Identity {
     #[serde(rename = "VisitedStationIds", default)]
     pub visited_station_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
 }
+// Discriminator enum for dynamic object builder: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_AutopilotBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotBase (id 782)
+    #[deku(id = "782")]
+    MyObjectBuilder_AutopilotBase(Box<MyObjectBuilder_AutopilotBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SimpleAutopilot (id 950)
+    #[deku(id = "950")]
+    MyObjectBuilder_SimpleAutopilot(Box<MyObjectBuilder_SimpleAutopilot>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_AutopilotBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_AutopilotBase(_) => 782,
+            Self::MyObjectBuilder_SimpleAutopilot(_) => 950,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_AutopilotBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_AutopilotBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AutopilotBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AutopilotBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SimpleAutopilot") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SimpleAutopilot>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SimpleAutopilot(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_AutopilotBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_AutopilotBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AutopilotBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SimpleAutopilot(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SimpleAutopilot",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SimpleAutopilot
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SimpleAutopilot")]
+pub struct MyObjectBuilder_SimpleAutopilot {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Destination")]
+    pub destination: crate::math::Vector3D,
+    #[serde(rename = "Direction")]
+    pub direction: crate::math::Vector3F,
+    #[serde(rename = "GridIds", default)]
+    pub grid_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "SpawnTime", default)]
+    pub spawn_time: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+}
+// Discriminator enum for dynamic object builder: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_AutopilotWaypointVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotWaypoint (id 786)
+    #[deku(id = "786")]
+    MyObjectBuilder_AutopilotWaypoint(Box<MyObjectBuilder_AutopilotWaypoint>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_AutopilotWaypointVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_AutopilotWaypoint(_) => 786,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_AutopilotWaypointVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_AutopilotWaypoint") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AutopilotWaypoint>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AutopilotWaypoint(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_AutopilotWaypointVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_AutopilotWaypoint(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AutopilotWaypoint",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Discriminator enum for dynamic object builder: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentDataProvider
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_EnvironmentDataProviderVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentDataProvider (id 576)
+    #[deku(id = "576")]
+    MyObjectBuilder_EnvironmentDataProvider(Box<MyObjectBuilder_EnvironmentDataProvider>),
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_ProceduralEnvironmentProvider (id 582)
+    #[deku(id = "582")]
+    MyObjectBuilder_ProceduralEnvironmentProvider(Box<MyObjectBuilder_ProceduralEnvironmentProvider>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_EnvironmentDataProviderVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_EnvironmentDataProvider(_) => 576,
+            Self::MyObjectBuilder_ProceduralEnvironmentProvider(_) => 582,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_EnvironmentDataProviderVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_EnvironmentDataProvider") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EnvironmentDataProvider>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EnvironmentDataProvider(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ProceduralEnvironmentProvider") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ProceduralEnvironmentProvider>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ProceduralEnvironmentProvider(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_EnvironmentDataProviderVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_EnvironmentDataProvider(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EnvironmentDataProvider",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ProceduralEnvironmentProvider(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ProceduralEnvironmentProvider",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentDataProvider
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EnvironmentDataProvider")]
+pub struct MyObjectBuilder_EnvironmentDataProvider {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "@Face", default)]
+    pub face: crate::compat::direction::Direction,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_ProceduralEnvironmentSector, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_ProceduralEnvironmentSector>
+// Stub for empty/abstract type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentModuleBase
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EnvironmentModuleBase")]
+pub struct MyObjectBuilder_EnvironmentModuleBase {}
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_ProceduralEnvironmentSector+Module
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "Module")]
+pub struct MyObjectBuilder_ProceduralEnvironmentSector_Module {
+    #[serde(rename = "Builder", default)]
+    pub builder: MyObjectBuilder_EnvironmentModuleBaseVariant,
+    #[serde(rename = "ModuleId")]
+    pub module_id: super::game::SerializableDefinitionId,
+}
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_ProceduralEnvironmentSector
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ProceduralEnvironmentSector")]
+pub struct MyObjectBuilder_ProceduralEnvironmentSector {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EnvironmentSector - not in serde
+    #[serde(skip)]
+    pub sector_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "SavedModules", default)]
+    pub saved_modules: crate::compat::VarVec<MyObjectBuilder_ProceduralEnvironmentSector_Module>,
+}
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_ProceduralEnvironmentProvider
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ProceduralEnvironmentProvider")]
+pub struct MyObjectBuilder_ProceduralEnvironmentProvider {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EnvironmentDataProvider - not in serde
+    #[serde(skip)]
+    pub face: crate::compat::direction::Direction,
+    #[serde(rename = "Sectors", default)]
+    pub sectors: crate::compat::VarVec<MyObjectBuilder_ProceduralEnvironmentSector>,
+}
+// Discriminator enum for dynamic object builder: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentModuleBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_EnvironmentModuleBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_DummyEnvironmentModule (id 574)
+    #[deku(id = "574")]
+    MyObjectBuilder_DummyEnvironmentModule(Box<MyObjectBuilder_DummyEnvironmentModule>),
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_EnvironmentModuleBase (id 577)
+    #[deku(id = "577")]
+    MyObjectBuilder_EnvironmentModuleBase(Box<MyObjectBuilder_EnvironmentModuleBase>),
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_StaticEnvironmentModule (id 585)
+    #[deku(id = "585")]
+    MyObjectBuilder_StaticEnvironmentModule(Box<MyObjectBuilder_StaticEnvironmentModule>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_EnvironmentModuleBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_DummyEnvironmentModule(_) => 574,
+            Self::MyObjectBuilder_EnvironmentModuleBase(_) => 577,
+            Self::MyObjectBuilder_StaticEnvironmentModule(_) => 585,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_EnvironmentModuleBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_DummyEnvironmentModule") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DummyEnvironmentModule>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DummyEnvironmentModule(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EnvironmentModuleBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EnvironmentModuleBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EnvironmentModuleBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_StaticEnvironmentModule") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_StaticEnvironmentModule>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_StaticEnvironmentModule(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_EnvironmentModuleBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_DummyEnvironmentModule(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DummyEnvironmentModule",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EnvironmentModuleBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EnvironmentModuleBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_StaticEnvironmentModule(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_StaticEnvironmentModule",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_DummyEnvironmentModule
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DummyEnvironmentModule")]
+pub struct MyObjectBuilder_DummyEnvironmentModule {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "DisabledItems", default)]
+    pub disabled_items: crate::compat::VarVec<crate::compat::BitAligned<i32>>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.SerializableOrientedBoundingBoxD, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::SerializableOrientedBoundingBoxD>
+// Original type: VRage.SerializableQuaternion
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SerializableQuaternion")]
+pub struct SerializableQuaternion {
+    #[serde(rename = "W", default)]
+    pub W: crate::compat::BitAligned<f32>,
+    #[serde(rename = "X", default)]
+    pub X: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Y", default)]
+    pub Y: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Z", default)]
+    pub Z: crate::compat::BitAligned<f32>,
+}
+// Original type: VRage.SerializableOrientedBoundingBoxD
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SerializableOrientedBoundingBoxD")]
+pub struct SerializableOrientedBoundingBoxD {
+    #[serde(rename = "Center")]
+    pub center: crate::math::SerializableVector3D,
+    #[serde(rename = "HalfExtent")]
+    pub half_extent: crate::math::SerializableVector3D,
+    #[serde(rename = "Orientation")]
+    pub orientation: SerializableQuaternion,
+}
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_StaticEnvironmentModule
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_StaticEnvironmentModule")]
+pub struct MyObjectBuilder_StaticEnvironmentModule {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Boxes", default)]
+    pub boxes: crate::compat::Nullable<crate::compat::VarVec<SerializableOrientedBoundingBoxD>>,
+    #[serde(rename = "DisabledItems", default)]
+    pub disabled_items: crate::compat::VarVec<crate::compat::BitAligned<i32>>,
+    #[serde_inline_default(crate::compat::BitAligned(15))]
+    #[serde(rename = "MinScanned")]
+    pub min_scanned: crate::compat::BitAligned<i32>,
+}
+// Discriminator enum for dynamic object builder: VRage.Game.MyObjectBuilder_CubeBlock
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_CubeBlockVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_CargoContainer (id 54)
+    #[deku(id = "54")]
+    MyObjectBuilder_CargoContainer(Box<MyObjectBuilder_CargoContainer>),
+    /// VRage.Game.MyObjectBuilder_CubeBlock (id 78)
+    #[deku(id = "78")]
+    MyObjectBuilder_CubeBlock(Box<MyObjectBuilder_CubeBlock>),
+    /// VRage.Game.MyObjectBuilder_DebugSphere1 (id 87)
+    #[deku(id = "87")]
+    MyObjectBuilder_DebugSphere1(Box<MyObjectBuilder_DebugSphere1>),
+    /// VRage.Game.MyObjectBuilder_DebugSphere2 (id 89)
+    #[deku(id = "89")]
+    MyObjectBuilder_DebugSphere2(Box<MyObjectBuilder_DebugSphere2>),
+    /// VRage.Game.MyObjectBuilder_DebugSphere3 (id 91)
+    #[deku(id = "91")]
+    MyObjectBuilder_DebugSphere3(Box<MyObjectBuilder_DebugSphere3>),
+    /// VRage.Game.MyObjectBuilder_FunctionalBlock (id 127)
+    #[deku(id = "127")]
+    MyObjectBuilder_FunctionalBlock(Box<MyObjectBuilder_FunctionalBlock>),
+    /// VRage.Game.MyObjectBuilder_TerminalBlock (id 239)
+    #[deku(id = "239")]
+    MyObjectBuilder_TerminalBlock(Box<MyObjectBuilder_TerminalBlock>),
+    /// ObjectBuilders.SafeZone.MyObjectBuilder_SafeZoneBlock (id 593)
+    #[deku(id = "593")]
+    MyObjectBuilder_SafeZoneBlock(Box<MyObjectBuilder_SafeZoneBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AdvancedDoor (id 769)
+    #[deku(id = "769")]
+    MyObjectBuilder_AdvancedDoor(Box<MyObjectBuilder_AdvancedDoor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightDoorGeneric (id 772)
+    #[deku(id = "772")]
+    MyObjectBuilder_AirtightDoorGeneric(Box<MyObjectBuilder_AirtightDoorGeneric>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightHangarDoor (id 773)
+    #[deku(id = "773")]
+    MyObjectBuilder_AirtightHangarDoor(Box<MyObjectBuilder_AirtightHangarDoor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightSlideDoor (id 774)
+    #[deku(id = "774")]
+    MyObjectBuilder_AirtightSlideDoor(Box<MyObjectBuilder_AirtightSlideDoor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirVent (id 775)
+    #[deku(id = "775")]
+    MyObjectBuilder_AirVent(Box<MyObjectBuilder_AirVent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Assembler (id 779)
+    #[deku(id = "779")]
+    MyObjectBuilder_Assembler(Box<MyObjectBuilder_Assembler>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AttachableTopBlockBase (id 780)
+    #[deku(id = "780")]
+    MyObjectBuilder_AttachableTopBlockBase(Box<MyObjectBuilder_AttachableTopBlockBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionBlock (id 788)
+    #[deku(id = "788")]
+    MyObjectBuilder_BasicMissionBlock(Box<MyObjectBuilder_BasicMissionBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BatteryBlock (id 791)
+    #[deku(id = "791")]
+    MyObjectBuilder_BatteryBlock(Box<MyObjectBuilder_BatteryBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Beacon (id 792)
+    #[deku(id = "792")]
+    MyObjectBuilder_Beacon(Box<MyObjectBuilder_Beacon>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BroadcastController (id 794)
+    #[deku(id = "794")]
+    MyObjectBuilder_BroadcastController(Box<MyObjectBuilder_BroadcastController>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_CameraBlock (id 796)
+    #[deku(id = "796")]
+    MyObjectBuilder_CameraBlock(Box<MyObjectBuilder_CameraBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Cockpit (id 800)
+    #[deku(id = "800")]
+    MyObjectBuilder_Cockpit(Box<MyObjectBuilder_Cockpit>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Collector (id 801)
+    #[deku(id = "801")]
+    MyObjectBuilder_Collector(Box<MyObjectBuilder_Collector>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ContractBlock (id 802)
+    #[deku(id = "802")]
+    MyObjectBuilder_ContractBlock(Box<MyObjectBuilder_ContractBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ControlPanel (id 804)
+    #[deku(id = "804")]
+    MyObjectBuilder_ControlPanel(Box<MyObjectBuilder_ControlPanel>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Conveyor (id 805)
+    #[deku(id = "805")]
+    MyObjectBuilder_Conveyor(Box<MyObjectBuilder_Conveyor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorConnector (id 806)
+    #[deku(id = "806")]
+    MyObjectBuilder_ConveyorConnector(Box<MyObjectBuilder_ConveyorConnector>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorSorter (id 808)
+    #[deku(id = "808")]
+    MyObjectBuilder_ConveyorSorter(Box<MyObjectBuilder_ConveyorSorter>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorTurretBase (id 809)
+    #[deku(id = "809")]
+    MyObjectBuilder_ConveyorTurretBase(Box<MyObjectBuilder_ConveyorTurretBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_CryoChamber (id 810)
+    #[deku(id = "810")]
+    MyObjectBuilder_CryoChamber(Box<MyObjectBuilder_CryoChamber>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Decoy (id 811)
+    #[deku(id = "811")]
+    MyObjectBuilder_Decoy(Box<MyObjectBuilder_Decoy>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_DefensiveCombatBlock (id 812)
+    #[deku(id = "812")]
+    MyObjectBuilder_DefensiveCombatBlock(Box<MyObjectBuilder_DefensiveCombatBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Door (id 814)
+    #[deku(id = "814")]
+    MyObjectBuilder_Door(Box<MyObjectBuilder_Door>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_DoorBase (id 815)
+    #[deku(id = "815")]
+    MyObjectBuilder_DoorBase(Box<MyObjectBuilder_DoorBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Drill (id 816)
+    #[deku(id = "816")]
+    MyObjectBuilder_Drill(Box<MyObjectBuilder_Drill>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmissiveBlock (id 817)
+    #[deku(id = "817")]
+    MyObjectBuilder_EmissiveBlock(Box<MyObjectBuilder_EmissiveBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmotionControllerBlock (id 818)
+    #[deku(id = "818")]
+    MyObjectBuilder_EmotionControllerBlock(Box<MyObjectBuilder_EmotionControllerBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventControllerBlock (id 830)
+    #[deku(id = "830")]
+    MyObjectBuilder_EventControllerBlock(Box<MyObjectBuilder_EventControllerBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ExhaustBlock (id 846)
+    #[deku(id = "846")]
+    MyObjectBuilder_ExhaustBlock(Box<MyObjectBuilder_ExhaustBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ExtendedPistonBase (id 847)
+    #[deku(id = "847")]
+    MyObjectBuilder_ExtendedPistonBase(Box<MyObjectBuilder_ExtendedPistonBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_FlightMovementBlock (id 849)
+    #[deku(id = "849")]
+    MyObjectBuilder_FlightMovementBlock(Box<MyObjectBuilder_FlightMovementBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_FueledPowerProducer (id 850)
+    #[deku(id = "850")]
+    MyObjectBuilder_FueledPowerProducer(Box<MyObjectBuilder_FueledPowerProducer>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GasTank (id 851)
+    #[deku(id = "851")]
+    MyObjectBuilder_GasTank(Box<MyObjectBuilder_GasTank>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGenerator (id 854)
+    #[deku(id = "854")]
+    MyObjectBuilder_GravityGenerator(Box<MyObjectBuilder_GravityGenerator>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGeneratorBase (id 855)
+    #[deku(id = "855")]
+    MyObjectBuilder_GravityGeneratorBase(Box<MyObjectBuilder_GravityGeneratorBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGeneratorSphere (id 856)
+    #[deku(id = "856")]
+    MyObjectBuilder_GravityGeneratorSphere(Box<MyObjectBuilder_GravityGeneratorSphere>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Gyro (id 860)
+    #[deku(id = "860")]
+    MyObjectBuilder_Gyro(Box<MyObjectBuilder_Gyro>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_HeatVentBlock (id 863)
+    #[deku(id = "863")]
+    MyObjectBuilder_HeatVentBlock(Box<MyObjectBuilder_HeatVentBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_HydrogenEngine (id 864)
+    #[deku(id = "864")]
+    MyObjectBuilder_HydrogenEngine(Box<MyObjectBuilder_HydrogenEngine>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_InteriorLight (id 865)
+    #[deku(id = "865")]
+    MyObjectBuilder_InteriorLight(Box<MyObjectBuilder_InteriorLight>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_InteriorTurret (id 866)
+    #[deku(id = "866")]
+    MyObjectBuilder_InteriorTurret(Box<MyObjectBuilder_InteriorTurret>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Jukebox (id 868)
+    #[deku(id = "868")]
+    MyObjectBuilder_Jukebox(Box<MyObjectBuilder_Jukebox>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_JumpDrive (id 869)
+    #[deku(id = "869")]
+    MyObjectBuilder_JumpDrive(Box<MyObjectBuilder_JumpDrive>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Kitchen (id 870)
+    #[deku(id = "870")]
+    MyObjectBuilder_Kitchen(Box<MyObjectBuilder_Kitchen>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Ladder (id 871)
+    #[deku(id = "871")]
+    MyObjectBuilder_Ladder(Box<MyObjectBuilder_Ladder>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Ladder2 (id 872)
+    #[deku(id = "872")]
+    MyObjectBuilder_Ladder2(Box<MyObjectBuilder_Ladder2>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LandingGear (id 873)
+    #[deku(id = "873")]
+    MyObjectBuilder_LandingGear(Box<MyObjectBuilder_LandingGear>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LargeGatlingTurret (id 874)
+    #[deku(id = "874")]
+    MyObjectBuilder_LargeGatlingTurret(Box<MyObjectBuilder_LargeGatlingTurret>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LargeMissileTurret (id 875)
+    #[deku(id = "875")]
+    MyObjectBuilder_LargeMissileTurret(Box<MyObjectBuilder_LargeMissileTurret>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LaserAntenna (id 876)
+    #[deku(id = "876")]
+    MyObjectBuilder_LaserAntenna(Box<MyObjectBuilder_LaserAntenna>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LCDPanelsBlock (id 877)
+    #[deku(id = "877")]
+    MyObjectBuilder_LCDPanelsBlock(Box<MyObjectBuilder_LCDPanelsBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MechanicalConnectionBlock (id 883)
+    #[deku(id = "883")]
+    MyObjectBuilder_MechanicalConnectionBlock(Box<MyObjectBuilder_MechanicalConnectionBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MedicalRoom (id 884)
+    #[deku(id = "884")]
+    MyObjectBuilder_MedicalRoom(Box<MyObjectBuilder_MedicalRoom>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MergeBlock (id 885)
+    #[deku(id = "885")]
+    MyObjectBuilder_MergeBlock(Box<MyObjectBuilder_MergeBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorAdvancedRotor (id 889)
+    #[deku(id = "889")]
+    MyObjectBuilder_MotorAdvancedRotor(Box<MyObjectBuilder_MotorAdvancedRotor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorAdvancedStator (id 890)
+    #[deku(id = "890")]
+    MyObjectBuilder_MotorAdvancedStator(Box<MyObjectBuilder_MotorAdvancedStator>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorBase (id 891)
+    #[deku(id = "891")]
+    MyObjectBuilder_MotorBase(Box<MyObjectBuilder_MotorBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorRotor (id 892)
+    #[deku(id = "892")]
+    MyObjectBuilder_MotorRotor(Box<MyObjectBuilder_MotorRotor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorStator (id 893)
+    #[deku(id = "893")]
+    MyObjectBuilder_MotorStator(Box<MyObjectBuilder_MotorStator>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorSuspension (id 894)
+    #[deku(id = "894")]
+    MyObjectBuilder_MotorSuspension(Box<MyObjectBuilder_MotorSuspension>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MyProgrammableBlock (id 898)
+    #[deku(id = "898")]
+    MyObjectBuilder_MyProgrammableBlock(Box<MyObjectBuilder_MyProgrammableBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatBlock (id 900)
+    #[deku(id = "900")]
+    MyObjectBuilder_OffensiveCombatBlock(Box<MyObjectBuilder_OffensiveCombatBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OreDetector (id 905)
+    #[deku(id = "905")]
+    MyObjectBuilder_OreDetector(Box<MyObjectBuilder_OreDetector>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenFarm (id 907)
+    #[deku(id = "907")]
+    MyObjectBuilder_OxygenFarm(Box<MyObjectBuilder_OxygenFarm>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenGenerator (id 908)
+    #[deku(id = "908")]
+    MyObjectBuilder_OxygenGenerator(Box<MyObjectBuilder_OxygenGenerator>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenTank (id 909)
+    #[deku(id = "909")]
+    MyObjectBuilder_OxygenTank(Box<MyObjectBuilder_OxygenTank>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Parachute (id 910)
+    #[deku(id = "910")]
+    MyObjectBuilder_Parachute(Box<MyObjectBuilder_Parachute>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Passage (id 912)
+    #[deku(id = "912")]
+    MyObjectBuilder_Passage(Box<MyObjectBuilder_Passage>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_PathRecorderBlock (id 913)
+    #[deku(id = "913")]
+    MyObjectBuilder_PathRecorderBlock(Box<MyObjectBuilder_PathRecorderBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_PistonBase (id 915)
+    #[deku(id = "915")]
+    MyObjectBuilder_PistonBase(Box<MyObjectBuilder_PistonBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_PistonTop (id 916)
+    #[deku(id = "916")]
+    MyObjectBuilder_PistonTop(Box<MyObjectBuilder_PistonTop>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Planter (id 918)
+    #[deku(id = "918")]
+    MyObjectBuilder_Planter(Box<MyObjectBuilder_Planter>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Projector (id 920)
+    #[deku(id = "920")]
+    MyObjectBuilder_Projector(Box<MyObjectBuilder_Projector>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RadioAntenna (id 922)
+    #[deku(id = "922")]
+    MyObjectBuilder_RadioAntenna(Box<MyObjectBuilder_RadioAntenna>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Reactor (id 925)
+    #[deku(id = "925")]
+    MyObjectBuilder_Reactor(Box<MyObjectBuilder_Reactor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RealWheel (id 926)
+    #[deku(id = "926")]
+    MyObjectBuilder_RealWheel(Box<MyObjectBuilder_RealWheel>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Refinery (id 928)
+    #[deku(id = "928")]
+    MyObjectBuilder_Refinery(Box<MyObjectBuilder_Refinery>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ReflectorLight (id 929)
+    #[deku(id = "929")]
+    MyObjectBuilder_ReflectorLight(Box<MyObjectBuilder_ReflectorLight>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RemoteControl (id 930)
+    #[deku(id = "930")]
+    MyObjectBuilder_RemoteControl(Box<MyObjectBuilder_RemoteControl>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Searchlight (id 937)
+    #[deku(id = "937")]
+    MyObjectBuilder_Searchlight(Box<MyObjectBuilder_Searchlight>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SensorBlock (id 939)
+    #[deku(id = "939")]
+    MyObjectBuilder_SensorBlock(Box<MyObjectBuilder_SensorBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipConnector (id 940)
+    #[deku(id = "940")]
+    MyObjectBuilder_ShipConnector(Box<MyObjectBuilder_ShipConnector>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipController (id 941)
+    #[deku(id = "941")]
+    MyObjectBuilder_ShipController(Box<MyObjectBuilder_ShipController>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipGrinder (id 942)
+    #[deku(id = "942")]
+    MyObjectBuilder_ShipGrinder(Box<MyObjectBuilder_ShipGrinder>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipToolBase (id 943)
+    #[deku(id = "943")]
+    MyObjectBuilder_ShipToolBase(Box<MyObjectBuilder_ShipToolBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipWelder (id 944)
+    #[deku(id = "944")]
+    MyObjectBuilder_ShipWelder(Box<MyObjectBuilder_ShipWelder>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalLight (id 947)
+    #[deku(id = "947")]
+    MyObjectBuilder_SignalLight(Box<MyObjectBuilder_SignalLight>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallGatlingGun (id 951)
+    #[deku(id = "951")]
+    MyObjectBuilder_SmallGatlingGun(Box<MyObjectBuilder_SmallGatlingGun>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallMissileLauncher (id 952)
+    #[deku(id = "952")]
+    MyObjectBuilder_SmallMissileLauncher(Box<MyObjectBuilder_SmallMissileLauncher>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallMissileLauncherReload (id 953)
+    #[deku(id = "953")]
+    MyObjectBuilder_SmallMissileLauncherReload(Box<MyObjectBuilder_SmallMissileLauncherReload>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarPanel (id 957)
+    #[deku(id = "957")]
+    MyObjectBuilder_SolarPanel(Box<MyObjectBuilder_SolarPanel>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SoundBlock (id 958)
+    #[deku(id = "958")]
+    MyObjectBuilder_SoundBlock(Box<MyObjectBuilder_SoundBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SpaceBall (id 959)
+    #[deku(id = "959")]
+    MyObjectBuilder_SpaceBall(Box<MyObjectBuilder_SpaceBall>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_StoreBlock (id 960)
+    #[deku(id = "960")]
+    MyObjectBuilder_StoreBlock(Box<MyObjectBuilder_StoreBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalKit (id 964)
+    #[deku(id = "964")]
+    MyObjectBuilder_SurvivalKit(Box<MyObjectBuilder_SurvivalKit>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_TextPanel (id 966)
+    #[deku(id = "966")]
+    MyObjectBuilder_TextPanel(Box<MyObjectBuilder_TextPanel>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Thrust (id 967)
+    #[deku(id = "967")]
+    MyObjectBuilder_Thrust(Box<MyObjectBuilder_Thrust>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_TimerBlock (id 968)
+    #[deku(id = "968")]
+    MyObjectBuilder_TimerBlock(Box<MyObjectBuilder_TimerBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_TransponderBlock (id 972)
+    #[deku(id = "972")]
+    MyObjectBuilder_TransponderBlock(Box<MyObjectBuilder_TransponderBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_TurretBase (id 973)
+    #[deku(id = "973")]
+    MyObjectBuilder_TurretBase(Box<MyObjectBuilder_TurretBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_TurretControlBlock (id 974)
+    #[deku(id = "974")]
+    MyObjectBuilder_TurretControlBlock(Box<MyObjectBuilder_TurretControlBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_UpgradeModule (id 975)
+    #[deku(id = "975")]
+    MyObjectBuilder_UpgradeModule(Box<MyObjectBuilder_UpgradeModule>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_UserControllableGun (id 976)
+    #[deku(id = "976")]
+    MyObjectBuilder_UserControllableGun(Box<MyObjectBuilder_UserControllableGun>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_VendingMachine (id 977)
+    #[deku(id = "977")]
+    MyObjectBuilder_VendingMachine(Box<MyObjectBuilder_VendingMachine>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_VirtualMass (id 978)
+    #[deku(id = "978")]
+    MyObjectBuilder_VirtualMass(Box<MyObjectBuilder_VirtualMass>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Warhead (id 980)
+    #[deku(id = "980")]
+    MyObjectBuilder_Warhead(Box<MyObjectBuilder_Warhead>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Wheel (id 984)
+    #[deku(id = "984")]
+    MyObjectBuilder_Wheel(Box<MyObjectBuilder_Wheel>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_WindTurbine (id 985)
+    #[deku(id = "985")]
+    MyObjectBuilder_WindTurbine(Box<MyObjectBuilder_WindTurbine>),
+    /// SpaceEngineers.ObjectBuilders.ObjectBuilders.MyObjectBuilder_TargetDummyBlock (id 989)
+    #[deku(id = "989")]
+    MyObjectBuilder_TargetDummyBlock(Box<MyObjectBuilder_TargetDummyBlock>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_CubeBlockVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_CargoContainer(_) => 54,
+            Self::MyObjectBuilder_CubeBlock(_) => 78,
+            Self::MyObjectBuilder_DebugSphere1(_) => 87,
+            Self::MyObjectBuilder_DebugSphere2(_) => 89,
+            Self::MyObjectBuilder_DebugSphere3(_) => 91,
+            Self::MyObjectBuilder_FunctionalBlock(_) => 127,
+            Self::MyObjectBuilder_TerminalBlock(_) => 239,
+            Self::MyObjectBuilder_SafeZoneBlock(_) => 593,
+            Self::MyObjectBuilder_AdvancedDoor(_) => 769,
+            Self::MyObjectBuilder_AirtightDoorGeneric(_) => 772,
+            Self::MyObjectBuilder_AirtightHangarDoor(_) => 773,
+            Self::MyObjectBuilder_AirtightSlideDoor(_) => 774,
+            Self::MyObjectBuilder_AirVent(_) => 775,
+            Self::MyObjectBuilder_Assembler(_) => 779,
+            Self::MyObjectBuilder_AttachableTopBlockBase(_) => 780,
+            Self::MyObjectBuilder_BasicMissionBlock(_) => 788,
+            Self::MyObjectBuilder_BatteryBlock(_) => 791,
+            Self::MyObjectBuilder_Beacon(_) => 792,
+            Self::MyObjectBuilder_BroadcastController(_) => 794,
+            Self::MyObjectBuilder_CameraBlock(_) => 796,
+            Self::MyObjectBuilder_Cockpit(_) => 800,
+            Self::MyObjectBuilder_Collector(_) => 801,
+            Self::MyObjectBuilder_ContractBlock(_) => 802,
+            Self::MyObjectBuilder_ControlPanel(_) => 804,
+            Self::MyObjectBuilder_Conveyor(_) => 805,
+            Self::MyObjectBuilder_ConveyorConnector(_) => 806,
+            Self::MyObjectBuilder_ConveyorSorter(_) => 808,
+            Self::MyObjectBuilder_ConveyorTurretBase(_) => 809,
+            Self::MyObjectBuilder_CryoChamber(_) => 810,
+            Self::MyObjectBuilder_Decoy(_) => 811,
+            Self::MyObjectBuilder_DefensiveCombatBlock(_) => 812,
+            Self::MyObjectBuilder_Door(_) => 814,
+            Self::MyObjectBuilder_DoorBase(_) => 815,
+            Self::MyObjectBuilder_Drill(_) => 816,
+            Self::MyObjectBuilder_EmissiveBlock(_) => 817,
+            Self::MyObjectBuilder_EmotionControllerBlock(_) => 818,
+            Self::MyObjectBuilder_EventControllerBlock(_) => 830,
+            Self::MyObjectBuilder_ExhaustBlock(_) => 846,
+            Self::MyObjectBuilder_ExtendedPistonBase(_) => 847,
+            Self::MyObjectBuilder_FlightMovementBlock(_) => 849,
+            Self::MyObjectBuilder_FueledPowerProducer(_) => 850,
+            Self::MyObjectBuilder_GasTank(_) => 851,
+            Self::MyObjectBuilder_GravityGenerator(_) => 854,
+            Self::MyObjectBuilder_GravityGeneratorBase(_) => 855,
+            Self::MyObjectBuilder_GravityGeneratorSphere(_) => 856,
+            Self::MyObjectBuilder_Gyro(_) => 860,
+            Self::MyObjectBuilder_HeatVentBlock(_) => 863,
+            Self::MyObjectBuilder_HydrogenEngine(_) => 864,
+            Self::MyObjectBuilder_InteriorLight(_) => 865,
+            Self::MyObjectBuilder_InteriorTurret(_) => 866,
+            Self::MyObjectBuilder_Jukebox(_) => 868,
+            Self::MyObjectBuilder_JumpDrive(_) => 869,
+            Self::MyObjectBuilder_Kitchen(_) => 870,
+            Self::MyObjectBuilder_Ladder(_) => 871,
+            Self::MyObjectBuilder_Ladder2(_) => 872,
+            Self::MyObjectBuilder_LandingGear(_) => 873,
+            Self::MyObjectBuilder_LargeGatlingTurret(_) => 874,
+            Self::MyObjectBuilder_LargeMissileTurret(_) => 875,
+            Self::MyObjectBuilder_LaserAntenna(_) => 876,
+            Self::MyObjectBuilder_LCDPanelsBlock(_) => 877,
+            Self::MyObjectBuilder_MechanicalConnectionBlock(_) => 883,
+            Self::MyObjectBuilder_MedicalRoom(_) => 884,
+            Self::MyObjectBuilder_MergeBlock(_) => 885,
+            Self::MyObjectBuilder_MotorAdvancedRotor(_) => 889,
+            Self::MyObjectBuilder_MotorAdvancedStator(_) => 890,
+            Self::MyObjectBuilder_MotorBase(_) => 891,
+            Self::MyObjectBuilder_MotorRotor(_) => 892,
+            Self::MyObjectBuilder_MotorStator(_) => 893,
+            Self::MyObjectBuilder_MotorSuspension(_) => 894,
+            Self::MyObjectBuilder_MyProgrammableBlock(_) => 898,
+            Self::MyObjectBuilder_OffensiveCombatBlock(_) => 900,
+            Self::MyObjectBuilder_OreDetector(_) => 905,
+            Self::MyObjectBuilder_OxygenFarm(_) => 907,
+            Self::MyObjectBuilder_OxygenGenerator(_) => 908,
+            Self::MyObjectBuilder_OxygenTank(_) => 909,
+            Self::MyObjectBuilder_Parachute(_) => 910,
+            Self::MyObjectBuilder_Passage(_) => 912,
+            Self::MyObjectBuilder_PathRecorderBlock(_) => 913,
+            Self::MyObjectBuilder_PistonBase(_) => 915,
+            Self::MyObjectBuilder_PistonTop(_) => 916,
+            Self::MyObjectBuilder_Planter(_) => 918,
+            Self::MyObjectBuilder_Projector(_) => 920,
+            Self::MyObjectBuilder_RadioAntenna(_) => 922,
+            Self::MyObjectBuilder_Reactor(_) => 925,
+            Self::MyObjectBuilder_RealWheel(_) => 926,
+            Self::MyObjectBuilder_Refinery(_) => 928,
+            Self::MyObjectBuilder_ReflectorLight(_) => 929,
+            Self::MyObjectBuilder_RemoteControl(_) => 930,
+            Self::MyObjectBuilder_Searchlight(_) => 937,
+            Self::MyObjectBuilder_SensorBlock(_) => 939,
+            Self::MyObjectBuilder_ShipConnector(_) => 940,
+            Self::MyObjectBuilder_ShipController(_) => 941,
+            Self::MyObjectBuilder_ShipGrinder(_) => 942,
+            Self::MyObjectBuilder_ShipToolBase(_) => 943,
+            Self::MyObjectBuilder_ShipWelder(_) => 944,
+            Self::MyObjectBuilder_SignalLight(_) => 947,
+            Self::MyObjectBuilder_SmallGatlingGun(_) => 951,
+            Self::MyObjectBuilder_SmallMissileLauncher(_) => 952,
+            Self::MyObjectBuilder_SmallMissileLauncherReload(_) => 953,
+            Self::MyObjectBuilder_SolarPanel(_) => 957,
+            Self::MyObjectBuilder_SoundBlock(_) => 958,
+            Self::MyObjectBuilder_SpaceBall(_) => 959,
+            Self::MyObjectBuilder_StoreBlock(_) => 960,
+            Self::MyObjectBuilder_SurvivalKit(_) => 964,
+            Self::MyObjectBuilder_TextPanel(_) => 966,
+            Self::MyObjectBuilder_Thrust(_) => 967,
+            Self::MyObjectBuilder_TimerBlock(_) => 968,
+            Self::MyObjectBuilder_TransponderBlock(_) => 972,
+            Self::MyObjectBuilder_TurretBase(_) => 973,
+            Self::MyObjectBuilder_TurretControlBlock(_) => 974,
+            Self::MyObjectBuilder_UpgradeModule(_) => 975,
+            Self::MyObjectBuilder_UserControllableGun(_) => 976,
+            Self::MyObjectBuilder_VendingMachine(_) => 977,
+            Self::MyObjectBuilder_VirtualMass(_) => 978,
+            Self::MyObjectBuilder_Warhead(_) => 980,
+            Self::MyObjectBuilder_Wheel(_) => 984,
+            Self::MyObjectBuilder_WindTurbine(_) => 985,
+            Self::MyObjectBuilder_TargetDummyBlock(_) => 989,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_CubeBlockVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_CargoContainer") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CargoContainer>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CargoContainer(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CubeBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CubeBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CubeBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DebugSphere1") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DebugSphere1>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DebugSphere1(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DebugSphere2") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DebugSphere2>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DebugSphere2(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DebugSphere3") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DebugSphere3>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DebugSphere3(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_FunctionalBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_FunctionalBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_FunctionalBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TerminalBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TerminalBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TerminalBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SafeZoneBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SafeZoneBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SafeZoneBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AdvancedDoor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AdvancedDoor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AdvancedDoor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AirtightDoorGeneric") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AirtightDoorGeneric>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AirtightDoorGeneric(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AirtightHangarDoor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AirtightHangarDoor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AirtightHangarDoor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AirtightSlideDoor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AirtightSlideDoor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AirtightSlideDoor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AirVent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AirVent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AirVent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Assembler") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Assembler>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Assembler(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AttachableTopBlockBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AttachableTopBlockBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AttachableTopBlockBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BasicMissionBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BasicMissionBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BasicMissionBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BatteryBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BatteryBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BatteryBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Beacon") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Beacon>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Beacon(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BroadcastController") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BroadcastController>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BroadcastController(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CameraBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CameraBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CameraBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Cockpit") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Cockpit>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Cockpit(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Collector") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Collector>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Collector(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContractBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ContractBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ControlPanel") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ControlPanel>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ControlPanel(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Conveyor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Conveyor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Conveyor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ConveyorConnector") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ConveyorConnector>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ConveyorConnector(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ConveyorSorter") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ConveyorSorter>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ConveyorSorter(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ConveyorTurretBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ConveyorTurretBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ConveyorTurretBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CryoChamber") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CryoChamber>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CryoChamber(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Decoy") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Decoy>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Decoy(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DefensiveCombatBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DefensiveCombatBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DefensiveCombatBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Door") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Door>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Door(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DoorBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DoorBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DoorBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Drill") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Drill>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Drill(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EmissiveBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EmissiveBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EmissiveBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EmotionControllerBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EmotionControllerBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EmotionControllerBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventControllerBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventControllerBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventControllerBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ExhaustBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ExhaustBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ExhaustBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ExtendedPistonBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ExtendedPistonBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ExtendedPistonBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_FlightMovementBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_FlightMovementBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_FlightMovementBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_FueledPowerProducer") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_FueledPowerProducer>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_FueledPowerProducer(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GasTank") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GasTank>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GasTank(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GravityGenerator") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GravityGenerator>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GravityGenerator(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GravityGeneratorBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GravityGeneratorBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GravityGeneratorBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GravityGeneratorSphere") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GravityGeneratorSphere>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GravityGeneratorSphere(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Gyro") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Gyro>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Gyro(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HeatVentBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HeatVentBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HeatVentBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HydrogenEngine") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HydrogenEngine>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HydrogenEngine(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InteriorLight") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InteriorLight>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InteriorLight(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InteriorTurret") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InteriorTurret>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InteriorTurret(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Jukebox") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Jukebox>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Jukebox(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_JumpDrive") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_JumpDrive>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_JumpDrive(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Kitchen") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Kitchen>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Kitchen(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Ladder") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Ladder>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Ladder(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Ladder2") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Ladder2>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Ladder2(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LandingGear") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LandingGear>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LandingGear(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LargeGatlingTurret") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LargeGatlingTurret>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LargeGatlingTurret(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LargeMissileTurret") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LargeMissileTurret>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LargeMissileTurret(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LaserAntenna") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LaserAntenna>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LaserAntenna(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LCDPanelsBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LCDPanelsBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LCDPanelsBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MechanicalConnectionBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MechanicalConnectionBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MechanicalConnectionBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MedicalRoom") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MedicalRoom>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MedicalRoom(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MergeBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MergeBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MergeBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorAdvancedRotor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorAdvancedRotor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorAdvancedRotor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorAdvancedStator") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorAdvancedStator>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorAdvancedStator(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorRotor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorRotor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorRotor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorStator") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorStator>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorStator(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MotorSuspension") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MotorSuspension>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MotorSuspension(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MyProgrammableBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MyProgrammableBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MyProgrammableBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OffensiveCombatBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OffensiveCombatBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OffensiveCombatBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OreDetector") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OreDetector>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OreDetector(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OxygenFarm") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OxygenFarm>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OxygenFarm(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OxygenGenerator") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OxygenGenerator>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OxygenGenerator(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OxygenTank") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OxygenTank>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OxygenTank(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Parachute") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Parachute>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Parachute(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Passage") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Passage>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Passage(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PathRecorderBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PathRecorderBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PathRecorderBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PistonBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PistonBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PistonBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PistonTop") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PistonTop>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PistonTop(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Planter") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Planter>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Planter(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Projector") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Projector>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Projector(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RadioAntenna") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RadioAntenna>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RadioAntenna(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Reactor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Reactor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Reactor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RealWheel") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RealWheel>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RealWheel(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Refinery") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Refinery>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Refinery(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ReflectorLight") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ReflectorLight>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ReflectorLight(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RemoteControl") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RemoteControl>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RemoteControl(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Searchlight") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Searchlight>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Searchlight(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SensorBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SensorBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SensorBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipConnector") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipConnector>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipConnector(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipController") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipController>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipController(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipGrinder") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipGrinder>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipGrinder(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipToolBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipToolBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipToolBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipWelder") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipWelder>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipWelder(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SignalLight") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SignalLight>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SignalLight(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SmallGatlingGun") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SmallGatlingGun>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SmallGatlingGun(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SmallMissileLauncher") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SmallMissileLauncher>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SmallMissileLauncher(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SmallMissileLauncherReload") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SmallMissileLauncherReload>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SmallMissileLauncherReload(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SolarPanel") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SolarPanel>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SolarPanel(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SoundBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SoundBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SoundBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SpaceBall") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SpaceBall>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SpaceBall(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_StoreBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_StoreBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_StoreBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SurvivalKit") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SurvivalKit>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SurvivalKit(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TextPanel") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TextPanel>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TextPanel(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Thrust") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Thrust>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Thrust(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TimerBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TimerBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TimerBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TransponderBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TransponderBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TransponderBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TurretBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TurretBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TurretBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TurretControlBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TurretControlBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TurretControlBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UpgradeModule") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UpgradeModule>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UpgradeModule(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UserControllableGun") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UserControllableGun>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UserControllableGun(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_VendingMachine") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_VendingMachine>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_VendingMachine(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_VirtualMass") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_VirtualMass>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_VirtualMass(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Warhead") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Warhead>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Warhead(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Wheel") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Wheel>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Wheel(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_WindTurbine") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_WindTurbine>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_WindTurbine(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TargetDummyBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TargetDummyBlock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TargetDummyBlock(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_CubeBlockVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_CargoContainer(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CargoContainer",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CubeBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CubeBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DebugSphere1(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DebugSphere1",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DebugSphere2(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DebugSphere2",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DebugSphere3(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DebugSphere3",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_FunctionalBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_FunctionalBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TerminalBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TerminalBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SafeZoneBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SafeZoneBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AdvancedDoor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AdvancedDoor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AirtightDoorGeneric(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AirtightDoorGeneric",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AirtightHangarDoor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AirtightHangarDoor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AirtightSlideDoor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AirtightSlideDoor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AirVent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AirVent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Assembler(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Assembler",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AttachableTopBlockBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AttachableTopBlockBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BasicMissionBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BasicMissionBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BatteryBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BatteryBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Beacon(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Beacon",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BroadcastController(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BroadcastController",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CameraBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CameraBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Cockpit(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Cockpit",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Collector(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Collector",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ContractBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ControlPanel(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ControlPanel",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Conveyor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Conveyor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ConveyorConnector(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ConveyorConnector",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ConveyorSorter(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ConveyorSorter",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ConveyorTurretBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ConveyorTurretBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CryoChamber(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CryoChamber",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Decoy(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Decoy",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DefensiveCombatBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DefensiveCombatBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Door(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Door",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DoorBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DoorBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Drill(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Drill",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EmissiveBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EmissiveBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EmotionControllerBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EmotionControllerBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventControllerBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventControllerBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ExhaustBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ExhaustBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ExtendedPistonBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ExtendedPistonBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_FlightMovementBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_FlightMovementBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_FueledPowerProducer(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_FueledPowerProducer",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GasTank(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GasTank",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GravityGenerator(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GravityGenerator",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GravityGeneratorBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GravityGeneratorBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GravityGeneratorSphere(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GravityGeneratorSphere",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Gyro(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Gyro",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HeatVentBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HeatVentBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HydrogenEngine(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HydrogenEngine",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InteriorLight(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InteriorLight",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InteriorTurret(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InteriorTurret",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Jukebox(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Jukebox",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_JumpDrive(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_JumpDrive",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Kitchen(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Kitchen",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Ladder(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Ladder",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Ladder2(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Ladder2",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LandingGear(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LandingGear",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LargeGatlingTurret(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LargeGatlingTurret",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LargeMissileTurret(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LargeMissileTurret",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LaserAntenna(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LaserAntenna",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LCDPanelsBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LCDPanelsBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MechanicalConnectionBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MechanicalConnectionBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MedicalRoom(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MedicalRoom",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MergeBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MergeBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorAdvancedRotor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorAdvancedRotor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorAdvancedStator(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorAdvancedStator",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorRotor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorRotor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorStator(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorStator",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MotorSuspension(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MotorSuspension",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MyProgrammableBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MyProgrammableBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OffensiveCombatBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OffensiveCombatBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OreDetector(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OreDetector",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OxygenFarm(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OxygenFarm",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OxygenGenerator(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OxygenGenerator",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OxygenTank(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OxygenTank",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Parachute(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Parachute",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Passage(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Passage",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PathRecorderBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PathRecorderBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PistonBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PistonBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PistonTop(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PistonTop",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Planter(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Planter",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Projector(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Projector",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RadioAntenna(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RadioAntenna",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Reactor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Reactor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RealWheel(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RealWheel",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Refinery(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Refinery",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ReflectorLight(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ReflectorLight",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RemoteControl(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RemoteControl",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Searchlight(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Searchlight",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SensorBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SensorBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipConnector(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipConnector",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipController(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipController",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipGrinder(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipGrinder",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipToolBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipToolBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipWelder(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipWelder",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SignalLight(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SignalLight",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SmallGatlingGun(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SmallGatlingGun",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SmallMissileLauncher(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SmallMissileLauncher",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SmallMissileLauncherReload(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SmallMissileLauncherReload",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SolarPanel(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SolarPanel",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SoundBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SoundBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SpaceBall(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SpaceBall",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_StoreBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_StoreBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SurvivalKit(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SurvivalKit",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TextPanel(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TextPanel",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Thrust(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Thrust",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TimerBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TimerBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TransponderBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TransponderBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TurretBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TurretBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TurretControlBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TurretControlBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UpgradeModule(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UpgradeModule",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UserControllableGun(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UserControllableGun",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_VendingMachine(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_VendingMachine",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_VirtualMass(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_VirtualMass",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Warhead(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Warhead",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Wheel(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Wheel",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_WindTurbine(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_WindTurbine",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TargetDummyBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TargetDummyBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: VRage.Game.MyObjectBuilder_CargoContainer
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CargoContainer")]
+pub struct MyObjectBuilder_CargoContainer {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "ContainerType", default)]
+    pub container_type: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_DebugSphere1
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DebugSphere1")]
+pub struct MyObjectBuilder_DebugSphere1 {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_DebugSphere2
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DebugSphere2")]
+pub struct MyObjectBuilder_DebugSphere2 {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_DebugSphere3
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DebugSphere3")]
+pub struct MyObjectBuilder_DebugSphere3 {}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.MySerializedTextPanelData, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MySerializedTextPanelData>
+// Original enum: VRage.Game.GUI.TextPanel.ContentType
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u8", bits = 2, bit_order = "lsb")]
+#[serde(rename = "ContentType")]
+pub enum ContentType {
+    #[default]
+    #[deku(id = "0")]
+    NONE,
+    #[deku(id = "1")]
+    TEXT_AND_IMAGE,
+    #[deku(id = "2")]
+    IMAGE,
+    #[deku(id = "3")]
+    SCRIPT,
+}
+// Original enum: VRage.Game.GUI.TextPanel.ShowTextOnScreenFlag
+#[::enumflags2::bitflags]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "ShowTextOnScreenFlag")]
+pub enum ShowTextOnScreenFlag {
+    // Skipping 0 value in flags enum (NONE)
+    PUBLIC = 2,
+    PRIVATE = 4,
+}
+impl ShowTextOnScreenFlag {
+    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
+}
+// Original type: VRage.Game.ObjectBuilders.MySerializedTextPanelData
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MySerializedTextPanelData")]
+pub struct MySerializedTextPanelData {
+    #[serde(rename = "Alignment", default)]
+    pub alignment: crate::compat::BitAligned<i32>,
+    #[serde(rename = "BackgroundColor")]
+    pub background_color: super::game::Color,
+    #[serde(rename = "ChangeInterval", default)]
+    pub change_interval: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(ContentType::NONE)]
+    #[serde(rename = "ContentType")]
+    pub content_type: ContentType,
+    #[serde(rename = "CurrentShownTexture", default)]
+    pub current_shown_texture: crate::compat::BitAligned<i32>,
+    #[serde(rename = "CustomizeScripts", default)]
+    pub customize_scripts: crate::compat::BitBool,
+    #[serde(rename = "Font")]
+    pub font: super::game::SerializableDefinitionId,
+    #[serde(rename = "FontColor")]
+    pub font_color: super::game::Color,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "FontSize")]
+    pub font_size: crate::compat::BitAligned<f32>,
+    #[serde(rename = "PreserveAspectRatio", default)]
+    pub preserve_aspect_ratio: crate::compat::BitBool,
+    #[serde(rename = "ScriptBackgroundColor")]
+    pub script_background_color: super::game::Color,
+    #[serde(rename = "ScriptForegroundColor")]
+    pub script_foreground_color: super::game::Color,
+    #[serde(rename = "SelectedImages", default)]
+    pub selected_images: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "SelectedScript", default)]
+    pub selected_script: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ShowText")]
+    pub show_text: crate::compat::BitField<ShowTextOnScreenFlag>,
+    #[serde(rename = "Sprites")]
+    pub sprites: super::game::MySerializableSpriteCollection,
+    #[serde(rename = "Text", default)]
+    pub text: crate::compat::VarString,
+    #[serde_inline_default(crate::compat::BitAligned(2f32))]
+    #[serde(rename = "TextPadding")]
+    pub text_padding: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-9223372036854775808))]
+    #[serde(rename = "UpdateStartOfFirstTexture")]
+    pub update_start_of_first_texture: crate::compat::BitAligned<i64>,
+}
+// Original type: VRage.Game.MyObjectBuilder_FunctionalBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_FunctionalBlock")]
+pub struct MyObjectBuilder_FunctionalBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "Enabled", default)]
+    pub enabled: crate::compat::BitBool,
+    #[serde(rename = "TextPanelsNew", default)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: VRage.Game.MyObjectBuilder_TerminalBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TerminalBlock")]
+pub struct MyObjectBuilder_TerminalBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "CustomName", default)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "IsSurvivalModeForced", default)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    #[serde(rename = "NumberInGrid", default)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    #[serde(rename = "ShowInInventory", default)]
+    pub show_in_inventory: crate::compat::BitBool,
+    #[serde(rename = "ShowInTerminal", default)]
+    pub show_in_terminal: crate::compat::BitBool,
+    #[serde(rename = "ShowInToolbarConfig", default)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    #[serde(rename = "ShowOnHUD", default)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: ObjectBuilders.SafeZone.MyObjectBuilder_SafeZoneBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SafeZoneBlock")]
+pub struct MyObjectBuilder_SafeZoneBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "SafeZoneId", default)]
+    pub safe_zone_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AdvancedDoor
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AdvancedDoor")]
+pub struct MyObjectBuilder_AdvancedDoor {
+    #[serde(rename = "Open", default)]
+    pub open: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_DoorBase - not in serde
+    #[serde(skip)]
+    pub anyone_can_use: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightDoorGeneric
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AirtightDoorGeneric")]
+pub struct MyObjectBuilder_AirtightDoorGeneric {
+    #[serde(rename = "CurrOpening", default)]
+    pub curr_opening: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Open", default)]
+    pub open: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_DoorBase - not in serde
+    #[serde(skip)]
+    pub anyone_can_use: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightHangarDoor
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AirtightHangarDoor")]
+pub struct MyObjectBuilder_AirtightHangarDoor {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirtightSlideDoor
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AirtightSlideDoor")]
+pub struct MyObjectBuilder_AirtightSlideDoor {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AirVent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AirVent")]
+pub struct MyObjectBuilder_AirVent {
+    #[serde(rename = "IsDepressurizing", default)]
+    pub is_depressurizing: crate::compat::BitBool,
+    #[serde(rename = "OnEmptyAction", default)]
+    pub on_empty_action: crate::compat::Nullable<MyObjectBuilder_ToolbarItemVariant>,
+    #[serde(rename = "OnFullAction", default)]
+    pub on_full_action: crate::compat::Nullable<MyObjectBuilder_ToolbarItemVariant>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_ToolbarVariant>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ProductionBlock+QueueItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "QueueItem")]
+pub struct MyObjectBuilder_ProductionBlock_QueueItem {
+    #[serde(rename = "Amount")]
+    pub amount: super::game::MyFixedPoint,
+    #[serde(rename = "Id")]
+    pub id: super::game::SerializableDefinitionId,
+    #[serde(rename = "ItemId", default)]
+    pub item_id: crate::compat::Nullable<crate::compat::BitAligned<u32>>,
+}
+// Note: Type mapping applied from System.Nullable`1[[VRage.Game.MyInventoryFlags, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<crate::compat::BitField<super::game::MyInventoryFlags>>
+// Original enum: VRage.Game.MyInventoryFlags
+#[::enumflags2::bitflags]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "MyInventoryFlags")]
+pub enum MyInventoryFlags {
+    CanReceive = 1,
+    CanSend = 2,
+}
+// Original type: VRage.Game.MyObjectBuilder_Inventory
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Inventory")]
+pub struct MyObjectBuilder_Inventory {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub can_put_items: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub inventory_id: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "InventoryFlags", default)]
+    pub inventory_flags: crate::compat::Nullable<crate::compat::BitField<MyInventoryFlags>>,
+    #[serde(rename = "Items", default)]
+    pub items: crate::compat::VarVec<MyObjectBuilder_InventoryItem>,
+    #[serde(rename = "Mass", default)]
+    pub mass: crate::compat::Nullable<super::game::MyFixedPoint>,
+    #[serde(rename = "MaxItemCount", default)]
+    pub max_item_count: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    #[serde(rename = "nextItemId", default)]
+    pub next_item_id: crate::compat::BitAligned<u32>,
+    #[serde(rename = "RemoveEntityOnEmpty", default)]
+    pub remove_entity_on_empty: crate::compat::BitBool,
+    #[serde(rename = "Size", default)]
+    pub size: crate::compat::Nullable<crate::math::SerializableVector3F>,
+    #[serde(rename = "Volume", default)]
+    pub volume: crate::compat::Nullable<super::game::MyFixedPoint>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Assembler
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Assembler")]
+pub struct MyObjectBuilder_Assembler {
+    #[serde(rename = "CurrentProgress", default)]
+    pub current_progress: crate::compat::BitAligned<f32>,
+    #[serde(rename = "DisassembleEnabled", default)]
+    pub disassemble_enabled: crate::compat::BitBool,
+    #[serde(rename = "OtherQueue", default)]
+    pub other_queue: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ProductionBlock_QueueItem>>,
+    #[serde(rename = "RepeatAssembleEnabled", default)]
+    pub repeat_assemble_enabled: crate::compat::BitBool,
+    #[serde(rename = "RepeatDisassembleEnabled", default)]
+    pub repeat_disassemble_enabled: crate::compat::BitBool,
+    #[serde(rename = "SlaveEnabled", default)]
+    pub slave_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub input_inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub next_item_id: crate::compat::BitAligned<u32>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub output_inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub queue: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ProductionBlock_QueueItem>>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AttachableTopBlockBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AttachableTopBlockBase")]
+pub struct MyObjectBuilder_AttachableTopBlockBase {
+    #[serde(rename = "ParentEntityId", default)]
+    pub parent_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "YieldLastComponent", default)]
+    pub yield_last_component: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BasicMissionBlock")]
+pub struct MyObjectBuilder_BasicMissionBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "SelectedMission", default)]
+    pub selected_mission: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BatteryBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BatteryBlock")]
+pub struct MyObjectBuilder_BatteryBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "ChargeMode", default)]
+    pub charge_mode: crate::compat::BitAligned<i32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "CurrentStoredPower")]
+    pub current_stored_power: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MaxStoredPower", default)]
+    pub max_stored_power: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OnlyDischargeEnabled", default)]
+    pub only_discharge_enabled: crate::compat::BitBool,
+    #[serde(rename = "ProducerEnabled", default)]
+    pub producer_enabled: crate::compat::BitBool,
+    #[serde(rename = "SemiautoEnabled", default)]
+    pub semiauto_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Beacon
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Beacon")]
+pub struct MyObjectBuilder_Beacon {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "BroadcastRadius", default)]
+    pub broadcast_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "HudText", default)]
+    pub hud_text: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BroadcastController
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BroadcastController")]
+pub struct MyObjectBuilder_BroadcastController {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_CameraBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CameraBlock")]
+pub struct MyObjectBuilder_CameraBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "EnablePanning", default)]
+    pub enable_panning: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(90f32))]
+    #[serde(rename = "Fov")]
+    pub fov: crate::compat::BitAligned<f32>,
+    #[serde(rename = "IsActive", default)]
+    pub is_active: crate::compat::BitBool,
+    #[serde(rename = "ViewRotation", default)]
+    pub view_rotation: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Common.ObjectBuilders.CockpitPanelData, SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::CockpitPanelData>
+// Original enum: Sandbox.Common.ObjectBuilders.TextAlignmentEnum
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "TextAlignmentEnum")]
+pub enum TextAlignmentEnum {
+    #[default]
+    #[deku(id = "0")]
+    Align_Left,
+    #[deku(id = "1")]
+    Align_Right,
+    #[deku(id = "2")]
+    Align_Center,
+}
+// Original type: Sandbox.Common.ObjectBuilders.CockpitPanelData
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "CockpitPanelData")]
+pub struct CockpitPanelData {
+    #[serde_inline_default(TextAlignmentEnum::Align_Left)]
+    #[serde(rename = "Alignment")]
+    pub alignment: TextAlignmentEnum,
+    #[serde(rename = "BackgroundColor")]
+    pub background_color: super::game::Color,
+    #[serde(rename = "ChangeInterval", default)]
+    pub change_interval: crate::compat::BitAligned<f32>,
+    #[serde(rename = "CurrentShownTexture", default)]
+    pub current_shown_texture: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Font")]
+    pub font: super::game::SerializableDefinitionId,
+    #[serde(rename = "FontColor")]
+    pub font_color: super::game::Color,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "FontSize")]
+    pub font_size: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SelectedImages", default)]
+    pub selected_images: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "ShowSprites", default)]
+    pub show_sprites: crate::compat::BitBool,
+    #[serde(rename = "ShowText")]
+    pub show_text: crate::compat::BitField<ShowTextOnScreenFlag>,
+    #[serde(rename = "Text", default)]
+    pub text: crate::compat::VarString,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_BatteryRegenerationEffect, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_BatteryRegenerationEffect>
+// Original type: VRage.Game.MyObjectBuilder_BatteryRegenerationEffect
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BatteryRegenerationEffect")]
+pub struct MyObjectBuilder_BatteryRegenerationEffect {
+    #[serde(rename = "ChargePerSecond", default)]
+    pub charge_per_second: crate::compat::BitAligned<f32>,
+    #[serde(rename = "LastRegenTimeInMiliseconds", default)]
+    pub last_regen_time_in_miliseconds: crate::compat::BitAligned<i64>,
+    #[serde(rename = "RemainingTimeInMiliseconds", default)]
+    pub remaining_time_in_miliseconds: crate::compat::BitAligned<i64>,
+}
+// Original type: VRage.Game.MyObjectBuilder_Battery
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Battery")]
+pub struct MyObjectBuilder_Battery {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "CurrentCapacity", default)]
+    pub current_capacity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "ProducerEnabled", default)]
+    pub producer_enabled: crate::compat::BitBool,
+    #[serde(rename = "RegenEffects", default)]
+    pub regen_effects: crate::compat::VarVec<MyObjectBuilder_BatteryRegenerationEffect>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Character+BuildPlanItem, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_Character_BuildPlanItem>
+// Original enum: VRage.Game.MyCharacterMovementEnum
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", bits = 15, bit_order = "lsb")]
+#[serde(rename = "MyCharacterMovementEnum")]
+pub enum MyCharacterMovementEnum {
+    #[default]
+    #[deku(id = "0")]
+    Standing,
+    #[deku(id = "1")]
+    Sitting,
+    #[deku(id = "2")]
+    Crouching,
+    #[deku(id = "3")]
+    Flying,
+    #[deku(id = "4")]
+    Falling,
+    #[deku(id = "5")]
+    Jump,
+    #[deku(id = "6")]
+    Died,
+    #[deku(id = "7")]
+    Ladder,
+    #[deku(id = "16384")]
+    LadderOut,
+    #[deku(id = "4096")]
+    RotatingLeft,
+    #[deku(id = "8192")]
+    RotatingRight,
+    #[deku(id = "16")]
+    Walking,
+    #[deku(id = "32")]
+    BackWalking,
+    #[deku(id = "64")]
+    WalkStrafingLeft,
+    #[deku(id = "128")]
+    WalkStrafingRight,
+    #[deku(id = "144")]
+    WalkingRightFront,
+    #[deku(id = "160")]
+    WalkingRightBack,
+    #[deku(id = "80")]
+    WalkingLeftFront,
+    #[deku(id = "96")]
+    WalkingLeftBack,
+    #[deku(id = "1040")]
+    Running,
+    #[deku(id = "1056")]
+    Backrunning,
+    #[deku(id = "1088")]
+    RunStrafingLeft,
+    #[deku(id = "1152")]
+    RunStrafingRight,
+    #[deku(id = "1168")]
+    RunningRightFront,
+    #[deku(id = "1184")]
+    RunningRightBack,
+    #[deku(id = "1104")]
+    RunningLeftFront,
+    #[deku(id = "1120")]
+    RunningLeftBack,
+    #[deku(id = "18")]
+    CrouchWalking,
+    #[deku(id = "34")]
+    CrouchBackWalking,
+    #[deku(id = "66")]
+    CrouchStrafingLeft,
+    #[deku(id = "130")]
+    CrouchStrafingRight,
+    #[deku(id = "146")]
+    CrouchWalkingRightFront,
+    #[deku(id = "162")]
+    CrouchWalkingRightBack,
+    #[deku(id = "82")]
+    CrouchWalkingLeftFront,
+    #[deku(id = "98")]
+    CrouchWalkingLeftBack,
+    #[deku(id = "4098")]
+    CrouchRotatingLeft,
+    #[deku(id = "8194")]
+    CrouchRotatingRight,
+    #[deku(id = "2064")]
+    Sprinting,
+    #[deku(id = "263")]
+    LadderUp,
+    #[deku(id = "519")]
+    LadderDown,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_Character+StoredGas, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_Character_StoredGas>
+// Original type: VRage.Game.MyObjectBuilder_Character+StoredGas
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "StoredGas")]
+pub struct MyObjectBuilder_Character_StoredGas {
+    #[serde(rename = "FillLevel", default)]
+    pub fill_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Id")]
+    pub id: super::game::SerializableDefinitionId,
+}
+// Original type: VRage.Game.MyObjectBuilder_Character
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Character")]
+pub struct MyObjectBuilder_Character {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "AIMode", default)]
+    pub ai_mode: crate::compat::BitBool,
+    #[serde(rename = "AutoenableJetpackDelay", default)]
+    pub autoenable_jetpack_delay: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Battery", default)]
+    pub battery: MyObjectBuilder_Battery,
+    #[serde(rename = "BuildPlanner", default)]
+    pub build_planner: crate::compat::Nullable<crate::compat::VarVec<super::game::MyObjectBuilder_Character_BuildPlanItem>>,
+    #[serde(rename = "CharacterFeetOffset", default)]
+    pub character_feet_offset: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "CharacterGeneralDamageModifier")]
+    pub character_general_damage_modifier: crate::compat::BitAligned<f32>,
+    #[serde(rename = "CharacterModel", default)]
+    pub character_model: crate::compat::VarString,
+    #[serde(rename = "CharacterSpeedDebuff", default)]
+    pub character_speed_debuff: crate::compat::BitAligned<f32>,
+    #[serde(rename = "ColorMaskHSV")]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    #[serde(rename = "DampenersEnabled", default)]
+    pub dampeners_enabled: crate::compat::BitBool,
+    #[serde(rename = "DisplayName", default)]
+    pub display_name: crate::compat::VarString,
+    #[serde(rename = "EnableBroadcasting", default)]
+    pub enable_broadcasting: crate::compat::BitBool,
+    #[serde(rename = "EnableBroadcastingPlayerToggle", default)]
+    pub enable_broadcasting_player_toggle: crate::compat::BitBool,
+    #[serde(rename = "EnabledComponents", default)]
+    pub enabled_components: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "EnvironmentOxygenLevel")]
+    pub environment_oxygen_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "HandWeapon", default)]
+    pub hand_weapon: crate::compat::Nullable<MyObjectBuilder_EntityBaseVariant>,
+    #[serde(rename = "HeadAngle")]
+    pub head_angle: crate::math::SerializableVector2F,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "IsInFirstPersonView", default)]
+    pub is_in_first_person_view: crate::compat::BitBool,
+    #[serde(rename = "IsPersistenceCharacter", default)]
+    pub is_persistence_character: crate::compat::BitBool,
+    #[serde(rename = "IsStartingCharacterForLobby", default)]
+    pub is_starting_character_for_lobby: crate::compat::BitBool,
+    #[serde(rename = "JetpackEnabled", default)]
+    pub jetpack_enabled: crate::compat::BitBool,
+    #[serde(rename = "LightEnabled", default)]
+    pub light_enabled: crate::compat::BitBool,
+    #[serde(rename = "LinearVelocity")]
+    pub linear_velocity: crate::math::SerializableVector3F,
+    #[serde(rename = "LootingCounter", default)]
+    pub looting_counter: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MovementState", default)]
+    pub movement_state: MyCharacterMovementEnum,
+    #[serde(rename = "NeedsOxygenFromSuit", default)]
+    pub needs_oxygen_from_suit: crate::compat::BitBool,
+    #[serde(rename = "OwningPlayerIdentityId", default)]
+    pub owning_player_identity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "OxygenLevel")]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RelativeDampeningEntity", default)]
+    pub relative_dampening_entity: crate::compat::BitAligned<i64>,
+    #[serde(rename = "StoredGases", default)]
+    pub stored_gases: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_Character_StoredGas>>,
+    #[serde(rename = "UsingLadder", default)]
+    pub using_ladder: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "UsingLadderInfo", default)]
+    pub using_ladder_info: crate::compat::Nullable<super::game::MyObjectBuilder_Character_LadderInfo>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyTargetData
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyTargetData")]
+pub struct MyTargetData {
+    #[serde(rename = "IsTargetLocked", default)]
+    pub is_target_locked: crate::compat::BitBool,
+    #[serde(rename = "LockingProgress", default)]
+    pub locking_progress: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TargetId", default)]
+    pub target_id: crate::compat::BitAligned<i64>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Cockpit
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Cockpit")]
+pub struct MyObjectBuilder_Cockpit {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Autopilot", default)]
+    pub autopilot: crate::compat::Nullable<MyObjectBuilder_AutopilotBaseVariant>,
+    #[serde(rename = "IsInFirstPersonView", default)]
+    pub is_in_first_person_view: crate::compat::BitBool,
+    #[serde(rename = "OxygenLevel", default)]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Panels", default)]
+    pub panels: crate::compat::Nullable<crate::compat::VarVec<CockpitPanelData>>,
+    #[serde(rename = "Pilot", default)]
+    pub pilot: crate::compat::Nullable<MyObjectBuilder_Character>,
+    #[serde(rename = "PilotGunDefinition", default)]
+    pub pilot_gun_definition: crate::compat::Nullable<super::game::SerializableDefinitionId>,
+    #[serde(rename = "PilotJetpackEnabled", default)]
+    pub pilot_jetpack_enabled: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde(rename = "PilotRelativeWorld", default)]
+    pub pilot_relative_world: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "SitAnimation", default)]
+    pub sit_animation: crate::compat::BitAligned<i32>,
+    #[serde(rename = "TargetData")]
+    pub target_data: MyTargetData,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub build_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_gyros: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_thrusters: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_wheels: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub horizon_indicator_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_main_cockpit: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_target_locking_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub occupied_at: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub on_locked_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub selected_gun_id: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub use_single_weapon_mode: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Collector
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Collector")]
+pub struct MyObjectBuilder_Collector {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ContractBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContractBlock")]
+pub struct MyObjectBuilder_ContractBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "AnyoneCanUse", default)]
+    pub anyone_can_use: crate::compat::BitBool,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ControlPanel
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ControlPanel")]
+pub struct MyObjectBuilder_ControlPanel {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Conveyor
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Conveyor")]
+pub struct MyObjectBuilder_Conveyor {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorConnector
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ConveyorConnector")]
+pub struct MyObjectBuilder_ConveyorConnector {}
+// Note: Type mapping applied from System.Collections.Generic.HashSet`1[[VRage.ObjectBuilders.SerializableDefinitionId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::SerializableDefinitionId>
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorSorter
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ConveyorSorter")]
+pub struct MyObjectBuilder_ConveyorSorter {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "ContainerType", default)]
+    pub container_type: crate::compat::VarString,
+    #[serde(rename = "DefinitionIds", default)]
+    pub definition_ids: crate::compat::VarVec<super::game::SerializableDefinitionId>,
+    #[serde(rename = "DefinitionTypes", default)]
+    pub definition_types: crate::compat::VarVec<crate::compat::BitAligned<i32>>,
+    #[serde(rename = "DrainAll", default)]
+    pub drain_all: crate::compat::BitBool,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "IsWhiteList", default)]
+    pub is_white_list: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TargetingFlags
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TargetingFlags")]
+pub struct MyObjectBuilder_TargetingFlags {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "TargetCharacters", default)]
+    pub target_characters: crate::compat::BitBool,
+    #[serde(rename = "TargetEnemies", default)]
+    pub target_enemies: crate::compat::BitBool,
+    #[serde(rename = "TargetFriends", default)]
+    pub target_friends: crate::compat::BitBool,
+    #[serde(rename = "TargetLargeGrids", default)]
+    pub target_large_grids: crate::compat::BitBool,
+    #[serde(rename = "TargetMeteors", default)]
+    pub target_meteors: crate::compat::BitBool,
+    #[serde(rename = "TargetMissiles", default)]
+    pub target_missiles: crate::compat::BitBool,
+    #[serde(rename = "TargetNeutrals", default)]
+    pub target_neutrals: crate::compat::BitBool,
+    #[serde(rename = "TargetSmallGrids", default)]
+    pub target_small_grids: crate::compat::BitBool,
+    #[serde(rename = "TargetStations", default)]
+    pub target_stations: crate::compat::BitBool,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.MyObjectBuilder_GunBase+RemainingAmmoIns, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_GunBase_RemainingAmmoIns>
+// Original type: VRage.Game.MyObjectBuilder_GunBase+RemainingAmmoIns
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "RemainingAmmoIns")]
+pub struct MyObjectBuilder_GunBase_RemainingAmmoIns {
+    #[serde(rename = "@Amount", default)]
+    pub amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@SubtypeName", default)]
+    pub subtype_name: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Original type: VRage.Game.MyObjectBuilder_GunBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GunBase")]
+pub struct MyObjectBuilder_GunBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_DeviceBase - not in serde
+    #[serde(skip)]
+    pub inventory_item_id: crate::compat::Nullable<crate::compat::BitAligned<u32>>,
+    #[serde(rename = "CurrentAmmoMagazineName", default)]
+    pub current_ammo_magazine_name: crate::compat::VarString,
+    #[serde(rename = "LastShootTime", default)]
+    pub last_shoot_time: crate::compat::BitAligned<i64>,
+    #[serde(rename = "RemainingAmmo", default)]
+    pub remaining_ammo: crate::compat::BitAligned<i32>,
+    #[serde(rename = "RemainingAmmosList", default)]
+    pub remaining_ammos_list: crate::compat::VarVec<MyObjectBuilder_GunBase_RemainingAmmoIns>,
+    #[serde(rename = "RemainingMagazines", default)]
+    pub remaining_magazines: crate::compat::BitAligned<i32>,
+    #[serde(rename = "SelectedAmmoType", default)]
+    pub selected_ammo_type: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorTurretBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ConveyorTurretBase")]
+pub struct MyObjectBuilder_ConveyorTurretBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub elevation: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub enable_idle_rotation: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub fire_at_locked_target: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::Nullable<MyObjectBuilder_TargetingFlags>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub gun_base: crate::compat::Nullable<MyObjectBuilder_GunBase>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub is_potential_target: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub previous_controlled_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub previous_idle_rotation_state: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub range: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub remaining_ammo: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub rotation: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_characters: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub targeting_group: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_large_grids: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_locking: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_meteors: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_missiles: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_neutrals: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_small_grids: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub target_stations: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TurretBase - not in serde
+    #[serde(skip)]
+    pub view_rotation: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_large_turret: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting_from_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub max_fov: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub min_fov: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_CryoChamber
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CryoChamber")]
+pub struct MyObjectBuilder_CryoChamber {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub autopilot: crate::compat::Nullable<MyObjectBuilder_AutopilotBaseVariant>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub is_in_first_person_view: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub panels: crate::compat::Nullable<crate::compat::VarVec<CockpitPanelData>>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub pilot: crate::compat::Nullable<MyObjectBuilder_Character>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub pilot_gun_definition: crate::compat::Nullable<super::game::SerializableDefinitionId>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub pilot_jetpack_enabled: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub pilot_relative_world: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub sit_animation: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub target_data: MyTargetData,
+    // Inherited from MyObjectBuilder_Cockpit - not in serde
+    #[serde(skip)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "SerialId", default)]
+    pub serial_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    #[serde(rename = "SteamId", default)]
+    pub steam_id: crate::compat::Nullable<crate::compat::BitAligned<u64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub build_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_gyros: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_thrusters: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_wheels: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub horizon_indicator_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_main_cockpit: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_target_locking_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub occupied_at: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub on_locked_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub selected_gun_id: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub use_single_weapon_mode: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Decoy
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Decoy")]
+pub struct MyObjectBuilder_Decoy {}
+// Note: Type mapping applied from System.Nullable`1[[VRage.Game.ObjectBuilders.AI.GpsInfo, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<super::game::GpsInfo>
+// Original type: VRage.Game.ObjectBuilders.AI.GpsInfo
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "GpsInfo")]
+pub struct GpsInfo {
+    #[serde(rename = "Hash", default)]
+    pub hash: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Name", default)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "Position")]
+    pub position: crate::math::Vector3D,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_DefensiveCombatBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DefensiveCombatBlock")]
+pub struct MyObjectBuilder_DefensiveCombatBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "CanTargetCharacters", default)]
+    pub can_target_characters: crate::compat::BitBool,
+    #[serde(rename = "CustomFleeCoordinates")]
+    pub custom_flee_coordinates: crate::compat::Nullable<crate::math::Vector3D>,
+    #[serde(rename = "EvasiveManeuverAngle", default)]
+    pub evasive_maneuver_angle: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(5f32))]
+    #[serde(rename = "EvasiveManeuverIntervalRange")]
+    pub evasive_maneuver_interval_range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "EvasiveManeuvers", default)]
+    pub evasive_maneuvers: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(2500f32))]
+    #[serde(rename = "FleeDistance")]
+    pub flee_distance: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "FleeMinHeightOnPlanets")]
+    pub flee_min_height_on_planets: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FleeMode", default)]
+    pub flee_mode: super::modapi::FleeMode,
+    #[serde(rename = "FleeTrigger", default)]
+    pub flee_trigger: super::modapi::FleeTrigger,
+    #[serde(rename = "FleeWaypoint", default)]
+    pub flee_waypoint: crate::compat::Nullable<MyObjectBuilder_AutopilotWaypoint>,
+    #[serde(rename = "LastKnownEnemyPosition", default)]
+    pub last_known_enemy_position: crate::compat::Nullable<crate::math::Vector3D>,
+    #[serde(rename = "LockTarget", default)]
+    pub lock_target: crate::compat::BitBool,
+    #[serde(rename = "PrevToolbarState", default)]
+    pub prev_toolbar_state: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde(rename = "SelectedBeaconEntityId", default)]
+    pub selected_beacon_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "SelectedGpsHash", default)]
+    pub selected_gps_hash: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    #[serde(rename = "SelectedGpsHashNew", default)]
+    pub selected_gps_hash_new: crate::compat::Nullable<crate::compat::Nullable<GpsInfo>>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "UseCustomFleeCoordinates", default)]
+    pub use_custom_flee_coordinates: crate::compat::Nullable<crate::compat::BitBool>,
+    #[serde_inline_default(crate::compat::BitAligned(250f32))]
+    #[serde(rename = "WaypointZoneSize")]
+    pub waypoint_zone_size: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Door
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Door")]
+pub struct MyObjectBuilder_Door {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_DoorBase - not in serde
+    #[serde(skip)]
+    pub anyone_can_use: crate::compat::BitBool,
+    #[serde(rename = "CloseSound", default)]
+    pub close_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Opening")]
+    pub opening: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OpenSound", default)]
+    pub open_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "State", default)]
+    pub state: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_DoorBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DoorBase")]
+pub struct MyObjectBuilder_DoorBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "AnyoneCanUse", default)]
+    pub anyone_can_use: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Drill
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Drill")]
+pub struct MyObjectBuilder_Drill {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "TerrainClearingMode", default)]
+    pub terrain_clearing_mode: crate::compat::BitBool,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmissiveBlock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EmissiveBlock")]
+pub struct MyObjectBuilder_EmissiveBlock {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmotionControllerBlock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EmotionControllerBlock")]
+pub struct MyObjectBuilder_EmotionControllerBlock {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventControllerBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventControllerBlock")]
+pub struct MyObjectBuilder_EventControllerBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "ANDGate", default)]
+    pub and_gate: crate::compat::BitBool,
+    #[serde(rename = "ConditionInvert", default)]
+    pub condition_invert: crate::compat::BitBool,
+    #[serde(rename = "SelectedBlocks", default)]
+    pub selected_blocks: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "SelectedEvent", default)]
+    pub selected_event: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Threshold", default)]
+    pub threshold: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ExhaustBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ExhaustBlock")]
+pub struct MyObjectBuilder_ExhaustBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "ExhaustEffect", default)]
+    pub exhaust_effect: crate::compat::VarString,
+    #[serde(rename = "PowerDependency", default)]
+    pub power_dependency: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ExtendedPistonBase
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ExtendedPistonBase")]
+pub struct MyObjectBuilder_ExtendedPistonBase {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_FlightMovementBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_FlightMovementBlock")]
+pub struct MyObjectBuilder_FlightMovementBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "OccupiedAt", default)]
+    pub occupied_at: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_FueledPowerProducer
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_FueledPowerProducer")]
+pub struct MyObjectBuilder_FueledPowerProducer {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "Capacity", default)]
+    pub capacity: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GasTank
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GasTank")]
+pub struct MyObjectBuilder_GasTank {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AutoRefill", default)]
+    pub auto_refill: crate::compat::BitBool,
+    #[serde(rename = "FilledRatio", default)]
+    pub filled_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "IsStockpiling", default)]
+    pub is_stockpiling: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGenerator
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GravityGenerator")]
+pub struct MyObjectBuilder_GravityGenerator {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_GravityGeneratorBase - not in serde
+    #[serde(skip)]
+    pub gravity_acceleration: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FieldSize")]
+    pub field_size: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGeneratorBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GravityGeneratorBase")]
+pub struct MyObjectBuilder_GravityGeneratorBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde_inline_default(crate::compat::BitAligned(9.81f32))]
+    #[serde(rename = "GravityAcceleration")]
+    pub gravity_acceleration: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GravityGeneratorSphere
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GravityGeneratorSphere")]
+pub struct MyObjectBuilder_GravityGeneratorSphere {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_GravityGeneratorBase - not in serde
+    #[serde(skip)]
+    pub gravity_acceleration: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(150f32))]
+    #[serde(rename = "Radius")]
+    pub radius: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Gyro
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Gyro")]
+pub struct MyObjectBuilder_Gyro {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "GyroOverride", default)]
+    pub gyro_override: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "GyroPower")]
+    pub gyro_power: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TargetAngularVelocity")]
+    pub target_angular_velocity: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: VRage.Game.ColorDefinitionRGBA
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "ColorDefinitionRGBA")]
+pub struct ColorDefinitionRGBA {
+    #[serde(rename = "@A", default)]
+    pub A: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@Alpha", default)]
+    pub alpha: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@B", default)]
+    pub B: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@Blue", default)]
+    pub blue: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@G", default)]
+    pub G: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@Green", default)]
+    pub green: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@Hex", default)]
+    pub hex: crate::compat::VarString,
+    #[serde(rename = "@R", default)]
+    pub R: crate::compat::BitAligned<i32>,
+    #[serde(rename = "@Red", default)]
+    pub red: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_HeatVentBlockDefinition+SubpartRotation
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SubpartRotation")]
+pub struct MyObjectBuilder_HeatVentBlockDefinition_SubpartRotation {
+    #[serde(rename = "@MaximalPositionAdjustDegrees", default)]
+    pub maximal_position_adjust_degrees: crate::compat::BitAligned<f32>,
+    #[serde(rename = "@MinimalPositionAdjustDegrees", default)]
+    pub minimal_position_adjust_degrees: crate::compat::BitAligned<f32>,
+    #[serde(rename = "@ReveseRotationDirection", default)]
+    pub revese_rotation_direction: crate::compat::BitBool,
+    #[serde(rename = "@SubpartName", default)]
+    pub subpart_name: crate::compat::VarString,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_HeatVentBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HeatVentBlock")]
+pub struct MyObjectBuilder_HeatVentBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "ColorMaximalPower")]
+    pub color_maximal_power: ColorDefinitionRGBA,
+    #[serde(rename = "ColorMinimalPower")]
+    pub color_minimal_power: ColorDefinitionRGBA,
+    #[serde(rename = "Falloff", default)]
+    pub falloff: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Intensity", default)]
+    pub intensity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Offset", default)]
+    pub offset: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(f32::NAN))]
+    #[serde(rename = "PowerDependency")]
+    pub power_dependency: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Radius", default)]
+    pub radius: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(f32::NAN))]
+    #[serde(rename = "RequiredPowerInput")]
+    pub required_power_input: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SubpartRotations", default)]
+    pub subpart_rotations: crate::compat::VarVec<MyObjectBuilder_HeatVentBlockDefinition_SubpartRotation>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_HydrogenEngine
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HydrogenEngine")]
+pub struct MyObjectBuilder_HydrogenEngine {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_InteriorLight
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InteriorLight")]
+pub struct MyObjectBuilder_InteriorLight {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_InteriorTurret
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InteriorTurret")]
+pub struct MyObjectBuilder_InteriorTurret {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Jukebox
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Jukebox")]
+pub struct MyObjectBuilder_Jukebox {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
+    #[serde(rename = "CurrentSound")]
+    pub current_sound: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsJukeboxPlaying", default)]
+    pub is_jukebox_playing: crate::compat::BitBool,
+    #[serde(rename = "SelectedSounds", default)]
+    pub selected_sounds: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub cue_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub elapsed_sound_seconds: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub is_loopable_sound: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub is_playing: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub loop_period: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub range: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_SoundBlock - not in serde
+    #[serde(skip)]
+    pub volume: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_JumpDrive
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_JumpDrive")]
+pub struct MyObjectBuilder_JumpDrive {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "JumpRatio")]
+    pub jump_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "JumpTarget", default)]
+    pub jump_target: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    #[serde(rename = "Recharging", default)]
+    pub recharging: crate::compat::BitBool,
+    #[serde(rename = "SelectedBeaconId", default)]
+    pub selected_beacon_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "SelectedBeaconName", default)]
+    pub selected_beacon_name: crate::compat::VarString,
+    #[serde(rename = "StoredPower", default)]
+    pub stored_power: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Kitchen
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Kitchen")]
+pub struct MyObjectBuilder_Kitchen {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Ladder
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Ladder")]
+pub struct MyObjectBuilder_Ladder {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Ladder2
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Ladder2")]
+pub struct MyObjectBuilder_Ladder2 {}
+// Note: Type mapping applied from System.Nullable`1[[VRage.MyDeltaTransform, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<super::game::MyDeltaTransform>
+// Original type: VRage.MyDeltaTransform
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyDeltaTransform")]
+pub struct MyDeltaTransform {
+    #[serde(rename = "OrientationAsVector")]
+    pub orientation_as_vector: Vector4,
+    #[serde(rename = "PositionOffset")]
+    pub position_offset: crate::math::Vector3F,
+}
+// Note: Type mapping applied from System.Nullable`1[[VRageMath.CompressedPositionOrientation, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::Nullable<super::game::CompressedPositionOrientation>
+// Original type: VRageMath.PackedVector.HalfVector4
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite, Eq)]
+#[serde(rename = "HalfVector4")]
+pub struct HalfVector4 {
+    #[serde(rename = "PackedValue", default)]
+    pub packed_value: crate::compat::BitAligned<u64>,
+}
+// Original type: VRageMath.CompressedPositionOrientation
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "CompressedPositionOrientation")]
+pub struct CompressedPositionOrientation {
+    #[serde(rename = "Matrix")]
+    pub matrix: super::game::Matrix,
+    #[serde(rename = "Orientation")]
+    pub orientation: HalfVector4,
+    #[serde(rename = "Position")]
+    pub position: crate::math::Vector3F,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LandingGear
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LandingGear")]
+pub struct MyObjectBuilder_LandingGear {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AttachedEntityId", default)]
+    pub attached_entity_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "AutoLock", default)]
+    pub auto_lock: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1E+08f32))]
+    #[serde(rename = "BrakeForce")]
+    pub brake_force: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FailedAttachSound", default)]
+    pub failed_attach_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "FirstLockAttempt", default)]
+    pub first_lock_attempt: crate::compat::BitBool,
+    #[serde(rename = "GearPivotPosition", default)]
+    pub gear_pivot_position: crate::compat::Nullable<crate::compat::Nullable<crate::math::Vector3F>>,
+    #[serde(rename = "IsLocked", default)]
+    pub is_locked: crate::compat::BitBool,
+    #[serde(rename = "IsParkingEnabled", default)]
+    pub is_parking_enabled: crate::compat::BitBool,
+    #[serde(rename = "LockMode", default)]
+    pub lock_mode: super::modapi::LandingGearMode,
+    #[serde(rename = "LockSound", default)]
+    pub lock_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "MasterToSlave", default)]
+    pub master_to_slave: crate::compat::Nullable<crate::compat::Nullable<MyDeltaTransform>>,
+    #[serde(rename = "OtherPivot", default)]
+    pub other_pivot: crate::compat::Nullable<crate::compat::Nullable<CompressedPositionOrientation>>,
+    #[serde(rename = "UnlockSound", default)]
+    pub unlock_sound: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LargeGatlingTurret
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LargeGatlingTurret")]
+pub struct MyObjectBuilder_LargeGatlingTurret {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LargeMissileTurret
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LargeMissileTurret")]
+pub struct MyObjectBuilder_LargeMissileTurret {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LaserAntenna
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LaserAntenna")]
+pub struct MyObjectBuilder_LaserAntenna {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AttachedPB", default)]
+    pub attached_p_b: crate::compat::BitAligned<i64>,
+    #[serde(rename = "gpsTarget", default)]
+    pub gps_target: crate::compat::Nullable<crate::math::Vector3D>,
+    #[serde(rename = "gpsTargetName", default)]
+    pub gps_target_name: crate::compat::VarString,
+    #[serde(rename = "HeadRotation")]
+    pub head_rotation: crate::math::Vector2F,
+    #[serde(rename = "KnownReceiverIds", default)]
+    pub known_receiver_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "LastKnownTargetName", default)]
+    pub last_known_target_name: crate::compat::VarString,
+    #[serde(rename = "LastTargetPosition")]
+    pub last_target_position: crate::math::Vector3D,
+    #[serde_inline_default(crate::compat::BitAligned(50000f32))]
+    #[serde(rename = "Range")]
+    pub range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "State", default)]
+    pub state: crate::compat::BitAligned<i32>,
+    #[serde(rename = "targetEntityId", default)]
+    pub target_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LCDPanelsBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LCDPanelsBlock")]
+pub struct MyObjectBuilder_LCDPanelsBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MechanicalConnectionBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MechanicalConnectionBlock")]
+pub struct MyObjectBuilder_MechanicalConnectionBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "ForceWeld", default)]
+    pub force_weld: crate::compat::BitBool,
+    #[serde(rename = "IsWelded", default)]
+    pub is_welded: crate::compat::BitBool,
+    #[serde(rename = "MasterToSlaveTransform", default)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "SafetyDetach", default)]
+    pub safety_detach: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "ShareInertiaTensor", default)]
+    pub share_inertia_tensor: crate::compat::BitBool,
+    #[serde(rename = "TopBlockId", default)]
+    pub top_block_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde_inline_default(crate::compat::BitAligned(95f32))]
+    #[serde(rename = "WeldSpeed")]
+    pub weld_speed: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MedicalRoom
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MedicalRoom")]
+pub struct MyObjectBuilder_MedicalRoom {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "IdleSound", default)]
+    pub idle_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ProgressSound", default)]
+    pub progress_sound: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "SetFaction", default)]
+    pub set_faction: crate::compat::BitBool,
+    #[serde(rename = "SpawnName", default)]
+    pub spawn_name: crate::compat::VarString,
+    #[serde(rename = "SteamUserId", default)]
+    pub steam_user_id: crate::compat::BitAligned<u64>,
+    #[serde(rename = "TakeOwnership", default)]
+    pub take_ownership: crate::compat::BitBool,
+    #[serde(rename = "WardrobeUserId", default)]
+    pub wardrobe_user_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MergeBlock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MergeBlock")]
+pub struct MyObjectBuilder_MergeBlock {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorAdvancedRotor
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorAdvancedRotor")]
+pub struct MyObjectBuilder_MotorAdvancedRotor {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorAdvancedStator
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorAdvancedStator")]
+pub struct MyObjectBuilder_MotorAdvancedStator {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorBase")]
+pub struct MyObjectBuilder_MotorBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub force_weld: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub is_welded: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub safety_detach: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub share_inertia_tensor: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub top_block_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub weld_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RotorEntityId", default)]
+    pub rotor_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "WeldedEntityId", default)]
+    pub welded_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorRotor
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorRotor")]
+pub struct MyObjectBuilder_MotorRotor {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorStator
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorStator")]
+pub struct MyObjectBuilder_MotorStator {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub force_weld: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub is_welded: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub safety_detach: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub share_inertia_tensor: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub top_block_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub weld_speed: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_MotorBase - not in serde
+    #[serde(skip)]
+    pub rotor_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MotorBase - not in serde
+    #[serde(skip)]
+    pub welded_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "BrakingTorque", default)]
+    pub braking_torque: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "CurrentAngle", default)]
+    pub current_angle: crate::compat::BitAligned<f32>,
+    #[serde(rename = "DummyDisplacement", default)]
+    pub dummy_displacement: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Force")]
+    pub force: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Friction", default)]
+    pub friction: crate::compat::BitAligned<f32>,
+    #[serde(rename = "LimitsActive", default)]
+    pub limits_active: crate::compat::BitBool,
+    #[serde(rename = "MaxAngle", default)]
+    pub max_angle: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "MinAngle", default)]
+    pub min_angle: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "RotorLock", default)]
+    pub rotor_lock: crate::compat::BitBool,
+    #[serde(rename = "TargetVelocity", default)]
+    pub target_velocity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Torque", default)]
+    pub torque: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MotorSuspension
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MotorSuspension")]
+pub struct MyObjectBuilder_MotorSuspension {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub force_weld: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub is_welded: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub safety_detach: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub share_inertia_tensor: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub top_block_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub weld_speed: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_MotorBase - not in serde
+    #[serde(skip)]
+    pub rotor_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MotorBase - not in serde
+    #[serde(skip)]
+    pub welded_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "AirShockEnabled", default)]
+    pub air_shock_enabled: crate::compat::BitBool,
+    #[serde(rename = "BrakingEnabled", default)]
+    pub braking_enabled: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(0.9f32))]
+    #[serde(rename = "Damping")]
+    pub damping: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(2.8f32))]
+    #[serde(rename = "Friction")]
+    pub friction: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FrictionNew", default)]
+    pub friction_new: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde_inline_default(crate::compat::BitAligned(-0.458f32))]
+    #[serde(rename = "Height")]
+    pub height: crate::compat::BitAligned<f32>,
+    #[serde(rename = "InvertPropulsion", default)]
+    pub invert_propulsion: crate::compat::BitBool,
+    #[serde(rename = "InvertSteer", default)]
+    pub invert_steer: crate::compat::BitBool,
+    #[serde(rename = "IsParkingEnabled", default)]
+    pub is_parking_enabled: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(0.349066f32))]
+    #[serde(rename = "MaxSteerAngle")]
+    pub max_steer_angle: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.2f32))]
+    #[serde(rename = "Power")]
+    pub power: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.6f32))]
+    #[serde(rename = "PowerNew")]
+    pub power_new: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Propulsion", default)]
+    pub propulsion: crate::compat::BitBool,
+    #[serde(rename = "PropulsionOverride", default)]
+    pub propulsion_override: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(180f32))]
+    #[serde(rename = "SpeedLimit")]
+    pub speed_limit: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SteerAngle", default)]
+    pub steer_angle: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Steering", default)]
+    pub steering: crate::compat::BitBool,
+    #[serde(rename = "SteeringOverride", default)]
+    pub steering_override: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.01f32))]
+    #[serde(rename = "SteerReturnSpeed")]
+    pub steer_return_speed: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.01f32))]
+    #[serde(rename = "SteerSpeed")]
+    pub steer_speed: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.06f32))]
+    #[serde(rename = "Strength")]
+    pub strength: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.1f32))]
+    #[serde(rename = "StrengthNew")]
+    pub strength_new: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "SuspensionTravel")]
+    pub suspension_travel: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MyProgrammableBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MyProgrammableBlock")]
+pub struct MyObjectBuilder_MyProgrammableBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "DefaultRunArgument", default)]
+    pub default_run_argument: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "Program", default)]
+    pub program: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "Storage", default)]
+    pub storage: crate::compat::VarString,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OffensiveCombatBlock")]
+pub struct MyObjectBuilder_OffensiveCombatBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "CanTargetCharacters", default)]
+    pub can_target_characters: crate::compat::BitBool,
+    #[serde(rename = "PrevToolbarState", default)]
+    pub prev_toolbar_state: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde(rename = "SelectedAttackPattern", default)]
+    pub selected_attack_pattern: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TargetPriority", default)]
+    pub target_priority: super::modapi::OffensiveCombatTargetPriority,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "UpdateTargetInterval", default)]
+    pub update_target_interval: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OreDetector
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OreDetector")]
+pub struct MyObjectBuilder_OreDetector {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "BroadcastUsingAntennas", default)]
+    pub broadcast_using_antennas: crate::compat::BitBool,
+    #[serde(rename = "DetectionRadius", default)]
+    pub detection_radius: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenFarm
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OxygenFarm")]
+pub struct MyObjectBuilder_OxygenFarm {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenGenerator
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OxygenGenerator")]
+pub struct MyObjectBuilder_OxygenGenerator {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AutomaticallyPullBottles", default)]
+    pub automatically_pull_bottles: crate::compat::BitBool,
+    #[serde(rename = "AutoRefill", default)]
+    pub auto_refill: crate::compat::BitBool,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenTank
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OxygenTank")]
+pub struct MyObjectBuilder_OxygenTank {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Parachute
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Parachute")]
+pub struct MyObjectBuilder_Parachute {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_DoorBase - not in serde
+    #[serde(skip)]
+    pub anyone_can_use: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AutoDeploy", default)]
+    pub auto_deploy: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1000f32))]
+    #[serde(rename = "DeployHeight")]
+    pub deploy_height: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Open", default)]
+    pub open: crate::compat::BitBool,
+    #[serde(rename = "ParachuteState", default)]
+    pub parachute_state: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Passage
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Passage")]
+pub struct MyObjectBuilder_Passage {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_PathRecorderBlock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PathRecorderBlock")]
+pub struct MyObjectBuilder_PathRecorderBlock {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_PistonBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PistonBase")]
+pub struct MyObjectBuilder_PistonBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub force_weld: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub is_welded: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub safety_detach: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub share_inertia_tensor: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub top_block_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_MechanicalConnectionBlock - not in serde
+    #[serde(skip)]
+    pub weld_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "CurrentPosition", default)]
+    pub current_position: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MaxImpulseAxis", default)]
+    pub max_impulse_axis: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "MaxImpulseNonAxis", default)]
+    pub max_impulse_non_axis: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "MaxLimit", default)]
+    pub max_limit: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "MinLimit", default)]
+    pub min_limit: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    #[serde(rename = "Reverse", default)]
+    pub reverse: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(-0.1f32))]
+    #[serde(rename = "Velocity")]
+    pub velocity: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_PistonTop
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PistonTop")]
+pub struct MyObjectBuilder_PistonTop {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Planter
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Planter")]
+pub struct MyObjectBuilder_Planter {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Projector
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Projector")]
+pub struct MyObjectBuilder_Projector {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RadioAntenna
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RadioAntenna")]
+pub struct MyObjectBuilder_RadioAntenna {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AttachedPB", default)]
+    pub attached_p_b: crate::compat::BitAligned<i64>,
+    #[serde(rename = "BroadcastRadius", default)]
+    pub broadcast_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "EnableBroadcasting", default)]
+    pub enable_broadcasting: crate::compat::BitBool,
+    #[serde(rename = "HudText", default)]
+    pub hud_text: crate::compat::VarString,
+    #[serde(rename = "IgnoreAllied", default)]
+    pub ignore_allied: crate::compat::BitBool,
+    #[serde(rename = "IgnoreOther", default)]
+    pub ignore_other: crate::compat::BitBool,
+    #[serde(rename = "ShowShipName", default)]
+    pub show_ship_name: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Reactor
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Reactor")]
+pub struct MyObjectBuilder_Reactor {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FueledPowerProducer - not in serde
+    #[serde(skip)]
+    pub capacity: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RealWheel
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RealWheel")]
+pub struct MyObjectBuilder_RealWheel {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Refinery
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Refinery")]
+pub struct MyObjectBuilder_Refinery {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ReflectorLight
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ReflectorLight")]
+pub struct MyObjectBuilder_ReflectorLight {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub blink_interval_seconds: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub blink_lenght: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub blink_offset: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub color_alpha: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub color_blue: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub color_green: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub color_red: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub falloff: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub intensity: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub offset: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub radius: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_LightingBlock - not in serde
+    #[serde(skip)]
+    pub reflector_radius: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "RotationSpeed")]
+    pub rotation_speed: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original enum: VRage.Game.ObjectBuilders.AI.TargetPrioritization
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "TargetPrioritization")]
+pub enum TargetPrioritization {
+    #[default]
+    #[deku(id = "0")]
+    HightestPriorityFirst,
+    #[deku(id = "1")]
+    ClosestFirst,
+    #[deku(id = "2")]
+    PriorityRandom,
+    #[deku(id = "3")]
+    Random,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.AI.MyObjectBuilder_AutomaticBehaviour+DroneTargetSerializable, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_AutomaticBehaviour_DroneTargetSerializable>
+// Original type: VRage.Game.ObjectBuilders.AI.MyObjectBuilder_AutomaticBehaviour+DroneTargetSerializable
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "DroneTargetSerializable")]
+pub struct MyObjectBuilder_AutomaticBehaviour_DroneTargetSerializable {
+    #[serde(rename = "Priority", default)]
+    pub priority: crate::compat::BitAligned<i32>,
+    #[serde(rename = "TargetId", default)]
+    pub target_id: crate::compat::BitAligned<i64>,
+}
+// Original type: VRage.Game.ObjectBuilders.AI.MyObjectBuilder_AutomaticBehaviour
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AutomaticBehaviour")]
+pub struct MyObjectBuilder_AutomaticBehaviour {
+    #[serde(rename = "CollisionAvoidance", default)]
+    pub collision_avoidance: crate::compat::BitBool,
+    #[serde(rename = "CurrentTarget", default)]
+    pub current_target: crate::compat::BitAligned<i64>,
+    #[serde(rename = "CycleWaypoints", default)]
+    pub cycle_waypoints: crate::compat::BitBool,
+    #[serde(rename = "InAmbushMode", default)]
+    pub in_ambush_mode: crate::compat::BitBool,
+    #[serde(rename = "IsActive", default)]
+    pub is_active: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(10000f32))]
+    #[serde(rename = "MaxPlayerDistance")]
+    pub max_player_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "NeedUpdate", default)]
+    pub need_update: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(10))]
+    #[serde(rename = "PlayerPriority")]
+    pub player_priority: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PrioritizationStyle", default)]
+    pub prioritization_style: TargetPrioritization,
+    #[serde_inline_default(crate::compat::BitAligned(-3.402823E+38f32))]
+    #[serde(rename = "SpeedLimit")]
+    pub speed_limit: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TargetList", default)]
+    pub target_list: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutomaticBehaviour_DroneTargetSerializable>>,
+    #[serde(rename = "WaypointList", default)]
+    pub waypoint_list: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<i64>>>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRageMath.Vector3D, VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<crate::math::Vector3D>
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RemoteControl
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RemoteControl")]
+pub struct MyObjectBuilder_RemoteControl {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "AutomaticallyProlongJourney", default)]
+    pub automatically_prolong_journey: crate::compat::BitBool,
+    #[serde(rename = "AutomaticBehaviour", default)]
+    pub automatic_behaviour: crate::compat::Nullable<MyObjectBuilder_AutomaticBehaviourVariant>,
+    #[serde(rename = "AutoPilotEnabled", default)]
+    pub auto_pilot_enabled: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "AutopilotSpeedLimit")]
+    pub autopilot_speed_limit: crate::compat::BitAligned<f32>,
+    #[serde(rename = "AutoPilotToolbar", default)]
+    pub auto_pilot_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "BindedCamera", default)]
+    pub binded_camera: crate::compat::BitAligned<i64>,
+    #[serde(rename = "CollisionAvoidance", default)]
+    pub collision_avoidance: crate::compat::BitBool,
+    #[serde(rename = "Coords", default)]
+    pub coords: crate::compat::Nullable<crate::compat::VarVec<crate::math::Vector3D>>,
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
+    #[serde(rename = "CurrentWaypointIndex")]
+    pub current_waypoint_index: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Direction", default)]
+    pub direction: crate::compat::BitAligned<i32>,
+    #[serde(rename = "DockingModeEnabled", default)]
+    pub docking_mode_enabled: crate::compat::BitBool,
+    #[serde(rename = "FlightMode", default)]
+    pub flight_mode: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsMainRemoteControl", default)]
+    pub is_main_remote_control: crate::compat::BitBool,
+    #[serde(rename = "IsUpdatedSave", default)]
+    pub is_updated_save: crate::compat::BitBool,
+    #[serde(rename = "Names", default)]
+    pub names: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "PreviousControlledEntityId", default)]
+    pub previous_controlled_entity_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "WaitForFreeWay", default)]
+    pub wait_for_free_way: crate::compat::BitBool,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutopilotWaypointVariant>>,
+    #[serde(rename = "WaypointThresholdDistance", default)]
+    pub waypoint_threshold_distance: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub build_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_gyros: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_thrusters: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub control_wheels: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub horizon_indicator_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_main_cockpit: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub is_target_locking_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub occupied_at: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub on_locked_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub selected_gun_id: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    // Inherited from MyObjectBuilder_ShipController - not in serde
+    #[serde(skip)]
+    pub use_single_weapon_mode: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Searchlight
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Searchlight")]
+pub struct MyObjectBuilder_Searchlight {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkIntervalSeconds")]
+    pub blink_interval_seconds: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkLenght")]
+    pub blink_lenght: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkOffset")]
+    pub blink_offset: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorAlpha")]
+    pub color_alpha: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorBlue")]
+    pub color_blue: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorGreen")]
+    pub color_green: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorRed")]
+    pub color_red: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Elevation", default)]
+    pub elevation: crate::compat::BitAligned<f32>,
+    #[serde(rename = "EnableIdleRotation", default)]
+    pub enable_idle_rotation: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Falloff")]
+    pub falloff: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Flags", default)]
+    pub flags: crate::compat::Nullable<MyObjectBuilder_TargetingFlags>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Intensity")]
+    pub intensity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "IsPotentialTarget", default)]
+    pub is_potential_target: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Offset")]
+    pub offset: crate::compat::BitAligned<f32>,
+    #[serde(rename = "PreviousControlledEntityId", default)]
+    pub previous_controlled_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "PreviousIdleRotationState", default)]
+    pub previous_idle_rotation_state: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Radius")]
+    pub radius: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(2000f32))]
+    #[serde(rename = "Range")]
+    pub range: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "ReflectorRadius")]
+    pub reflector_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Rotation", default)]
+    pub rotation: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "RotationSpeed")]
+    pub rotation_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Target", default)]
+    pub target: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TargetCharacters", default)]
+    pub target_characters: crate::compat::BitBool,
+    #[serde(rename = "TargetingGroup")]
+    pub targeting_group: super::game::MyStringHash,
+    #[serde(rename = "TargetLocking", default)]
+    pub target_locking: crate::compat::BitBool,
+    #[serde(rename = "ViewRotation", default)]
+    pub view_rotation: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SensorBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SensorBlock")]
+pub struct MyObjectBuilder_SensorBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "DetectAsteroids", default)]
+    pub detect_asteroids: crate::compat::BitBool,
+    #[serde(rename = "DetectEnemy", default)]
+    pub detect_enemy: crate::compat::BitBool,
+    #[serde(rename = "DetectFloatingObjects", default)]
+    pub detect_floating_objects: crate::compat::BitBool,
+    #[serde(rename = "DetectFriendly", default)]
+    pub detect_friendly: crate::compat::BitBool,
+    #[serde(rename = "DetectLargeShips", default)]
+    pub detect_large_ships: crate::compat::BitBool,
+    #[serde(rename = "DetectNeutral", default)]
+    pub detect_neutral: crate::compat::BitBool,
+    #[serde(rename = "DetectOwner", default)]
+    pub detect_owner: crate::compat::BitBool,
+    #[serde(rename = "DetectPlayers", default)]
+    pub detect_players: crate::compat::BitBool,
+    #[serde(rename = "DetectSmallShips", default)]
+    pub detect_small_ships: crate::compat::BitBool,
+    #[serde(rename = "DetectStations", default)]
+    pub detect_stations: crate::compat::BitBool,
+    #[serde(rename = "DetectSubgrids", default)]
+    pub detect_subgrids: crate::compat::BitBool,
+    #[serde(rename = "FieldMax")]
+    pub field_max: crate::math::SerializableVector3F,
+    #[serde(rename = "FieldMin")]
+    pub field_min: crate::math::SerializableVector3F,
+    #[serde(rename = "IsActive", default)]
+    pub is_active: crate::compat::BitBool,
+    #[serde(rename = "PlaySound", default)]
+    pub play_sound: crate::compat::BitBool,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipConnector
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipConnector")]
+pub struct MyObjectBuilder_ShipConnector {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AutoUnlockTime", default)]
+    pub auto_unlock_time: crate::compat::BitAligned<f32>,
+    #[serde(rename = "CollectAll", default)]
+    pub collect_all: crate::compat::BitBool,
+    #[serde(rename = "ConnectedEntityId", default)]
+    pub connected_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "IsApproaching", default)]
+    pub is_approaching: crate::compat::BitBool,
+    #[serde(rename = "IsConnecting", default)]
+    pub is_connecting: crate::compat::BitBool,
+    #[serde(rename = "IsMaster", default)]
+    pub is_master: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde(rename = "IsParkingEnabled", default)]
+    pub is_parking_enabled: crate::compat::BitBool,
+    #[serde(rename = "IsPowerTransferOverrideEnabled", default)]
+    pub is_power_transfer_override_enabled: crate::compat::BitBool,
+    #[serde(rename = "MasterToSlaveGrid", default)]
+    pub master_to_slave_grid: crate::compat::Nullable<crate::compat::Nullable<MyDeltaTransform>>,
+    #[serde(rename = "MasterToSlaveTransform", default)]
+    pub master_to_slave_transform: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde_inline_default(crate::compat::BitAligned(0.00015f32))]
+    #[serde(rename = "Strength")]
+    pub strength: crate::compat::BitAligned<f32>,
+    #[serde(rename = "ThrowOut", default)]
+    pub throw_out: crate::compat::BitBool,
+    #[serde(rename = "TimeOfConnection", default)]
+    pub time_of_connection: crate::compat::BitAligned<i32>,
+    #[serde(rename = "TradingEnabled", default)]
+    pub trading_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipController
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipController")]
+pub struct MyObjectBuilder_ShipController {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "BuildToolbar", default)]
+    pub build_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "ControlGyros", default)]
+    pub control_gyros: crate::compat::BitBool,
+    #[serde(rename = "ControlThrusters", default)]
+    pub control_thrusters: crate::compat::BitBool,
+    #[serde(rename = "ControlWheels", default)]
+    pub control_wheels: crate::compat::BitBool,
+    #[serde(rename = "HorizonIndicatorEnabled", default)]
+    pub horizon_indicator_enabled: crate::compat::BitBool,
+    #[serde(rename = "IsMainCockpit", default)]
+    pub is_main_cockpit: crate::compat::BitBool,
+    #[serde(rename = "IsTargetLockingEnabled", default)]
+    pub is_target_locking_enabled: crate::compat::BitBool,
+    #[serde(rename = "OccupiedAt", default)]
+    pub occupied_at: crate::compat::BitAligned<i32>,
+    #[serde(rename = "OnLockedToolbar", default)]
+    pub on_locked_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "SelectedGunId", default)]
+    pub selected_gun_id: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "UseSingleWeaponMode", default)]
+    pub use_single_weapon_mode: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipGrinder
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipGrinder")]
+pub struct MyObjectBuilder_ShipGrinder {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipToolBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipToolBase")]
+pub struct MyObjectBuilder_ShipToolBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "CheckEnvironmentSector", default)]
+    pub check_environment_sector: crate::compat::BitBool,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ShipWelder
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipWelder")]
+pub struct MyObjectBuilder_ShipWelder {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_ShipToolBase - not in serde
+    #[serde(skip)]
+    pub check_environment_sector: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ShipToolBase - not in serde
+    #[serde(skip)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ShipToolBase - not in serde
+    #[serde(skip)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    #[serde(rename = "HelpOthers", default)]
+    pub help_others: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalLight
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SignalLight")]
+pub struct MyObjectBuilder_SignalLight {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallGatlingGun
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SmallGatlingGun")]
+pub struct MyObjectBuilder_SmallGatlingGun {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "GunBase", default)]
+    pub gun_base: crate::compat::Nullable<MyObjectBuilder_GunBase>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_large_turret: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting_from_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub max_fov: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub min_fov: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallMissileLauncher
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SmallMissileLauncher")]
+pub struct MyObjectBuilder_SmallMissileLauncher {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "GunBase", default)]
+    pub gun_base: crate::compat::Nullable<MyObjectBuilder_GunBase>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "RequireTargetLock", default)]
+    pub require_target_lock: crate::compat::BitBool,
+    #[serde(rename = "TargetingGroup", default)]
+    pub targeting_group: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_large_turret: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting_from_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub max_fov: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub min_fov: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SmallMissileLauncherReload
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SmallMissileLauncherReload")]
+pub struct MyObjectBuilder_SmallMissileLauncherReload {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarPanel
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SolarPanel")]
+pub struct MyObjectBuilder_SolarPanel {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SoundBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SoundBlock")]
+pub struct MyObjectBuilder_SoundBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "CueName", default)]
+    pub cue_name: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ElapsedSoundSeconds", default)]
+    pub elapsed_sound_seconds: crate::compat::BitAligned<f32>,
+    #[serde(rename = "IsLoopableSound", default)]
+    pub is_loopable_sound: crate::compat::BitBool,
+    #[serde(rename = "IsPlaying", default)]
+    pub is_playing: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "LoopPeriod")]
+    pub loop_period: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(50f32))]
+    #[serde(rename = "Range")]
+    pub range: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Volume")]
+    pub volume: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SpaceBall
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SpaceBall")]
+pub struct MyObjectBuilder_SpaceBall {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "EnableBroadcast", default)]
+    pub enable_broadcast: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(0.5f32))]
+    #[serde(rename = "Friction")]
+    pub friction: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.5f32))]
+    #[serde(rename = "Restitution")]
+    pub restitution: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "VirtualMass")]
+    pub virtual_mass: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_StoreBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_StoreBlock")]
+pub struct MyObjectBuilder_StoreBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "AnyoneCanUse", default)]
+    pub anyone_can_use: crate::compat::BitBool,
+    #[serde(rename = "PlayerItems", default)]
+    pub player_items: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_StoreItem>>,
+    #[serde(rename = "Searchable", default)]
+    pub searchable: crate::compat::BitBool,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalKit
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SurvivalKit")]
+pub struct MyObjectBuilder_SurvivalKit {
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub current_progress: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub disassemble_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub other_queue: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ProductionBlock_QueueItem>>,
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub repeat_assemble_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub repeat_disassemble_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Assembler - not in serde
+    #[serde(skip)]
+    pub slave_enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub input_inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub next_item_id: crate::compat::BitAligned<u32>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub output_inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub queue: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_ProductionBlock_QueueItem>>,
+    // Inherited from MyObjectBuilder_ProductionBlock - not in serde
+    #[serde(skip)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    #[serde(rename = "SpawnName", default)]
+    pub spawn_name: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Original enum: VRage.Game.GUI.TextPanel.TextPanelAccessFlag
+#[::enumflags2::bitflags]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "TextPanelAccessFlag")]
+pub enum TextPanelAccessFlag {
+    // Skipping 0 value in flags enum (NONE)
+    READ_FACTION = 2,
+    WRITE_FACTION = 4,
+    // Skipping composite value in flags enum (READ_AND_WRITE_FACTION = 6)
+    READ_ENEMY = 8,
+    WRITE_ENEMY = 16,
+    // Skipping composite value in flags enum (READ_ALL = 10)
+    // Skipping composite value in flags enum (WRITE_ALL = 20)
+    // Skipping composite value in flags enum (READ_AND_WRITE_ALL = 30)
+}
+impl TextPanelAccessFlag {
+    pub const NONE: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::EMPTY;
+    pub const READ_AND_WRITE_FACTION: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{READ_FACTION | WRITE_FACTION});
+    pub const READ_ALL: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{READ_FACTION | READ_ENEMY});
+    pub const WRITE_ALL: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{WRITE_FACTION | WRITE_ENEMY});
+    pub const READ_AND_WRITE_ALL: ::enumflags2::BitFlags<Self> = ::enumflags2::make_bitflags!(Self::{READ_FACTION | WRITE_FACTION | READ_ENEMY | WRITE_ENEMY});
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TextPanel
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TextPanel")]
+pub struct MyObjectBuilder_TextPanel {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "AccessFlag")]
+    pub access_flag: crate::compat::BitField<TextPanelAccessFlag>,
+    #[serde_inline_default(TextAlignmentEnum::Align_Left)]
+    #[serde(rename = "Alignment")]
+    pub alignment: TextAlignmentEnum,
+    #[serde(rename = "BackgroundColor", default)]
+    pub background_color: crate::compat::Nullable<crate::compat::Nullable<super::game::Color>>,
+    #[serde(rename = "ChangeInterval", default)]
+    pub change_interval: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(ContentType::NONE)]
+    #[serde(rename = "ContentType")]
+    pub content_type: ContentType,
+    #[serde(rename = "CurrentShownTexture", default)]
+    pub current_shown_texture: crate::compat::BitAligned<i32>,
+    #[serde(rename = "CustomizeScripts", default)]
+    pub customize_scripts: crate::compat::BitBool,
+    #[serde(rename = "Description", default)]
+    pub description: crate::compat::VarString,
+    #[serde(rename = "Font")]
+    pub font: super::game::SerializableDefinitionId,
+    #[serde(rename = "FontColor", default)]
+    pub font_color: crate::compat::Nullable<crate::compat::Nullable<super::game::Color>>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "FontSize")]
+    pub font_size: crate::compat::BitAligned<f32>,
+    #[serde(rename = "PreserveAspectRatio", default)]
+    pub preserve_aspect_ratio: crate::compat::BitBool,
+    #[serde(rename = "PublicDescription", default)]
+    pub public_description: crate::compat::VarString,
+    #[serde(rename = "PublicTitle", default)]
+    pub public_title: crate::compat::VarString,
+    #[serde(rename = "ScriptBackgroundColor", default)]
+    pub script_background_color: crate::compat::Nullable<crate::compat::Nullable<super::game::Color>>,
+    #[serde(rename = "ScriptForegroundColor", default)]
+    pub script_foreground_color: crate::compat::Nullable<crate::compat::Nullable<super::game::Color>>,
+    #[serde(rename = "SelectedImages", default)]
+    pub selected_images: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "SelectedRotationIndex", default)]
+    pub selected_rotation_index: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    #[serde(rename = "SelectedScript", default)]
+    pub selected_script: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ShowText")]
+    pub show_text: crate::compat::BitField<ShowTextOnScreenFlag>,
+    #[serde(rename = "Sprites")]
+    pub sprites: super::game::MySerializableSpriteCollection,
+    #[serde(rename = "TextPadding", default)]
+    pub text_padding: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "Title", default)]
+    pub title: crate::compat::VarString,
+    #[serde_inline_default(crate::compat::BitAligned(-9223372036854775808))]
+    #[serde(rename = "UpdateStartOfFirstTexture")]
+    pub update_start_of_first_texture: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Version", default)]
+    pub version: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Thrust
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Thrust")]
+pub struct MyObjectBuilder_Thrust {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "ThrustOverride", default)]
+    pub thrust_override: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TimerBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TimerBlock")]
+pub struct MyObjectBuilder_TimerBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "CurrentTime", default)]
+    pub current_time: crate::compat::BitAligned<i32>,
+    #[serde_inline_default(crate::compat::BitAligned(10000))]
+    #[serde(rename = "Delay")]
+    pub delay: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsCountingDown", default)]
+    pub is_counting_down: crate::compat::BitBool,
+    #[serde(rename = "JustTriggered", default)]
+    pub just_triggered: crate::compat::BitBool,
+    #[serde(rename = "Silent", default)]
+    pub silent: crate::compat::BitBool,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TransponderBlock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TransponderBlock")]
+pub struct MyObjectBuilder_TransponderBlock {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TurretBase
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TurretBase")]
+pub struct MyObjectBuilder_TurretBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "Elevation", default)]
+    pub elevation: crate::compat::BitAligned<f32>,
+    #[serde(rename = "EnableIdleRotation", default)]
+    pub enable_idle_rotation: crate::compat::BitBool,
+    #[serde(rename = "FireAtLockedTarget", default)]
+    pub fire_at_locked_target: crate::compat::BitBool,
+    #[serde(rename = "Flags", default)]
+    pub flags: crate::compat::Nullable<MyObjectBuilder_TargetingFlags>,
+    #[serde(rename = "GunBase", default)]
+    pub gun_base: crate::compat::Nullable<MyObjectBuilder_GunBase>,
+    #[serde(rename = "Inventory", default)]
+    pub inventory: crate::compat::Nullable<MyObjectBuilder_Inventory>,
+    #[serde(rename = "IsPotentialTarget", default)]
+    pub is_potential_target: crate::compat::BitBool,
+    #[serde(rename = "PreviousControlledEntityId", default)]
+    pub previous_controlled_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde(rename = "PreviousIdleRotationState", default)]
+    pub previous_idle_rotation_state: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(600f32))]
+    #[serde(rename = "Range")]
+    pub range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RemainingAmmo", default)]
+    pub remaining_ammo: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Rotation", default)]
+    pub rotation: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Target", default)]
+    pub target: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TargetCharacters", default)]
+    pub target_characters: crate::compat::BitBool,
+    #[serde(rename = "TargetingGroup")]
+    pub targeting_group: super::game::MyStringHash,
+    #[serde(rename = "TargetLargeGrids", default)]
+    pub target_large_grids: crate::compat::BitBool,
+    #[serde(rename = "TargetLocking", default)]
+    pub target_locking: crate::compat::BitBool,
+    #[serde(rename = "TargetMeteors", default)]
+    pub target_meteors: crate::compat::BitBool,
+    #[serde(rename = "TargetMissiles", default)]
+    pub target_missiles: crate::compat::BitBool,
+    #[serde(rename = "TargetNeutrals", default)]
+    pub target_neutrals: crate::compat::BitBool,
+    #[serde(rename = "TargetSmallGrids", default)]
+    pub target_small_grids: crate::compat::BitBool,
+    #[serde(rename = "TargetStations", default)]
+    pub target_stations: crate::compat::BitBool,
+    #[serde(rename = "ViewRotation", default)]
+    pub view_rotation: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_large_turret: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub is_shooting_from_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub max_fov: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_UserControllableGun - not in serde
+    #[serde(skip)]
+    pub min_fov: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_TurretControlBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TurretControlBlock")]
+pub struct MyObjectBuilder_TurretControlBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "AllowAI", default)]
+    pub allow_a_i: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(0.087222f32))]
+    #[serde(rename = "AngleDeviation")]
+    pub angle_deviation: crate::compat::BitAligned<f32>,
+    #[serde(rename = "AreWeaponsMismatched", default)]
+    pub are_weapons_mismatched: crate::compat::BitBool,
+    #[serde(rename = "AzimuthId", default)]
+    pub azimuth_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "CameraId", default)]
+    pub camera_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "DirectionBlockId", default)]
+    pub direction_block_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "ElevationId", default)]
+    pub elevation_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Flags", default)]
+    pub flags: crate::compat::Nullable<MyObjectBuilder_TargetingFlags>,
+    #[serde(rename = "IsCorrect", default)]
+    pub is_correct: crate::compat::BitBool,
+    #[serde(rename = "PreviousControlledEntityId", default)]
+    pub previous_controlled_entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    #[serde_inline_default(crate::compat::BitAligned(600f32))]
+    #[serde(rename = "Range")]
+    pub range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TargetingGroup")]
+    pub targeting_group: super::game::MyStringHash,
+    #[serde(rename = "TargetLocking", default)]
+    pub target_locking: crate::compat::BitBool,
+    #[serde(rename = "TextPanels", default)]
+    pub text_panels: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+    #[serde(rename = "ToolIds", default)]
+    pub tool_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+    #[serde_inline_default(crate::compat::BitAligned(0.3f32))]
+    #[serde(rename = "VelocityMultiplierAzimuth")]
+    pub velocity_multiplier_azimuth: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.3f32))]
+    #[serde(rename = "VelocityMultiplierElevation")]
+    pub velocity_multiplier_elevation: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_UpgradeModule
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_UpgradeModule")]
+pub struct MyObjectBuilder_UpgradeModule {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_UserControllableGun
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_UserControllableGun")]
+pub struct MyObjectBuilder_UserControllableGun {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "IsLargeTurret", default)]
+    pub is_large_turret: crate::compat::BitBool,
+    #[serde(rename = "IsShooting", default)]
+    pub is_shooting: crate::compat::BitBool,
+    #[serde(rename = "IsShootingFromTerminal", default)]
+    pub is_shooting_from_terminal: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1.047198f32))]
+    #[serde(rename = "MaxFov")]
+    pub max_fov: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(0.1f32))]
+    #[serde(rename = "MinFov")]
+    pub min_fov: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_VendingMachine
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_VendingMachine")]
+pub struct MyObjectBuilder_VendingMachine {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_VirtualMass
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_VirtualMass")]
+pub struct MyObjectBuilder_VirtualMass {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Warhead
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Warhead")]
+pub struct MyObjectBuilder_Warhead {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(10000))]
+    #[serde(rename = "CountdownMs")]
+    pub countdown_ms: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsArmed", default)]
+    pub is_armed: crate::compat::BitBool,
+    #[serde(rename = "IsCountingDown", default)]
+    pub is_counting_down: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Wheel
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Wheel")]
+pub struct MyObjectBuilder_Wheel {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    #[serde(rename = "YieldLastComponent", default)]
+    pub yield_last_component: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_WindTurbine
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_WindTurbine")]
+pub struct MyObjectBuilder_WindTurbine {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+    #[serde(rename = "ImmediateEffectivities", default)]
+    pub immediate_effectivities: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<f32>>>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[SpaceEngineers.ObjectBuilders.ObjectBuilders.MyObjectBuilder_TargetDummyBlock+MySubpartSavedState, SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_TargetDummyBlock_MySubpartSavedState>
+// Original type: SpaceEngineers.ObjectBuilders.ObjectBuilders.MyObjectBuilder_TargetDummyBlock+MySubpartSavedState
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MySubpartSavedState")]
+pub struct MyObjectBuilder_TargetDummyBlock_MySubpartSavedState {
+    #[serde(rename = "SubpartHealth", default)]
+    pub subpart_health: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SubpartName", default)]
+    pub subpart_name: crate::compat::VarString,
+}
+// Original type: SpaceEngineers.ObjectBuilders.ObjectBuilders.MyObjectBuilder_TargetDummyBlock
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TargetDummyBlock")]
+pub struct MyObjectBuilder_TargetDummyBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_general_damage_modifier: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub block_orientation: SerializableBlockOrientation,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub build_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub built_by: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub color_mask_hs_v: crate::math::SerializableVector3F,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub construction_stockpile: crate::compat::Nullable<MyObjectBuilder_ConstructionStockpile>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub integrity_percent: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub min: crate::math::SerializableVector3I,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_definition: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_id: crate::compat::Nullable<crate::compat::BitAligned<i32>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub multi_block_index: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub owner: crate::compat::Nullable<crate::compat::BitAligned<i64>>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub skin_subtype_id: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_CubeBlock - not in serde
+    #[serde(skip)]
+    pub sub_blocks: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_CubeBlock_MySubBlockId>>,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_FunctionalBlock - not in serde
+    #[serde(skip)]
+    pub text_panels_new: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+    #[serde(rename = "EnableRestoration", default)]
+    pub enable_restoration: crate::compat::BitBool,
+    #[serde(rename = "IsDestroyed", default)]
+    pub is_destroyed: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde_inline_default(crate::compat::BitAligned(5f32))]
+    #[serde(rename = "RestorationDelay")]
+    pub restoration_delay: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SubpartState", default)]
+    pub subpart_state: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_TargetDummyBlock_MySubpartSavedState>>,
+    #[serde(rename = "TimeToRestore", default)]
+    pub time_to_restore: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub is_survival_mode_forced: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub number_in_grid: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_inventory: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_terminal: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_in_toolbar_config: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TerminalBlock - not in serde
+    #[serde(skip)]
+    pub show_on_hu_d: crate::compat::BitBool,
+}
+// Discriminator enum for dynamic object builder: VRage.Game.MyObjectBuilder_PhysicalObject
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_PhysicalObjectVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_AmmoMagazine (id 17)
+    #[deku(id = "17")]
+    MyObjectBuilder_AmmoMagazine(Box<MyObjectBuilder_AmmoMagazine>),
+    /// VRage.Game.MyObjectBuilder_BlockItem (id 40)
+    #[deku(id = "40")]
+    MyObjectBuilder_BlockItem(Box<MyObjectBuilder_BlockItem>),
+    /// VRage.Game.MyObjectBuilder_Component (id 62)
+    #[deku(id = "62")]
+    MyObjectBuilder_Component(Box<MyObjectBuilder_Component>),
+    /// VRage.Game.MyObjectBuilder_ConsumableItem (id 70)
+    #[deku(id = "70")]
+    MyObjectBuilder_ConsumableItem(Box<MyObjectBuilder_ConsumableItem>),
+    /// VRage.Game.MyObjectBuilder_Ingot (id 175)
+    #[deku(id = "175")]
+    MyObjectBuilder_Ingot(Box<MyObjectBuilder_Ingot>),
+    /// VRage.Game.MyObjectBuilder_Ore (id 189)
+    #[deku(id = "189")]
+    MyObjectBuilder_Ore(Box<MyObjectBuilder_Ore>),
+    /// VRage.Game.MyObjectBuilder_PhysicalGunObject (id 192)
+    #[deku(id = "192")]
+    MyObjectBuilder_PhysicalGunObject(Box<MyObjectBuilder_PhysicalGunObject>),
+    /// VRage.Game.MyObjectBuilder_PhysicalObject (id 197)
+    #[deku(id = "197")]
+    MyObjectBuilder_PhysicalObject(Box<MyObjectBuilder_PhysicalObject>),
+    /// VRage.Game.MyObjectBuilder_TreeObject (id 261)
+    #[deku(id = "261")]
+    MyObjectBuilder_TreeObject(Box<MyObjectBuilder_TreeObject>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_SchematicItem (id 539)
+    #[deku(id = "539")]
+    MyObjectBuilder_SchematicItem(Box<MyObjectBuilder_SchematicItem>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_UsableItem (id 543)
+    #[deku(id = "543")]
+    MyObjectBuilder_UsableItem(Box<MyObjectBuilder_UsableItem>),
+    /// Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_Datapad (id 627)
+    #[deku(id = "627")]
+    MyObjectBuilder_Datapad(Box<MyObjectBuilder_Datapad>),
+    /// Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_GasContainerObject (id 663)
+    #[deku(id = "663")]
+    MyObjectBuilder_GasContainerObject(Box<MyObjectBuilder_GasContainerObject>),
+    /// Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_OxygenContainerObject (id 710)
+    #[deku(id = "710")]
+    MyObjectBuilder_OxygenContainerObject(Box<MyObjectBuilder_OxygenContainerObject>),
+    /// Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_Package (id 714)
+    #[deku(id = "714")]
+    MyObjectBuilder_Package(Box<MyObjectBuilder_Package>),
+    /// Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_ZoneChipObject (id 767)
+    #[deku(id = "767")]
+    MyObjectBuilder_ZoneChipObject(Box<MyObjectBuilder_ZoneChipObject>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SeedItem (id 938)
+    #[deku(id = "938")]
+    MyObjectBuilder_SeedItem(Box<MyObjectBuilder_SeedItem>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_PhysicalObjectVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_AmmoMagazine(_) => 17,
+            Self::MyObjectBuilder_BlockItem(_) => 40,
+            Self::MyObjectBuilder_Component(_) => 62,
+            Self::MyObjectBuilder_ConsumableItem(_) => 70,
+            Self::MyObjectBuilder_Ingot(_) => 175,
+            Self::MyObjectBuilder_Ore(_) => 189,
+            Self::MyObjectBuilder_PhysicalGunObject(_) => 192,
+            Self::MyObjectBuilder_PhysicalObject(_) => 197,
+            Self::MyObjectBuilder_TreeObject(_) => 261,
+            Self::MyObjectBuilder_SchematicItem(_) => 539,
+            Self::MyObjectBuilder_UsableItem(_) => 543,
+            Self::MyObjectBuilder_Datapad(_) => 627,
+            Self::MyObjectBuilder_GasContainerObject(_) => 663,
+            Self::MyObjectBuilder_OxygenContainerObject(_) => 710,
+            Self::MyObjectBuilder_Package(_) => 714,
+            Self::MyObjectBuilder_ZoneChipObject(_) => 767,
+            Self::MyObjectBuilder_SeedItem(_) => 938,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_PhysicalObjectVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_AmmoMagazine") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AmmoMagazine>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AmmoMagazine(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BlockItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BlockItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BlockItem(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Component") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Component>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Component(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ConsumableItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ConsumableItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ConsumableItem(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Ingot") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Ingot>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Ingot(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Ore") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Ore>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Ore(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PhysicalGunObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PhysicalGunObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PhysicalGunObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PhysicalObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PhysicalObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PhysicalObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TreeObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TreeObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TreeObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SchematicItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SchematicItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SchematicItem(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UsableItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UsableItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UsableItem(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Datapad") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Datapad>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Datapad(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GasContainerObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GasContainerObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GasContainerObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OxygenContainerObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OxygenContainerObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OxygenContainerObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Package") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Package>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Package(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ZoneChipObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ZoneChipObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ZoneChipObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SeedItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SeedItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SeedItem(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_PhysicalObjectVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_AmmoMagazine(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AmmoMagazine",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BlockItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BlockItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Component(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Component",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ConsumableItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ConsumableItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Ingot(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Ingot",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Ore(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Ore",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PhysicalGunObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PhysicalGunObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PhysicalObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PhysicalObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TreeObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TreeObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SchematicItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SchematicItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UsableItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UsableItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Datapad(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Datapad",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GasContainerObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GasContainerObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OxygenContainerObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OxygenContainerObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Package(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Package",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ZoneChipObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ZoneChipObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SeedItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SeedItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: VRage.Game.MyObjectBuilder_AmmoMagazine
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AmmoMagazine")]
+pub struct MyObjectBuilder_AmmoMagazine {
+    #[serde(rename = "ProjectilesCount", default)]
+    pub projectiles_count: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Original type: VRage.Game.MyObjectBuilder_BlockItem
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BlockItem")]
+pub struct MyObjectBuilder_BlockItem {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "BlockDefId")]
+    pub block_def_id: super::game::SerializableDefinitionId,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_Component
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Component")]
+pub struct MyObjectBuilder_Component {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ConsumableItem
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ConsumableItem")]
+pub struct MyObjectBuilder_ConsumableItem {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_Ingot
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Ingot")]
+pub struct MyObjectBuilder_Ingot {}
+// Original type: VRage.Game.MyObjectBuilder_Ore
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Ore")]
+pub struct MyObjectBuilder_Ore {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(skip)]
+    pub material_type_name: crate::compat::Nullable<crate::compat::Nullable<super::game::MyStringHash>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Original type: VRage.Game.MyObjectBuilder_PhysicalGunObject
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PhysicalGunObject")]
+pub struct MyObjectBuilder_PhysicalGunObject {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "GunEntity", default)]
+    pub gun_entity: crate::compat::Nullable<MyObjectBuilder_EntityBaseVariant>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_TreeObject
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TreeObject")]
+pub struct MyObjectBuilder_TreeObject {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.MyObjectBuilder_SchematicItem
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SchematicItem")]
+pub struct MyObjectBuilder_SchematicItem {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.MyObjectBuilder_UsableItem
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_UsableItem")]
+pub struct MyObjectBuilder_UsableItem {}
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_Datapad
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Datapad")]
+pub struct MyObjectBuilder_Datapad {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Data", default)]
+    pub data: crate::compat::VarString,
+    #[serde(rename = "Name", default)]
+    pub name: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_GasContainerObject
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GasContainerObject")]
+pub struct MyObjectBuilder_GasContainerObject {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "GasLevel", default)]
+    pub gas_level: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_OxygenContainerObject
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OxygenContainerObject")]
+pub struct MyObjectBuilder_OxygenContainerObject {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_GasContainerObject - not in serde
+    #[serde(skip)]
+    pub gas_level: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OxygenLevel", default)]
+    pub oxygen_level: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_Package
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Package")]
+pub struct MyObjectBuilder_Package {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "ContractConditionId", default)]
+    pub contract_condition_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "ContractId", default)]
+    pub contract_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub durability_h_p: crate::compat::Nullable<crate::compat::BitAligned<f32>>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub flags: crate::compat::BitField<super::game::MyItemFlags>,
+    // Inherited from MyObjectBuilder_PhysicalObject - not in serde
+    #[serde(skip)]
+    pub unique_id: crate::compat::Guid,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_ZoneChipObject
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ZoneChipObject")]
+pub struct MyObjectBuilder_ZoneChipObject {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SeedItem
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SeedItem")]
+pub struct MyObjectBuilder_SeedItem {}
+// Discriminator enum for dynamic object builder: VRage.Game.MyObjectBuilder_Toolbar
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_ToolbarVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_Toolbar (id 241)
+    #[deku(id = "241")]
+    MyObjectBuilder_Toolbar(Box<MyObjectBuilder_Toolbar>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_ToolbarVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_Toolbar(_) => 241,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_ToolbarVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_Toolbar") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Toolbar>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Toolbar(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_ToolbarVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_Toolbar(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Toolbar",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Discriminator enum for dynamic object builder: VRage.Game.MyObjectBuilder_ToolbarItem
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_ToolbarItemVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_ToolbarItemAnimation (id 244)
+    #[deku(id = "244")]
+    Animation(Box<MyObjectBuilder_ToolbarItemAnimation>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemConsumable (id 245)
+    #[deku(id = "245")]
+    Consumable(Box<MyObjectBuilder_ToolbarItemConsumable>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemCreateGrid (id 246)
+    #[deku(id = "246")]
+    CreateGrid(Box<MyObjectBuilder_ToolbarItemCreateGrid>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemCubeBlock (id 247)
+    #[deku(id = "247")]
+    CubeBlock(Box<MyObjectBuilder_ToolbarItemCubeBlock>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemEmote (id 249)
+    #[deku(id = "249")]
+    Emote(Box<MyObjectBuilder_ToolbarItemEmote>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemEmpty (id 250)
+    #[deku(id = "250")]
+    Empty(Box<MyObjectBuilder_ToolbarItemEmpty>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemSeed (id 251)
+    #[deku(id = "251")]
+    Seed(Box<MyObjectBuilder_ToolbarItemSeed>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemVoxelHand (id 252)
+    #[deku(id = "252")]
+    VoxelHand(Box<MyObjectBuilder_ToolbarItemVoxelHand>),
+    /// VRage.Game.MyObjectBuilder_ToolbarItemWeapon (id 253)
+    #[deku(id = "253")]
+    Weapon(Box<MyObjectBuilder_ToolbarItemWeapon>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_ToolbarItemUsable (id 542)
+    #[deku(id = "542")]
+    Usable(Box<MyObjectBuilder_ToolbarItemUsable>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ToolbarItemTerminalBlock (id 970)
+    #[deku(id = "970")]
+    TerminalBlock(Box<MyObjectBuilder_ToolbarItemTerminalBlock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ToolbarItemTerminalGroup (id 971)
+    #[deku(id = "971")]
+    TerminalGroup(Box<MyObjectBuilder_ToolbarItemTerminalGroup>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_ToolbarItemVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::Animation(_) => 244,
+            Self::Consumable(_) => 245,
+            Self::CreateGrid(_) => 246,
+            Self::CubeBlock(_) => 247,
+            Self::Emote(_) => 249,
+            Self::Empty(_) => 250,
+            Self::Seed(_) => 251,
+            Self::VoxelHand(_) => 252,
+            Self::Weapon(_) => 253,
+            Self::Usable(_) => 542,
+            Self::TerminalBlock(_) => 970,
+            Self::TerminalGroup(_) => 971,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_ToolbarItemVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemAnimation") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemAnimation>()
+                .ok()
+                .map(|value| Self::Animation(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemConsumable") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemConsumable>()
+                .ok()
+                .map(|value| Self::Consumable(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemCreateGrid") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemCreateGrid>()
+                .ok()
+                .map(|value| Self::CreateGrid(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemCubeBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemCubeBlock>()
+                .ok()
+                .map(|value| Self::CubeBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemEmote") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemEmote>()
+                .ok()
+                .map(|value| Self::Emote(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemEmpty") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemEmpty>()
+                .ok()
+                .map(|value| Self::Empty(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemSeed") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemSeed>()
+                .ok()
+                .map(|value| Self::Seed(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemVoxelHand") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemVoxelHand>()
+                .ok()
+                .map(|value| Self::VoxelHand(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemWeapon") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemWeapon>()
+                .ok()
+                .map(|value| Self::Weapon(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemUsable") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemUsable>()
+                .ok()
+                .map(|value| Self::Usable(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemTerminalBlock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemTerminalBlock>()
+                .ok()
+                .map(|value| Self::TerminalBlock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ToolbarItemTerminalGroup") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ToolbarItemTerminalGroup>()
+                .ok()
+                .map(|value| Self::TerminalGroup(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_ToolbarItemVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::Animation(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemAnimation",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Consumable(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemConsumable",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::CreateGrid(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemCreateGrid",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::CubeBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemCubeBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Emote(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemEmote",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Empty(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemEmpty",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Seed(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemSeed",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::VoxelHand(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemVoxelHand",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Weapon(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemWeapon",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Usable(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemUsable",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::TerminalBlock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemTerminalBlock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::TerminalGroup(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ToolbarItemTerminalGroup",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: VRage.Game.MyObjectBuilder_ToolbarItemAnimation
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemAnimation")]
+pub struct MyObjectBuilder_ToolbarItemAnimation {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "defId")]
+    pub def_id: super::game::SerializableDefinitionId,
+    // Inherited from MyObjectBuilder_ToolbarItemDefinition - not in serde
+    #[serde(skip)]
+    pub definition_id: super::game::SerializableDefinitionId,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItemConsumable
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemConsumable")]
+pub struct MyObjectBuilder_ToolbarItemConsumable {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItemCreateGrid
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemCreateGrid")]
+pub struct MyObjectBuilder_ToolbarItemCreateGrid {}
+// Original type: VRage.Game.MyObjectBuilder_ToolbarItemCubeBlock
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemCubeBlock")]
+pub struct MyObjectBuilder_ToolbarItemCubeBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "defId")]
+    pub def_id: super::game::SerializableDefinitionId,
+    // Inherited from MyObjectBuilder_ToolbarItemDefinition - not in serde
+    #[serde(skip)]
+    pub definition_id: super::game::SerializableDefinitionId,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItemEmote
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemEmote")]
+pub struct MyObjectBuilder_ToolbarItemEmote {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItemEmpty
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemEmpty")]
+pub struct MyObjectBuilder_ToolbarItemEmpty {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolbarItemSeed
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemSeed")]
+pub struct MyObjectBuilder_ToolbarItemSeed {}
+// Original type: VRage.Game.MyObjectBuilder_ToolbarItemVoxelHand
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemVoxelHand")]
+pub struct MyObjectBuilder_ToolbarItemVoxelHand {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ToolbarItemDefinition - not in serde
+    #[serde(skip)]
+    pub definition_id: super::game::SerializableDefinitionId,
+    #[serde(rename = "defId")]
+    pub def_id: super::game::SerializableDefinitionId,
+}
+// Original type: VRage.Game.MyObjectBuilder_ToolbarItemWeapon
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemWeapon")]
+pub struct MyObjectBuilder_ToolbarItemWeapon {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ToolbarItemDefinition - not in serde
+    #[serde(skip)]
+    pub definition_id: super::game::SerializableDefinitionId,
+    #[serde(rename = "defId")]
+    pub def_id: super::game::SerializableDefinitionId,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_ToolbarItemUsable
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemUsable")]
+pub struct MyObjectBuilder_ToolbarItemUsable {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ToolbarItemDefinition - not in serde
+    #[serde(skip)]
+    pub definition_id: super::game::SerializableDefinitionId,
+    #[serde(rename = "defId")]
+    pub def_id: super::game::SerializableDefinitionId,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ToolbarItemTerminalBlock
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemTerminalBlock")]
+pub struct MyObjectBuilder_ToolbarItemTerminalBlock {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub action: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "BlockEntityId", default)]
+    pub block_entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub custom_icon_title: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub parameters: crate::compat::VarVec<MyObjectBuilder_ToolbarItemActionParameter>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ToolbarItemTerminalGroup
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolbarItemTerminalGroup")]
+pub struct MyObjectBuilder_ToolbarItemTerminalGroup {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub action: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub custom_icon_title: crate::compat::VarString,
+    #[serde(rename = "BlockEntityId", default)]
+    pub block_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "GridEntityId", default)]
+    pub grid_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "GroupName", default)]
+    pub group_name: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_ToolbarItemTerminal - not in serde
+    #[serde(skip)]
+    pub parameters: crate::compat::VarVec<MyObjectBuilder_ToolbarItemActionParameter>,
+}
+// Discriminator enum for dynamic object builder: VRage.Game.ObjectBuilders.AI.MyObjectBuilder_AutomaticBehaviour
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_AutomaticBehaviourVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.ObjectBuilders.AI.MyObjectBuilder_AutomaticBehaviour (id 308)
+    #[deku(id = "308")]
+    MyObjectBuilder_AutomaticBehaviour(Box<MyObjectBuilder_AutomaticBehaviour>),
+    /// VRage.Game.ObjectBuilders.AI.MyObjectBuilder_DroneAI (id 309)
+    #[deku(id = "309")]
+    MyObjectBuilder_DroneAI(Box<MyObjectBuilder_DroneAI>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_AutomaticBehaviourVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_AutomaticBehaviour(_) => 308,
+            Self::MyObjectBuilder_DroneAI(_) => 309,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_AutomaticBehaviourVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_AutomaticBehaviour") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AutomaticBehaviour>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AutomaticBehaviour(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DroneAI") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DroneAI>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DroneAI(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_AutomaticBehaviourVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_AutomaticBehaviour(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AutomaticBehaviour",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DroneAI(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DroneAI",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Original type: VRage.Game.ObjectBuilders.AI.MyObjectBuilder_DroneAI
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DroneAI")]
+pub struct MyObjectBuilder_DroneAI {
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub collision_avoidance: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub current_target: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub cycle_waypoints: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub in_ambush_mode: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub is_active: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub max_player_distance: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub need_update: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub player_priority: crate::compat::BitAligned<i32>,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub prioritization_style: TargetPrioritization,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub speed_limit: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub target_list: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutomaticBehaviour_DroneTargetSerializable>>,
+    // Inherited from MyObjectBuilder_AutomaticBehaviour - not in serde
+    #[serde(skip)]
+    pub waypoint_list: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<i64>>>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "AlternativebehaviorSwitched", default)]
+    pub alternativebehavior_switched: crate::compat::BitBool,
+    #[serde(rename = "CanSkipWaypoint", default)]
+    pub can_skip_waypoint: crate::compat::BitBool,
+    #[serde(rename = "CurrentPreset", default)]
+    pub current_preset: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ReturnPosition")]
+    pub return_position: crate::math::SerializableVector3D,
+}
+// Discriminator enum for dynamic object builder: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ComponentBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_ComponentBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_Inventory (id 177)
+    #[deku(id = "177")]
+    MyObjectBuilder_Inventory(Box<MyObjectBuilder_Inventory>),
+    /// VRage.Game.MyObjectBuilder_ModelComponent (id 186)
+    #[deku(id = "186")]
+    MyObjectBuilder_ModelComponent(Box<MyObjectBuilder_ModelComponent>),
+    /// VRage.Game.ObjectBuilders.Components.Beacon.MyObjectBuilder_SafeZoneComponent (id 317)
+    #[deku(id = "317")]
+    MyObjectBuilder_SafeZoneComponent(Box<MyObjectBuilder_SafeZoneComponent>),
+    /// VRage.Game.ObjectBuilders.Components.MyObjectBuilder_EntityOwnershipComponent (id 338)
+    #[deku(id = "338")]
+    MyObjectBuilder_EntityOwnershipComponent(Box<MyObjectBuilder_EntityOwnershipComponent>),
+    /// VRage.Game.ObjectBuilders.Components.MyObjectBuilder_HierarchyComponentBase (id 340)
+    #[deku(id = "340")]
+    MyObjectBuilder_HierarchyComponentBase(Box<MyObjectBuilder_HierarchyComponentBase>),
+    /// VRage.Game.ObjectBuilders.Components.MyObjectBuilder_SalvageServiceQuote (id 346)
+    #[deku(id = "346")]
+    MyObjectBuilder_SalvageServiceQuote(Box<MyObjectBuilder_SalvageServiceQuote>),
+    /// VRage.Game.ObjectBuilders.Components.MyObjectBuilder_ServiceGridData (id 347)
+    #[deku(id = "347")]
+    MyObjectBuilder_ServiceGridData(Box<MyObjectBuilder_ServiceGridData>),
+    /// VRage.Game.ObjectBuilders.Components.MyObjectBuilder_ServiceQuoteData (id 348)
+    #[deku(id = "348")]
+    MyObjectBuilder_ServiceQuoteData(Box<MyObjectBuilder_ServiceQuoteData>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventory (id 366)
+    #[deku(id = "366")]
+    MyObjectBuilder_AreaInventory(Box<MyObjectBuilder_AreaInventory>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventoryAggregate (id 367)
+    #[deku(id = "367")]
+    MyObjectBuilder_AreaInventoryAggregate(Box<MyObjectBuilder_AreaInventoryAggregate>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaTrigger (id 368)
+    #[deku(id = "368")]
+    MyObjectBuilder_AreaTrigger(Box<MyObjectBuilder_AreaTrigger>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AssetModifierComponent (id 369)
+    #[deku(id = "369")]
+    MyObjectBuilder_AssetModifierComponent(Box<MyObjectBuilder_AssetModifierComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AtmosphereDetectorComponent (id 370)
+    #[deku(id = "370")]
+    MyObjectBuilder_AtmosphereDetectorComponent(Box<MyObjectBuilder_AtmosphereDetectorComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterLadderComponent (id 371)
+    #[deku(id = "371")]
+    MyObjectBuilder_CharacterLadderComponent(Box<MyObjectBuilder_CharacterLadderComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterPickupComponent (id 372)
+    #[deku(id = "372")]
+    MyObjectBuilder_CharacterPickupComponent(Box<MyObjectBuilder_CharacterPickupComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterSoundComponent (id 373)
+    #[deku(id = "373")]
+    MyObjectBuilder_CharacterSoundComponent(Box<MyObjectBuilder_CharacterSoundComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterStatComponent (id 374)
+    #[deku(id = "374")]
+    MyObjectBuilder_CharacterStatComponent(Box<MyObjectBuilder_CharacterStatComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ContainerDropComponent (id 377)
+    #[deku(id = "377")]
+    MyObjectBuilder_ContainerDropComponent(Box<MyObjectBuilder_ContainerDropComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityCapacitorComponent (id 379)
+    #[deku(id = "379")]
+    MyObjectBuilder_EntityCapacitorComponent(Box<MyObjectBuilder_EntityCapacitorComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityDurabilityComponent (id 381)
+    #[deku(id = "381")]
+    MyObjectBuilder_EntityDurabilityComponent(Box<MyObjectBuilder_EntityDurabilityComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityReverbDetectorComponent (id 382)
+    #[deku(id = "382")]
+    MyObjectBuilder_EntityReverbDetectorComponent(Box<MyObjectBuilder_EntityReverbDetectorComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityStatComponent (id 383)
+    #[deku(id = "383")]
+    MyObjectBuilder_EntityStatComponent(Box<MyObjectBuilder_EntityStatComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityStorageComponent (id 385)
+    #[deku(id = "385")]
+    MyObjectBuilder_EntityStorageComponent(Box<MyObjectBuilder_EntityStorageComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryAggregate (id 386)
+    #[deku(id = "386")]
+    MyObjectBuilder_InventoryAggregate(Box<MyObjectBuilder_InventoryAggregate>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryBase (id 387)
+    #[deku(id = "387")]
+    MyObjectBuilder_InventoryBase(Box<MyObjectBuilder_InventoryBase>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventorySpawnComponent (id 389)
+    #[deku(id = "389")]
+    MyObjectBuilder_InventorySpawnComponent(Box<MyObjectBuilder_InventorySpawnComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ModCustomComponent (id 391)
+    #[deku(id = "391")]
+    MyObjectBuilder_ModCustomComponent(Box<MyObjectBuilder_ModCustomComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ModStorageComponent (id 392)
+    #[deku(id = "392")]
+    MyObjectBuilder_ModStorageComponent(Box<MyObjectBuilder_ModStorageComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_NpcAssetModifierComponent (id 394)
+    #[deku(id = "394")]
+    MyObjectBuilder_NpcAssetModifierComponent(Box<MyObjectBuilder_NpcAssetModifierComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_PhysicsBodyComponent (id 395)
+    #[deku(id = "395")]
+    MyObjectBuilder_PhysicsBodyComponent(Box<MyObjectBuilder_PhysicsBodyComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ResourceSinkComponent (id 400)
+    #[deku(id = "400")]
+    MyObjectBuilder_ResourceSinkComponent(Box<MyObjectBuilder_ResourceSinkComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ResourceSourceComponent (id 401)
+    #[deku(id = "401")]
+    MyObjectBuilder_ResourceSourceComponent(Box<MyObjectBuilder_ResourceSourceComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_RespawnComponent (id 402)
+    #[deku(id = "402")]
+    MyObjectBuilder_RespawnComponent(Box<MyObjectBuilder_RespawnComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ShipSoundComponent (id 403)
+    #[deku(id = "403")]
+    MyObjectBuilder_ShipSoundComponent(Box<MyObjectBuilder_ShipSoundComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_SunTrackingComponent (id 404)
+    #[deku(id = "404")]
+    MyObjectBuilder_SunTrackingComponent(Box<MyObjectBuilder_SunTrackingComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetFocusComponent (id 405)
+    #[deku(id = "405")]
+    MyObjectBuilder_TargetFocusComponent(Box<MyObjectBuilder_TargetFocusComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetLockingBlockComponent (id 407)
+    #[deku(id = "407")]
+    MyObjectBuilder_TargetLockingBlockComponent(Box<MyObjectBuilder_TargetLockingBlockComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetLockingComponent (id 409)
+    #[deku(id = "409")]
+    MyObjectBuilder_TargetLockingComponent(Box<MyObjectBuilder_TargetLockingComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TimerComponent (id 411)
+    #[deku(id = "411")]
+    MyObjectBuilder_TimerComponent(Box<MyObjectBuilder_TimerComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerBase (id 413)
+    #[deku(id = "413")]
+    MyObjectBuilder_TriggerBase(Box<MyObjectBuilder_TriggerBase>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_UpdateTrigger (id 414)
+    #[deku(id = "414")]
+    MyObjectBuilder_UpdateTrigger(Box<MyObjectBuilder_UpdateTrigger>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_UseObjectsComponent (id 415)
+    #[deku(id = "415")]
+    MyObjectBuilder_UseObjectsComponent(Box<MyObjectBuilder_UseObjectsComponent>),
+    /// Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_PlanetEnvironmentComponent (id 580)
+    #[deku(id = "580")]
+    MyObjectBuilder_PlanetEnvironmentComponent(Box<MyObjectBuilder_PlanetEnvironmentComponent>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerAggregate (id 588)
+    #[deku(id = "588")]
+    MyObjectBuilder_TriggerAggregate(Box<MyObjectBuilder_TriggerAggregate>),
+    /// ObjectBuilders.Discovery.MyObjectBuilder_CharacterDiscoveryComponent (id 592)
+    #[deku(id = "592")]
+    MyObjectBuilder_CharacterDiscoveryComponent(Box<MyObjectBuilder_CharacterDiscoveryComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AccessAnyoneCanUse (id 768)
+    #[deku(id = "768")]
+    MyObjectBuilder_AccessAnyoneCanUse(Box<MyObjectBuilder_AccessAnyoneCanUse>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AiBlockComponent (id 770)
+    #[deku(id = "770")]
+    MyObjectBuilder_AiBlockComponent(Box<MyObjectBuilder_AiBlockComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AiBlockPowerComponent (id 771)
+    #[deku(id = "771")]
+    MyObjectBuilder_AiBlockPowerComponent(Box<MyObjectBuilder_AiBlockPowerComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AnimationSpeedComponent (id 778)
+    #[deku(id = "778")]
+    MyObjectBuilder_AnimationSpeedComponent(Box<MyObjectBuilder_AnimationSpeedComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotComponent (id 784)
+    #[deku(id = "784")]
+    MyObjectBuilder_AutopilotComponent(Box<MyObjectBuilder_AutopilotComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionAutopilot (id 787)
+    #[deku(id = "787")]
+    MyObjectBuilder_BasicMissionAutopilot(Box<MyObjectBuilder_BasicMissionAutopilot>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionFollowHome (id 789)
+    #[deku(id = "789")]
+    MyObjectBuilder_BasicMissionFollowHome(Box<MyObjectBuilder_BasicMissionFollowHome>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionFollowPlayer (id 790)
+    #[deku(id = "790")]
+    MyObjectBuilder_BasicMissionFollowPlayer(Box<MyObjectBuilder_BasicMissionFollowPlayer>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_BlockPowerCheckComponent (id 793)
+    #[deku(id = "793")]
+    MyObjectBuilder_BlockPowerCheckComponent(Box<MyObjectBuilder_BlockPowerCheckComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_CharacterAimAssistComponent (id 797)
+    #[deku(id = "797")]
+    MyObjectBuilder_CharacterAimAssistComponent(Box<MyObjectBuilder_CharacterAimAssistComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_CharacterAutopilotComponent (id 798)
+    #[deku(id = "798")]
+    MyObjectBuilder_CharacterAutopilotComponent(Box<MyObjectBuilder_CharacterAutopilotComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ChatBroadcastEntityComponent (id 799)
+    #[deku(id = "799")]
+    MyObjectBuilder_ChatBroadcastEntityComponent(Box<MyObjectBuilder_ChatBroadcastEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorEndpointComponent (id 807)
+    #[deku(id = "807")]
+    MyObjectBuilder_ConveyorEndpointComponent(Box<MyObjectBuilder_ConveyorEndpointComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_DestroyBlockComponent (id 813)
+    #[deku(id = "813")]
+    MyObjectBuilder_DestroyBlockComponent(Box<MyObjectBuilder_DestroyBlockComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmotionControllerComponent (id 819)
+    #[deku(id = "819")]
+    MyObjectBuilder_EmotionControllerComponent(Box<MyObjectBuilder_EmotionControllerComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmpCharacterComponent (id 820)
+    #[deku(id = "820")]
+    MyObjectBuilder_EmpCharacterComponent(Box<MyObjectBuilder_EmpCharacterComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmpEntityComponent (id 821)
+    #[deku(id = "821")]
+    MyObjectBuilder_EmpEntityComponent(Box<MyObjectBuilder_EmpEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventAngleChanged (id 822)
+    #[deku(id = "822")]
+    MyObjectBuilder_EventAngleChanged(Box<MyObjectBuilder_EventAngleChanged>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockAddedRemoved (id 823)
+    #[deku(id = "823")]
+    MyObjectBuilder_EventBlockAddedRemoved(Box<MyObjectBuilder_EventBlockAddedRemoved>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockIntegrity (id 824)
+    #[deku(id = "824")]
+    MyObjectBuilder_EventBlockIntegrity(Box<MyObjectBuilder_EventBlockIntegrity>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockOnOff (id 825)
+    #[deku(id = "825")]
+    MyObjectBuilder_EventBlockOnOff(Box<MyObjectBuilder_EventBlockOnOff>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventCargoFilledEntityComponent (id 826)
+    #[deku(id = "826")]
+    MyObjectBuilder_EventCargoFilledEntityComponent(Box<MyObjectBuilder_EventCargoFilledEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventCockpitOccupied (id 827)
+    #[deku(id = "827")]
+    MyObjectBuilder_EventCockpitOccupied(Box<MyObjectBuilder_EventCockpitOccupied>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventConnectorConnected (id 828)
+    #[deku(id = "828")]
+    MyObjectBuilder_EventConnectorConnected(Box<MyObjectBuilder_EventConnectorConnected>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventConnectorReadyToLock (id 829)
+    #[deku(id = "829")]
+    MyObjectBuilder_EventConnectorReadyToLock(Box<MyObjectBuilder_EventConnectorReadyToLock>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventDistanceToLockedTarget (id 831)
+    #[deku(id = "831")]
+    MyObjectBuilder_EventDistanceToLockedTarget(Box<MyObjectBuilder_EventDistanceToLockedTarget>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventDoorOpened (id 832)
+    #[deku(id = "832")]
+    MyObjectBuilder_EventDoorOpened(Box<MyObjectBuilder_EventDoorOpened>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventGasTankFilled (id 833)
+    #[deku(id = "833")]
+    MyObjectBuilder_EventGasTankFilled(Box<MyObjectBuilder_EventGasTankFilled>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventGridSpeedChanged (id 834)
+    #[deku(id = "834")]
+    MyObjectBuilder_EventGridSpeedChanged(Box<MyObjectBuilder_EventGridSpeedChanged>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventLandingGearLocked (id 835)
+    #[deku(id = "835")]
+    MyObjectBuilder_EventLandingGearLocked(Box<MyObjectBuilder_EventLandingGearLocked>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMagneticLockReady (id 836)
+    #[deku(id = "836")]
+    MyObjectBuilder_EventMagneticLockReady(Box<MyObjectBuilder_EventMagneticLockReady>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMerged (id 837)
+    #[deku(id = "837")]
+    MyObjectBuilder_EventMerged(Box<MyObjectBuilder_EventMerged>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMissileLocked (id 838)
+    #[deku(id = "838")]
+    MyObjectBuilder_EventMissileLocked(Box<MyObjectBuilder_EventMissileLocked>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventNaturalGravityChanged (id 839)
+    #[deku(id = "839")]
+    MyObjectBuilder_EventNaturalGravityChanged(Box<MyObjectBuilder_EventNaturalGravityChanged>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventPistonPosition (id 840)
+    #[deku(id = "840")]
+    MyObjectBuilder_EventPistonPosition(Box<MyObjectBuilder_EventPistonPosition>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventPowerOutput (id 841)
+    #[deku(id = "841")]
+    MyObjectBuilder_EventPowerOutput(Box<MyObjectBuilder_EventPowerOutput>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventRotorHingeAttachedDetached (id 842)
+    #[deku(id = "842")]
+    MyObjectBuilder_EventRotorHingeAttachedDetached(Box<MyObjectBuilder_EventRotorHingeAttachedDetached>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventStoredPower (id 843)
+    #[deku(id = "843")]
+    MyObjectBuilder_EventStoredPower(Box<MyObjectBuilder_EventStoredPower>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventSurfaceHeight (id 844)
+    #[deku(id = "844")]
+    MyObjectBuilder_EventSurfaceHeight(Box<MyObjectBuilder_EventSurfaceHeight>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventThrustPercentage (id 845)
+    #[deku(id = "845")]
+    MyObjectBuilder_EventThrustPercentage(Box<MyObjectBuilder_EventThrustPercentage>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_FarmPlotLogic (id 848)
+    #[deku(id = "848")]
+    MyObjectBuilder_FarmPlotLogic(Box<MyObjectBuilder_FarmPlotLogic>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GlobalEncounterComponent (id 852)
+    #[deku(id = "852")]
+    MyObjectBuilder_GlobalEncounterComponent(Box<MyObjectBuilder_GlobalEncounterComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GridsStorageEntityComponent (id 857)
+    #[deku(id = "857")]
+    MyObjectBuilder_GridsStorageEntityComponent(Box<MyObjectBuilder_GridsStorageEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_GrindingSpeedBuff (id 859)
+    #[deku(id = "859")]
+    MyObjectBuilder_GrindingSpeedBuff(Box<MyObjectBuilder_GrindingSpeedBuff>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ItemProducerComponent (id 867)
+    #[deku(id = "867")]
+    MyObjectBuilder_ItemProducerComponent(Box<MyObjectBuilder_ItemProducerComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LcdSurfaceComponent (id 878)
+    #[deku(id = "878")]
+    MyObjectBuilder_LcdSurfaceComponent(Box<MyObjectBuilder_LcdSurfaceComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_LightingComponent (id 880)
+    #[deku(id = "880")]
+    MyObjectBuilder_LightingComponent(Box<MyObjectBuilder_LightingComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MaintenancePanelComponent (id 881)
+    #[deku(id = "881")]
+    MyObjectBuilder_MaintenancePanelComponent(Box<MyObjectBuilder_MaintenancePanelComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MaxHealthBuff (id 882)
+    #[deku(id = "882")]
+    MyObjectBuilder_MaxHealthBuff(Box<MyObjectBuilder_MaxHealthBuff>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MissileLauncherHatchComponent (id 888)
+    #[deku(id = "888")]
+    MyObjectBuilder_MissileLauncherHatchComponent(Box<MyObjectBuilder_MissileLauncherHatchComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MovementSpeedBuff (id 895)
+    #[deku(id = "895")]
+    MyObjectBuilder_MovementSpeedBuff(Box<MyObjectBuilder_MovementSpeedBuff>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_MultiTextPanelComponent (id 896)
+    #[deku(id = "896")]
+    MyObjectBuilder_MultiTextPanelComponent(Box<MyObjectBuilder_MultiTextPanelComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_NewSolarGameLogicComponent (id 899)
+    #[deku(id = "899")]
+    MyObjectBuilder_NewSolarGameLogicComponent(Box<MyObjectBuilder_NewSolarGameLogicComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatCircleOrbit (id 901)
+    #[deku(id = "901")]
+    MyObjectBuilder_OffensiveCombatCircleOrbit(Box<MyObjectBuilder_OffensiveCombatCircleOrbit>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatHitAndRun (id 902)
+    #[deku(id = "902")]
+    MyObjectBuilder_OffensiveCombatHitAndRun(Box<MyObjectBuilder_OffensiveCombatHitAndRun>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatIntercept (id 903)
+    #[deku(id = "903")]
+    MyObjectBuilder_OffensiveCombatIntercept(Box<MyObjectBuilder_OffensiveCombatIntercept>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatStayAtRange (id 904)
+    #[deku(id = "904")]
+    MyObjectBuilder_OffensiveCombatStayAtRange(Box<MyObjectBuilder_OffensiveCombatStayAtRange>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenConsumptionRateBuff (id 906)
+    #[deku(id = "906")]
+    MyObjectBuilder_OxygenConsumptionRateBuff(Box<MyObjectBuilder_OxygenConsumptionRateBuff>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ParticleEntityComponent (id 911)
+    #[deku(id = "911")]
+    MyObjectBuilder_ParticleEntityComponent(Box<MyObjectBuilder_ParticleEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_PathRecorderComponent (id 914)
+    #[deku(id = "914")]
+    MyObjectBuilder_PathRecorderComponent(Box<MyObjectBuilder_PathRecorderComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RadiationSourceEntityComponent (id 921)
+    #[deku(id = "921")]
+    MyObjectBuilder_RadiationSourceEntityComponent(Box<MyObjectBuilder_RadiationSourceEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RandomCargoEntityComponent (id 923)
+    #[deku(id = "923")]
+    MyObjectBuilder_RandomCargoEntityComponent(Box<MyObjectBuilder_RandomCargoEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RandomMovementSubpartComponent (id 924)
+    #[deku(id = "924")]
+    MyObjectBuilder_RandomMovementSubpartComponent(Box<MyObjectBuilder_RandomMovementSubpartComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ReciprocatingSubpartComponent (id 927)
+    #[deku(id = "927")]
+    MyObjectBuilder_ReciprocatingSubpartComponent(Box<MyObjectBuilder_ReciprocatingSubpartComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RepairServiceComponent (id 931)
+    #[deku(id = "931")]
+    MyObjectBuilder_RepairServiceComponent(Box<MyObjectBuilder_RepairServiceComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_ResourceStorageComponent (id 932)
+    #[deku(id = "932")]
+    MyObjectBuilder_ResourceStorageComponent(Box<MyObjectBuilder_ResourceStorageComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_RotatingSubpartComponent (id 933)
+    #[deku(id = "933")]
+    MyObjectBuilder_RotatingSubpartComponent(Box<MyObjectBuilder_RotatingSubpartComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SalvageServiceComponent (id 935)
+    #[deku(id = "935")]
+    MyObjectBuilder_SalvageServiceComponent(Box<MyObjectBuilder_SalvageServiceComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SearchEnemyComponent (id 936)
+    #[deku(id = "936")]
+    MyObjectBuilder_SearchEnemyComponent(Box<MyObjectBuilder_SearchEnemyComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalChannelEntityComponent (id 945)
+    #[deku(id = "945")]
+    MyObjectBuilder_SignalChannelEntityComponent(Box<MyObjectBuilder_SignalChannelEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalConnectivityCheckerEntityComponent (id 946)
+    #[deku(id = "946")]
+    MyObjectBuilder_SignalConnectivityCheckerEntityComponent(Box<MyObjectBuilder_SignalConnectivityCheckerEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalReceiverEntityComponent (id 948)
+    #[deku(id = "948")]
+    MyObjectBuilder_SignalReceiverEntityComponent(Box<MyObjectBuilder_SignalReceiverEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalSenderEntityComponent (id 949)
+    #[deku(id = "949")]
+    MyObjectBuilder_SignalSenderEntityComponent(Box<MyObjectBuilder_SignalSenderEntityComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarFoodGenerator (id 954)
+    #[deku(id = "954")]
+    MyObjectBuilder_SolarFoodGenerator(Box<MyObjectBuilder_SolarFoodGenerator>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarGameLogicComponent (id 955)
+    #[deku(id = "955")]
+    MyObjectBuilder_SolarGameLogicComponent(Box<MyObjectBuilder_SolarGameLogicComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarOccludableComponent (id 956)
+    #[deku(id = "956")]
+    MyObjectBuilder_SolarOccludableComponent(Box<MyObjectBuilder_SolarOccludableComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SubModelComponent (id 961)
+    #[deku(id = "961")]
+    MyObjectBuilder_SubModelComponent(Box<MyObjectBuilder_SubModelComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalBuffBase (id 962)
+    #[deku(id = "962")]
+    MyObjectBuilder_SurvivalBuffBase(Box<MyObjectBuilder_SurvivalBuffBase>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalBuffsProgression (id 963)
+    #[deku(id = "963")]
+    MyObjectBuilder_SurvivalBuffsProgression(Box<MyObjectBuilder_SurvivalBuffsProgression>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_VisualAmmoComponent (id 979)
+    #[deku(id = "979")]
+    MyObjectBuilder_VisualAmmoComponent(Box<MyObjectBuilder_VisualAmmoComponent>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_WeldingSpeedBuff (id 983)
+    #[deku(id = "983")]
+    MyObjectBuilder_WeldingSpeedBuff(Box<MyObjectBuilder_WeldingSpeedBuff>),
+    /// Sandbox.Game.EntityComponents.MyObjectBuilder_MaintenancePanelAggregate (id 986)
+    #[deku(id = "986")]
+    MyObjectBuilder_MaintenancePanelAggregate(Box<MyObjectBuilder_MaintenancePanelAggregate>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_ComponentBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_Inventory(_) => 177,
+            Self::MyObjectBuilder_ModelComponent(_) => 186,
+            Self::MyObjectBuilder_SafeZoneComponent(_) => 317,
+            Self::MyObjectBuilder_EntityOwnershipComponent(_) => 338,
+            Self::MyObjectBuilder_HierarchyComponentBase(_) => 340,
+            Self::MyObjectBuilder_SalvageServiceQuote(_) => 346,
+            Self::MyObjectBuilder_ServiceGridData(_) => 347,
+            Self::MyObjectBuilder_ServiceQuoteData(_) => 348,
+            Self::MyObjectBuilder_AreaInventory(_) => 366,
+            Self::MyObjectBuilder_AreaInventoryAggregate(_) => 367,
+            Self::MyObjectBuilder_AreaTrigger(_) => 368,
+            Self::MyObjectBuilder_AssetModifierComponent(_) => 369,
+            Self::MyObjectBuilder_AtmosphereDetectorComponent(_) => 370,
+            Self::MyObjectBuilder_CharacterLadderComponent(_) => 371,
+            Self::MyObjectBuilder_CharacterPickupComponent(_) => 372,
+            Self::MyObjectBuilder_CharacterSoundComponent(_) => 373,
+            Self::MyObjectBuilder_CharacterStatComponent(_) => 374,
+            Self::MyObjectBuilder_ContainerDropComponent(_) => 377,
+            Self::MyObjectBuilder_EntityCapacitorComponent(_) => 379,
+            Self::MyObjectBuilder_EntityDurabilityComponent(_) => 381,
+            Self::MyObjectBuilder_EntityReverbDetectorComponent(_) => 382,
+            Self::MyObjectBuilder_EntityStatComponent(_) => 383,
+            Self::MyObjectBuilder_EntityStorageComponent(_) => 385,
+            Self::MyObjectBuilder_InventoryAggregate(_) => 386,
+            Self::MyObjectBuilder_InventoryBase(_) => 387,
+            Self::MyObjectBuilder_InventorySpawnComponent(_) => 389,
+            Self::MyObjectBuilder_ModCustomComponent(_) => 391,
+            Self::MyObjectBuilder_ModStorageComponent(_) => 392,
+            Self::MyObjectBuilder_NpcAssetModifierComponent(_) => 394,
+            Self::MyObjectBuilder_PhysicsBodyComponent(_) => 395,
+            Self::MyObjectBuilder_ResourceSinkComponent(_) => 400,
+            Self::MyObjectBuilder_ResourceSourceComponent(_) => 401,
+            Self::MyObjectBuilder_RespawnComponent(_) => 402,
+            Self::MyObjectBuilder_ShipSoundComponent(_) => 403,
+            Self::MyObjectBuilder_SunTrackingComponent(_) => 404,
+            Self::MyObjectBuilder_TargetFocusComponent(_) => 405,
+            Self::MyObjectBuilder_TargetLockingBlockComponent(_) => 407,
+            Self::MyObjectBuilder_TargetLockingComponent(_) => 409,
+            Self::MyObjectBuilder_TimerComponent(_) => 411,
+            Self::MyObjectBuilder_TriggerBase(_) => 413,
+            Self::MyObjectBuilder_UpdateTrigger(_) => 414,
+            Self::MyObjectBuilder_UseObjectsComponent(_) => 415,
+            Self::MyObjectBuilder_PlanetEnvironmentComponent(_) => 580,
+            Self::MyObjectBuilder_TriggerAggregate(_) => 588,
+            Self::MyObjectBuilder_CharacterDiscoveryComponent(_) => 592,
+            Self::MyObjectBuilder_AccessAnyoneCanUse(_) => 768,
+            Self::MyObjectBuilder_AiBlockComponent(_) => 770,
+            Self::MyObjectBuilder_AiBlockPowerComponent(_) => 771,
+            Self::MyObjectBuilder_AnimationSpeedComponent(_) => 778,
+            Self::MyObjectBuilder_AutopilotComponent(_) => 784,
+            Self::MyObjectBuilder_BasicMissionAutopilot(_) => 787,
+            Self::MyObjectBuilder_BasicMissionFollowHome(_) => 789,
+            Self::MyObjectBuilder_BasicMissionFollowPlayer(_) => 790,
+            Self::MyObjectBuilder_BlockPowerCheckComponent(_) => 793,
+            Self::MyObjectBuilder_CharacterAimAssistComponent(_) => 797,
+            Self::MyObjectBuilder_CharacterAutopilotComponent(_) => 798,
+            Self::MyObjectBuilder_ChatBroadcastEntityComponent(_) => 799,
+            Self::MyObjectBuilder_ConveyorEndpointComponent(_) => 807,
+            Self::MyObjectBuilder_DestroyBlockComponent(_) => 813,
+            Self::MyObjectBuilder_EmotionControllerComponent(_) => 819,
+            Self::MyObjectBuilder_EmpCharacterComponent(_) => 820,
+            Self::MyObjectBuilder_EmpEntityComponent(_) => 821,
+            Self::MyObjectBuilder_EventAngleChanged(_) => 822,
+            Self::MyObjectBuilder_EventBlockAddedRemoved(_) => 823,
+            Self::MyObjectBuilder_EventBlockIntegrity(_) => 824,
+            Self::MyObjectBuilder_EventBlockOnOff(_) => 825,
+            Self::MyObjectBuilder_EventCargoFilledEntityComponent(_) => 826,
+            Self::MyObjectBuilder_EventCockpitOccupied(_) => 827,
+            Self::MyObjectBuilder_EventConnectorConnected(_) => 828,
+            Self::MyObjectBuilder_EventConnectorReadyToLock(_) => 829,
+            Self::MyObjectBuilder_EventDistanceToLockedTarget(_) => 831,
+            Self::MyObjectBuilder_EventDoorOpened(_) => 832,
+            Self::MyObjectBuilder_EventGasTankFilled(_) => 833,
+            Self::MyObjectBuilder_EventGridSpeedChanged(_) => 834,
+            Self::MyObjectBuilder_EventLandingGearLocked(_) => 835,
+            Self::MyObjectBuilder_EventMagneticLockReady(_) => 836,
+            Self::MyObjectBuilder_EventMerged(_) => 837,
+            Self::MyObjectBuilder_EventMissileLocked(_) => 838,
+            Self::MyObjectBuilder_EventNaturalGravityChanged(_) => 839,
+            Self::MyObjectBuilder_EventPistonPosition(_) => 840,
+            Self::MyObjectBuilder_EventPowerOutput(_) => 841,
+            Self::MyObjectBuilder_EventRotorHingeAttachedDetached(_) => 842,
+            Self::MyObjectBuilder_EventStoredPower(_) => 843,
+            Self::MyObjectBuilder_EventSurfaceHeight(_) => 844,
+            Self::MyObjectBuilder_EventThrustPercentage(_) => 845,
+            Self::MyObjectBuilder_FarmPlotLogic(_) => 848,
+            Self::MyObjectBuilder_GlobalEncounterComponent(_) => 852,
+            Self::MyObjectBuilder_GridsStorageEntityComponent(_) => 857,
+            Self::MyObjectBuilder_GrindingSpeedBuff(_) => 859,
+            Self::MyObjectBuilder_ItemProducerComponent(_) => 867,
+            Self::MyObjectBuilder_LcdSurfaceComponent(_) => 878,
+            Self::MyObjectBuilder_LightingComponent(_) => 880,
+            Self::MyObjectBuilder_MaintenancePanelComponent(_) => 881,
+            Self::MyObjectBuilder_MaxHealthBuff(_) => 882,
+            Self::MyObjectBuilder_MissileLauncherHatchComponent(_) => 888,
+            Self::MyObjectBuilder_MovementSpeedBuff(_) => 895,
+            Self::MyObjectBuilder_MultiTextPanelComponent(_) => 896,
+            Self::MyObjectBuilder_NewSolarGameLogicComponent(_) => 899,
+            Self::MyObjectBuilder_OffensiveCombatCircleOrbit(_) => 901,
+            Self::MyObjectBuilder_OffensiveCombatHitAndRun(_) => 902,
+            Self::MyObjectBuilder_OffensiveCombatIntercept(_) => 903,
+            Self::MyObjectBuilder_OffensiveCombatStayAtRange(_) => 904,
+            Self::MyObjectBuilder_OxygenConsumptionRateBuff(_) => 906,
+            Self::MyObjectBuilder_ParticleEntityComponent(_) => 911,
+            Self::MyObjectBuilder_PathRecorderComponent(_) => 914,
+            Self::MyObjectBuilder_RadiationSourceEntityComponent(_) => 921,
+            Self::MyObjectBuilder_RandomCargoEntityComponent(_) => 923,
+            Self::MyObjectBuilder_RandomMovementSubpartComponent(_) => 924,
+            Self::MyObjectBuilder_ReciprocatingSubpartComponent(_) => 927,
+            Self::MyObjectBuilder_RepairServiceComponent(_) => 931,
+            Self::MyObjectBuilder_ResourceStorageComponent(_) => 932,
+            Self::MyObjectBuilder_RotatingSubpartComponent(_) => 933,
+            Self::MyObjectBuilder_SalvageServiceComponent(_) => 935,
+            Self::MyObjectBuilder_SearchEnemyComponent(_) => 936,
+            Self::MyObjectBuilder_SignalChannelEntityComponent(_) => 945,
+            Self::MyObjectBuilder_SignalConnectivityCheckerEntityComponent(_) => 946,
+            Self::MyObjectBuilder_SignalReceiverEntityComponent(_) => 948,
+            Self::MyObjectBuilder_SignalSenderEntityComponent(_) => 949,
+            Self::MyObjectBuilder_SolarFoodGenerator(_) => 954,
+            Self::MyObjectBuilder_SolarGameLogicComponent(_) => 955,
+            Self::MyObjectBuilder_SolarOccludableComponent(_) => 956,
+            Self::MyObjectBuilder_SubModelComponent(_) => 961,
+            Self::MyObjectBuilder_SurvivalBuffBase(_) => 962,
+            Self::MyObjectBuilder_SurvivalBuffsProgression(_) => 963,
+            Self::MyObjectBuilder_VisualAmmoComponent(_) => 979,
+            Self::MyObjectBuilder_WeldingSpeedBuff(_) => 983,
+            Self::MyObjectBuilder_MaintenancePanelAggregate(_) => 986,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_ComponentBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_Inventory") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Inventory>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Inventory(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ModelComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ModelComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ModelComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SafeZoneComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SafeZoneComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SafeZoneComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityOwnershipComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityOwnershipComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityOwnershipComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HierarchyComponentBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HierarchyComponentBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HierarchyComponentBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SalvageServiceQuote") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SalvageServiceQuote>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SalvageServiceQuote(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ServiceGridData") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ServiceGridData>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ServiceGridData(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ServiceQuoteData") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ServiceQuoteData>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ServiceQuoteData(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AreaInventory") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaInventory>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaInventory(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AreaInventoryAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaInventoryAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaInventoryAggregate(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AreaTrigger") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaTrigger>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaTrigger(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AssetModifierComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AssetModifierComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AssetModifierComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AtmosphereDetectorComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AtmosphereDetectorComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AtmosphereDetectorComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterLadderComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterLadderComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterLadderComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterPickupComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterPickupComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterPickupComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterSoundComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterSoundComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterSoundComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterStatComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterStatComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterStatComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContainerDropComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContainerDropComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ContainerDropComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityCapacitorComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityCapacitorComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityCapacitorComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityDurabilityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityDurabilityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityDurabilityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityReverbDetectorComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityReverbDetectorComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityReverbDetectorComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityStatComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityStatComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityStatComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityStorageComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityStorageComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityStorageComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventoryAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventoryAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventoryAggregate(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventoryBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventoryBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventoryBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventorySpawnComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventorySpawnComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventorySpawnComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ModCustomComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ModCustomComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ModCustomComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ModStorageComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ModStorageComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ModStorageComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_NpcAssetModifierComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_NpcAssetModifierComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_NpcAssetModifierComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PhysicsBodyComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PhysicsBodyComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PhysicsBodyComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ResourceSinkComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ResourceSinkComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ResourceSinkComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ResourceSourceComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ResourceSourceComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ResourceSourceComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RespawnComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RespawnComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RespawnComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ShipSoundComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ShipSoundComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ShipSoundComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SunTrackingComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SunTrackingComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SunTrackingComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TargetFocusComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TargetFocusComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TargetFocusComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TargetLockingBlockComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TargetLockingBlockComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TargetLockingBlockComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TargetLockingComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TargetLockingComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TargetLockingComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TimerComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TimerComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TimerComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TriggerBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TriggerBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TriggerBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UpdateTrigger") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UpdateTrigger>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UpdateTrigger(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UseObjectsComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UseObjectsComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UseObjectsComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PlanetEnvironmentComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PlanetEnvironmentComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PlanetEnvironmentComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TriggerAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TriggerAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TriggerAggregate(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterDiscoveryComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterDiscoveryComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterDiscoveryComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AccessAnyoneCanUse") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AccessAnyoneCanUse>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AccessAnyoneCanUse(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AiBlockComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AiBlockComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AiBlockComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AiBlockPowerComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AiBlockPowerComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AiBlockPowerComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AnimationSpeedComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AnimationSpeedComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AnimationSpeedComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AutopilotComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AutopilotComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AutopilotComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BasicMissionAutopilot") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BasicMissionAutopilot>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BasicMissionAutopilot(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BasicMissionFollowHome") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BasicMissionFollowHome>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BasicMissionFollowHome(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BasicMissionFollowPlayer") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BasicMissionFollowPlayer>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BasicMissionFollowPlayer(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_BlockPowerCheckComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_BlockPowerCheckComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_BlockPowerCheckComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterAimAssistComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterAimAssistComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterAimAssistComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CharacterAutopilotComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CharacterAutopilotComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CharacterAutopilotComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ChatBroadcastEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ChatBroadcastEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ChatBroadcastEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ConveyorEndpointComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ConveyorEndpointComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ConveyorEndpointComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DestroyBlockComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DestroyBlockComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DestroyBlockComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EmotionControllerComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EmotionControllerComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EmotionControllerComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EmpCharacterComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EmpCharacterComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EmpCharacterComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EmpEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EmpEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EmpEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventAngleChanged") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventAngleChanged>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventAngleChanged(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventBlockAddedRemoved") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventBlockAddedRemoved>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventBlockAddedRemoved(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventBlockIntegrity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventBlockIntegrity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventBlockIntegrity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventBlockOnOff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventBlockOnOff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventBlockOnOff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventCargoFilledEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventCargoFilledEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventCargoFilledEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventCockpitOccupied") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventCockpitOccupied>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventCockpitOccupied(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventConnectorConnected") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventConnectorConnected>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventConnectorConnected(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventConnectorReadyToLock") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventConnectorReadyToLock>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventConnectorReadyToLock(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventDistanceToLockedTarget") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventDistanceToLockedTarget>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventDistanceToLockedTarget(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventDoorOpened") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventDoorOpened>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventDoorOpened(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventGasTankFilled") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventGasTankFilled>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventGasTankFilled(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventGridSpeedChanged") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventGridSpeedChanged>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventGridSpeedChanged(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventLandingGearLocked") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventLandingGearLocked>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventLandingGearLocked(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventMagneticLockReady") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventMagneticLockReady>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventMagneticLockReady(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventMerged") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventMerged>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventMerged(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventMissileLocked") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventMissileLocked>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventMissileLocked(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventNaturalGravityChanged") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventNaturalGravityChanged>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventNaturalGravityChanged(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventPistonPosition") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventPistonPosition>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventPistonPosition(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventPowerOutput") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventPowerOutput>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventPowerOutput(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventRotorHingeAttachedDetached") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventRotorHingeAttachedDetached>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventRotorHingeAttachedDetached(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventStoredPower") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventStoredPower>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventStoredPower(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventSurfaceHeight") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventSurfaceHeight>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventSurfaceHeight(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EventThrustPercentage") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EventThrustPercentage>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EventThrustPercentage(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_FarmPlotLogic") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_FarmPlotLogic>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_FarmPlotLogic(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GlobalEncounterComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GlobalEncounterComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GlobalEncounterComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GridsStorageEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GridsStorageEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GridsStorageEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GrindingSpeedBuff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GrindingSpeedBuff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GrindingSpeedBuff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ItemProducerComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ItemProducerComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ItemProducerComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LcdSurfaceComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LcdSurfaceComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LcdSurfaceComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_LightingComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_LightingComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_LightingComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MaintenancePanelComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MaintenancePanelComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MaintenancePanelComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MaxHealthBuff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MaxHealthBuff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MaxHealthBuff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MissileLauncherHatchComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MissileLauncherHatchComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MissileLauncherHatchComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MovementSpeedBuff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MovementSpeedBuff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MovementSpeedBuff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MultiTextPanelComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MultiTextPanelComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MultiTextPanelComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_NewSolarGameLogicComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_NewSolarGameLogicComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_NewSolarGameLogicComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OffensiveCombatCircleOrbit") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OffensiveCombatCircleOrbit>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OffensiveCombatCircleOrbit(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OffensiveCombatHitAndRun") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OffensiveCombatHitAndRun>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OffensiveCombatHitAndRun(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OffensiveCombatIntercept") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OffensiveCombatIntercept>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OffensiveCombatIntercept(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OffensiveCombatStayAtRange") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OffensiveCombatStayAtRange>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OffensiveCombatStayAtRange(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_OxygenConsumptionRateBuff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_OxygenConsumptionRateBuff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_OxygenConsumptionRateBuff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ParticleEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ParticleEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ParticleEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_PathRecorderComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_PathRecorderComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_PathRecorderComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RadiationSourceEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RadiationSourceEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RadiationSourceEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RandomCargoEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RandomCargoEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RandomCargoEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RandomMovementSubpartComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RandomMovementSubpartComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RandomMovementSubpartComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ReciprocatingSubpartComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ReciprocatingSubpartComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ReciprocatingSubpartComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RepairServiceComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RepairServiceComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RepairServiceComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ResourceStorageComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ResourceStorageComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ResourceStorageComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_RotatingSubpartComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_RotatingSubpartComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_RotatingSubpartComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SalvageServiceComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SalvageServiceComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SalvageServiceComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SearchEnemyComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SearchEnemyComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SearchEnemyComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SignalChannelEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SignalChannelEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SignalChannelEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SignalConnectivityCheckerEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SignalConnectivityCheckerEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SignalConnectivityCheckerEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SignalReceiverEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SignalReceiverEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SignalReceiverEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SignalSenderEntityComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SignalSenderEntityComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SignalSenderEntityComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SolarFoodGenerator") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SolarFoodGenerator>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SolarFoodGenerator(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SolarGameLogicComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SolarGameLogicComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SolarGameLogicComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SolarOccludableComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SolarOccludableComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SolarOccludableComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SubModelComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SubModelComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SubModelComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SurvivalBuffBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SurvivalBuffBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SurvivalBuffBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SurvivalBuffsProgression") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SurvivalBuffsProgression>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SurvivalBuffsProgression(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_VisualAmmoComponent") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_VisualAmmoComponent>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_VisualAmmoComponent(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_WeldingSpeedBuff") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_WeldingSpeedBuff>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_WeldingSpeedBuff(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_MaintenancePanelAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_MaintenancePanelAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_MaintenancePanelAggregate(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_ComponentBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_Inventory(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Inventory",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ModelComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ModelComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SafeZoneComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SafeZoneComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityOwnershipComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityOwnershipComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HierarchyComponentBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HierarchyComponentBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SalvageServiceQuote(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SalvageServiceQuote",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ServiceGridData(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ServiceGridData",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ServiceQuoteData(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ServiceQuoteData",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AreaInventory(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaInventory",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AreaInventoryAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaInventoryAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AreaTrigger(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaTrigger",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AssetModifierComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AssetModifierComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AtmosphereDetectorComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AtmosphereDetectorComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterLadderComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterLadderComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterPickupComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterPickupComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterSoundComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterSoundComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterStatComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterStatComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ContainerDropComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContainerDropComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityCapacitorComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityCapacitorComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityDurabilityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityDurabilityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityReverbDetectorComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityReverbDetectorComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityStatComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityStatComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityStorageComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityStorageComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventoryAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventoryAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventoryBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventoryBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventorySpawnComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventorySpawnComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ModCustomComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ModCustomComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ModStorageComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ModStorageComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_NpcAssetModifierComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_NpcAssetModifierComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PhysicsBodyComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PhysicsBodyComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ResourceSinkComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ResourceSinkComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ResourceSourceComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ResourceSourceComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RespawnComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RespawnComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ShipSoundComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ShipSoundComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SunTrackingComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SunTrackingComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TargetFocusComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TargetFocusComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TargetLockingBlockComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TargetLockingBlockComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TargetLockingComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TargetLockingComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TimerComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TimerComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TriggerBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TriggerBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UpdateTrigger(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UpdateTrigger",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UseObjectsComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UseObjectsComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PlanetEnvironmentComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PlanetEnvironmentComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TriggerAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TriggerAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterDiscoveryComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterDiscoveryComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AccessAnyoneCanUse(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AccessAnyoneCanUse",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AiBlockComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AiBlockComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AiBlockPowerComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AiBlockPowerComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AnimationSpeedComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AnimationSpeedComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AutopilotComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AutopilotComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BasicMissionAutopilot(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BasicMissionAutopilot",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BasicMissionFollowHome(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BasicMissionFollowHome",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BasicMissionFollowPlayer(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BasicMissionFollowPlayer",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_BlockPowerCheckComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_BlockPowerCheckComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterAimAssistComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterAimAssistComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CharacterAutopilotComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CharacterAutopilotComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ChatBroadcastEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ChatBroadcastEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ConveyorEndpointComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ConveyorEndpointComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DestroyBlockComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DestroyBlockComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EmotionControllerComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EmotionControllerComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EmpCharacterComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EmpCharacterComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EmpEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EmpEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventAngleChanged(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventAngleChanged",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventBlockAddedRemoved(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventBlockAddedRemoved",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventBlockIntegrity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventBlockIntegrity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventBlockOnOff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventBlockOnOff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventCargoFilledEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventCargoFilledEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventCockpitOccupied(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventCockpitOccupied",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventConnectorConnected(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventConnectorConnected",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventConnectorReadyToLock(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventConnectorReadyToLock",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventDistanceToLockedTarget(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventDistanceToLockedTarget",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventDoorOpened(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventDoorOpened",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventGasTankFilled(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventGasTankFilled",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventGridSpeedChanged(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventGridSpeedChanged",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventLandingGearLocked(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventLandingGearLocked",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventMagneticLockReady(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventMagneticLockReady",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventMerged(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventMerged",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventMissileLocked(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventMissileLocked",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventNaturalGravityChanged(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventNaturalGravityChanged",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventPistonPosition(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventPistonPosition",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventPowerOutput(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventPowerOutput",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventRotorHingeAttachedDetached(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventRotorHingeAttachedDetached",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventStoredPower(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventStoredPower",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventSurfaceHeight(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventSurfaceHeight",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EventThrustPercentage(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EventThrustPercentage",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_FarmPlotLogic(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_FarmPlotLogic",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GlobalEncounterComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GlobalEncounterComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GridsStorageEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GridsStorageEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GrindingSpeedBuff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GrindingSpeedBuff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ItemProducerComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ItemProducerComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LcdSurfaceComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LcdSurfaceComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_LightingComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_LightingComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MaintenancePanelComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MaintenancePanelComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MaxHealthBuff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MaxHealthBuff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MissileLauncherHatchComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MissileLauncherHatchComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MovementSpeedBuff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MovementSpeedBuff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MultiTextPanelComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MultiTextPanelComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_NewSolarGameLogicComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_NewSolarGameLogicComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OffensiveCombatCircleOrbit(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OffensiveCombatCircleOrbit",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OffensiveCombatHitAndRun(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OffensiveCombatHitAndRun",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OffensiveCombatIntercept(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OffensiveCombatIntercept",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OffensiveCombatStayAtRange(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OffensiveCombatStayAtRange",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_OxygenConsumptionRateBuff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_OxygenConsumptionRateBuff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ParticleEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ParticleEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_PathRecorderComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_PathRecorderComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RadiationSourceEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RadiationSourceEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RandomCargoEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RandomCargoEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RandomMovementSubpartComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RandomMovementSubpartComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ReciprocatingSubpartComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ReciprocatingSubpartComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RepairServiceComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RepairServiceComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ResourceStorageComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ResourceStorageComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_RotatingSubpartComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_RotatingSubpartComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SalvageServiceComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SalvageServiceComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SearchEnemyComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SearchEnemyComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SignalChannelEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SignalChannelEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SignalConnectivityCheckerEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SignalConnectivityCheckerEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SignalReceiverEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SignalReceiverEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SignalSenderEntityComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SignalSenderEntityComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SolarFoodGenerator(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SolarFoodGenerator",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SolarGameLogicComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SolarGameLogicComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SolarOccludableComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SolarOccludableComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SubModelComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SubModelComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SurvivalBuffBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SurvivalBuffBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SurvivalBuffsProgression(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SurvivalBuffsProgression",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_VisualAmmoComponent(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_VisualAmmoComponent",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_WeldingSpeedBuff(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_WeldingSpeedBuff",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_MaintenancePanelAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_MaintenancePanelAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ModelComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ModelComponent")]
+pub struct MyObjectBuilder_ModelComponent {}
+// Original type: VRage.Game.ObjectBuilders.Components.Beacon.MyObjectBuilder_SafeZoneComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SafeZoneComponent")]
+pub struct MyObjectBuilder_SafeZoneComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Activating", default)]
+    pub activating: crate::compat::BitBool,
+    #[serde(rename = "ActivationTime", default)]
+    pub activation_time: crate::compat::BitAligned<i64>,
+    #[serde(rename = "CreateSafeZoneOnSpawn", default)]
+    pub create_safe_zone_on_spawn: crate::compat::BitBool,
+    #[serde(rename = "SafeZoneOb", default)]
+    pub safe_zone_ob: crate::compat::Nullable<MyObjectBuilder_EntityBaseVariant>,
+    #[serde(rename = "UpkeepTime", default)]
+    pub upkeep_time: crate::compat::BitAligned<f64>,
+}
+// Original type: VRage.Game.ObjectBuilders.Components.MyObjectBuilder_EntityOwnershipComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityOwnershipComponent")]
+pub struct MyObjectBuilder_EntityOwnershipComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "OwnerId", default)]
+    pub owner_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "ShareMode", default)]
+    pub share_mode: super::game::MyOwnershipShareModeEnum,
+}
+// Original type: VRage.Game.ObjectBuilders.Components.MyObjectBuilder_HierarchyComponentBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HierarchyComponentBase")]
+pub struct MyObjectBuilder_HierarchyComponentBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Children", default)]
+    pub children: crate::compat::VarVec<MyObjectBuilder_EntityBase>,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventory
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AreaInventory")]
+pub struct MyObjectBuilder_AreaInventory {}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryBase, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_InventoryBase>
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InventoryBase")]
+pub struct MyObjectBuilder_InventoryBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CanPutItems", default)]
+    pub can_put_items: crate::compat::BitBool,
+    #[serde(rename = "InventoryId", default)]
+    pub inventory_id: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventoryAggregate
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AreaInventoryAggregate")]
+pub struct MyObjectBuilder_AreaInventoryAggregate {
+    #[serde(rename = "Radius", default)]
+    pub radius: crate::compat::BitAligned<f32>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_InventoryAggregate - not in serde
+    #[serde(skip)]
+    pub inventories: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_InventoryBaseVariant>>,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub can_put_items: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub inventory_id: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Original type: VRage.Serialization.SerializableBoundingSphereD
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "SerializableBoundingSphereD")]
+pub struct SerializableBoundingSphereD {
+    #[serde(rename = "Center")]
+    pub center: crate::math::SerializableVector3D,
+    #[serde(rename = "Radius", default)]
+    pub radius: crate::compat::BitAligned<f64>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaTrigger
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AreaTrigger")]
+pub struct MyObjectBuilder_AreaTrigger {
+    #[serde(rename = "Name", default)]
+    pub name: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub AABB: crate::math::SerializableBoundingBoxD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub bounding_sphere: SerializableBoundingSphereD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub offset: crate::math::SerializableVector3D,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub oriented_bounding_box: SerializableOrientedBoundingBoxD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub r#type: crate::compat::BitAligned<i32>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.ObjectBuilders.SerializableDefinitionId, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::SerializableDefinitionId>
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AssetModifierComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AssetModifierComponent")]
+pub struct MyObjectBuilder_AssetModifierComponent {
+    #[serde(rename = "AssetModifiers", default)]
+    pub asset_modifiers: crate::compat::Nullable<crate::compat::VarVec<super::game::SerializableDefinitionId>>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AtmosphereDetectorComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AtmosphereDetectorComponent")]
+pub struct MyObjectBuilder_AtmosphereDetectorComponent {}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterLadderComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterLadderComponent")]
+pub struct MyObjectBuilder_CharacterLadderComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "EnableJetpackOnExit", default)]
+    pub enable_jetpack_on_exit: crate::compat::BitBool,
+    #[serde(rename = "LadderId", default)]
+    pub ladder_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "LadderInfo", default)]
+    pub ladder_info: crate::compat::Nullable<crate::compat::Nullable<super::game::MyObjectBuilder_Character_LadderInfo>>,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterPickupComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterPickupComponent")]
+pub struct MyObjectBuilder_CharacterPickupComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterSoundComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterSoundComponent")]
+pub struct MyObjectBuilder_CharacterSoundComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_CharacterStatComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterStatComponent")]
+pub struct MyObjectBuilder_CharacterStatComponent {}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ContainerDropComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContainerDropComponent")]
+pub struct MyObjectBuilder_ContainerDropComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Competetive", default)]
+    pub competetive: crate::compat::BitBool,
+    #[serde(rename = "GPSName", default)]
+    pub gps_name: crate::compat::VarString,
+    #[serde(rename = "GridEntityId", default)]
+    pub grid_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Owner", default)]
+    pub owner: crate::compat::BitAligned<i64>,
+    #[serde(rename = "PlayingSound", default)]
+    pub playing_sound: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityCapacitorComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityCapacitorComponent")]
+pub struct MyObjectBuilder_EntityCapacitorComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "StoredPower", default)]
+    pub stored_power: crate::compat::BitAligned<f32>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityDurabilityComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityDurabilityComponent")]
+pub struct MyObjectBuilder_EntityDurabilityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "EntityHP")]
+    pub entity_h_p: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityReverbDetectorComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityReverbDetectorComponent")]
+pub struct MyObjectBuilder_EntityReverbDetectorComponent {}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_EntityStatRegenEffect
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityStatRegenEffect")]
+pub struct MyObjectBuilder_EntityStatRegenEffect {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "AliveTime", default)]
+    pub alive_time: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Duration")]
+    pub duration: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Interval")]
+    pub interval: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "MaxRegenRatio")]
+    pub max_regen_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MinRegenRatio", default)]
+    pub min_regen_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RemoveWhenReachedMaxRegenRatio", default)]
+    pub remove_when_reached_max_regen_ratio: crate::compat::BitBool,
+    #[serde(rename = "TickAmount", default)]
+    pub tick_amount: crate::compat::BitAligned<f32>,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_EntityStat
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityStat")]
+pub struct MyObjectBuilder_EntityStat {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "Effects", default)]
+    pub effects: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_EntityStatRegenEffect>>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "MaxValue")]
+    pub max_value: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "StatRegenAmountMultiplier")]
+    pub stat_regen_amount_multiplier: crate::compat::BitAligned<f32>,
+    #[serde(rename = "StatRegenAmountMultiplierDuration", default)]
+    pub stat_regen_amount_multiplier_duration: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Value")]
+    pub value: crate::compat::BitAligned<f32>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityStatComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityStatComponent")]
+pub struct MyObjectBuilder_EntityStatComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "ScriptNames", default)]
+    pub script_names: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "Stats", default)]
+    pub stats: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_EntityStat>>,
+}
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<bool>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,bool>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<f32>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,f32>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<i32>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<i64>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,i64>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<String>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<String,String>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.ObjectBuilder.MySerializableList`1[[VRage.SerializableVector3D, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,Vec<crate::math::SerializableVector3D>>
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[VRage.SerializableVector3D, VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to crate::compat::VarMap<String,crate::math::SerializableVector3D>
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_EntityStorageComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EntityStorageComponent")]
+pub struct MyObjectBuilder_EntityStorageComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "BoolListStorage", default)]
+    #[deku(skip)]
+    pub bool_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<bool>>>,
+    #[serde(rename = "BoolStorage", default)]
+    #[deku(skip)]
+    pub bool_storage: crate::compat::Nullable<crate::compat::VarMap<String,bool>>,
+    #[serde(rename = "FloatListStorage", default)]
+    #[deku(skip)]
+    pub float_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<f32>>>,
+    #[serde(rename = "FloatStorage", default)]
+    #[deku(skip)]
+    pub float_storage: crate::compat::Nullable<crate::compat::VarMap<String,f32>>,
+    #[serde(rename = "IntListStorage", default)]
+    #[deku(skip)]
+    pub int_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<i32>>>,
+    #[serde(rename = "IntStorage", default)]
+    #[deku(skip)]
+    pub int_storage: crate::compat::Nullable<crate::compat::VarMap<String,i32>>,
+    #[serde(rename = "LongListStorage", default)]
+    #[deku(skip)]
+    pub long_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<i64>>>,
+    #[serde(rename = "LongStorage", default)]
+    #[deku(skip)]
+    pub long_storage: crate::compat::Nullable<crate::compat::VarMap<String,i64>>,
+    #[serde(rename = "StringListStorage", default)]
+    #[deku(skip)]
+    pub string_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<String>>>,
+    #[serde(rename = "StringStorage", default)]
+    #[deku(skip)]
+    pub string_storage: crate::compat::Nullable<crate::compat::VarMap<String,String>>,
+    #[serde(rename = "Vector3DListStorage", default)]
+    #[deku(skip)]
+    pub vector3_d_list_storage: crate::compat::Nullable<crate::compat::VarMap<String,Vec<crate::math::SerializableVector3D>>>,
+    #[serde(rename = "Vector3DStorage", default)]
+    #[deku(skip)]
+    pub vector3_d_storage: crate::compat::Nullable<crate::compat::VarMap<String,crate::math::SerializableVector3D>>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryAggregate
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InventoryAggregate")]
+pub struct MyObjectBuilder_InventoryAggregate {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Inventories", default)]
+    pub inventories: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_InventoryBaseVariant>>,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub can_put_items: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_InventoryBase - not in serde
+    #[serde(skip)]
+    pub inventory_id: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventorySpawnComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InventorySpawnComponent")]
+pub struct MyObjectBuilder_InventorySpawnComponent {}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ModCustomComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ModCustomComponent")]
+pub struct MyObjectBuilder_ModCustomComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "ComponentType", default)]
+    pub component_type: crate::compat::VarString,
+    #[serde(rename = "CustomModData", default)]
+    pub custom_mod_data: crate::compat::VarString,
+}
+// Note: Type mapping applied from VRage.Serialization.SerializableDictionary`2[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] to crate::compat::VarMap<crate::compat::Guid,String>
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ModStorageComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ModStorageComponent")]
+pub struct MyObjectBuilder_ModStorageComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Storage", default)]
+    #[deku(skip)]
+    pub storage: crate::compat::Nullable<crate::compat::VarMap<crate::compat::Guid,String>>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_NpcAssetModifierComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_NpcAssetModifierComponent")]
+pub struct MyObjectBuilder_NpcAssetModifierComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "AssetModifiers", default)]
+    pub asset_modifiers: crate::compat::Nullable<crate::compat::VarVec<super::game::SerializableDefinitionId>>,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_PhysicsBodyComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PhysicsBodyComponent")]
+pub struct MyObjectBuilder_PhysicsBodyComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ResourceSinkComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ResourceSinkComponent")]
+pub struct MyObjectBuilder_ResourceSinkComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ResourceSourceComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ResourceSourceComponent")]
+pub struct MyObjectBuilder_ResourceSourceComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_RespawnComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RespawnComponent")]
+pub struct MyObjectBuilder_RespawnComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_ShipSoundComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ShipSoundComponent")]
+pub struct MyObjectBuilder_ShipSoundComponent {}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_SunTrackingComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SunTrackingComponent")]
+pub struct MyObjectBuilder_SunTrackingComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SunTrackingEnabled", default)]
+    pub sun_tracking_enabled: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetFocusComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TargetFocusComponent")]
+pub struct MyObjectBuilder_TargetFocusComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetLockingBlockComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TargetLockingBlockComponent")]
+pub struct MyObjectBuilder_TargetLockingBlockComponent {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TargetLockingComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TargetLockingComponent")]
+pub struct MyObjectBuilder_TargetLockingComponent {}
+// Original enum: VRage.Game.ObjectBuilders.ComponentSystem.MyTimerTypes
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 1, bit_order = "lsb")]
+#[serde(rename = "MyTimerTypes")]
+pub enum MyTimerTypes {
+    #[default]
+    #[deku(id = "0")]
+    Frame10,
+    #[deku(id = "1")]
+    Frame100,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TimerComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TimerComponent")]
+pub struct MyObjectBuilder_TimerComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "FramesFromLastTrigger", default)]
+    pub frames_from_last_trigger: crate::compat::BitAligned<u32>,
+    #[serde(rename = "IsSessionUpdateEnabled", default)]
+    pub is_session_update_enabled: crate::compat::BitBool,
+    #[serde(rename = "RemoveEntityOnTimer", default)]
+    pub remove_entity_on_timer: crate::compat::BitBool,
+    #[serde(rename = "Repeat", default)]
+    pub repeat: crate::compat::BitBool,
+    #[serde(rename = "SetTimeMinutes", default)]
+    pub set_time_minutes: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TimerEnabled", default)]
+    pub timer_enabled: crate::compat::BitBool,
+    #[serde(rename = "TimerTickInFrames", default)]
+    pub timer_tick_in_frames: crate::compat::BitAligned<u32>,
+    #[serde(rename = "TimerType", default)]
+    pub timer_type: MyTimerTypes,
+    #[serde(rename = "TimeToEvent", default)]
+    pub time_to_event: crate::compat::BitAligned<f32>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TriggerBase")]
+pub struct MyObjectBuilder_TriggerBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "AABB")]
+    pub AABB: crate::math::SerializableBoundingBoxD,
+    #[serde(rename = "BoundingSphere")]
+    pub bounding_sphere: SerializableBoundingSphereD,
+    #[serde(rename = "Offset")]
+    pub offset: crate::math::SerializableVector3D,
+    #[serde(rename = "OrientedBoundingBox")]
+    pub oriented_bounding_box: SerializableOrientedBoundingBoxD,
+    #[serde(rename = "Type", default)]
+    pub r#type: crate::compat::BitAligned<i32>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_UpdateTrigger
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_UpdateTrigger")]
+pub struct MyObjectBuilder_UpdateTrigger {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub AABB: crate::math::SerializableBoundingBoxD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub bounding_sphere: SerializableBoundingSphereD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub offset: crate::math::SerializableVector3D,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub oriented_bounding_box: SerializableOrientedBoundingBoxD,
+    // Inherited from MyObjectBuilder_TriggerBase - not in serde
+    #[serde(skip)]
+    pub r#type: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsPirateStation", default)]
+    pub is_pirate_station: crate::compat::BitBool,
+    #[serde(rename = "SerializedPirateStation", default)]
+    pub serialized_pirate_station: crate::compat::Nullable<MyObjectBuilder_CubeGrid>,
+    #[serde_inline_default(crate::compat::BitAligned(25000))]
+    #[serde(rename = "Size")]
+    pub size: crate::compat::BitAligned<i32>,
+}
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_UseObjectsComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_UseObjectsComponent")]
+pub struct MyObjectBuilder_UseObjectsComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CustomDetectorsCount", default)]
+    pub custom_detectors_count: crate::compat::BitAligned<u32>,
+    #[serde(rename = "CustomDetectorsMatrices", default)]
+    pub custom_detectors_matrices: crate::compat::VarVec<super::game::Matrix>,
+    #[serde(rename = "CustomDetectorsNames", default)]
+    pub custom_detectors_names: crate::compat::VarVec<crate::compat::VarString>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_PlanetEnvironmentComponent+ObstructingBox, Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null]] to Vec<super::game::MyObjectBuilder_PlanetEnvironmentComponent_ObstructingBox>
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_PlanetEnvironmentComponent+ObstructingBox
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "ObstructingBox")]
+pub struct MyObjectBuilder_PlanetEnvironmentComponent_ObstructingBox {
+    #[serde(rename = "ObstructingBoxes", default)]
+    pub obstructing_boxes: crate::compat::VarVec<SerializableOrientedBoundingBoxD>,
+    #[serde(rename = "SectorId", default)]
+    pub sector_id: crate::compat::BitAligned<i64>,
+}
+// Original type: Sandbox.Game.WorldEnvironment.ObjectBuilders.MyObjectBuilder_PlanetEnvironmentComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PlanetEnvironmentComponent")]
+pub struct MyObjectBuilder_PlanetEnvironmentComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "DataProviders", default)]
+    pub data_providers: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_EnvironmentDataProviderVariant>>,
+    #[serde(rename = "SectorObstructions", default)]
+    pub sector_obstructions: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_PlanetEnvironmentComponent_ObstructingBox>>,
+}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerBase, VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_TriggerBase>
+// Original type: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerAggregate
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TriggerAggregate")]
+pub struct MyObjectBuilder_TriggerAggregate {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "AreaTriggers", default)]
+    pub area_triggers: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_TriggerBaseVariant>>,
+}
+// Stub for empty/abstract type: ObjectBuilders.Discovery.MyObjectBuilder_CharacterDiscoveryComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterDiscoveryComponent")]
+pub struct MyObjectBuilder_CharacterDiscoveryComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AccessAnyoneCanUse
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AccessAnyoneCanUse")]
+pub struct MyObjectBuilder_AccessAnyoneCanUse {
+    #[serde(rename = "AnyoneCanUse", default)]
+    pub anyone_can_use: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AiBlockComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AiBlockComponent")]
+pub struct MyObjectBuilder_AiBlockComponent {
+    #[serde(rename = "IsActivated", default)]
+    pub is_activated: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AiBlockPowerComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AiBlockPowerComponent")]
+pub struct MyObjectBuilder_AiBlockPowerComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AnimationSpeedComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AnimationSpeedComponent")]
+pub struct MyObjectBuilder_AnimationSpeedComponent {}
+// Original enum: VRageMath.Base6Directions+DirectionFlags
+#[::enumflags2::bitflags]
+#[repr(u32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "DirectionFlags")]
+pub enum Base6Directions_DirectionFlags {
+    Forward = 1,
+    Backward = 2,
+    Left = 4,
+    Right = 8,
+    Up = 16,
+    Down = 32,
+    // Skipping composite value in flags enum (All = 63)
+}
+impl Base6Directions_DirectionFlags {
+    pub const ALL: ::enumflags2::BitFlags<Self> = ::enumflags2::BitFlags::<Self>::ALL;
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutopilotComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AutopilotComponent")]
+pub struct MyObjectBuilder_AutopilotComponent {
+    #[serde(rename = "AlignToGravity", default)]
+    pub align_to_gravity: crate::compat::BitBool,
+    #[serde(rename = "AutoPilotEnabled", default)]
+    pub auto_pilot_enabled: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(10f32))]
+    #[serde(rename = "AutopilotSpeedLimit")]
+    pub autopilot_speed_limit: crate::compat::BitAligned<f32>,
+    #[serde(rename = "AutoPilotToolbar", default)]
+    pub auto_pilot_toolbar: crate::compat::Nullable<MyObjectBuilder_Toolbar>,
+    #[serde(rename = "CollisionAvoidance", default)]
+    pub collision_avoidance: crate::compat::BitBool,
+    #[serde(rename = "Coords", default)]
+    pub coords: crate::compat::Nullable<crate::compat::VarVec<crate::math::Vector3D>>,
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
+    #[serde(rename = "CurrentWaypointIndex")]
+    pub current_waypoint_index: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Direction", default)]
+    pub direction: crate::compat::BitAligned<i32>,
+    #[serde(rename = "DockingModeEnabled", default)]
+    pub docking_mode_enabled: crate::compat::BitBool,
+    #[serde(rename = "FacingDirection")]
+    pub facing_direction: crate::compat::BitField<Base6Directions_DirectionFlags>,
+    #[serde(rename = "FlightMode", default)]
+    pub flight_mode: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsWorkAreaReturningToStart", default)]
+    pub is_work_area_returning_to_start: crate::compat::BitBool,
+    #[serde(rename = "LookAtPosition", default)]
+    pub look_at_position: crate::compat::Nullable<crate::compat::Nullable<crate::math::Vector3D>>,
+    #[serde_inline_default(crate::compat::BitAligned(25f32))]
+    #[serde(rename = "MinHeightAboveTerrain")]
+    pub min_height_above_terrain: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Names", default)]
+    pub names: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "PitchAngle", default)]
+    pub pitch_angle: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RollAngle", default)]
+    pub roll_angle: crate::compat::BitAligned<f32>,
+    #[serde(rename = "WaitForFreeWay", default)]
+    pub wait_for_free_way: crate::compat::BitBool,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutopilotWaypointVariant>>,
+    #[serde(rename = "WaypointThresholdDistance", default)]
+    pub waypoint_threshold_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "WorkAreaStartForward")]
+    pub work_area_start_forward: crate::math::Vector3D,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionAutopilot
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BasicMissionAutopilot")]
+pub struct MyObjectBuilder_BasicMissionAutopilot {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "CurrentWaypoint", default)]
+    pub current_waypoint: crate::compat::Nullable<MyObjectBuilder_AutopilotWaypoint>,
+    #[serde(rename = "Mode", default)]
+    pub mode: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutopilotWaypointVariant>>,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionFollowHome
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BasicMissionFollowHome")]
+pub struct MyObjectBuilder_BasicMissionFollowHome {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "HomePosition")]
+    pub home_position: crate::math::Vector3D,
+    #[serde(rename = "HomeTargetWaypoint", default)]
+    pub home_target_waypoint: crate::compat::Nullable<MyObjectBuilder_AutopilotWaypoint>,
+    #[serde(rename = "IsWanderEnabled", default)]
+    pub is_wander_enabled: crate::compat::BitBool,
+    #[serde(rename = "MaxRange", default)]
+    pub max_range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MinRange", default)]
+    pub min_range: crate::compat::BitAligned<f32>,
+    #[serde(rename = "NextWanderWaypoint", default)]
+    pub next_wander_waypoint: crate::compat::Nullable<MyObjectBuilder_AutopilotWaypoint>,
+    #[serde(rename = "SelectedBeaconEntityId", default)]
+    pub selected_beacon_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "SelectedGpsHash", default)]
+    pub selected_gps_hash: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    #[serde(rename = "SelectedGpsHashNew", default)]
+    pub selected_gps_hash_new: crate::compat::Nullable<crate::compat::Nullable<GpsInfo>>,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BasicMissionFollowPlayer
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BasicMissionFollowPlayer")]
+pub struct MyObjectBuilder_BasicMissionFollowPlayer {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "FollowDistance", default)]
+    pub follow_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "FollowedPlayerIdentityId", default)]
+    pub followed_player_identity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "IsFollowing", default)]
+    pub is_following: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_BlockPowerCheckComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_BlockPowerCheckComponent")]
+pub struct MyObjectBuilder_BlockPowerCheckComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_CharacterAimAssistComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterAimAssistComponent")]
+pub struct MyObjectBuilder_CharacterAimAssistComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_CharacterAutopilotComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CharacterAutopilotComponent")]
+pub struct MyObjectBuilder_CharacterAutopilotComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ChatBroadcastEntityComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ChatBroadcastEntityComponent")]
+pub struct MyObjectBuilder_ChatBroadcastEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "BroadcastTarget", default)]
+    pub broadcast_target: crate::compat::BitAligned<i32>,
+    #[serde(rename = "CustomName", default)]
+    pub custom_name: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "Messages", default)]
+    pub messages: crate::compat::Nullable<crate::compat::VarVec<crate::compat::VarString>>,
+    #[serde(rename = "UseAntenna", default)]
+    pub use_antenna: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ConveyorEndpointComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ConveyorEndpointComponent")]
+pub struct MyObjectBuilder_ConveyorEndpointComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_DestroyBlockComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DestroyBlockComponent")]
+pub struct MyObjectBuilder_DestroyBlockComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmotionControllerComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EmotionControllerComponent")]
+pub struct MyObjectBuilder_EmotionControllerComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SelectedEmotionSubtype", default)]
+    pub selected_emotion_subtype: crate::compat::VarString,
+    #[serde(rename = "SelectedLCDsIds", default)]
+    pub selected_lc_ds_ids: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmpCharacterComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EmpCharacterComponent")]
+pub struct MyObjectBuilder_EmpCharacterComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EmpEntityComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EmpEntityComponent")]
+pub struct MyObjectBuilder_EmpEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CountdownMs", default)]
+    pub countdown_ms: crate::compat::BitAligned<i32>,
+    #[serde(rename = "IsCountingDown", default)]
+    pub is_counting_down: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventAngleChanged
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventAngleChanged")]
+pub struct MyObjectBuilder_EventAngleChanged {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Angle", default)]
+    pub angle: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockAddedRemoved
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventBlockAddedRemoved")]
+pub struct MyObjectBuilder_EventBlockAddedRemoved {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockIntegrity
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventBlockIntegrity")]
+pub struct MyObjectBuilder_EventBlockIntegrity {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventBlockOnOff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventBlockOnOff")]
+pub struct MyObjectBuilder_EventBlockOnOff {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventCargoFilledEntityComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventCargoFilledEntityComponent")]
+pub struct MyObjectBuilder_EventCargoFilledEntityComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventCockpitOccupied
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventCockpitOccupied")]
+pub struct MyObjectBuilder_EventCockpitOccupied {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventConnectorConnected
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventConnectorConnected")]
+pub struct MyObjectBuilder_EventConnectorConnected {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventConnectorReadyToLock
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventConnectorReadyToLock")]
+pub struct MyObjectBuilder_EventConnectorReadyToLock {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventDistanceToLockedTarget
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventDistanceToLockedTarget")]
+pub struct MyObjectBuilder_EventDistanceToLockedTarget {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "DistanceToLockedTarget")]
+    pub distance_to_locked_target: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventDoorOpened
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventDoorOpened")]
+pub struct MyObjectBuilder_EventDoorOpened {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventGasTankFilled
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventGasTankFilled")]
+pub struct MyObjectBuilder_EventGasTankFilled {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventGridSpeedChanged
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventGridSpeedChanged")]
+pub struct MyObjectBuilder_EventGridSpeedChanged {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "Speed")]
+    pub speed: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventLandingGearLocked
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventLandingGearLocked")]
+pub struct MyObjectBuilder_EventLandingGearLocked {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMagneticLockReady
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventMagneticLockReady")]
+pub struct MyObjectBuilder_EventMagneticLockReady {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMerged
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventMerged")]
+pub struct MyObjectBuilder_EventMerged {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventMissileLocked
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventMissileLocked")]
+pub struct MyObjectBuilder_EventMissileLocked {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(500f32))]
+    #[serde(rename = "Distance")]
+    pub distance: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventNaturalGravityChanged
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventNaturalGravityChanged")]
+pub struct MyObjectBuilder_EventNaturalGravityChanged {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "Gravity")]
+    pub gravity: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventPistonPosition
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventPistonPosition")]
+pub struct MyObjectBuilder_EventPistonPosition {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventPowerOutput
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventPowerOutput")]
+pub struct MyObjectBuilder_EventPowerOutput {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventRotorHingeAttachedDetached
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventRotorHingeAttachedDetached")]
+pub struct MyObjectBuilder_EventRotorHingeAttachedDetached {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventStoredPower
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventStoredPower")]
+pub struct MyObjectBuilder_EventStoredPower {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventSurfaceHeight
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventSurfaceHeight")]
+pub struct MyObjectBuilder_EventSurfaceHeight {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Height", default)]
+    pub height: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_EventThrustPercentage
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EventThrustPercentage")]
+pub struct MyObjectBuilder_EventThrustPercentage {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_FarmPlotLogic
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_FarmPlotLogic")]
+pub struct MyObjectBuilder_FarmPlotLogic {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CauseOfDeath", default)]
+    pub cause_of_death: crate::compat::BitAligned<i32>,
+    #[serde(rename = "CurrentGrowthStageIndex", default)]
+    pub current_growth_stage_index: crate::compat::BitAligned<i32>,
+    #[serde(rename = "GrowTime", default)]
+    pub grow_time: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OutputItemAmountFromRange", default)]
+    pub output_item_amount_from_range: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PlantedSeedDefinitionId", default)]
+    pub planted_seed_definition_id: crate::compat::Nullable<crate::compat::Nullable<super::game::SerializableDefinitionId>>,
+    #[serde(rename = "PlantGrowthTimeRemainingInFrames", default)]
+    pub plant_growth_time_remaining_in_frames: crate::compat::BitAligned<f32>,
+    #[serde(rename = "PlantHealth", default)]
+    pub plant_health: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GlobalEncounterComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GlobalEncounterComponent")]
+pub struct MyObjectBuilder_GlobalEncounterComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "EncounterId", default)]
+    pub encounter_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "GpsCreated", default)]
+    pub gps_created: crate::compat::BitBool,
+    #[serde(rename = "SpawnGroupName", default)]
+    pub spawn_group_name: crate::compat::VarString,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GridsStorageEntityComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GridsStorageEntityComponent")]
+pub struct MyObjectBuilder_GridsStorageEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Pivot")]
+    pub pivot: crate::math::Vector3I,
+    #[serde(rename = "PrecisionMode", default)]
+    pub precision_mode: crate::compat::BitBool,
+    #[serde(rename = "ShowPivot", default)]
+    pub show_pivot: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_GrindingSpeedBuff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GrindingSpeedBuff")]
+pub struct MyObjectBuilder_GrindingSpeedBuff {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ItemProducerComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ItemProducerComponent")]
+pub struct MyObjectBuilder_ItemProducerComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "UseConveyorSystem", default)]
+    pub use_conveyor_system: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LcdSurfaceComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LcdSurfaceComponent")]
+pub struct MyObjectBuilder_LcdSurfaceComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SelectedRotationIndex", default)]
+    pub selected_rotation_index: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    #[serde(rename = "TextPanelContent", default)]
+    pub text_panel_content: crate::compat::Nullable<MySerializedTextPanelData>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_LightingComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_LightingComponent")]
+pub struct MyObjectBuilder_LightingComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkIntervalSeconds")]
+    pub blink_interval_seconds: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkLength")]
+    pub blink_length: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "BlinkOffset")]
+    pub blink_offset: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorAlpha")]
+    pub color_alpha: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorBlue")]
+    pub color_blue: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorGreen")]
+    pub color_green: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "ColorRed")]
+    pub color_red: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Falloff")]
+    pub falloff: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Intensity")]
+    pub intensity: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Offset")]
+    pub offset: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "Radius")]
+    pub radius: crate::compat::BitAligned<f32>,
+    #[serde_inline_default(crate::compat::BitAligned(-1f32))]
+    #[serde(rename = "ReflectorRadius")]
+    pub reflector_radius: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MaintenancePanelComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MaintenancePanelComponent")]
+pub struct MyObjectBuilder_MaintenancePanelComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Open", default)]
+    pub open: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MaxHealthBuff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MaxHealthBuff")]
+pub struct MyObjectBuilder_MaxHealthBuff {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MissileLauncherHatchComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MissileLauncherHatchComponent")]
+pub struct MyObjectBuilder_MissileLauncherHatchComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "LaunchHatchClosedRatio", default)]
+    pub launch_hatch_closed_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "LaunchHatchClosing", default)]
+    pub launch_hatch_closing: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MovementSpeedBuff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MovementSpeedBuff")]
+pub struct MyObjectBuilder_MovementSpeedBuff {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_MultiTextPanelComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MultiTextPanelComponent")]
+pub struct MyObjectBuilder_MultiTextPanelComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "TextPanelsContents", default)]
+    pub text_panels_contents: crate::compat::Nullable<crate::compat::VarVec<MySerializedTextPanelData>>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_NewSolarGameLogicComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_NewSolarGameLogicComponent")]
+pub struct MyObjectBuilder_NewSolarGameLogicComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatCircleOrbit
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OffensiveCombatCircleOrbit")]
+pub struct MyObjectBuilder_OffensiveCombatCircleOrbit {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CircleDistance", default)]
+    pub circle_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "CircleInPGravity", default)]
+    pub circle_in_p_gravity: crate::compat::BitBool,
+    #[serde(rename = "FacingMode", default)]
+    pub facing_mode: crate::compat::BitAligned<i32>,
+    #[serde(rename = "FacingPriority")]
+    pub facing_priority: crate::compat::BitField<Base6Directions_DirectionFlags>,
+    #[serde(rename = "SelectedWeapons", default)]
+    pub selected_weapons: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "WasActive", default)]
+    pub was_active: crate::compat::BitBool,
+}
+// Original enum: Sandbox.Common.ObjectBuilders.HitAndRunMode
+#[::proto_rs::proto_message]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u32", bits = 2, bit_order = "lsb")]
+#[serde(rename = "HitAndRunMode")]
+pub enum HitAndRunMode {
+    #[default]
+    #[deku(id = "0")]
+    None,
+    #[deku(id = "1")]
+    Attack,
+    #[deku(id = "2")]
+    Retreat,
+    #[deku(id = "3")]
+    ShouldRetreat,
+}
+// Original type: Sandbox.Common.ObjectBuilders.HitAndRunState
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "HitAndRunState")]
+pub struct HitAndRunState {
+    #[serde(rename = "CurrentState", default)]
+    pub current_state: HitAndRunMode,
+    #[serde(rename = "LastPosition", default)]
+    pub last_position: crate::compat::Nullable<crate::compat::Nullable<crate::math::Vector3D>>,
+    #[serde(rename = "RunAwayDirection")]
+    pub run_away_direction: crate::math::Vector3D,
+    #[serde(rename = "RunAwayStartedFrame", default)]
+    pub run_away_started_frame: crate::compat::BitAligned<i64>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatHitAndRun
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OffensiveCombatHitAndRun")]
+pub struct MyObjectBuilder_OffensiveCombatHitAndRun {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "BreakOffDistance", default)]
+    pub break_off_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "HitAndRunState", default)]
+    pub hit_and_run_state: crate::compat::Nullable<HitAndRunState>,
+    #[serde(rename = "RetreatAngle", default)]
+    pub retreat_angle: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RetreatDistance", default)]
+    pub retreat_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RetreatTimeout", default)]
+    pub retreat_timeout: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SelectedWeapons", default)]
+    pub selected_weapons: crate::compat::VarVec<crate::compat::BitAligned<i64>>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatIntercept
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OffensiveCombatIntercept")]
+pub struct MyObjectBuilder_OffensiveCombatIntercept {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Guidance", default)]
+    pub guidance: super::modapi::GuidanceType,
+    #[serde(rename = "OverrideCollisionAvoidance", default)]
+    pub override_collision_avoidance: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OffensiveCombatStayAtRange
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OffensiveCombatStayAtRange")]
+pub struct MyObjectBuilder_OffensiveCombatStayAtRange {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "EvasiveManeuvers", default)]
+    pub evasive_maneuvers: crate::compat::BitBool,
+    #[serde(rename = "FacingMode", default)]
+    pub facing_mode: crate::compat::BitAligned<i32>,
+    #[serde(rename = "FacingPriority")]
+    pub facing_priority: crate::compat::BitField<Base6Directions_DirectionFlags>,
+    #[serde(rename = "MaximalDistance", default)]
+    pub maximal_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MinimalDistance", default)]
+    pub minimal_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SelectedWeapons", default)]
+    pub selected_weapons: crate::compat::Nullable<crate::compat::VarVec<crate::compat::BitAligned<i64>>>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_OxygenConsumptionRateBuff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_OxygenConsumptionRateBuff")]
+pub struct MyObjectBuilder_OxygenConsumptionRateBuff {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ParticleEntityComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ParticleEntityComponent")]
+pub struct MyObjectBuilder_ParticleEntityComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_PathRecorderComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_PathRecorderComponent")]
+pub struct MyObjectBuilder_PathRecorderComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "BeaconEntityId", default)]
+    pub beacon_entity_id: crate::compat::BitAligned<i64>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "MinimalDistance")]
+    pub minimal_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Play", default)]
+    pub play: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1))]
+    #[serde(rename = "RecordInterval")]
+    pub record_interval: crate::compat::BitAligned<i32>,
+    #[serde(rename = "Repeat", default)]
+    pub repeat: crate::compat::BitBool,
+    #[serde(rename = "ShowPath", default)]
+    pub show_path: crate::compat::BitBool,
+    #[serde(rename = "ShowSelectedPoints", default)]
+    pub show_selected_points: crate::compat::BitBool,
+    #[serde(rename = "Waypoints", default)]
+    pub waypoints: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_AutopilotWaypointVariant>>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RadiationSourceEntityComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RadiationSourceEntityComponent")]
+pub struct MyObjectBuilder_RadiationSourceEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(5f32))]
+    #[serde(rename = "MaxDistance")]
+    pub max_distance: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OnlyWhenDamaged", default)]
+    pub only_when_damaged: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(4f32))]
+    #[serde(rename = "RadiationGain")]
+    pub radiation_gain: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RandomCargoEntityComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RandomCargoEntityComponent")]
+pub struct MyObjectBuilder_RandomCargoEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "ContainerType", default)]
+    pub container_type: crate::compat::VarString,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RandomMovementSubpartComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RandomMovementSubpartComponent")]
+pub struct MyObjectBuilder_RandomMovementSubpartComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SubpartName", default)]
+    pub subpart_name: crate::compat::VarString,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ReciprocatingSubpartComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ReciprocatingSubpartComponent")]
+pub struct MyObjectBuilder_ReciprocatingSubpartComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RepairServiceComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RepairServiceComponent")]
+pub struct MyObjectBuilder_RepairServiceComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(250f32))]
+    #[serde(rename = "ServiceRange")]
+    pub service_range: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_ResourceStorageComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ResourceStorageComponent")]
+pub struct MyObjectBuilder_ResourceStorageComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "FilledRatio", default)]
+    pub filled_ratio: crate::compat::BitAligned<f32>,
+    #[serde(rename = "IsStockpiling", default)]
+    pub is_stockpiling: crate::compat::BitBool,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_RotatingSubpartComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_RotatingSubpartComponent")]
+pub struct MyObjectBuilder_RotatingSubpartComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SubpartName", default)]
+    pub subpart_name: crate::compat::VarString,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SalvageServiceComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SalvageServiceComponent")]
+pub struct MyObjectBuilder_SalvageServiceComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(250f32))]
+    #[serde(rename = "ServiceRange")]
+    pub service_range: crate::compat::BitAligned<f32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SearchEnemyComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SearchEnemyComponent")]
+pub struct MyObjectBuilder_SearchEnemyComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SubsystemsToDestroy")]
+    pub subsystems_to_destroy: super::game::MyStringHash,
+    #[serde(rename = "TargetEntityId", default)]
+    pub target_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "TargetingLockOptions", default)]
+    pub targeting_lock_options: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalChannelEntityComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SignalChannelEntityComponent")]
+pub struct MyObjectBuilder_SignalChannelEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1))]
+    #[serde(rename = "Channel")]
+    pub channel: crate::compat::BitAligned<i32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalConnectivityCheckerEntityComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SignalConnectivityCheckerEntityComponent")]
+pub struct MyObjectBuilder_SignalConnectivityCheckerEntityComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalReceiverEntityComponent
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SignalReceiverEntityComponent")]
+pub struct MyObjectBuilder_SignalReceiverEntityComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde_inline_default(super::modapi::MyTransponderRelationFilter::Faction)]
+    #[serde(rename = "RelationFilter")]
+    pub relation_filter: super::modapi::MyTransponderRelationFilter,
+    #[serde(rename = "Toolbar", default)]
+    pub toolbar: MyObjectBuilder_Toolbar,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SignalSenderEntityComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SignalSenderEntityComponent")]
+pub struct MyObjectBuilder_SignalSenderEntityComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarFoodGenerator
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SolarFoodGenerator")]
+pub struct MyObjectBuilder_SolarFoodGenerator {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "ItemProductionRemainingFrames", default)]
+    pub item_production_remaining_frames: crate::compat::BitAligned<f32>,
+    #[serde(rename = "ItemsPerMinute", default)]
+    pub items_per_minute: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Progress", default)]
+    pub progress: crate::compat::BitAligned<f32>,
+    #[serde(rename = "TimeRemainingUntilNextBatch", default)]
+    pub time_remaining_until_next_batch: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarGameLogicComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SolarGameLogicComponent")]
+pub struct MyObjectBuilder_SolarGameLogicComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SolarOccludableComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SolarOccludableComponent")]
+pub struct MyObjectBuilder_SolarOccludableComponent {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SubModelComponent
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SubModelComponent")]
+pub struct MyObjectBuilder_SubModelComponent {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "ModelAssetPath", default)]
+    pub model_asset_path: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "ScaleFactor", default)]
+    pub scale_factor: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SubModelRotation", default)]
+    pub sub_model_rotation: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<f32>>>,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalBuffBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SurvivalBuffBase")]
+pub struct MyObjectBuilder_SurvivalBuffBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "CurrentProgression", default)]
+    pub current_progression: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Level", default)]
+    pub level: crate::compat::BitAligned<i32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_SurvivalBuffsProgression
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_SurvivalBuffsProgression")]
+pub struct MyObjectBuilder_SurvivalBuffsProgression {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_VisualAmmoComponent
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_VisualAmmoComponent")]
+pub struct MyObjectBuilder_VisualAmmoComponent {}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_WeldingSpeedBuff
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_WeldingSpeedBuff")]
+pub struct MyObjectBuilder_WeldingSpeedBuff {}
+// Note: Type mapping applied from System.Collections.Generic.List`1[[Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_MaintenancePanelComponentDefinition, SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] to Vec<MyObjectBuilder_MaintenancePanelComponentDefinition>
+// Original type: Sandbox.Common.ObjectBuilders.Definitions.MyObjectBuilder_MaintenancePanelComponentDefinition
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MaintenancePanelComponentDefinition")]
+pub struct MyObjectBuilder_MaintenancePanelComponentDefinition {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentDefinitionBase - not in serde
+    #[serde(skip)]
+    pub component_type: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub available_in_survival: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub description: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub description_args: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub display_name: crate::compat::VarString,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub dl_cs: crate::compat::VarVec<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub enabled: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub icons: crate::compat::VarVec<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub id: super::game::SerializableDefinitionId,
+    // Inherited from MyObjectBuilder_DefinitionBase - not in serde
+    #[serde(skip)]
+    pub public: crate::compat::BitBool,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "CloseSpeed")]
+    pub close_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "DefaultOpened", default)]
+    pub default_opened: crate::compat::BitBool,
+    #[serde(rename = "DefaultOpeningDirectionRevert", default)]
+    pub default_opening_direction_revert: crate::compat::BitBool,
+    #[serde(rename = "DetectorName", default)]
+    pub detector_name: crate::compat::VarString,
+    #[serde(rename = "HingePosition")]
+    pub hinge_position: crate::math::Vector3F,
+    #[serde(rename = "IsRotation", default)]
+    pub is_rotation: crate::compat::BitBool,
+    #[serde(rename = "MaxPosition", default)]
+    pub max_position: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MinPosition", default)]
+    pub min_position: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OpenDirection", default)]
+    pub open_direction: crate::compat::BitAligned<i32>,
+    #[serde_inline_default(crate::compat::BitAligned(1f32))]
+    #[serde(rename = "OpenSpeed")]
+    pub open_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "RemoveExistingComponentOnNewInsert", default)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "SpinUpSpeed", default)]
+    pub spin_up_speed: crate::compat::BitAligned<f32>,
+    #[serde(rename = "SubpartName", default)]
+    pub subpart_name: crate::compat::VarString,
+    #[serde(rename = "UseobjectHingePosition")]
+    pub useobject_hinge_position: crate::math::Vector3F,
+    #[serde_inline_default(crate::compat::BitAligned(-1))]
+    #[serde(rename = "UseobjectOpenDirection")]
+    pub useobject_open_direction: crate::compat::BitAligned<i32>,
+}
+// Original type: Sandbox.Game.EntityComponents.MyObjectBuilder_MaintenancePanelAggregate
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_MaintenancePanelAggregate")]
+pub struct MyObjectBuilder_MaintenancePanelAggregate {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ComponentBase - not in serde
+    #[serde(skip)]
+    pub remove_existing_component_on_new_insert: crate::compat::BitBool,
+    #[serde(rename = "Panels", default)]
+    pub panels: crate::compat::Nullable<crate::compat::VarVec<MyObjectBuilder_MaintenancePanelComponentDefinition>>,
+}
+// Discriminator enum for dynamic object builder: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_InventoryBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_Inventory (id 177)
+    #[deku(id = "177")]
+    MyObjectBuilder_Inventory(Box<MyObjectBuilder_Inventory>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventory (id 366)
+    #[deku(id = "366")]
+    MyObjectBuilder_AreaInventory(Box<MyObjectBuilder_AreaInventory>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaInventoryAggregate (id 367)
+    #[deku(id = "367")]
+    MyObjectBuilder_AreaInventoryAggregate(Box<MyObjectBuilder_AreaInventoryAggregate>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryAggregate (id 386)
+    #[deku(id = "386")]
+    MyObjectBuilder_InventoryAggregate(Box<MyObjectBuilder_InventoryAggregate>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_InventoryBase (id 387)
+    #[deku(id = "387")]
+    MyObjectBuilder_InventoryBase(Box<MyObjectBuilder_InventoryBase>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_InventoryBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_Inventory(_) => 177,
+            Self::MyObjectBuilder_AreaInventory(_) => 366,
+            Self::MyObjectBuilder_AreaInventoryAggregate(_) => 367,
+            Self::MyObjectBuilder_InventoryAggregate(_) => 386,
+            Self::MyObjectBuilder_InventoryBase(_) => 387,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_InventoryBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_Inventory") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Inventory>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Inventory(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AreaInventory") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaInventory>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaInventory(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AreaInventoryAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaInventoryAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaInventoryAggregate(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventoryAggregate") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventoryAggregate>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventoryAggregate(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventoryBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventoryBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventoryBase(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_InventoryBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_Inventory(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Inventory",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AreaInventory(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaInventory",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AreaInventoryAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaInventoryAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventoryAggregate(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventoryAggregate",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventoryBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventoryBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Discriminator enum for dynamic object builder: VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_TriggerBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_AreaTrigger (id 368)
+    #[deku(id = "368")]
+    MyObjectBuilder_AreaTrigger(Box<MyObjectBuilder_AreaTrigger>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_TriggerBase (id 413)
+    #[deku(id = "413")]
+    MyObjectBuilder_TriggerBase(Box<MyObjectBuilder_TriggerBase>),
+    /// VRage.Game.ObjectBuilders.ComponentSystem.MyObjectBuilder_UpdateTrigger (id 414)
+    #[deku(id = "414")]
+    MyObjectBuilder_UpdateTrigger(Box<MyObjectBuilder_UpdateTrigger>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_TriggerBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_AreaTrigger(_) => 368,
+            Self::MyObjectBuilder_TriggerBase(_) => 413,
+            Self::MyObjectBuilder_UpdateTrigger(_) => 414,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_TriggerBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_AreaTrigger") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AreaTrigger>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AreaTrigger(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TriggerBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TriggerBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TriggerBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_UpdateTrigger") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_UpdateTrigger>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_UpdateTrigger(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_TriggerBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_AreaTrigger(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AreaTrigger",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TriggerBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TriggerBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_UpdateTrigger(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_UpdateTrigger",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Discriminator enum for dynamic object builder: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractCondition
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_ContractConditionVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractCondition (id 319)
+    #[deku(id = "319")]
+    MyObjectBuilder_ContractCondition(Box<MyObjectBuilder_ContractCondition>),
+    /// VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionCustom (id 320)
+    #[deku(id = "320")]
+    Custom(Box<MyObjectBuilder_ContractConditionCustom>),
+    /// VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverGrid (id 321)
+    #[deku(id = "321")]
+    DeliverGrid(Box<MyObjectBuilder_ContractConditionDeliverGrid>),
+    /// VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverItems (id 322)
+    #[deku(id = "322")]
+    DeliverItems(Box<MyObjectBuilder_ContractConditionDeliverItems>),
+    /// VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverPackage (id 323)
+    #[deku(id = "323")]
+    DeliverPackage(Box<MyObjectBuilder_ContractConditionDeliverPackage>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_ContractConditionVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_ContractCondition(_) => 319,
+            Self::Custom(_) => 320,
+            Self::DeliverGrid(_) => 321,
+            Self::DeliverItems(_) => 322,
+            Self::DeliverPackage(_) => 323,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_ContractConditionVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_ContractCondition") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractCondition>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ContractCondition(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContractConditionCustom") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractConditionCustom>()
+                .ok()
+                .map(|value| Self::Custom(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContractConditionDeliverGrid") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractConditionDeliverGrid>()
+                .ok()
+                .map(|value| Self::DeliverGrid(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContractConditionDeliverItems") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractConditionDeliverItems>()
+                .ok()
+                .map(|value| Self::DeliverItems(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ContractConditionDeliverPackage") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ContractConditionDeliverPackage>()
+                .ok()
+                .map(|value| Self::DeliverPackage(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_ContractConditionVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_ContractCondition(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractCondition",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Custom(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractConditionCustom",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::DeliverGrid(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractConditionDeliverGrid",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::DeliverItems(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractConditionDeliverItems",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::DeliverPackage(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ContractConditionDeliverPackage",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionCustom
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContractConditionCustom")]
+pub struct MyObjectBuilder_ContractConditionCustom {}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverGrid
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContractConditionDeliverGrid")]
+pub struct MyObjectBuilder_ContractConditionDeliverGrid {}
+// Original type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverItems
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContractConditionDeliverItems")]
+pub struct MyObjectBuilder_ContractConditionDeliverItems {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub block_end_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub contract_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "ItemAmount", default)]
+    pub item_amount: crate::compat::BitAligned<i32>,
+    #[serde(rename = "ItemType")]
+    pub item_type: super::game::SerializableDefinitionId,
+    #[serde(rename = "ItemVolume", default)]
+    pub item_volume: crate::compat::BitAligned<f32>,
+    #[serde(rename = "MatchUniqueId", default)]
+    pub match_unique_id: crate::compat::Guid,
+    #[serde(rename = "TransferItems", default)]
+    pub transfer_items: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub faction_end_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub is_finished: crate::compat::BitBool,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub station_end_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_ContractCondition - not in serde
+    #[serde(skip)]
+    pub sub_id: crate::compat::BitAligned<i32>,
+}
+// Stub for empty/abstract type: VRage.Game.ObjectBuilders.Components.Contracts.MyObjectBuilder_ContractConditionDeliverPackage
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ContractConditionDeliverPackage")]
+pub struct MyObjectBuilder_ContractConditionDeliverPackage {}
+// Discriminator enum for dynamic object builder: VRage.ObjectBuilders.MyObjectBuilder_EntityBase
+// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).
+// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.
+#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]
+#[deku(id_type = "u16", id_endian = "little")]
+pub enum MyObjectBuilder_EntityBaseVariant {
+    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).
+    #[default]
+    #[deku(id = "0")]
+    Invalid,
+    /// VRage.Game.MyObjectBuilder_Bushes (id 53)
+    #[deku(id = "53")]
+    MyObjectBuilder_Bushes(Box<MyObjectBuilder_Bushes>),
+    /// VRage.Game.MyObjectBuilder_Character (id 57)
+    #[deku(id = "57")]
+    MyObjectBuilder_Character(Box<MyObjectBuilder_Character>),
+    /// VRage.Game.MyObjectBuilder_CubeGrid (id 81)
+    #[deku(id = "81")]
+    MyObjectBuilder_CubeGrid(Box<MyObjectBuilder_CubeGrid>),
+    /// VRage.Game.MyObjectBuilder_CubePlacer (id 82)
+    #[deku(id = "82")]
+    MyObjectBuilder_CubePlacer(Box<MyObjectBuilder_CubePlacer>),
+    /// VRage.Game.MyObjectBuilder_DestroyableItem (id 99)
+    #[deku(id = "99")]
+    MyObjectBuilder_DestroyableItem(Box<MyObjectBuilder_DestroyableItem>),
+    /// VRage.Game.MyObjectBuilder_DestroyableItems (id 100)
+    #[deku(id = "100")]
+    MyObjectBuilder_DestroyableItems(Box<MyObjectBuilder_DestroyableItems>),
+    /// VRage.Game.MyObjectBuilder_EngineerToolBase (id 108)
+    #[deku(id = "108")]
+    MyObjectBuilder_EngineerToolBase(Box<MyObjectBuilder_EngineerToolBase>),
+    /// VRage.Game.MyObjectBuilder_EnvironmentItems (id 113)
+    #[deku(id = "113")]
+    MyObjectBuilder_EnvironmentItems(Box<MyObjectBuilder_EnvironmentItems>),
+    /// VRage.Game.MyObjectBuilder_FloatingObject (id 122)
+    #[deku(id = "122")]
+    MyObjectBuilder_FloatingObject(Box<MyObjectBuilder_FloatingObject>),
+    /// VRage.Game.MyObjectBuilder_GhostCharacter (id 132)
+    #[deku(id = "132")]
+    MyObjectBuilder_GhostCharacter(Box<MyObjectBuilder_GhostCharacter>),
+    /// VRage.Game.MyObjectBuilder_GoodAIControlHandTool (id 138)
+    #[deku(id = "138")]
+    MyObjectBuilder_GoodAIControlHandTool(Box<MyObjectBuilder_GoodAIControlHandTool>),
+    /// VRage.Game.MyObjectBuilder_HandTool (id 170)
+    #[deku(id = "170")]
+    MyObjectBuilder_HandTool(Box<MyObjectBuilder_HandTool>),
+    /// VRage.Game.MyObjectBuilder_HandToolBase (id 171)
+    #[deku(id = "171")]
+    MyObjectBuilder_HandToolBase(Box<MyObjectBuilder_HandToolBase>),
+    /// VRage.Game.MyObjectBuilder_ManipulationTool (id 183)
+    #[deku(id = "183")]
+    MyObjectBuilder_ManipulationTool(Box<MyObjectBuilder_ManipulationTool>),
+    /// VRage.Game.MyObjectBuilder_Planet (id 198)
+    #[deku(id = "198")]
+    MyObjectBuilder_Planet(Box<MyObjectBuilder_Planet>),
+    /// VRage.Game.MyObjectBuilder_ProxyAntenna (id 213)
+    #[deku(id = "213")]
+    MyObjectBuilder_ProxyAntenna(Box<MyObjectBuilder_ProxyAntenna>),
+    /// VRage.Game.MyObjectBuilder_Tree (id 259)
+    #[deku(id = "259")]
+    MyObjectBuilder_Tree(Box<MyObjectBuilder_Tree>),
+    /// VRage.Game.MyObjectBuilder_Trees (id 262)
+    #[deku(id = "262")]
+    MyObjectBuilder_Trees(Box<MyObjectBuilder_Trees>),
+    /// VRage.Game.MyObjectBuilder_TreesMedium (id 263)
+    #[deku(id = "263")]
+    MyObjectBuilder_TreesMedium(Box<MyObjectBuilder_TreesMedium>),
+    /// VRage.Game.MyObjectBuilder_VoxelMap (id 283)
+    #[deku(id = "283")]
+    MyObjectBuilder_VoxelMap(Box<MyObjectBuilder_VoxelMap>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_CargoContainerInventoryBagEntity (id 522)
+    #[deku(id = "522")]
+    MyObjectBuilder_CargoContainerInventoryBagEntity(Box<MyObjectBuilder_CargoContainerInventoryBagEntity>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_ForageableEntity (id 529)
+    #[deku(id = "529")]
+    MyObjectBuilder_ForageableEntity(Box<MyObjectBuilder_ForageableEntity>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_InventoryBagEntity (id 530)
+    #[deku(id = "530")]
+    MyObjectBuilder_InventoryBagEntity(Box<MyObjectBuilder_InventoryBagEntity>),
+    /// VRage.Game.ObjectBuilders.MyObjectBuilder_ModifiableEntity (id 532)
+    #[deku(id = "532")]
+    MyObjectBuilder_ModifiableEntity(Box<MyObjectBuilder_ModifiableEntity>),
+    /// VRage.ObjectBuilders.MyObjectBuilder_EntityBase (id 570)
+    #[deku(id = "570")]
+    MyObjectBuilder_EntityBase(Box<MyObjectBuilder_EntityBase>),
+    /// VRage.ObjectBuilders.MyObjectBuilder_ReplicableEntity (id 571)
+    #[deku(id = "571")]
+    MyObjectBuilder_ReplicableEntity(Box<MyObjectBuilder_ReplicableEntity>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AngleGrinder (id 777)
+    #[deku(id = "777")]
+    MyObjectBuilder_AngleGrinder(Box<MyObjectBuilder_AngleGrinder>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutomaticRifle (id 781)
+    #[deku(id = "781")]
+    MyObjectBuilder_AutomaticRifle(Box<MyObjectBuilder_AutomaticRifle>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_HandDrill (id 861)
+    #[deku(id = "861")]
+    MyObjectBuilder_HandDrill(Box<MyObjectBuilder_HandDrill>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Meteor (id 886)
+    #[deku(id = "886")]
+    MyObjectBuilder_Meteor(Box<MyObjectBuilder_Meteor>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Missile (id 887)
+    #[deku(id = "887")]
+    MyObjectBuilder_Missile(Box<MyObjectBuilder_Missile>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_SafeZone (id 934)
+    #[deku(id = "934")]
+    MyObjectBuilder_SafeZone(Box<MyObjectBuilder_SafeZone>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Waypoint (id 981)
+    #[deku(id = "981")]
+    MyObjectBuilder_Waypoint(Box<MyObjectBuilder_Waypoint>),
+    /// Sandbox.Common.ObjectBuilders.MyObjectBuilder_Welder (id 982)
+    #[deku(id = "982")]
+    MyObjectBuilder_Welder(Box<MyObjectBuilder_Welder>),
+    /// Payload we could not type; preserved verbatim for XML round-tripping.
+    /// The sentinel id is never produced by the game's registry.
+    #[deku(id = "65535")]
+    Unknown(Box<crate::compat::XmlOnlyFragment>),
+}
+
+impl MyObjectBuilder_EntityBaseVariant {
+    /// Runtime object-builder id written on the wire for this value.
+    pub const fn type_id(&self) -> u16 {
+        match self {
+            Self::Invalid => 0,
+            Self::MyObjectBuilder_Bushes(_) => 53,
+            Self::MyObjectBuilder_Character(_) => 57,
+            Self::MyObjectBuilder_CubeGrid(_) => 81,
+            Self::MyObjectBuilder_CubePlacer(_) => 82,
+            Self::MyObjectBuilder_DestroyableItem(_) => 99,
+            Self::MyObjectBuilder_DestroyableItems(_) => 100,
+            Self::MyObjectBuilder_EngineerToolBase(_) => 108,
+            Self::MyObjectBuilder_EnvironmentItems(_) => 113,
+            Self::MyObjectBuilder_FloatingObject(_) => 122,
+            Self::MyObjectBuilder_GhostCharacter(_) => 132,
+            Self::MyObjectBuilder_GoodAIControlHandTool(_) => 138,
+            Self::MyObjectBuilder_HandTool(_) => 170,
+            Self::MyObjectBuilder_HandToolBase(_) => 171,
+            Self::MyObjectBuilder_ManipulationTool(_) => 183,
+            Self::MyObjectBuilder_Planet(_) => 198,
+            Self::MyObjectBuilder_ProxyAntenna(_) => 213,
+            Self::MyObjectBuilder_Tree(_) => 259,
+            Self::MyObjectBuilder_Trees(_) => 262,
+            Self::MyObjectBuilder_TreesMedium(_) => 263,
+            Self::MyObjectBuilder_VoxelMap(_) => 283,
+            Self::MyObjectBuilder_CargoContainerInventoryBagEntity(_) => 522,
+            Self::MyObjectBuilder_ForageableEntity(_) => 529,
+            Self::MyObjectBuilder_InventoryBagEntity(_) => 530,
+            Self::MyObjectBuilder_ModifiableEntity(_) => 532,
+            Self::MyObjectBuilder_EntityBase(_) => 570,
+            Self::MyObjectBuilder_ReplicableEntity(_) => 571,
+            Self::MyObjectBuilder_AngleGrinder(_) => 777,
+            Self::MyObjectBuilder_AutomaticRifle(_) => 781,
+            Self::MyObjectBuilder_HandDrill(_) => 861,
+            Self::MyObjectBuilder_Meteor(_) => 886,
+            Self::MyObjectBuilder_Missile(_) => 887,
+            Self::MyObjectBuilder_SafeZone(_) => 934,
+            Self::MyObjectBuilder_Waypoint(_) => 981,
+            Self::MyObjectBuilder_Welder(_) => 982,
+            Self::Unknown(_) => 0,
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for MyObjectBuilder_EntityBaseVariant {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;
+        let type_name = fragment.type_attribute().map(::std::string::String::from);
+        let typed = match type_name.as_deref() {
+            ::core::option::Option::Some("MyObjectBuilder_Bushes") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Bushes>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Bushes(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Character") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Character>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Character(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CubeGrid") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CubeGrid>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CubeGrid(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CubePlacer") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CubePlacer>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CubePlacer(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DestroyableItem") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DestroyableItem>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DestroyableItem(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_DestroyableItems") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_DestroyableItems>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_DestroyableItems(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EngineerToolBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EngineerToolBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EngineerToolBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EnvironmentItems") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EnvironmentItems>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EnvironmentItems(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_FloatingObject") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_FloatingObject>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_FloatingObject(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GhostCharacter") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GhostCharacter>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GhostCharacter(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_GoodAIControlHandTool") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_GoodAIControlHandTool>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_GoodAIControlHandTool(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HandTool") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HandTool>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HandTool(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HandToolBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HandToolBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HandToolBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ManipulationTool") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ManipulationTool>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ManipulationTool(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Planet") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Planet>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Planet(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ProxyAntenna") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ProxyAntenna>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ProxyAntenna(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Tree") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Tree>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Tree(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Trees") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Trees>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Trees(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_TreesMedium") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_TreesMedium>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_TreesMedium(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_VoxelMap") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_VoxelMap>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_VoxelMap(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_CargoContainerInventoryBagEntity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_CargoContainerInventoryBagEntity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_CargoContainerInventoryBagEntity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ForageableEntity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ForageableEntity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ForageableEntity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_InventoryBagEntity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_InventoryBagEntity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_InventoryBagEntity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ModifiableEntity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ModifiableEntity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ModifiableEntity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_EntityBase") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_EntityBase>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_EntityBase(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_ReplicableEntity") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_ReplicableEntity>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_ReplicableEntity(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AngleGrinder") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AngleGrinder>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AngleGrinder(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_AutomaticRifle") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_AutomaticRifle>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_AutomaticRifle(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_HandDrill") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_HandDrill>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_HandDrill(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Meteor") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Meteor>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Meteor(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Missile") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Missile>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Missile(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_SafeZone") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_SafeZone>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_SafeZone(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Waypoint") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Waypoint>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Waypoint(Box::new(value))),
+            ::core::option::Option::Some("MyObjectBuilder_Welder") => fragment
+                .clone()
+                .into_typed::<MyObjectBuilder_Welder>()
+                .ok()
+                .map(|value| Self::MyObjectBuilder_Welder(Box::new(value))),
+            _ => ::core::option::Option::None,
+        };
+        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))
+    }
+}
+
+impl ::serde::Serialize for MyObjectBuilder_EntityBaseVariant {
+    fn serialize<S: ::serde::Serializer>(
+        &self,
+        serializer: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        use ::serde::ser::Error as _;
+        use ::serde::Serialize as _;
+        match self {
+            Self::Invalid => crate::compat::XmlFragment::Scalar(
+                ::std::string::String::new(),
+            )
+            .serialize(serializer),
+            Self::MyObjectBuilder_Bushes(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Bushes",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Character(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Character",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CubeGrid(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CubeGrid",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CubePlacer(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CubePlacer",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DestroyableItem(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DestroyableItem",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_DestroyableItems(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_DestroyableItems",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EngineerToolBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EngineerToolBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EnvironmentItems(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EnvironmentItems",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_FloatingObject(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_FloatingObject",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GhostCharacter(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GhostCharacter",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_GoodAIControlHandTool(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_GoodAIControlHandTool",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HandTool(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HandTool",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HandToolBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HandToolBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ManipulationTool(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ManipulationTool",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Planet(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Planet",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ProxyAntenna(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ProxyAntenna",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Tree(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Tree",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Trees(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Trees",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_TreesMedium(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_TreesMedium",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_VoxelMap(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_VoxelMap",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_CargoContainerInventoryBagEntity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_CargoContainerInventoryBagEntity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ForageableEntity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ForageableEntity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_InventoryBagEntity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_InventoryBagEntity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ModifiableEntity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ModifiableEntity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_EntityBase(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_EntityBase",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_ReplicableEntity(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_ReplicableEntity",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AngleGrinder(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AngleGrinder",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_AutomaticRifle(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_AutomaticRifle",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_HandDrill(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_HandDrill",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Meteor(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Meteor",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Missile(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Missile",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_SafeZone(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_SafeZone",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Waypoint(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Waypoint",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::MyObjectBuilder_Welder(value) => {
+                let fragment = crate::compat::XmlFragment::from_typed(
+                    value.as_ref(),
+                    "MyObjectBuilder_Welder",
+                )
+                .map_err(S::Error::custom)?;
+                fragment.serialize(serializer)
+            }
+            Self::Unknown(fragment) => fragment.serialize(serializer),
+        }
+    }
+}
+
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_Bushes
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Bushes")]
+pub struct MyObjectBuilder_Bushes {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_CubePlacer
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CubePlacer")]
+pub struct MyObjectBuilder_CubePlacer {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_DestroyableItem
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DestroyableItem")]
+pub struct MyObjectBuilder_DestroyableItem {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_DestroyableItems
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_DestroyableItems")]
+pub struct MyObjectBuilder_DestroyableItems {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_EngineerToolBase
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EngineerToolBase")]
+pub struct MyObjectBuilder_EngineerToolBase {}
+// Original type: VRage.Game.MyObjectBuilder_EnvironmentItems+MyOBEnvironmentItemData
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyOBEnvironmentItemData")]
+pub struct MyObjectBuilder_EnvironmentItems_MyOBEnvironmentItemData {
+    #[serde(rename = "PositionAndOrientation")]
+    pub position_and_orientation: super::game::MyPositionAndOrientation,
+    #[serde(rename = "SubtypeName", default)]
+    pub subtype_name: crate::compat::VarString,
+}
+// Original type: VRage.Game.MyObjectBuilder_EnvironmentItems
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_EnvironmentItems")]
+pub struct MyObjectBuilder_EnvironmentItems {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "CellsOffset")]
+    pub cells_offset: crate::math::Vector3D,
+    #[serde(rename = "Items", default)]
+    pub items: crate::compat::VarVec<MyObjectBuilder_EnvironmentItems_MyOBEnvironmentItemData>,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_GhostCharacter
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GhostCharacter")]
+pub struct MyObjectBuilder_GhostCharacter {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_GoodAIControlHandTool
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_GoodAIControlHandTool")]
+pub struct MyObjectBuilder_GoodAIControlHandTool {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_HandTool
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HandTool")]
+pub struct MyObjectBuilder_HandTool {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_ToolBase
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ToolBase")]
+pub struct MyObjectBuilder_ToolBase {}
+// Original type: VRage.Game.MyObjectBuilder_HandToolBase
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HandToolBase")]
+pub struct MyObjectBuilder_HandToolBase {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "DeviceBase", default)]
+    pub device_base: crate::compat::Nullable<MyObjectBuilder_ToolBase>,
+}
+// Original type: VRage.Game.MyObjectBuilder_ManipulationTool
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ManipulationTool")]
+pub struct MyObjectBuilder_ManipulationTool {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "HeadLocalPivotOrientation")]
+    pub head_local_pivot_orientation: SerializableQuaternion,
+    #[serde(rename = "HeadLocalPivotPosition")]
+    pub head_local_pivot_position: crate::math::SerializableVector3F,
+    #[serde(rename = "OtherEntityId", default)]
+    pub other_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "OtherLocalPivotOrientation")]
+    pub other_local_pivot_orientation: SerializableQuaternion,
+    #[serde(rename = "OtherLocalPivotPosition")]
+    pub other_local_pivot_position: crate::math::SerializableVector3F,
+    #[serde(rename = "State", default)]
+    pub state: crate::compat::BitAligned<i32>,
+}
+// Original type: VRage.Game.MyObjectBuilder_ProxyAntenna
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ProxyAntenna")]
+pub struct MyObjectBuilder_ProxyAntenna {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "AntennaEntityId", default)]
+    pub antenna_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "BroadcastRadius", default)]
+    pub broadcast_radius: crate::compat::BitAligned<f32>,
+    #[serde(rename = "HasReceiver", default)]
+    pub has_receiver: crate::compat::BitBool,
+    #[serde(rename = "HasRemote", default)]
+    pub has_remote: crate::compat::BitBool,
+    #[serde(rename = "HudParams", default)]
+    pub hud_params: crate::compat::VarVec<MyObjectBuilder_HudEntityParams>,
+    #[serde(rename = "InfoEntityId", default)]
+    pub info_entity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "InfoName", default)]
+    pub info_name: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "IsBeacon", default)]
+    pub is_beacon: crate::compat::BitBool,
+    #[serde(rename = "IsCharacter", default)]
+    pub is_character: crate::compat::BitBool,
+    #[serde(rename = "IsLaser", default)]
+    pub is_laser: crate::compat::BitBool,
+    #[serde(rename = "MainRemoteId", default)]
+    pub main_remote_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "MainRemoteOwner", default)]
+    pub main_remote_owner: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "MainRemoteSharing", default)]
+    pub main_remote_sharing: super::game::MyOwnershipShareModeEnum,
+    #[serde(rename = "Owner", default)]
+    pub owner: crate::compat::BitAligned<i64>,
+    #[serde(rename = "Position")]
+    pub position: crate::math::SerializableVector3D,
+    #[serde(rename = "Share", default)]
+    pub share: super::game::MyOwnershipShareModeEnum,
+    #[serde(rename = "StateText", default)]
+    pub state_text: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "SuccessfullyContacting", default)]
+    pub successfully_contacting: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_Tree
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Tree")]
+pub struct MyObjectBuilder_Tree {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_Trees
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Trees")]
+pub struct MyObjectBuilder_Trees {}
+// Stub for empty/abstract type: VRage.Game.MyObjectBuilder_TreesMedium
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_TreesMedium")]
+pub struct MyObjectBuilder_TreesMedium {}
+// Original type: VRage.Game.MyObjectBuilder_VoxelMap
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_VoxelMap")]
+pub struct MyObjectBuilder_VoxelMap {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "BoulderItemId", default)]
+    pub boulder_item_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i32>>>,
+    #[serde(rename = "BoulderPlanetId", default)]
+    pub boulder_planet_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "BoulderSectorId", default)]
+    pub boulder_sector_id: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitAligned<i64>>>,
+    #[serde(rename = "ContentChanged", default)]
+    pub content_changed: crate::compat::Nullable<crate::compat::Nullable<crate::compat::BitBool>>,
+    #[serde(rename = "CreatedByUser", default)]
+    pub created_by_user: crate::compat::BitBool,
+    #[serde(rename = "Filename", default)]
+    pub filename: crate::compat::Nullable<crate::compat::VarString>,
+    #[serde(rename = "IsGlobalEncounterAsteroid", default)]
+    pub is_global_encounter_asteroid: crate::compat::BitBool,
+    #[serde(rename = "MutableStorage", default)]
+    pub mutable_storage: crate::compat::BitBool,
+    #[serde(rename = "StorageName", default)]
+    pub storage_name: crate::compat::Nullable<crate::compat::VarString>,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_CargoContainerInventoryBagEntity
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_CargoContainerInventoryBagEntity")]
+pub struct MyObjectBuilder_CargoContainerInventoryBagEntity {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    #[serde(rename = "AngularVelocity")]
+    pub angular_velocity: crate::math::SerializableVector3F,
+    #[serde(rename = "CreationTime", default)]
+    pub creation_time: crate::compat::BitAligned<i64>,
+    #[serde(rename = "LinearVelocity")]
+    pub linear_velocity: crate::math::SerializableVector3F,
+    #[serde(rename = "OwnerIdentityId", default)]
+    pub owner_identity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_ForageableEntity
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ForageableEntity")]
+pub struct MyObjectBuilder_ForageableEntity {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "ItemId", default)]
+    pub item_id: crate::compat::BitAligned<i32>,
+    #[serde(rename = "PhysicalItemDefinitionId")]
+    pub physical_item_definition_id: super::game::SerializableDefinitionId,
+    #[serde(rename = "PlanetId", default)]
+    pub planet_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "SectorId", default)]
+    pub sector_id: crate::compat::BitAligned<i64>,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_InventoryBagEntity
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_InventoryBagEntity")]
+pub struct MyObjectBuilder_InventoryBagEntity {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "AngularVelocity")]
+    pub angular_velocity: crate::math::SerializableVector3F,
+    #[serde(rename = "CreationTime", default)]
+    pub creation_time: crate::compat::BitAligned<i64>,
+    #[serde(rename = "LinearVelocity")]
+    pub linear_velocity: crate::math::SerializableVector3F,
+    #[serde_inline_default(crate::compat::BitAligned(5f32))]
+    #[serde(rename = "Mass")]
+    pub mass: crate::compat::BitAligned<f32>,
+    #[serde(rename = "OwnerIdentityId", default)]
+    pub owner_identity_id: crate::compat::BitAligned<i64>,
+    #[serde(rename = "ShouldBeCleaned", default)]
+    pub should_be_cleaned: crate::compat::BitBool,
+}
+// Original type: VRage.Game.ObjectBuilders.MyObjectBuilder_ModifiableEntity
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ModifiableEntity")]
+pub struct MyObjectBuilder_ModifiableEntity {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "AssetModifiers", default)]
+    pub asset_modifiers: crate::compat::Nullable<crate::compat::VarVec<super::game::SerializableDefinitionId>>,
+}
+// Original type: VRage.ObjectBuilders.MyObjectBuilder_ReplicableEntity
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_ReplicableEntity")]
+pub struct MyObjectBuilder_ReplicableEntity {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "AngularVelocity")]
+    pub angular_velocity: crate::math::SerializableVector3F,
+    #[serde(rename = "LinearVelocity")]
+    pub linear_velocity: crate::math::SerializableVector3F,
+    #[serde_inline_default(crate::compat::BitAligned(5f32))]
+    #[serde(rename = "Mass")]
+    pub mass: crate::compat::BitAligned<f32>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AngleGrinder
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AngleGrinder")]
+pub struct MyObjectBuilder_AngleGrinder {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_AutomaticRifle
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_AutomaticRifle")]
+pub struct MyObjectBuilder_AutomaticRifle {
+    #[serde(rename = "CurrentAmmo", default)]
+    pub current_ammo: crate::compat::BitAligned<i32>,
+    #[serde(rename = "GunBase", default)]
+    pub gun_base: crate::compat::Nullable<MyObjectBuilder_GunBase>,
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_HandDrill
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_HandDrill")]
+pub struct MyObjectBuilder_HandDrill {}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Meteor
+#[::serde_inline_default::serde_inline_default]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Meteor")]
+pub struct MyObjectBuilder_Meteor {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "AngularVelocity")]
+    pub angular_velocity: crate::math::Vector3F,
+    #[serde_inline_default(crate::compat::BitAligned(100f32))]
+    #[serde(rename = "Integrity")]
+    pub integrity: crate::compat::BitAligned<f32>,
+    #[serde(rename = "Item", default)]
+    pub item: MyObjectBuilder_InventoryItem,
+    #[serde(rename = "LinearVelocity")]
+    pub linear_velocity: crate::math::Vector3F,
+}
+// Original type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Waypoint
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Waypoint")]
+pub struct MyObjectBuilder_Waypoint {
+    // Inherited from MyObjectBuilder_Base - not in serde
+    #[serde(skip)]
+    pub m_serializable_subtype_id: super::game::MyStringHash,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub component_container: crate::compat::Nullable<MyObjectBuilder_ComponentContainer>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub entity_id: crate::compat::BitAligned<i64>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub local_position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub name: crate::compat::Nullable<crate::compat::VarString>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub persistent_flags: crate::compat::BitField<MyPersistentEntityFlags2>,
+    // Inherited from MyObjectBuilder_EntityBase - not in serde
+    #[serde(skip)]
+    pub position_and_orientation: crate::compat::Nullable<super::game::MyPositionAndOrientation>,
+    #[serde(rename = "Freeze", default)]
+    pub freeze: crate::compat::BitBool,
+    #[serde(rename = "Path", default)]
+    pub path: crate::compat::VarString,
+    #[serde(rename = "Visible", default)]
+    pub visible: crate::compat::BitBool,
+}
+// Stub for empty/abstract type: Sandbox.Common.ObjectBuilders.MyObjectBuilder_Welder
+#[::proto_rs::proto_message]
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize, ::deku::DekuRead, ::deku::DekuWrite)]
+#[serde(rename = "MyObjectBuilder_Welder")]
+pub struct MyObjectBuilder_Welder {}

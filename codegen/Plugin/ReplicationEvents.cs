@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -6,6 +6,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using Sandbox.Engine.Multiplayer;
 using VRage.Network;
+using VRage.Serialization;
 
 namespace StandaloneExtractor.Plugin;
 
@@ -155,6 +156,25 @@ public class ReplicationEvents
                 continue;
             
             var rustType = RustStructGenerator.DekuTypeNameForTransport(param.ParameterType);
+
+            // Dynamic object-builder parameters carry a UInt16 runtime type id; use the generated
+            // discriminator enum (and the DefaultZero "has value" bit when present).
+            var serializeAttribute = param
+                .GetCustomAttributes(typeof(VRage.Serialization.SerializeAttribute), true)
+                .OfType<VRage.Serialization.SerializeAttribute>()
+                .FirstOrDefault();
+
+            if (serializeAttribute != null && (serializeAttribute.Flags & MyObjectFlags.Dynamic) != 0)
+            {
+                RustStructGenerator.RegisterProtocolDynamicBase(param.ParameterType);
+                if (RustStructGenerator.TryGetPolymorphicEnumName(param.ParameterType, out var polymorphicType))
+                {
+                    rustType = (serializeAttribute.Flags & MyObjectFlags.DefaultZero) != 0
+                        ? $"Nullable<{polymorphicType}>"
+                        : polymorphicType;
+                }
+            }
+
             var name = StringToSnakeCase(param.Name ?? $"arg{result.Count}");
             
             result.Add((name, rustType));

@@ -47,7 +47,7 @@ pub struct MyCockpit_SyncMoveIndicatorPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SwitchToWeaponMessagePayload {
     pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
+    pub weapon_object_builder: Nullable<space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBaseVariant>,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
@@ -55,7 +55,7 @@ pub struct MyCockpit_SwitchToWeaponMessagePayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_OnSwitchToWeaponFailurePayload {
     pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
+    pub weapon_object_builder: Nullable<space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBaseVariant>,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
@@ -63,7 +63,7 @@ pub struct MyCockpit_OnSwitchToWeaponFailurePayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_OnSwitchToWeaponSuccessPayload {
     pub weapon: Nullable<space_engineers_sys::types::game::SerializableDefinitionId>,
-    pub weapon_object_builder: space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBase,
+    pub weapon_object_builder: Nullable<space_engineers_sys::types::object_builders::MyObjectBuilder_EntityBaseVariant>,
     pub weapon_entity_id: BitAligned<i64>,
 }
 
@@ -90,7 +90,7 @@ pub struct MyCockpit_SendToolbarItemRemovedPayload {
 /// Payload for MyCockpit::SendToolbarItemChanged instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SendToolbarItemChangedPayload {
-    pub sent_item: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItem,
+    pub sent_item: space_engineers_sys::types::object_builders::MyObjectBuilder_ToolbarItemVariant,
     pub index: BitAligned<i32>,
     pub is_gamepad: BitBool,
     pub toolbar_index: BitAligned<i32>,
@@ -138,7 +138,7 @@ pub struct MyCockpit_AttachPilotEventPayload {
 /// Payload for MyCockpit::SetAutopilot_Client instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_SetAutopilot_ClientPayload {
-    pub autopilot: space_engineers_sys::types::object_builders::MyObjectBuilder_AutopilotBase,
+    pub autopilot: Nullable<space_engineers_sys::types::object_builders::MyObjectBuilder_AutopilotBaseVariant>,
 }
 
 /// Payload for MyCockpit::NotifyClientPilotChanged instance event.

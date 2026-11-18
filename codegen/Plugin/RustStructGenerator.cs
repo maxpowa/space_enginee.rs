@@ -481,6 +481,22 @@ public class RustStructGenerator
         }
 
         /// <summary>
+        /// True if the member has [Serialize(MyObjectFlags.Dynamic)].
+        /// Dynamic members write a UInt16 runtime object-builder id before the payload
+        /// (see MyObjectBuilderSerializerKeen.SerializeDynamic); the concrete type in Rust
+        /// must be a discriminator enum generated from the object-builder registry.
+        /// </summary>
+        public bool IsSerializeDynamic
+        {
+            get
+            {
+                var serializeAttrs = Member.GetCustomAttributes(typeof(VRage.Serialization.SerializeAttribute), true)
+                    .OfType<VRage.Serialization.SerializeAttribute>();
+                return serializeAttrs.Any(attr => (attr.Flags & MyObjectFlags.Dynamic) != 0);
+            }
+        }
+
+        /// <summary>
         /// Returns the element name from [XmlArrayItem("...")] if present, otherwise null.
         /// </summary>
         public string? XmlArrayItemName
@@ -639,11 +655,27 @@ public class RustStructGenerator
                     _ when MemberType == typeof(uint) => Convert.ToUInt32(defaultVal).ToString(),
                     _ when MemberType == typeof(long) => Convert.ToInt64(defaultVal).ToString(),
                     _ when MemberType == typeof(ulong) => Convert.ToUInt64(defaultVal).ToString(),
-                    _ when MemberType == typeof(float) => Convert.ToSingle(defaultVal).ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f32",
-                    _ when MemberType == typeof(double) => Convert.ToDouble(defaultVal).ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f64",
+                    _ when MemberType == typeof(float) => FormatFloatDefault(Convert.ToSingle(defaultVal)),
+                    _ when MemberType == typeof(double) => FormatDoubleDefault(Convert.ToDouble(defaultVal)),
                     _ => null
                 };
             }
+        }
+
+        private static string FormatFloatDefault(float value)
+        {
+            if (float.IsNaN(value)) return "f32::NAN";
+            if (float.IsPositiveInfinity(value)) return "f32::INFINITY";
+            if (float.IsNegativeInfinity(value)) return "f32::NEG_INFINITY";
+            return value.ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f32";
+        }
+
+        private static string FormatDoubleDefault(double value)
+        {
+            if (double.IsNaN(value)) return "f64::NAN";
+            if (double.IsPositiveInfinity(value)) return "f64::INFINITY";
+            if (double.IsNegativeInfinity(value)) return "f64::NEG_INFINITY";
+            return value.ToString("G", System.Globalization.CultureInfo.InvariantCulture) + "f64";
         }
 
         /// <summary>
@@ -831,7 +863,419 @@ public class RustStructGenerator
         /// Categories that have already been fully processed (used to detect orphaned dep types).
         static HashSet<string> _processedCategories = [];
 
+    /// <summary>
+    /// Dynamic (polymorphic) object-builder bases discovered in reachable members, with the
+    /// concrete variants and their runtime ids taken from the game's MyObjectBuilderType registry.
+    /// </summary>
+    static readonly Dictionary<Type, List<(Type Concrete, ushort Id)>> _polymorphicVariants = [];
+    /// <summary>Bases whose discriminator enum has already been written in this run.</summary>
+    static readonly HashSet<Type> _emittedPolymorphicEnums = [];
+    /// <summary>
+    /// Types that only became reachable because of a dynamic member (concrete variants and their
+    /// dependencies). They exist solely for binary/network use, so they are emitted without the
+    /// protobuf derives and the extra Hash/Ord derives, which their shapes do not always support.
+    /// </summary>
+    static readonly HashSet<Type> _polymorphicAddedTypes = [];
+    /// <summary>
+    /// Dynamic bases referenced by replication event parameters, registered before struct generation
+    /// so the transport payloads and the discriminator enums agree on the same hierarchy.
+    /// </summary>
+    static readonly HashSet<Type> _protocolDynamicBases = [];
+
+    /// <summary>
+    /// Registers an object-builder base used by a [Serialize(MyObjectFlags.Dynamic)] event parameter.
+    /// </summary>
+    public static void RegisterProtocolDynamicBase(Type baseType)
+    {
+        var type = Nullable.GetUnderlyingType(baseType) ?? baseType;
+        _protocolDynamicBases.Add(type);
+    }
+
+    /// <summary>
+    /// Resolves the Rust discriminator enum reference for a dynamic event parameter type.
+    /// </summary>
+    public static bool TryGetPolymorphicEnumName(Type baseType, out string rustName)
+    {
+        rustName = string.Empty;
+        var type = Nullable.GetUnderlyingType(baseType) ?? baseType;
+        if (!TryGetPolymorphicVariants(type, out var variants) || variants.Count == 0)
+            return false;
+
+        rustName = $"space_engineers_sys::types::{CategorizeType(type)}::{PolymorphicEnumName(type)}";
+        return true;
+    }
+
     private static bool NeedsDekuDerives(Type type) => _dekuTypes.Contains(type);
+
+    /// <summary>
+    /// Name of the generated Rust discriminator enum for a dynamic object-builder base type.
+    /// </summary>
+    private static string PolymorphicEnumName(Type baseType) => $"{baseType.Name}Variant";
+
+    /// <summary>
+    /// True when the member carries [Serialize(MyObjectFlags.Dynamic)] and its declared type is an
+    /// object-builder hierarchy with concrete variants we can generate a discriminator enum for.
+    /// </summary>
+    /// <summary>
+    /// Upper bound on variants for a generated discriminator enum. Unbounded hierarchies such as
+    /// MyObjectBuilder_Base or MyObjectBuilder_CubeBlock have hundreds of subtypes and pull in most
+    /// of the game's object-builder graph, so their dynamic fields keep the existing stub type.
+    /// </summary>
+    private const int MaxPolymorphicVariants = 150;
+
+    private static bool TryGetPolymorphicVariants(Type baseType, out List<(Type Concrete, ushort Id)> variants)
+    {
+        if (_polymorphicVariants.TryGetValue(baseType, out var cached))
+        {
+            variants = cached;
+            return cached.Count > 0;
+        }
+
+        variants = CollectPolymorphicVariants(baseType);
+        if (variants.Count > MaxPolymorphicVariants)
+        {
+            Console.WriteLine(
+                $"// Dynamic base {baseType.FullName} has {variants.Count} variants (limit {MaxPolymorphicVariants}); keeping stub type");
+            variants = [];
+        }
+
+        _polymorphicVariants[baseType] = variants;
+        return variants.Count > 0;
+    }
+
+    /// <summary>
+    /// Enumerates concrete object-builder subclasses of <paramref name="baseType"/> and resolves the
+    /// runtime id the game writes on the wire for each of them.
+    /// </summary>
+    /// <remarks>
+    /// MyObjectBuilderType assigns ids sequentially while registering assemblies in
+    /// fully-qualified-name order (see MyObjectBuilderType.RegisterFromAssembly), so the ids are
+    /// version dependent and must never be hardcoded. They are stable for the running build.
+    /// </remarks>
+    private static List<(Type Concrete, ushort Id)> CollectPolymorphicVariants(Type baseType)
+    {
+        var result = new List<(Type Concrete, ushort Id)>();
+        if (!typeof(VRage.ObjectBuilders.MyObjectBuilder_Base).IsAssignableFrom(baseType))
+            return result;
+
+        var seen = new HashSet<Type>();
+
+        // A dynamic field can declare a concrete type that has no subclasses (e.g.
+        // MyObjectBuilder_Toolbar): the wire still carries its id. Emit it as its own variant.
+        if (!baseType.IsAbstract && baseType.IsClass)
+        {
+            var selfId = GetRuntimeObjectBuilderId(baseType);
+            if (selfId != 0)
+            {
+                result.Add((baseType, selfId));
+                seen.Add(baseType);
+            }
+        }
+
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (assembly.IsDynamic)
+                continue;
+
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                types = e.Types.Where(t => t != null).Cast<Type>().ToArray();
+            }
+            catch
+            {
+                continue;
+            }
+
+            foreach (var type in types)
+            {
+                if (type.IsAbstract || type.IsInterface || !type.IsClass)
+                    continue;
+                if (!baseType.IsAssignableFrom(type) || !seen.Add(type))
+                    continue;
+
+                var id = GetRuntimeObjectBuilderId(type);
+                // Id 0 is the "invalid/null" discriminator, never a real registered type.
+                if (id == 0)
+                    continue;
+
+                result.Add((type, id));
+            }
+        }
+
+        return result.OrderBy(v => v.Id).ToList();
+    }
+
+    private static ushort GetRuntimeObjectBuilderId(Type type)
+    {
+        try
+        {
+            return ((VRage.ObjectBuilders.MyRuntimeObjectBuilderId)(VRage.ObjectBuilders.MyObjectBuilderType)type).Value;
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// The type carrying the discriminator for a dynamic member: the element type for arrays/lists,
+    /// otherwise the member type itself.
+    /// </summary>
+    private static Type ResolveDynamicTarget(Type memberType)
+    {
+        var type = Nullable.GetUnderlyingType(memberType) ?? memberType;
+        return IsTypeArray(type) ? type.GetElementType() ?? type.GenericTypeArguments[0] : type;
+    }
+
+    /// <summary>
+    /// Emits the discriminator enum for a dynamic base type, plus every concrete variant type.
+    /// Must be called while writing the category that owns <paramref name="baseType"/>.
+    /// </summary>
+    private static void WritePolymorphicEnum(Type baseType, StreamWriter writer)
+    {
+        if (!_emittedPolymorphicEnums.Add(baseType))
+            return;
+
+        if (!TryGetPolymorphicVariants(baseType, out var allVariants))
+            return;
+
+        // A concrete variant without Deku derives cannot be embedded in the enum; leave it out
+        // rather than emitting code that does not compile.
+        var variants = allVariants.Where(v => NeedsDekuDerives(v.Concrete)).ToList();
+        if (variants.Count == 0)
+        {
+            Console.WriteLine($"// polymorphic enum {PolymorphicEnumName(baseType)}: no Deku-compatible variants, skipped");
+            return;
+        }
+        if (variants.Count != allVariants.Count)
+        {
+            Console.WriteLine(
+                $"// Polymorphic enum {PolymorphicEnumName(baseType)}: skipped {allVariants.Count - variants.Count} variant(s) without Deku support");
+        }
+
+        var enumName = PolymorphicEnumName(baseType);
+        _emittedRustTypeNames.Add(enumName);
+
+        writer.WriteLine($"// Discriminator enum for dynamic object builder: {baseType.FullName}");
+        writer.WriteLine("// Variant ids come from the game's MyObjectBuilderType runtime registry (UInt16).");
+        writer.WriteLine("// serde keeps an opaque XmlFragment fallback so unknown payloads round-trip unchanged.");
+        writer.WriteLine("#[derive(Debug, Default, Clone, PartialEq, ::deku::DekuRead, ::deku::DekuWrite)]");
+        writer.WriteLine("#[deku(id_type = \"u16\", id_endian = \"little\")]");
+        writer.WriteLine($"pub enum {enumName} {{");
+        writer.WriteLine("    /// Null/invalid object builder id (MyObjectBuilderType.Invalid).");
+        writer.WriteLine("    #[default]");
+        writer.WriteLine("    #[deku(id = \"0\")]");
+        writer.WriteLine("    Invalid,");
+
+        foreach (var (concrete, id) in variants)
+        {
+            var variantName = PolymorphicVariantName(baseType, concrete, id);
+            writer.WriteLine($"    /// {concrete.FullName} (id {id})");
+            writer.WriteLine($"    #[deku(id = \"{id}\")]");
+            // Boxed to break recursive type cycles (e.g. Character -> gun entity -> EntityBase variant).
+            writer.WriteLine($"    {variantName}(Box<{concrete.Name}>),");
+        }
+
+        writer.WriteLine("    /// Payload we could not type; preserved verbatim for XML round-tripping.");
+        writer.WriteLine("    /// The sentinel id is never produced by the game's registry.");
+        writer.WriteLine("    #[deku(id = \"65535\")]");
+        writer.WriteLine("    Unknown(Box<crate::compat::XmlOnlyFragment>),");
+        writer.WriteLine("}");
+        writer.WriteLine();
+
+        // Convenience accessor mirroring the game's runtime id lookup.
+        writer.WriteLine($"impl {enumName} {{");
+        writer.WriteLine("    /// Runtime object-builder id written on the wire for this value.");
+        writer.WriteLine("    pub const fn type_id(&self) -> u16 {");
+        writer.WriteLine("        match self {");
+        writer.WriteLine("            Self::Invalid => 0,");
+        foreach (var (concrete, id) in variants)
+        {
+            var variantName = PolymorphicVariantName(baseType, concrete, id);
+            writer.WriteLine($"            Self::{variantName}(_) => {id},");
+        }
+        writer.WriteLine("            Self::Unknown(_) => 0,");
+        writer.WriteLine("        }");
+        writer.WriteLine("    }");
+        writer.WriteLine("}");
+        writer.WriteLine();
+
+        // serde: typed when possible, opaque XmlFragment otherwise.
+        writer.WriteLine($"impl<'de> ::serde::Deserialize<'de> for {enumName} {{");
+        writer.WriteLine("    fn deserialize<D: ::serde::Deserializer<'de>>(");
+        writer.WriteLine("        deserializer: D,");
+        writer.WriteLine("    ) -> ::core::result::Result<Self, D::Error> {");
+        writer.WriteLine("        let fragment = <crate::compat::XmlFragment as ::serde::Deserialize>::deserialize(deserializer)?;");
+        writer.WriteLine("        let type_name = fragment.type_attribute().map(::std::string::String::from);");
+        writer.WriteLine("        let typed = match type_name.as_deref() {");
+        var seenTypeNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var (concrete, id) in variants)
+        {
+            if (!seenTypeNames.Add(concrete.Name))
+            {
+                Console.WriteLine($"// polymorphic enum {PolymorphicEnumName(baseType)}: duplicate xsi:type name {concrete.Name}, keeping first");
+                continue;
+            }
+            var variantName = PolymorphicVariantName(baseType, concrete, id);
+            writer.WriteLine($"            ::core::option::Option::Some(\"{concrete.Name}\") => fragment");
+            writer.WriteLine("                .clone()");
+            writer.WriteLine($"                .into_typed::<{concrete.Name}>()");
+            writer.WriteLine($"                .ok()");
+            writer.WriteLine($"                .map(|value| Self::{variantName}(Box::new(value))),");
+        }
+        writer.WriteLine("            _ => ::core::option::Option::None,");
+        writer.WriteLine("        };");
+        writer.WriteLine("        Ok(typed.unwrap_or_else(|| Self::Unknown(Box::new(crate::compat::XmlOnlyFragment(fragment)))))");
+        writer.WriteLine("    }");
+        writer.WriteLine("}");
+        writer.WriteLine();
+
+        writer.WriteLine($"impl ::serde::Serialize for {enumName} {{");
+        writer.WriteLine("    fn serialize<S: ::serde::Serializer>(");
+        writer.WriteLine("        &self,");
+        writer.WriteLine("        serializer: S,");
+        writer.WriteLine("    ) -> ::core::result::Result<S::Ok, S::Error> {");
+        writer.WriteLine("        use ::serde::ser::Error as _;");
+        writer.WriteLine("        use ::serde::Serialize as _;");
+        writer.WriteLine("        match self {");
+        writer.WriteLine("            Self::Invalid => crate::compat::XmlFragment::Scalar(");
+        writer.WriteLine("                ::std::string::String::new(),");
+        writer.WriteLine("            )");
+        writer.WriteLine("            .serialize(serializer),");
+        foreach (var (concrete, id) in variants)
+        {
+            var variantName = PolymorphicVariantName(baseType, concrete, id);
+            writer.WriteLine($"            Self::{variantName}(value) => {{");
+            writer.WriteLine($"                let fragment = crate::compat::XmlFragment::from_typed(");
+            writer.WriteLine($"                    value.as_ref(),");
+            writer.WriteLine($"                    \"{concrete.Name}\",");
+            writer.WriteLine("                )");
+            writer.WriteLine("                .map_err(S::Error::custom)?;");
+            writer.WriteLine("                fragment.serialize(serializer)");
+            writer.WriteLine("            }");
+        }
+        writer.WriteLine("            Self::Unknown(fragment) => fragment.serialize(serializer),");
+        writer.WriteLine("        }");
+        writer.WriteLine("    }");
+        writer.WriteLine("}");
+        writer.WriteLine();
+
+        foreach (var (concrete, _) in variants)
+        {
+            WriteRustStructAndDependents(concrete, writer);
+        }
+    }
+
+    /// <summary>
+    /// Emits every discovered discriminator enum that belongs to <paramref name="category"/>.
+    /// </summary>
+    private static void WritePolymorphicEnumsForCategory(string category, StreamWriter writer)
+    {
+        // Writing a variant can discover further dynamic bases, so keep going until none are left.
+        while (true)
+        {
+            var pending = _polymorphicVariants.Keys
+                .Where(t => CategorizeType(t) == category && !_emittedPolymorphicEnums.Contains(t))
+                .OrderBy(t => t.FullName, StringComparer.Ordinal)
+                .ToList();
+
+            if (pending.Count == 0)
+                break;
+
+            foreach (var baseType in pending)
+                WritePolymorphicEnum(baseType, writer);
+        }
+    }
+
+    private static string PolymorphicVariantName(Type baseType, Type concrete, ushort id)
+    {
+        var name = concrete.Name;
+        if (name.StartsWith(baseType.Name, StringComparison.Ordinal) && name.Length > baseType.Name.Length)
+        {
+            name = name.Substring(baseType.Name.Length);
+        }
+        name = name.Replace('`', '_');
+        if (name.Length == 0 || char.IsDigit(name[0]))
+            name = $"Variant_{id}";
+        return name;
+    }
+
+    /// <summary>
+    /// Scans every reachable network type for [Serialize(MyObjectFlags.Dynamic)] members, registers
+    /// their object-builder hierarchies, and pulls the concrete variants into the Deku type set so
+    /// they are emitted with binary serialization support.
+    /// </summary>
+    private static void DiscoverPolymorphicBases()
+    {
+        var initial = new HashSet<Type>(_dekuTypes);
+        var concreteVariants = new HashSet<Type>();
+        int previousCount;
+
+        // Expanding the variant set can pull in more types with dynamic members, so iterate to a fixpoint.
+        do
+        {
+            previousCount = concreteVariants.Count;
+
+            foreach (var baseType in _protocolDynamicBases)
+            {
+                if (TryGetPolymorphicVariants(baseType, out var protocolVariants))
+                {
+                    foreach (var variant in protocolVariants)
+                        concreteVariants.Add(variant.Concrete);
+                }
+            }
+
+            foreach (var type in _dekuTypes.ToList())
+            {
+                var (fields, props) = GetNetworkSerializableMembers(type);
+
+                foreach (var member in fields.Cast<MemberInfo>().Concat(props))
+                {
+                    var info = new ExtraSerializationInfo { Member = member };
+                    if (!info.IsSerializeDynamic)
+                        continue;
+
+                    var dynamicTarget = ResolveDynamicTarget(info.MemberType);
+                    if (!TryGetPolymorphicVariants(dynamicTarget, out var variants))
+                    {
+                        Console.WriteLine(
+                            $"// Dynamic member {type.Name}.{member.Name} has no concrete variants for {dynamicTarget.FullName}");
+                        continue;
+                    }
+
+                    foreach (var variant in variants)
+                        concreteVariants.Add(variant.Concrete);
+                }
+            }
+
+            if (concreteVariants.Count != previousCount)
+            {
+                // The concrete variants are network-serialized through the discriminator enum, so they
+                // need Deku derives and their dependencies too.
+                _dekuTypes = ExpandWithDependencies([.. _dekuTypes, .. concreteVariants]);
+            }
+        } while (concreteVariants.Count != previousCount);
+
+        foreach (var type in _dekuTypes)
+        {
+            if (!initial.Contains(type))
+                _polymorphicAddedTypes.Add(type);
+        }
+    }
+
+    /// <summary>
+    /// Resolves the Rust path of a type/name relative to the category currently being written.
+    /// </summary>
+    private static string CurrentCategoryRef(Type owningType, string rustName)
+    {
+        var category = CategorizeType(owningType);
+        return category == _currentCategory ? rustName : $"super::{category}::{rustName}";
+    }
 
     /// <summary>
     /// Checks if a type will have Deku support in the generated code.
@@ -1236,8 +1680,31 @@ public class RustStructGenerator
         );
     }
 
+    /// <summary>
+    /// Reinterprets an enum's raw constant as an unsigned value of the same width, so negative
+    /// values (e.g. sbyte -1) do not overflow when computing bit widths or default flags.
+    /// </summary>
+    private static ulong RawEnumBits(object? rawValue, Type underlyingType)
+    {
+        if (rawValue == null)
+            return 0;
+
+        if (underlyingType == typeof(sbyte)) return unchecked((byte)Convert.ToSByte(rawValue));
+        if (underlyingType == typeof(short)) return unchecked((ushort)Convert.ToInt16(rawValue));
+        if (underlyingType == typeof(int)) return unchecked((uint)Convert.ToInt32(rawValue));
+        if (underlyingType == typeof(long)) return unchecked((ulong)Convert.ToInt64(rawValue));
+
+        return Convert.ToUInt64(rawValue);
+    }
+
     static bool WriteEnum(Type type, StreamWriter writer)
     {
+        var enumRustName = QualifiedRustName(type);
+        if (!_emittedRustTypeNames.Add(enumRustName))
+        {
+            writer.WriteLine($"// Skipped duplicate Rust enum name: {enumRustName} ({type.FullName})");
+            return true;
+        }
         writer.WriteLine($"// Original enum: {type.FullName}");
         var isFlags = type.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0;
         var needsDeku = NeedsDekuDerives(type);
@@ -1254,10 +1721,11 @@ public class RustStructGenerator
                 // We need to write the default as the identifiers bitbanged together
                 // for example, if Default = A | C, we need to write "A | C"
                 var defaultFlags = new List<string>();
+                var flagsUnderlying = Enum.GetUnderlyingType(type);
                 foreach (var field in enumFields)
                 {
                     if (field.Name == "Default") continue;
-                    var value = Convert.ToUInt64(field.GetRawConstantValue() ?? 0);
+                    var value = RawEnumBits(field.GetRawConstantValue(), flagsUnderlying);
                     if (value == 0) continue;
                     if ((defaultValue & value) == value)
                     {
@@ -1293,8 +1761,9 @@ public class RustStructGenerator
         // SE uses: bitCount = (int)Math.Log(maxValue, 2.0) + 1; then ReadUInt64(bitCount)
         if (needsDeku && !isFlags)
         {
+            var underlyingEnumType = Enum.GetUnderlyingType(type);
             var enumValues = type.GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Select(f => Convert.ToUInt64(f.GetRawConstantValue() ?? 0))
+                .Select(f => RawEnumBits(f.GetRawConstantValue(), underlyingEnumType))
                 .ToList();
             var maxValue = enumValues.Count > 0 ? enumValues.Max() : 0UL;
             var bitCount = maxValue > 0 ? (int)Math.Log(maxValue, 2.0) + 1 : 1;
@@ -1367,7 +1836,7 @@ public class RustStructGenerator
             }
             else
             {
-                var enumValue = Convert.ToUInt64(field.GetRawConstantValue() ?? 0);
+                var enumValue = RawEnumBits(field.GetRawConstantValue(), Enum.GetUnderlyingType(type));
                 if (!setDefault) 
                 {
                     writer.WriteLine($"    #[default]");
@@ -1658,7 +2127,8 @@ public class RustStructGenerator
             return WriteEnum(type, writer);
         }
 
-        var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0;
+        var isProtobuf = type.GetCustomAttributes(typeof(ProtoContractAttribute), true).Length > 0
+            && !_polymorphicAddedTypes.Contains(type);
         var isDekuOnly = NeedsDekuDerives(type) && !isProtobuf;
         var needsDeku = NeedsDekuDerives(type);
         var members = new List<Tuple<string, string, ExtraTypeInfo, ExtraSerializationInfo>>();
@@ -1731,6 +2201,13 @@ public class RustStructGenerator
         var hasInlineDefaults = members.Any(m => 
             (m.Item4.HasNumericDefaultValue && !m.Item4.IsNumericDefaultZero) || m.Item4.HasEnumDefaultValue);
 
+        var structRustName = new ExtraTypeInfo { Type = type }.SanitizedTypeName;
+        if (!_emittedRustTypeNames.Add(structRustName))
+        {
+            writer.WriteLine($"// Skipped duplicate Rust type name: {structRustName} ({type.FullName})");
+            return true;
+        }
+
         writer.WriteLine($"// Original type: {type.FullName}");
         
         // If any field has a non-zero numeric default or enum default, add serde_inline_default before derives
@@ -1761,7 +2238,8 @@ public class RustStructGenerator
         // (but only if the type doesn't contain float fields, since f32/f64 don't impl Hash)
         var getHashCodeMethod = type.GetMethod("GetHashCode", BindingFlags.Public |
                                                     BindingFlags.Instance);
-        if (getHashCodeMethod != null && getHashCodeMethod.DeclaringType == type && !TypeContainsFloat(type))
+        if (getHashCodeMethod != null && getHashCodeMethod.DeclaringType == type && !TypeContainsFloat(type)
+            && !_polymorphicAddedTypes.Contains(type))
         {
             traits.Add("Hash");
             if (!traits.Contains("Eq")) traits.Add("Eq");
@@ -1776,6 +2254,24 @@ public class RustStructGenerator
         var index = 0;
         foreach (var (memberName, sanitizedName, extraTypeInfo, memberInfo) in members)
         {
+            // Dynamic object-builder members are represented by a generated discriminator enum.
+            // For collections the discriminator sits on each element, so the element type is used.
+            string? polymorphicEnum = null;
+            var polymorphicIsCollection = false;
+            if (NeedsDekuDerives(type) && memberInfo.IsSerializeDynamic)
+            {
+                var dynamicTarget = ResolveDynamicTarget(memberInfo.MemberType);
+                if (TryGetPolymorphicVariants(dynamicTarget, out var polyVariants)
+                    && polyVariants.Any(v => NeedsDekuDerives(v.Concrete)))
+                {
+                    polymorphicEnum = CurrentCategoryRef(
+                        dynamicTarget,
+                        PolymorphicEnumName(dynamicTarget));
+                    var unwrapped = Nullable.GetUnderlyingType(memberInfo.MemberType) ?? memberInfo.MemberType;
+                    polymorphicIsCollection = IsTypeArray(unwrapped);
+                }
+            }
+
             // Determine if each serialization method would skip this field
             // Inherited fields are skipped for serde and proto (they're only used for Deku/network)
             var serdeWillSkip = !memberInfo.IsSerdeSerializable;
@@ -1784,7 +2280,7 @@ public class RustStructGenerator
             var dekuWillSkip = false;
             if (NeedsDekuDerives(type))
             {
-                if (!WillHaveDekuSupport(extraTypeInfo.Type))
+                if (!WillHaveDekuSupport(extraTypeInfo.Type) && polymorphicEnum == null)
                 {
                     dekuWillSkip = true;
                 }
@@ -1812,7 +2308,12 @@ public class RustStructGenerator
             // Inherited fields get #[proto(skip)] regardless of other attributes
             if (isProtobuf)
             {
-                if (memberInfo.IsInherited)
+                if (polymorphicEnum != null)
+                {
+                    // Discriminator enums are binary-only; polymorphic variants do not implement protobuf.
+                    writer.WriteLine($"    #[proto(skip)]");
+                }
+                else if (memberInfo.IsInherited)
                 {
                     writer.WriteLine($"    // Inherited from base class - not in protobuf");
                     writer.WriteLine($"    #[proto(skip)]");
@@ -1902,7 +2403,7 @@ public class RustStructGenerator
                 var needsDekuSkip = false;
                 
                 // Check if the member type will have Deku support
-                if (!WillHaveDekuSupport(extraTypeInfo.Type))
+                if (!WillHaveDekuSupport(extraTypeInfo.Type) && polymorphicEnum == null)
                 {
                     needsDekuSkip = true;
                 }
@@ -1928,6 +2429,16 @@ public class RustStructGenerator
                 : NeedsDekuDerives(type) 
                     ? extraTypeInfo.DekuSanitizedTypeName 
                     : extraTypeInfo.SanitizedTypeName;
+
+            // Polymorphic (dynamic) object builder fields are read through their discriminator enum.
+            if (polymorphicEnum != null)
+            {
+                rustTypeName = polymorphicIsCollection
+                    ? NeedsDekuDerives(type)
+                        ? $"crate::compat::VarVec<{polymorphicEnum}>"
+                        : $"Vec<{polymorphicEnum}>"
+                    : polymorphicEnum;
+            }
             
             // Wrap Deku fields in Nullable<> when they have [Serialize(MyObjectFlags.DefaultZero)]
             // DefaultZero means a 1-bit "has value" prefix is written before the field during network serialization.
@@ -2002,8 +2513,13 @@ public class RustStructGenerator
         _emittedXmlArrayItemWrappers.Clear();
         _emittedRustTypeNames.Clear();
         _typeToCategory.Clear();
+        _polymorphicVariants.Clear();
+        _emittedPolymorphicEnums.Clear();
+        _polymorphicAddedTypes.Clear();
         // Expand dekuTypes to include all transitive dependencies
         _dekuTypes = dekuTypes != null ? ExpandWithDependencies(dekuTypes) : [];
+        // Pull concrete variants of dynamic object-builder members into the Deku type set.
+        DiscoverPolymorphicBases();
         _allBaseTypes = [.. baseTypes];
 
         foreach (var type in baseTypes)
@@ -2039,6 +2555,8 @@ public class RustStructGenerator
                     writer.WriteLine("// Skipped type with no public members: " + type.FullName);
                 }
             }
+
+            WritePolymorphicEnumsForCategory(category, writer);
 
             _processedCategories.Add(category);
         }
