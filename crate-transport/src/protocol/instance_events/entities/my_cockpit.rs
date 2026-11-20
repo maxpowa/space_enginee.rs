@@ -131,7 +131,6 @@ pub struct MyCockpit_OnChangeDescriptionPayload {
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCockpit_AttachPilotEventPayload {
     pub action_enum: space_engineers_compat::BitField<space_engineers_sys::types::game::UseActionEnum>,
-    pub character_id: BitAligned<i64>,
     pub animation: BitAligned<i32>,
 }
 
@@ -204,7 +203,7 @@ pub enum MyCockpitInstanceEvent {
     OnChangeDescription,
     /// Hash: 249686699
     OnRequestRemovePilot,
-    /// Hash: 910305643
+    /// Hash: 485757792
     AttachPilotEvent,
     /// Hash: 1089119382
     SetAutopilot_Client,
@@ -242,7 +241,7 @@ impl MyCockpitInstanceEvent {
             Self::OnChangeOpenSuccess_19 => -1232498120,
             Self::OnChangeDescription => -1371193045,
             Self::OnRequestRemovePilot => 249686699,
-            Self::AttachPilotEvent => 910305643,
+            Self::AttachPilotEvent => 485757792,
             Self::SetAutopilot_Client => 1089119382,
             Self::NotifyClientPilotChanged => -1540021254,
             Self::SyncHeadOffsetToServer => -988089109,
@@ -275,7 +274,7 @@ impl MyCockpitInstanceEvent {
             -1232498120 => Some(Self::OnChangeOpenSuccess_19),
             -1371193045 => Some(Self::OnChangeDescription),
             249686699 => Some(Self::OnRequestRemovePilot),
-            910305643 => Some(Self::AttachPilotEvent),
+            485757792 => Some(Self::AttachPilotEvent),
             1089119382 => Some(Self::SetAutopilot_Client),
             -1540021254 => Some(Self::NotifyClientPilotChanged),
             -988089109 => Some(Self::SyncHeadOffsetToServer),

@@ -314,11 +314,23 @@ pub struct MyCubeGrid_OnChangeOwnerPayload {
     pub share_mode: space_engineers_sys::types::game::MyOwnershipShareModeEnum,
 }
 
+/// Payload for MyCubeGrid::SetHandbrakeRequest instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyCubeGrid_SetHandbrakeRequestPayload {
+    pub enable: BitBool,
+}
+
 /// Payload for MyCubeGrid::ReceiveHandbrakeRequestResult instance event.
 #[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
 pub struct MyCubeGrid_ReceiveHandbrakeRequestResultPayload {
     pub result: space_engineers_sys::types::game::MyCubeGrid_HandbrakeToggleResult,
     pub message: VarString,
+}
+
+/// Payload for MyCubeGrid::SetParkStateRequest instance event.
+#[derive(Debug, Clone, PartialEq, DekuRead, DekuWrite)]
+pub struct MyCubeGrid_SetParkStateRequestPayload {
+    pub park: BitBool,
 }
 
 /// Payload for MyCubeGrid::ReceiveParkRequestResult instance event.
@@ -513,10 +525,14 @@ pub enum MyCubeGridInstanceEvent {
     OnChangeOwner,
     /// Hash: -496826902
     ToggleHandbrakeRequest,
+    /// Hash: -1644110676
+    SetHandbrakeRequest,
     /// Hash: -174639469
     ReceiveHandbrakeRequestResult,
     /// Hash: 1173731473
     ToggleParkStateRequest,
+    /// Hash: 1325241846
+    SetParkStateRequest,
     /// Hash: 850402221
     ReceiveParkRequestResult,
     /// Hash: -863725756
@@ -603,8 +619,10 @@ impl MyCubeGridInstanceEvent {
             Self::OnChangeOwnerRequest => -1490620503,
             Self::OnChangeOwner => 1461916729,
             Self::ToggleHandbrakeRequest => -496826902,
+            Self::SetHandbrakeRequest => -1644110676,
             Self::ReceiveHandbrakeRequestResult => -174639469,
             Self::ToggleParkStateRequest => 1173731473,
+            Self::SetParkStateRequest => 1325241846,
             Self::ReceiveParkRequestResult => 850402221,
             Self::OnChangeGridOwner => -863725756,
             Self::OnRemoveSplit => -1058060139,
@@ -675,8 +693,10 @@ impl MyCubeGridInstanceEvent {
             -1490620503 => Some(Self::OnChangeOwnerRequest),
             1461916729 => Some(Self::OnChangeOwner),
             -496826902 => Some(Self::ToggleHandbrakeRequest),
+            -1644110676 => Some(Self::SetHandbrakeRequest),
             -174639469 => Some(Self::ReceiveHandbrakeRequestResult),
             1173731473 => Some(Self::ToggleParkStateRequest),
+            1325241846 => Some(Self::SetParkStateRequest),
             850402221 => Some(Self::ReceiveParkRequestResult),
             -863725756 => Some(Self::OnChangeGridOwner),
             -1058060139 => Some(Self::OnRemoveSplit),
@@ -799,10 +819,14 @@ pub enum MyCubeGridInstanceEventPayload {
     OnChangeOwner(MyCubeGrid_OnChangeOwnerPayload),
     /// ToggleHandbrakeRequest event (no payload)
     ToggleHandbrakeRequest,
+    /// SetHandbrakeRequest event payload
+    SetHandbrakeRequest(MyCubeGrid_SetHandbrakeRequestPayload),
     /// ReceiveHandbrakeRequestResult event payload
     ReceiveHandbrakeRequestResult(MyCubeGrid_ReceiveHandbrakeRequestResultPayload),
     /// ToggleParkStateRequest event (no payload)
     ToggleParkStateRequest,
+    /// SetParkStateRequest event payload
+    SetParkStateRequest(MyCubeGrid_SetParkStateRequestPayload),
     /// ReceiveParkRequestResult event payload
     ReceiveParkRequestResult(MyCubeGrid_ReceiveParkRequestResultPayload),
     /// OnChangeGridOwner event payload
@@ -1010,11 +1034,19 @@ impl MyCubeGridInstanceEvent {
                 Ok(MyCubeGridInstanceEventPayload::OnChangeOwner(payload))
             }
             Self::ToggleHandbrakeRequest => Ok(MyCubeGridInstanceEventPayload::ToggleHandbrakeRequest),
+            Self::SetHandbrakeRequest => {
+                let (_, payload) = MyCubeGrid_SetHandbrakeRequestPayload::from_bytes((bytes, 0))?;
+                Ok(MyCubeGridInstanceEventPayload::SetHandbrakeRequest(payload))
+            }
             Self::ReceiveHandbrakeRequestResult => {
                 let (_, payload) = MyCubeGrid_ReceiveHandbrakeRequestResultPayload::from_bytes((bytes, 0))?;
                 Ok(MyCubeGridInstanceEventPayload::ReceiveHandbrakeRequestResult(payload))
             }
             Self::ToggleParkStateRequest => Ok(MyCubeGridInstanceEventPayload::ToggleParkStateRequest),
+            Self::SetParkStateRequest => {
+                let (_, payload) = MyCubeGrid_SetParkStateRequestPayload::from_bytes((bytes, 0))?;
+                Ok(MyCubeGridInstanceEventPayload::SetParkStateRequest(payload))
+            }
             Self::ReceiveParkRequestResult => {
                 let (_, payload) = MyCubeGrid_ReceiveParkRequestResultPayload::from_bytes((bytes, 0))?;
                 Ok(MyCubeGridInstanceEventPayload::ReceiveParkRequestResult(payload))
@@ -1186,10 +1218,14 @@ pub trait MyCubeGridInstanceEventVisitor {
     fn visit_on_change_owner(&mut self, payload: &MyCubeGrid_OnChangeOwnerPayload) {}
     /// Called when visiting ToggleHandbrakeRequest event (no payload).
     fn visit_toggle_handbrake_request(&mut self) {}
+    /// Called when visiting SetHandbrakeRequest event.
+    fn visit_set_handbrake_request(&mut self, payload: &MyCubeGrid_SetHandbrakeRequestPayload) {}
     /// Called when visiting ReceiveHandbrakeRequestResult event.
     fn visit_receive_handbrake_request_result(&mut self, payload: &MyCubeGrid_ReceiveHandbrakeRequestResultPayload) {}
     /// Called when visiting ToggleParkStateRequest event (no payload).
     fn visit_toggle_park_state_request(&mut self) {}
+    /// Called when visiting SetParkStateRequest event.
+    fn visit_set_park_state_request(&mut self, payload: &MyCubeGrid_SetParkStateRequestPayload) {}
     /// Called when visiting ReceiveParkRequestResult event.
     fn visit_receive_park_request_result(&mut self, payload: &MyCubeGrid_ReceiveParkRequestResultPayload) {}
     /// Called when visiting OnChangeGridOwner event.
@@ -1279,8 +1315,10 @@ impl MyCubeGridInstanceEventPayload {
             Self::OnChangeOwnerRequest(payload) => visitor.visit_on_change_owner_request(payload),
             Self::OnChangeOwner(payload) => visitor.visit_on_change_owner(payload),
             Self::ToggleHandbrakeRequest => visitor.visit_toggle_handbrake_request(),
+            Self::SetHandbrakeRequest(payload) => visitor.visit_set_handbrake_request(payload),
             Self::ReceiveHandbrakeRequestResult(payload) => visitor.visit_receive_handbrake_request_result(payload),
             Self::ToggleParkStateRequest => visitor.visit_toggle_park_state_request(),
+            Self::SetParkStateRequest(payload) => visitor.visit_set_park_state_request(payload),
             Self::ReceiveParkRequestResult(payload) => visitor.visit_receive_park_request_result(payload),
             Self::OnChangeGridOwner(payload) => visitor.visit_on_change_grid_owner(payload),
             Self::OnRemoveSplit(payload) => visitor.visit_on_remove_split(payload),
@@ -1352,8 +1390,10 @@ impl MyCubeGridInstanceEventPayload {
             Self::OnChangeOwnerRequest(_) => Some(MyCubeGridInstanceEvent::OnChangeOwnerRequest),
             Self::OnChangeOwner(_) => Some(MyCubeGridInstanceEvent::OnChangeOwner),
             Self::ToggleHandbrakeRequest => Some(MyCubeGridInstanceEvent::ToggleHandbrakeRequest),
+            Self::SetHandbrakeRequest(_) => Some(MyCubeGridInstanceEvent::SetHandbrakeRequest),
             Self::ReceiveHandbrakeRequestResult(_) => Some(MyCubeGridInstanceEvent::ReceiveHandbrakeRequestResult),
             Self::ToggleParkStateRequest => Some(MyCubeGridInstanceEvent::ToggleParkStateRequest),
+            Self::SetParkStateRequest(_) => Some(MyCubeGridInstanceEvent::SetParkStateRequest),
             Self::ReceiveParkRequestResult(_) => Some(MyCubeGridInstanceEvent::ReceiveParkRequestResult),
             Self::OnChangeGridOwner(_) => Some(MyCubeGridInstanceEvent::OnChangeGridOwner),
             Self::OnRemoveSplit(_) => Some(MyCubeGridInstanceEvent::OnRemoveSplit),

@@ -734,9 +734,9 @@ pub enum StaticEventType {
     /// Hash: -2102062020
     CancelPendingTransferRequestsServerSide,
     /// Hash: -2018398609
-    MyCubeGrid_CancelPendingTransferRequests_10850,
+    MyCubeGrid_CancelPendingTransferRequests_10873,
     /// Hash: -1021133171
-    MyCubeGrid_CancelPendingTransferRequests_10867,
+    MyCubeGrid_CancelPendingTransferRequests_10890,
     /// Hash: -744210607
     AddChangeOwnersRequestClientside,
     /// Hash: -452010520
@@ -1420,8 +1420,8 @@ impl StaticEventType {
             Self::RemoveSpecificOwnershipChangeRequests => -1302339488,
             Self::OnChangeOwnersRequestConfirmation => -698781606,
             Self::CancelPendingTransferRequestsServerSide => -2102062020,
-            Self::MyCubeGrid_CancelPendingTransferRequests_10850 => -2018398609,
-            Self::MyCubeGrid_CancelPendingTransferRequests_10867 => -1021133171,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10873 => -2018398609,
+            Self::MyCubeGrid_CancelPendingTransferRequests_10890 => -1021133171,
             Self::AddChangeOwnersRequestClientside => -744210607,
             Self::RemoveOwnershipChangeRequests => -452010520,
             Self::OnChangeOwnersSuccess => -158472076,
@@ -1944,8 +1944,8 @@ impl StaticEventType {
             -1302339488 => Some(Self::RemoveSpecificOwnershipChangeRequests),
             -698781606 => Some(Self::OnChangeOwnersRequestConfirmation),
             -2102062020 => Some(Self::CancelPendingTransferRequestsServerSide),
-            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10850),
-            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10867),
+            -2018398609 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10873),
+            -1021133171 => Some(Self::MyCubeGrid_CancelPendingTransferRequests_10890),
             -744210607 => Some(Self::AddChangeOwnersRequestClientside),
             -452010520 => Some(Self::RemoveOwnershipChangeRequests),
             -158472076 => Some(Self::OnChangeOwnersSuccess),
@@ -2827,10 +2827,10 @@ pub enum StaticEventPayload {
     OnChangeOwnersRequestConfirmation(OnChangeOwnersRequestConfirmationPayload),
     /// CancelPendingTransferRequestsServerSide event payload
     CancelPendingTransferRequestsServerSide(CancelPendingTransferRequestsServerSidePayload),
-    /// MyCubeGrid_CancelPendingTransferRequests_10850 event payload
-    MyCubeGrid_CancelPendingTransferRequests_10850(MyCubeGrid_CancelPendingTransferRequests_10850Payload),
-    /// MyCubeGrid_CancelPendingTransferRequests_10867 event payload
-    MyCubeGrid_CancelPendingTransferRequests_10867(MyCubeGrid_CancelPendingTransferRequests_10867Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10873 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10873(MyCubeGrid_CancelPendingTransferRequests_10873Payload),
+    /// MyCubeGrid_CancelPendingTransferRequests_10890 event payload
+    MyCubeGrid_CancelPendingTransferRequests_10890(MyCubeGrid_CancelPendingTransferRequests_10890Payload),
     /// AddChangeOwnersRequestClientside event payload
     AddChangeOwnersRequestClientside(AddChangeOwnersRequestClientsidePayload),
     /// RemoveOwnershipChangeRequests event payload
@@ -4460,13 +4460,13 @@ impl StaticEventType {
                 let (_, payload) = CancelPendingTransferRequestsServerSidePayload::from_bytes((bytes, 0))?;
                 Ok(StaticEventPayload::CancelPendingTransferRequestsServerSide(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_10850 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10850Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10850(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10873 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10873Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10873(payload))
             }
-            Self::MyCubeGrid_CancelPendingTransferRequests_10867 => {
-                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10867Payload::from_bytes((bytes, 0))?;
-                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10867(payload))
+            Self::MyCubeGrid_CancelPendingTransferRequests_10890 => {
+                let (_, payload) = MyCubeGrid_CancelPendingTransferRequests_10890Payload::from_bytes((bytes, 0))?;
+                Ok(StaticEventPayload::MyCubeGrid_CancelPendingTransferRequests_10890(payload))
             }
             Self::AddChangeOwnersRequestClientside => {
                 let (_, payload) = AddChangeOwnersRequestClientsidePayload::from_bytes((bytes, 0))?;
@@ -5740,10 +5740,10 @@ pub trait StaticEventVisitor {
     fn visit_on_change_owners_request_confirmation(&mut self, payload: &OnChangeOwnersRequestConfirmationPayload) {}
     /// Called when visiting CancelPendingTransferRequestsServerSide event.
     fn visit_cancel_pending_transfer_requests_server_side(&mut self, payload: &CancelPendingTransferRequestsServerSidePayload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10850 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_10850(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10850Payload) {}
-    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10867 event.
-    fn visit_my_cube_grid_cancel_pending_transfer_requests_10867(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10867Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10873 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10873(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10873Payload) {}
+    /// Called when visiting MyCubeGrid_CancelPendingTransferRequests_10890 event.
+    fn visit_my_cube_grid_cancel_pending_transfer_requests_10890(&mut self, payload: &MyCubeGrid_CancelPendingTransferRequests_10890Payload) {}
     /// Called when visiting AddChangeOwnersRequestClientside event.
     fn visit_add_change_owners_request_clientside(&mut self, payload: &AddChangeOwnersRequestClientsidePayload) {}
     /// Called when visiting RemoveOwnershipChangeRequests event.
@@ -6430,8 +6430,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(payload) => visitor.visit_remove_specific_ownership_change_requests(payload),
             Self::OnChangeOwnersRequestConfirmation(payload) => visitor.visit_on_change_owners_request_confirmation(payload),
             Self::CancelPendingTransferRequestsServerSide(payload) => visitor.visit_cancel_pending_transfer_requests_server_side(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10850(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10850(payload),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10867(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10867(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10873(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10873(payload),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10890(payload) => visitor.visit_my_cube_grid_cancel_pending_transfer_requests_10890(payload),
             Self::AddChangeOwnersRequestClientside(payload) => visitor.visit_add_change_owners_request_clientside(payload),
             Self::RemoveOwnershipChangeRequests(payload) => visitor.visit_remove_ownership_change_requests(payload),
             Self::OnChangeOwnersSuccess(payload) => visitor.visit_on_change_owners_success(payload),
@@ -6955,8 +6955,8 @@ impl StaticEventPayload {
             Self::RemoveSpecificOwnershipChangeRequests(_) => Some(StaticEventType::RemoveSpecificOwnershipChangeRequests),
             Self::OnChangeOwnersRequestConfirmation(_) => Some(StaticEventType::OnChangeOwnersRequestConfirmation),
             Self::CancelPendingTransferRequestsServerSide(_) => Some(StaticEventType::CancelPendingTransferRequestsServerSide),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10850(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10850),
-            Self::MyCubeGrid_CancelPendingTransferRequests_10867(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10867),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10873(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10873),
+            Self::MyCubeGrid_CancelPendingTransferRequests_10890(_) => Some(StaticEventType::MyCubeGrid_CancelPendingTransferRequests_10890),
             Self::AddChangeOwnersRequestClientside(_) => Some(StaticEventType::AddChangeOwnersRequestClientside),
             Self::RemoveOwnershipChangeRequests(_) => Some(StaticEventType::RemoveOwnershipChangeRequests),
             Self::OnChangeOwnersSuccess(_) => Some(StaticEventType::OnChangeOwnersSuccess),

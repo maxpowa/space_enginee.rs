@@ -121,8 +121,12 @@ pub enum MyMedicalRoomInstanceEvent {
     OnChangeDescription,
     /// Hash: -816758427
     SetSpawnTextEvent,
+    /// Hash: 2038218930
+    UseWardrobeRequest,
     /// Hash: -175936765
     UseWardrobeSync,
+    /// Hash: 1001723178
+    StopUsingWardrobeRequest,
     /// Hash: 1667984388
     StopUsingWardrobeSync,
     /// Hash: -298525220
@@ -144,7 +148,9 @@ impl MyMedicalRoomInstanceEvent {
             Self::OnChangeOpenRequest_8 => 577727535,
             Self::OnChangeDescription => 348586933,
             Self::SetSpawnTextEvent => -816758427,
+            Self::UseWardrobeRequest => 2038218930,
             Self::UseWardrobeSync => -175936765,
+            Self::StopUsingWardrobeRequest => 1001723178,
             Self::StopUsingWardrobeSync => 1667984388,
             Self::RequestSupport => -298525220,
         }
@@ -164,7 +170,9 @@ impl MyMedicalRoomInstanceEvent {
             577727535 => Some(Self::OnChangeOpenRequest_8),
             348586933 => Some(Self::OnChangeDescription),
             -816758427 => Some(Self::SetSpawnTextEvent),
+            2038218930 => Some(Self::UseWardrobeRequest),
             -175936765 => Some(Self::UseWardrobeSync),
+            1001723178 => Some(Self::StopUsingWardrobeRequest),
             1667984388 => Some(Self::StopUsingWardrobeSync),
             -298525220 => Some(Self::RequestSupport),
             _ => None,
@@ -199,8 +207,12 @@ pub enum MyMedicalRoomInstanceEventPayload {
     OnChangeDescription(MyMedicalRoom_OnChangeDescriptionPayload),
     /// SetSpawnTextEvent event payload
     SetSpawnTextEvent(MyMedicalRoom_SetSpawnTextEventPayload),
+    /// UseWardrobeRequest event (no payload)
+    UseWardrobeRequest,
     /// UseWardrobeSync event payload
     UseWardrobeSync(MyMedicalRoom_UseWardrobeSyncPayload),
+    /// StopUsingWardrobeRequest event (no payload)
+    StopUsingWardrobeRequest,
     /// StopUsingWardrobeSync event (no payload)
     StopUsingWardrobeSync,
     /// RequestSupport event payload
@@ -259,10 +271,12 @@ impl MyMedicalRoomInstanceEvent {
                 let (_, payload) = MyMedicalRoom_SetSpawnTextEventPayload::from_bytes((bytes, 0))?;
                 Ok(MyMedicalRoomInstanceEventPayload::SetSpawnTextEvent(payload))
             }
+            Self::UseWardrobeRequest => Ok(MyMedicalRoomInstanceEventPayload::UseWardrobeRequest),
             Self::UseWardrobeSync => {
                 let (_, payload) = MyMedicalRoom_UseWardrobeSyncPayload::from_bytes((bytes, 0))?;
                 Ok(MyMedicalRoomInstanceEventPayload::UseWardrobeSync(payload))
             }
+            Self::StopUsingWardrobeRequest => Ok(MyMedicalRoomInstanceEventPayload::StopUsingWardrobeRequest),
             Self::StopUsingWardrobeSync => Ok(MyMedicalRoomInstanceEventPayload::StopUsingWardrobeSync),
             Self::RequestSupport => {
                 let (_, payload) = MyMedicalRoom_RequestSupportPayload::from_bytes((bytes, 0))?;
@@ -310,8 +324,12 @@ pub trait MyMedicalRoomInstanceEventVisitor {
     fn visit_on_change_description(&mut self, payload: &MyMedicalRoom_OnChangeDescriptionPayload) {}
     /// Called when visiting SetSpawnTextEvent event.
     fn visit_set_spawn_text_event(&mut self, payload: &MyMedicalRoom_SetSpawnTextEventPayload) {}
+    /// Called when visiting UseWardrobeRequest event (no payload).
+    fn visit_use_wardrobe_request(&mut self) {}
     /// Called when visiting UseWardrobeSync event.
     fn visit_use_wardrobe_sync(&mut self, payload: &MyMedicalRoom_UseWardrobeSyncPayload) {}
+    /// Called when visiting StopUsingWardrobeRequest event (no payload).
+    fn visit_stop_using_wardrobe_request(&mut self) {}
     /// Called when visiting StopUsingWardrobeSync event (no payload).
     fn visit_stop_using_wardrobe_sync(&mut self) {}
     /// Called when visiting RequestSupport event.
@@ -336,7 +354,9 @@ impl MyMedicalRoomInstanceEventPayload {
             Self::OnChangeOpenRequest_8(payload) => visitor.visit_on_change_open_request_8(payload),
             Self::OnChangeDescription(payload) => visitor.visit_on_change_description(payload),
             Self::SetSpawnTextEvent(payload) => visitor.visit_set_spawn_text_event(payload),
+            Self::UseWardrobeRequest => visitor.visit_use_wardrobe_request(),
             Self::UseWardrobeSync(payload) => visitor.visit_use_wardrobe_sync(payload),
+            Self::StopUsingWardrobeRequest => visitor.visit_stop_using_wardrobe_request(),
             Self::StopUsingWardrobeSync => visitor.visit_stop_using_wardrobe_sync(),
             Self::RequestSupport(payload) => visitor.visit_request_support(payload),
             Self::Unknown { event_hash, payload } => visitor.visit_unknown(*event_hash, payload),
@@ -357,7 +377,9 @@ impl MyMedicalRoomInstanceEventPayload {
             Self::OnChangeOpenRequest_8(_) => Some(MyMedicalRoomInstanceEvent::OnChangeOpenRequest_8),
             Self::OnChangeDescription(_) => Some(MyMedicalRoomInstanceEvent::OnChangeDescription),
             Self::SetSpawnTextEvent(_) => Some(MyMedicalRoomInstanceEvent::SetSpawnTextEvent),
+            Self::UseWardrobeRequest => Some(MyMedicalRoomInstanceEvent::UseWardrobeRequest),
             Self::UseWardrobeSync(_) => Some(MyMedicalRoomInstanceEvent::UseWardrobeSync),
+            Self::StopUsingWardrobeRequest => Some(MyMedicalRoomInstanceEvent::StopUsingWardrobeRequest),
             Self::StopUsingWardrobeSync => Some(MyMedicalRoomInstanceEvent::StopUsingWardrobeSync),
             Self::RequestSupport(_) => Some(MyMedicalRoomInstanceEvent::RequestSupport),
             Self::Unknown { .. } => None,
